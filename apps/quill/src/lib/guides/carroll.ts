@@ -1,100 +1,90 @@
 import type { Guide } from "../types";
 
 export const carroll: Guide = {
-  "slug": "carroll",
-  "author": "Lewis Carroll",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Victorian · 19th c.",
-  "standfirst": "Whimsical logic and playful language blend in a curious dance.",
-  "description": "Lewis Carroll's style is a delightful mix of logical absurdity and linguistic creativity, often employing portmanteau words and childlike reasoning. Use this voice when you want to infuse whimsy and clever wordplay into your writing, making the ordinary seem extraordinary.",
-  "voice_axes": [
-    "lyrical",
-    "wry",
-    "ornate"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "social",
-    "email"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 18,
-      "max": 40
-    },
-    "vocabulary_register": "playfully inventive",
-    "syntax": "curiously complex",
-    "figurative_language": "abundantly whimsical",
-    "pacing": "spiritedly erratic"
+  slug: "carroll",
+  author: "Lewis Carroll",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · Victorian nonsense",
+  standfirst:
+    "A child's logic worked through to the end. Italics for emphasis, parentheses for asides, and a narrator who keeps a straight face while everything tilts.",
+  description:
+    "Carroll narrates a curious child reasoning out loud and trusts the reader to enjoy the seams. Sentences run on by 'and' rather than by subordination; the parenthesis is a working tool, not an ornament. Italics carry a child's stress; capitalised single words (Multiplication Table, Antipathies) borrow grown-up authority and immediately deflate. The voice is polite, conversational, and never breaks the joke by laughing at it. Useful when you want copy that is playful without being arch — onboarding flows, explainers, microcopy that lets the reader feel clever.",
+  voice_axes: ["wry", "plain"],
+  use_cases: ["docs", "marketing", "social", "support"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 18, max: 60 },
+    vocabulary_register:
+      "polite Victorian nursery English; everyday words mostly, with occasional showy vocabulary the child has half-overheard",
+    syntax:
+      "long sentences strung with 'and' and semicolons; frequent parenthetical asides; em-dashes; quoted self-talk",
+    figurative_language:
+      "literalised idiom and sustained nonsense premise (a child shutting up like a telescope); little metaphor for its own sake",
+    pacing:
+      "conversational — the sentence follows a thought as it unfolds, with a small comic pivot near the end",
   },
-  "do": [
-    "Craft sentences that play with logic and expectation.",
-    "Use imaginative and nonsensical vocabulary.",
-    "Incorporate playful and unexpected twists in narrative.",
-    "Engage the reader with a sense of childlike wonder."
+  do: [
+    "Run sentences on with 'and' and semicolons rather than subordinating; let one thought lead to the next.",
+    "Use parentheses to insert the narrator's quiet aside, and italics for the word the speaker leans on.",
+    "Quote the character thinking out loud — let them argue with themselves and pose questions they cannot answer.",
+    "Take a literal premise and follow its logic through to a polite absurd conclusion.",
   ],
-  "dont": [
-    "Avoid straightforward and literal language.",
-    "Do not shy away from inventing new words.",
-    "Avoid overly serious or somber tones.",
-    "Do not neglect the element of surprise and delight."
+  dont: [
+    "Do not nudge the reader by laughing at the joke; the narrator stays straight-faced.",
+    "Do not over-decorate with metaphor; the comedy is in the reasoning, not the image.",
+    "Do not collapse a long thought into a summary — the child works through it step by step.",
+    "Do not break the polite register; even alarm is voiced courteously.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "So she was considering in her own mind (as well as she could, for the hot day made her feel very sleepy and stupid), whether the pleasure of making a daisy-chain would be worth the trouble of getting up and picking the daisies, when suddenly a White Rabbit with pink eyes ran close by her.",
-      "source": "Lewis Carroll, Alice's Adventures in Wonderland (Project Gutenberg #11; public domain)",
-      "is_generated": false
+      label: "Curious child reasoning out loud",
+      content:
+        "“Curiouser and curiouser!” cried Alice (she was so much surprised, that for the moment she quite forgot how to speak good English); “now I’m opening out like the largest telescope that ever was! Good-bye, feet!” (for when she looked down at her feet, they seemed to be almost out of sight, they were getting so far off). “Oh, my poor little feet, I wonder who will put on your shoes and stockings for you now, dears? I’m sure _I_ shan’t be able! I shall be a great deal too far off to trouble myself about you: you must manage the best way you can;—but I must be kind to them,” thought Alice, “or perhaps they won’t walk the way I want to go! Let me see: I’ll give them a new pair of boots every Christmas.”",
+      source:
+        "Lewis Carroll, Alice's Adventures in Wonderland (Project Gutenberg #11; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "There was nothing so _very_ remarkable in that; nor did Alice think it so _very_ much out of the way to hear the Rabbit say to itself, “Oh dear! Oh dear! I shall be late!” (when she thought it over afterwards, it occurred to her that she ought to have wondered at this, but at the time it all seemed quite natural); but when the Rabbit actually _took a watch out of its waistcoat-pocket_, and looked at it, and then hurried on, Alice started to her feet, for it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it, and fortunately was just in time to see it pop down a large rabbit-hole under the hedge.",
-      "source": "Lewis Carroll, Alice's Adventures in Wonderland (Project Gutenberg #11; public domain)",
-      "is_generated": false
-    }
+      label: "Narrator's parenthetical and the cautious reader",
+      content:
+        "It was all very well to say “Drink me,” but the wise little Alice was not going to do _that_ in a hurry. “No, I’ll look first,” she said, “and see whether it’s marked ‘_poison_’ or not”; for she had read several nice little histories about children who had got burnt, and eaten up by wild beasts and other unpleasant things, all because they _would_ not remember the simple rules their friends had taught them: such as, that a red-hot poker will burn you if you hold it too long; and that if you cut your finger _very_ deeply with a knife, it usually bleeds; and she had never forgotten that, if you drink much from a bottle marked “poison,” it is almost certain to disagree with you, sooner or later.",
+      source:
+        "Lewis Carroll, Alice's Adventures in Wonderland (Project Gutenberg #11; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with a sense of whimsical logic and playful language. Use portmanteau words and childlike reasoning to create a sense of wonder. Avoid straightforward, literal language, and embrace nonsensical vocabulary. Craft narratives that surprise and delight with imaginative twists.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": "<=",
-        "value": 18,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": "<=",
-        "value": 40,
-        "weight": 0.1
-      },
-      {
-        "metric": "type_token_ratio",
-        "op": ">=",
-        "value": 0.7,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of the narrator and protagonist of Alice's Adventures in Wonderland. String sentences together with 'and' and semicolons rather than subordination; let a thought walk forward step by step. Use parentheses for the narrator's aside and italics for the word the speaker leans on. Quote a character thinking out loud, posing themselves questions and answering them politely. Take a literal premise and follow its logic to a courteous absurd conclusion. Keep a straight face; never nudge the reader. Borrow grown-up vocabulary the speaker has half-overheard, and let the seams show without comment.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "adverbs_per_200w", op: "<=", value: 6, weight: 0.1 },
+      { metric: "max_sentence_length", op: ">=", value: 30, weight: 0.1 },
+      { metric: "mono_syllable_ratio", op: ">=", value: 0.55, weight: 0.15 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "whimsy",
-        "prompt": "Does the text convey a sense of whimsical logic and playful language?",
-        "weight": 0.3
+        id: "child-logic",
+        prompt:
+          "Does a literal premise get followed step by step to a polite absurd conclusion, with the narrator keeping a straight face?",
+        weight: 0.25,
       },
       {
-        "id": "inventiveness",
-        "prompt": "Does the text use imaginative vocabulary and narrative twists?",
-        "weight": 0.3
-      }
+        id: "parentheticals-italics",
+        prompt:
+          "Does the text use parenthetical asides and italics for emphasis the way Carroll's narrator does?",
+        weight: 0.2,
+      },
+      {
+        id: "self-talk",
+        prompt:
+          "Does a character think aloud — posing themselves questions, arguing with themselves — within a polite, conversational register?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };
