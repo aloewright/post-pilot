@@ -2,6 +2,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { Footer } from "../components/footer";
 import { Nav } from "../components/nav";
+import { RouteTransition } from "../components/route-transition";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   {
@@ -24,7 +25,9 @@ function RootLayout() {
     <div className="min-h-screen bg-[color:var(--strand-color-surface-canvas)] text-[color:var(--strand-color-ink-primary)]">
       <Nav />
       <main>
-        <Outlet />
+        <RouteTransition>
+          <Outlet />
+        </RouteTransition>
       </main>
       <Footer />
     </div>

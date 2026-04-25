@@ -1,25 +1,90 @@
+import { motion, type SVGMotionProps, type Transition } from "framer-motion";
 import type { JSX, SVGProps } from "react";
 
-type IllustrationProps = SVGProps<SVGSVGElement> & {
+type IllustrationProps = Omit<SVGProps<SVGSVGElement>, "children"> & {
   slug: string;
   size?: number;
+  /**
+   * "in-view" (default) — animates the first time it scrolls into view.
+   * "mount" — animates as soon as it mounts.
+   * "off" — no animation (for reduced-motion or static contexts).
+   */
+  trigger?: "in-view" | "mount" | "off";
+  /** Per-shape stagger in seconds. */
+  stagger?: number;
+};
+
+const drawTransition: Transition = {
+  duration: 1.2,
+  ease: [0.16, 1, 0.3, 1],
+};
+
+const containerVariants = (stagger: number) => ({
+  hidden: {},
+  visible: { transition: { staggerChildren: stagger } },
+  static: {},
+});
+
+const drawVariants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: drawTransition,
+  },
+  static: { pathLength: 1, opacity: 1 },
+};
+
+const dotVariants = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+  },
+  static: { scale: 1, opacity: 1 },
+};
+
+const fillVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+  static: { opacity: 1 },
 };
 
 /**
- * Per-author symbolic spot illustrations in the New Yorker tradition:
- * monochromatic, stroke-only, hand-drawn-feeling line drawings that
- * use negative space. They render in `currentColor`, so place them
- * inside an element with the right ink color.
+ * Per-author symbolic spot illustrations: pen-and-ink line drawings,
+ * one dominant subject per spot, drawn from each author's voice
+ * metaphor (e.g. Hemingway's iceberg, Orwell's window pane).
+ *
+ * All strokes inherit `currentColor`. Renders with a stroke-by-stroke
+ * draw-in animation when scrolled into view.
  */
 export function AuthorIllustration({
   slug,
   size,
   className,
+  trigger = "in-view",
+  stagger = 0.07,
   ...rest
 }: IllustrationProps) {
   const Spot = (SPOTS[slug] ?? SPOTS.__fallback) as SpotComponent;
+
+  const motionProps =
+    trigger === "off"
+      ? { initial: "static" as const, animate: "static" as const }
+      : trigger === "mount"
+        ? { initial: "hidden" as const, animate: "visible" as const }
+        : {
+            initial: "hidden" as const,
+            whileInView: "visible" as const,
+            viewport: { once: true, margin: "-40px" },
+          };
+
   return (
-    <Spot
+    <motion.svg
       aria-hidden="true"
       className={className}
       fill="none"
@@ -27,193 +92,329 @@ export function AuthorIllustration({
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth={1.6}
+      strokeWidth={1.1}
+      variants={containerVariants(stagger)}
       viewBox="0 0 100 100"
       width={size}
       xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    />
+      {...motionProps}
+      {...(rest as SVGMotionProps<SVGSVGElement>)}
+    >
+      <Spot />
+    </motion.svg>
   );
 }
 
-type SpotComponent = (props: SVGProps<SVGSVGElement>) => JSX.Element;
+type SpotComponent = () => JSX.Element;
+
+const Stroke = (
+  props: Omit<
+    SVGMotionProps<SVGPathElement>,
+    "variants" | "initial" | "animate"
+  >,
+) => <motion.path variants={drawVariants} {...props} />;
+
+const Fine = (
+  props: Omit<
+    SVGMotionProps<SVGPathElement>,
+    "variants" | "initial" | "animate"
+  >,
+) => (
+  <motion.path
+    opacity="0.45"
+    strokeWidth="0.7"
+    variants={drawVariants}
+    {...props}
+  />
+);
+
+const StrokeCircle = (
+  props: Omit<
+    SVGMotionProps<SVGCircleElement>,
+    "variants" | "initial" | "animate"
+  > & { dot?: boolean },
+) => {
+  const { dot, ...rest } = props;
+  return <motion.circle variants={dot ? dotVariants : drawVariants} {...rest} />;
+};
+
+const StrokeEllipse = (
+  props: Omit<
+    SVGMotionProps<SVGEllipseElement>,
+    "variants" | "initial" | "animate"
+  >,
+) => <motion.ellipse variants={drawVariants} {...props} />;
+
+const FilledShape = (
+  props: Omit<
+    SVGMotionProps<SVGPathElement>,
+    "variants" | "initial" | "animate"
+  >,
+) => <motion.path stroke="none" variants={fillVariants} {...props} />;
+
+/* -------------------------------------------------------------------------- */
+/*  Spots — one symbolic subject per author, drawn from their voice metaphor  */
+/* -------------------------------------------------------------------------- */
 
 const SPOTS: Record<string, SpotComponent> = {
-  /** Hemingway — Marlin on a line. The Old Man and the Sea. */
-  hemingway: (p) => (
-    <svg {...p}>
-      <path d="M22 22 Q44 50 70 80" />
-      <circle cx="22" cy="22" r="1.4" fill="currentColor" stroke="none" />
-      <path d="M70 80 Q78 78 80 72 Q82 67 78 64" />
-      <path d="M30 60 Q40 52 56 54 Q70 56 78 64 Q70 72 56 74 Q40 76 30 60 Z" />
-      <path d="M30 60 L20 56 L20 64 Z" />
-      <circle cx="68" cy="62" r="1.2" fill="currentColor" stroke="none" />
-      <path d="M50 60 Q54 64 50 68" opacity="0.7" />
-    </svg>
+  /** Hemingway — Iceberg theory: 1/8 above the waterline, 7/8 below. */
+  hemingway: () => (
+    <>
+      {/* waterline */}
+      <Stroke d="M6 52 L94 52" />
+      {/* small visible peak */}
+      <Stroke d="M40 52 L48 36 L58 52 Z" />
+      {/* large submerged mass */}
+      <Stroke d="M28 52 L36 78 Q50 86 64 80 L72 52" />
+      {/* hatching for water below the line */}
+      <Fine d="M14 60 L20 56" />
+      <Fine d="M76 62 L82 58" />
+      <Fine d="M22 70 L26 66" />
+      <Fine d="M74 72 L78 68" />
+      {/* sub-mass interior shading */}
+      <Fine d="M40 62 L48 56" />
+      <Fine d="M44 72 L56 62" />
+      <Fine d="M50 80 L62 68" />
+    </>
   ),
 
-  /** Austen — Regency teacup with steam. */
-  austen: (p) => (
-    <svg {...p}>
-      <path d="M30 56 L70 56 Q72 70 60 78 L40 78 Q28 70 30 56 Z" />
-      <path d="M70 60 Q82 60 82 68 Q82 74 72 74" />
-      <path d="M28 84 L72 84" />
-      <path d="M44 44 Q40 38 44 32 Q48 28 44 22" />
-      <path d="M52 44 Q48 38 52 32 Q56 28 52 22" />
-      <path d="M60 44 Q56 38 60 32" />
-    </svg>
+  /** Austen — Teacup with saucer and a single curl of steam. */
+  austen: () => (
+    <>
+      {/* cup */}
+      <Stroke d="M30 42 L70 42 Q72 60 60 70 L40 70 Q28 60 30 42 Z" />
+      {/* handle */}
+      <Stroke d="M70 48 Q82 48 82 56 Q82 64 72 64" />
+      {/* saucer */}
+      <StrokeEllipse cx="50" cy="76" rx="30" ry="2.6" />
+      <Stroke d="M22 78 Q50 82 78 78" />
+      {/* tea surface */}
+      <Fine d="M34 46 L66 46" />
+      {/* one elegant curl of steam */}
+      <Stroke d="M50 32 Q44 26 50 20 Q56 14 50 8" />
+    </>
   ),
 
-  /** Orwell — A simple typewriter, plain prose machinery. */
-  orwell: (p) => (
-    <svg {...p}>
-      <path d="M22 70 L78 70 L82 84 L18 84 Z" />
-      <path d="M30 70 L30 56 L70 56 L70 70" />
-      <path d="M34 56 L34 48 L66 48 L66 56" />
-      <path d="M40 48 L40 38 L60 38 L60 48" />
-      <path d="M28 78 L72 78" />
-      <circle cx="50" cy="64" r="1.2" fill="currentColor" stroke="none" />
-      <circle cx="42" cy="64" r="1.2" fill="currentColor" stroke="none" />
-      <circle cx="58" cy="64" r="1.2" fill="currentColor" stroke="none" />
-    </svg>
+  /**
+   * Orwell — Windowpane. From his essay: "Good prose is like a
+   * window pane." Four panes, sill below.
+   */
+  orwell: () => (
+    <>
+      <Stroke d="M28 22 L72 22 L72 76 L28 76 Z" />
+      <Stroke d="M50 22 L50 76" />
+      <Stroke d="M28 50 L72 50" />
+      {/* sill */}
+      <Stroke d="M22 78 L78 78" />
+      <Stroke d="M22 78 L24 82 L76 82 L78 78" />
+      {/* light rays through the panes */}
+      <Fine d="M34 30 L46 46" />
+      <Fine d="M40 28 L48 42" />
+      <Fine d="M58 30 L66 46" />
+    </>
   ),
 
-  /** Didion — Sunglasses. Cool, observational, LA. */
-  didion: (p) => (
-    <svg {...p}>
-      <path d="M20 52 Q20 68 36 68 Q48 68 50 56" />
-      <path d="M50 56 Q52 68 64 68 Q80 68 80 52" />
-      <path d="M20 52 Q22 44 36 44 Q48 44 50 50" />
-      <path d="M50 50 Q52 44 64 44 Q78 44 80 52" />
-      <path d="M50 50 Q50 56 50 56" />
-      <path d="M16 50 L8 46" />
-      <path d="M84 50 L92 46" />
-      <path d="M28 56 L34 50" opacity="0.5" />
-      <path d="M58 56 L64 50" opacity="0.5" />
-    </svg>
+  /** Didion — Single elegant pair of sunglasses. */
+  didion: () => (
+    <>
+      {/* left lens */}
+      <Stroke d="M18 50 Q18 64 30 64 Q44 64 46 52 Q47 44 36 42 Q22 42 18 50 Z" />
+      {/* right lens */}
+      <Stroke d="M82 50 Q82 64 70 64 Q56 64 54 52 Q53 44 64 42 Q78 42 82 50 Z" />
+      {/* bridge */}
+      <Stroke d="M46 52 Q50 50 54 52" />
+      {/* arms hint */}
+      <Stroke d="M18 50 L10 46" />
+      <Stroke d="M82 50 L90 46" />
+      {/* faint reflection on each lens */}
+      <Fine d="M24 50 Q24 56 32 58" />
+      <Fine d="M76 50 Q76 56 68 58" />
+    </>
   ),
 
-  /** Baldwin — Open book on a small lectern. Sermonic. */
-  baldwin: (p) => (
-    <svg {...p}>
-      <path d="M18 38 Q34 30 50 36 Q66 30 82 38 L82 64 Q66 56 50 62 Q34 56 18 64 Z" />
-      <path d="M50 36 L50 62" />
-      <path d="M26 42 L42 40" opacity="0.6" />
-      <path d="M26 48 L42 46" opacity="0.6" />
-      <path d="M58 40 L74 42" opacity="0.6" />
-      <path d="M58 46 L74 48" opacity="0.6" />
-      <path d="M42 70 L58 70 L62 84 L38 84 Z" />
-      <path d="M50 62 L50 70" />
-    </svg>
+  /**
+   * Baldwin — Single tall taper candle with flame. Sermonic,
+   * illuminating; light against silence.
+   */
+  baldwin: () => (
+    <>
+      {/* flame */}
+      <Stroke d="M50 24 Q42 32 47 42 Q50 46 53 42 Q58 32 50 24 Z" />
+      {/* wick */}
+      <Stroke d="M50 42 L50 46" />
+      {/* candle */}
+      <Stroke d="M46 46 L46 70 L54 70 L54 46 Z" />
+      {/* drip */}
+      <Fine d="M46 56 Q44 60 46 64" />
+      {/* holder */}
+      <Stroke d="M40 70 L60 70 L62 76 L38 76 Z" />
+      {/* base shadow */}
+      <Stroke d="M30 80 L70 80" />
+      {/* halo of light */}
+      <Fine d="M32 30 L40 36" />
+      <Fine d="M68 30 L60 36" />
+      <Fine d="M30 44 L38 42" />
+      <Fine d="M70 44 L62 42" />
+    </>
   ),
 
-  /** Le Guin — Crescent moon with three small stars. Speculative. */
-  "le-guin": (p) => (
-    <svg {...p}>
-      <path d="M62 18 A28 28 0 1 0 62 78 A22 22 0 1 1 62 18 Z" />
-      <path d="M22 30 L22 38 M18 34 L26 34" />
-      <path d="M28 70 L28 76 M25 73 L31 73" />
-      <path d="M82 56 L82 62 M79 59 L85 59" />
-    </svg>
+  /** Le Guin — A planet with a tilted ring. Other worlds, plainly told. */
+  "le-guin": () => (
+    <>
+      {/* planet */}
+      <StrokeCircle cx="48" cy="50" r="20" />
+      {/* surface texture */}
+      <Fine d="M34 46 Q48 40 60 48" />
+      <Fine d="M36 56 Q48 62 62 56" />
+      {/* ring back half (behind planet) */}
+      <Stroke d="M14 56 Q22 38 50 36 Q66 35 76 38" opacity="0.55" />
+      {/* ring front half */}
+      <Stroke d="M14 56 Q26 64 52 64 Q72 64 84 56" />
+      {/* tiny moon */}
+      <StrokeCircle cx="80" cy="34" r="2.4" />
+    </>
   ),
 
-  /** Borges — Spiral staircase. Library of Babel. */
-  borges: (p) => (
-    <svg {...p}>
-      <path d="M30 22 L30 78" />
-      <path d="M70 22 L70 78" />
-      <path d="M30 28 L70 32" />
-      <path d="M30 36 L70 40" />
-      <path d="M30 44 L70 48" />
-      <path d="M30 52 L70 56" />
-      <path d="M30 60 L70 64" />
-      <path d="M30 68 L70 72" />
-      <path d="M30 22 Q50 18 70 22" />
-      <path d="M30 78 Q50 82 70 78" />
-    </svg>
+  /**
+   * Borges — Open book with concentric arcs across the spread,
+   * suggesting infinite recursion (Library of Babel).
+   */
+  borges: () => (
+    <>
+      {/* book spread */}
+      <Stroke d="M16 30 Q34 26 50 30 Q66 26 84 30 L84 72 Q66 68 50 72 Q34 68 16 72 Z" />
+      {/* spine */}
+      <Stroke d="M50 30 L50 72" />
+      {/* recursive arcs left page */}
+      <Fine d="M22 38 Q36 36 46 38" />
+      <Fine d="M24 46 Q36 44 46 46" />
+      <Fine d="M26 54 Q36 52 46 54" />
+      <Fine d="M28 62 Q37 60 46 62" />
+      {/* recursive arcs right page */}
+      <Fine d="M54 38 Q64 36 78 38" />
+      <Fine d="M54 46 Q64 44 76 46" />
+      <Fine d="M54 54 Q64 52 74 54" />
+      <Fine d="M54 62 Q63 60 72 62" />
+    </>
   ),
 
-  /** Woolf — Lighthouse over waves. To the Lighthouse. */
-  woolf: (p) => (
-    <svg {...p}>
-      <path d="M44 22 L56 22 L60 32 L40 32 Z" />
-      <path d="M40 32 L60 32 L62 38 L38 38 Z" />
-      <path d="M42 38 L42 64 L58 64 L58 38" />
-      <path d="M42 50 L58 50" />
-      <path d="M38 64 L62 64 L66 72 L34 72 Z" />
-      <path d="M48 26 L52 26" opacity="0.6" />
-      <path d="M14 80 Q22 74 30 80 Q38 86 46 80 Q54 74 62 80 Q70 86 78 80 Q84 76 90 80" />
-    </svg>
+  /**
+   * Woolf — A single curling wave (To the Lighthouse, The Waves).
+   * Hokusai-by-way-of-Bloomsbury.
+   */
+  woolf: () => (
+    <>
+      {/* wave swell */}
+      <Stroke d="M14 64 Q26 38 48 44 Q72 50 78 32" />
+      {/* curl over */}
+      <Stroke d="M78 32 Q88 42 80 56 Q70 70 56 64" />
+      {/* trailing foam */}
+      <Stroke d="M56 64 Q44 66 36 60" />
+      <Fine d="M28 70 Q40 72 50 70" />
+      <Fine d="M14 72 Q24 76 36 74" />
+      <Fine d="M62 76 Q72 78 84 74" />
+    </>
   ),
 
-  /** Vonnegut — Asterisk (his self-portrait), plus a small planet. */
-  vonnegut: (p) => (
-    <svg {...p}>
-      <path d="M50 22 L50 60" />
-      <path d="M30 32 L70 50" />
-      <path d="M70 32 L30 50" />
-      <path d="M34 60 L66 60" />
-      <circle cx="68" cy="74" r="8" />
-      <ellipse cx="68" cy="74" rx="11" ry="3" transform="rotate(-20 68 74)" />
-    </svg>
+  /** Vonnegut — His asterisk self-portrait. Bold, six-armed. */
+  vonnegut: () => (
+    <>
+      <Stroke d="M50 18 L50 82" />
+      <Stroke d="M22 34 L78 66" />
+      <Stroke d="M22 66 L78 34" />
+      <Stroke d="M16 50 L84 50" />
+    </>
   ),
 
-  /** Wilde — Top hat with a single carnation in the band. */
-  wilde: (p) => (
-    <svg {...p}>
-      <path d="M30 30 L30 66 L70 66 L70 30 Z" />
-      <path d="M22 66 L78 66" />
-      <path d="M14 76 L86 76" />
-      <path d="M22 66 L26 76" />
-      <path d="M78 66 L74 76" />
-      <path d="M30 58 L70 58" />
-      <circle cx="40" cy="62" r="2.4" />
-      <path d="M40 58 L40 50" opacity="0.6" />
-      <path d="M40 50 L36 46 M40 50 L44 46 M40 50 L38 44 M40 50 L42 44" opacity="0.6" />
-    </svg>
+  /** Wilde — Carnation in the buttonhole. Cluster of petals + stem. */
+  wilde: () => (
+    <>
+      {/* bloom — cluster of overlapping circles */}
+      <StrokeCircle cx="50" cy="30" r="6" />
+      <StrokeCircle cx="44" cy="34" r="6" />
+      <StrokeCircle cx="56" cy="34" r="6" />
+      <StrokeCircle cx="46" cy="40" r="6" />
+      <StrokeCircle cx="54" cy="40" r="6" />
+      {/* center */}
+      <StrokeCircle cx="50" cy="36" r="1.4" fill="currentColor" stroke="none" dot />
+      {/* stem */}
+      <Stroke d="M50 46 Q52 60 50 80" />
+      {/* leaf */}
+      <Stroke d="M50 60 Q40 56 36 64 Q44 64 50 64" />
+      {/* small thorn */}
+      <Fine d="M51 70 L55 68" />
+    </>
   ),
 
-  /** Poe — Raven perched on a bare branch. Nevermore. */
-  poe: (p) => (
-    <svg {...p}>
-      <path d="M14 70 Q34 64 56 66 Q72 68 86 72" />
-      <path d="M40 66 L34 56 Q34 46 44 42 Q56 38 64 44 Q70 50 68 58 Q66 64 60 66" />
-      <path d="M44 42 Q42 36 38 36 L36 40" />
-      <path d="M68 50 L78 48 L74 52" />
-      <circle cx="56" cy="46" r="1" fill="currentColor" stroke="none" />
-      <path d="M48 66 L46 72 M52 66 L52 72 M56 66 L58 72" />
-      <path d="M22 58 L24 64 M30 50 L32 56 M76 56 L78 62" opacity="0.5" />
-    </svg>
+  /** Poe — Raven perched on a bare branch. */
+  poe: () => (
+    <>
+      {/* body */}
+      <Stroke d="M30 56 Q30 40 46 38 Q60 38 64 48 L78 46 L72 52 L60 52 Q58 62 48 62 Q34 64 30 56 Z" />
+      {/* eye */}
+      <StrokeCircle cx="48" cy="44" r="0.9" fill="currentColor" stroke="none" dot />
+      {/* legs */}
+      <Stroke d="M44 62 L42 70" />
+      <Stroke d="M50 62 L50 70" />
+      {/* branch */}
+      <Stroke d="M14 72 Q40 70 86 74" />
+      {/* twig */}
+      <Fine d="M32 72 L28 76" />
+      <Fine d="M68 73 L72 78" />
+      {/* feather hint */}
+      <Fine d="M42 50 Q48 52 56 50" />
+    </>
   ),
 
-  /** Carver — Coffee mug with steam. Domestic minimalism. */
-  carver: (p) => (
-    <svg {...p}>
-      <path d="M32 42 L68 42 L66 78 Q50 82 34 78 Z" />
-      <path d="M68 48 Q82 48 82 60 Q82 70 70 70" />
-      <path d="M44 24 Q40 20 44 14" opacity="0.7" />
-      <path d="M52 26 Q48 20 52 14" opacity="0.7" />
-      <path d="M60 24 Q56 20 60 14" opacity="0.7" />
-    </svg>
+  /** Carver — Coffee mug, side view. Domestic, plain. */
+  carver: () => (
+    <>
+      {/* body */}
+      <Stroke d="M34 42 L66 42 L62 76 Q50 80 38 76 Z" />
+      {/* rim */}
+      <Stroke d="M34 42 Q50 46 66 42" />
+      {/* handle */}
+      <Stroke d="M66 50 Q80 50 80 60 Q80 68 70 68" />
+      {/* base */}
+      <Stroke d="M30 80 L70 80" />
+      {/* steam */}
+      <Stroke d="M44 30 Q40 24 44 18 Q48 12 44 6" />
+      <Stroke d="M54 32 Q50 26 54 20 Q58 14 54 8" />
+    </>
   ),
 
-  /** Asimov — Atom with three orbits. Science explainer. */
-  asimov: (p) => (
-    <svg {...p}>
-      <ellipse cx="50" cy="50" rx="32" ry="12" />
-      <ellipse cx="50" cy="50" rx="32" ry="12" transform="rotate(60 50 50)" />
-      <ellipse cx="50" cy="50" rx="32" ry="12" transform="rotate(120 50 50)" />
-      <circle cx="50" cy="50" r="3" fill="currentColor" stroke="none" />
-    </svg>
+  /** Asimov — Atom: three orbital ellipses through a nucleus. */
+  asimov: () => (
+    <>
+      <StrokeEllipse cx="50" cy="50" rx="32" ry="10" />
+      <StrokeEllipse
+        cx="50"
+        cy="50"
+        rx="32"
+        ry="10"
+        transform="rotate(60 50 50)"
+      />
+      <StrokeEllipse
+        cx="50"
+        cy="50"
+        rx="32"
+        ry="10"
+        transform="rotate(120 50 50)"
+      />
+      <StrokeCircle cx="50" cy="50" r="2.4" fill="currentColor" stroke="none" dot />
+      <StrokeCircle cx="82" cy="50" r="1.4" fill="currentColor" stroke="none" dot />
+      <StrokeCircle cx="34" cy="22" r="1.4" fill="currentColor" stroke="none" dot />
+      <StrokeCircle cx="34" cy="78" r="1.4" fill="currentColor" stroke="none" dot />
+    </>
   ),
 
   /** Fallback — a quill nib for any unknown slug. */
-  __fallback: (p) => (
-    <svg {...p}>
-      <path d="M22 78 L78 22" />
-      <path d="M70 22 L78 22 L78 30" />
-      <path d="M40 60 L60 40" />
-      <path d="M44 64 L52 56" />
-    </svg>
+  __fallback: () => (
+    <>
+      <Stroke d="M22 78 L78 22" />
+      <Stroke d="M70 22 L78 22 L78 30" />
+      <Stroke d="M40 60 L60 40" />
+      <Fine d="M44 64 L52 56" />
+    </>
   ),
 };
