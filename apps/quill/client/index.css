@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+/* Tailwind v4 doesn't scan node_modules by default; Kumo ships there.
+   Without this, Kumo components render unstyled. */
+@source "../node_modules/@cloudflare/kumo/dist/**/*.{js,mjs,jsx,ts,tsx}";
+
+@custom-variant dark (&:is(.dark, .dark *));
+
+/* ------------------- Strand design tokens ------------------- */
+/* Reading Room (light) — default for marketing + reading surfaces.       */
+:root {
+  --strand-color-surface-canvas: oklch(0.985 0.003 85);
+  --strand-color-surface-raised: oklch(1 0 0);
+  --strand-color-surface-sunken: oklch(0.965 0.004 85);
+  --strand-color-ink-primary: oklch(0.18 0.01 60);
+  --strand-color-ink-muted: oklch(0.5 0.008 60);
+  --strand-color-ink-faint: oklch(0.68 0.006 60);
+  --strand-color-rule: oklch(0.9 0.006 60);
+  --strand-color-accent-lede: oklch(0.52 0.18 28);
+  --strand-color-accent-lede-soft: oklch(0.96 0.028 28);
+  --strand-color-accent-kicker: oklch(0.52 0.18 28);
+
+  --strand-type-display-serif:
+    "Instrument Serif", "Source Serif 4", "Iowan Old Style", "Charter",
+    "Georgia", serif;
+  --strand-type-body-sans:
+    "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --strand-type-mono:
+    "Geist Mono", ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+
+  --strand-measure: 65ch;
+
+  --strand-motion-duration-fast: 160ms;
+  --strand-motion-duration-base: 280ms;
+  --strand-motion-duration-slow: 520ms;
+  --strand-motion-ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --strand-motion-ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --strand-motion-ease-exit: cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: light;
+}
+
+/* Night Desk (dark) — default for app surfaces (playground, composer). */
+.dark {
+  --strand-color-surface-canvas: oklch(0.17 0.006 60);
+  --strand-color-surface-raised: oklch(0.215 0.006 60);
+  --strand-color-surface-sunken: oklch(0.145 0.006 60);
+  --strand-color-ink-primary: oklch(0.96 0.004 60);
+  --strand-color-ink-muted: oklch(0.72 0.006 60);
+  --strand-color-ink-faint: oklch(0.5 0.006 60);
+  --strand-color-rule: oklch(0.3 0.006 60);
+  --strand-color-accent-lede: oklch(0.74 0.16 38);
+  --strand-color-accent-lede-soft: oklch(0.3 0.08 38);
+  --strand-color-accent-kicker: oklch(0.74 0.16 38);
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-canvas: var(--strand-color-surface-canvas);
+  --color-raised: var(--strand-color-surface-raised);
+  --color-sunken: var(--strand-color-surface-sunken);
+  --color-ink: var(--strand-color-ink-primary);
+  --color-ink-muted: var(--strand-color-ink-muted);
+  --color-ink-faint: var(--strand-color-ink-faint);
+  --color-rule: var(--strand-color-rule);
+  --color-lede: var(--strand-color-accent-lede);
+  --color-lede-soft: var(--strand-color-accent-lede-soft);
+
+  --font-display: var(--strand-type-display-serif);
+  --font-sans: var(--strand-type-body-sans);
+  --font-mono: var(--strand-type-mono);
+}
+
+@layer base {
+  html,
+  body {
+    background: var(--strand-color-surface-canvas);
+    color: var(--strand-color-ink-primary);
+    font-family: var(--strand-type-body-sans);
+    font-feature-settings: "ss01", "cv01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  p {
+    line-height: 1.6;
+  }
+
+  *::selection {
+    background: var(--strand-color-accent-lede-soft);
+  }
+
+  /* Reduced motion respects across Framer Motion + CSS. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------- Editorial primitives ------------------- */
+@layer components {
+  .quill-kicker {
+    font-family: var(--strand-type-body-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--strand-color-accent-kicker);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .quill-kicker::before {
+    content: "";
+    display: inline-block;
+    width: 1.25rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .quill-lede {
+    font-family: var(--strand-type-display-serif);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    color: var(--strand-color-ink-primary);
+    text-wrap: balance;
+  }
+
+  .quill-standfirst {
+    font-family: var(--strand-type-body-sans);
+    font-size: 1.125rem;
+    line-height: 1.55;
+    color: var(--strand-color-ink-muted);
+    text-wrap: pretty;
+  }
+
+  .quill-byline {
+    font-family: var(--strand-type-body-sans);
+    font-size: 0.8125rem;
+    color: var(--strand-color-ink-faint);
+    letter-spacing: 0.005em;
+  }
+
+  .quill-column {
+    max-width: var(--strand-measure);
+    color: var(--strand-color-ink-primary);
+  }
+
+  .quill-column p {
+    line-height: 1.7;
+  }
+
+  .quill-pull {
+    font-family: var(--strand-type-display-serif);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--strand-color-ink-primary);
+    border-left: 2px solid var(--strand-color-accent-lede);
+    padding: 0.25rem 0 0.25rem 1.25rem;
+    text-wrap: pretty;
+  }
+
+  .quill-rule {
+    height: 1px;
+    background: var(--strand-color-rule);
+    border: 0;
+    margin: 2rem 0;
+  }
+
+  .quill-chip {
+    font-family: var(--strand-type-body-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--strand-color-ink-muted);
+    background: var(--strand-color-surface-sunken);
+    border: 1px solid var(--strand-color-rule);
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .quill-mono {
+    font-family: var(--strand-type-mono);
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+}

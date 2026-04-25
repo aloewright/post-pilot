@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "quill",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-04-25",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Vite emits the SPA to ./dist/client. SPA fallthrough so deep links
+  // (/library, /guides/hemingway, /playground) refresh cleanly.
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+
+  "vars": {
+    "QUILL_ENV": "dev"
+    // "AI_GATEWAY_BASE_URL": "https://gateway.ai.cloudflare.com/v1/<account>/<gateway>"
+  },
+
+  // ---- Bindings (uncomment as you provision; M1 ships read-only) ----
+  //
+  // "d1_databases": [
+  //   { "binding": "DB", "database_name": "quill", "database_id": "<your-d1-id>", "migrations_dir": "drizzle" }
+  // ],
+  // "kv_namespaces": [
+  //   { "binding": "KV", "id": "<your-kv-id>" }
+  // ],
+  // "r2_buckets": [
+  //   { "binding": "R2", "bucket_name": "quill" }
+  // ],
+  // "durable_objects": {
+  //   "bindings": [
+  //     { "name": "RATE_LIMITER", "class_name": "RateLimiter" }
+  //   ]
+  // },
+  // "ai": { "binding": "AI" },
+
+  // Wrangler v4 surface: declare which secrets the worker expects.
+  // "secrets": {
+  //   "required": ["BETTER_AUTH_SECRET", "AI_GATEWAY_TOKEN"]
+  // }
+}

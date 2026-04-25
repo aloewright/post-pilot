@@ -1,0 +1,114 @@
+import type { Guide, UseCasePreset } from "../../src/lib/types";
+
+// All API calls hit the Worker on the same origin. The Vite plugin proxies
+// /v1/* to the Worker in dev; in prod it's the same Worker serving /v1 +
+// the SPA assets.
+
+export type GuideListItem = Pick<
+  Guide,
+  | "slug"
+  | "author"
+  | "era"
+  | "eras"
+  | "kicker"
+  | "standfirst"
+  | "voice_axes"
+  | "use_cases"
+  | "copyright_posture"
+  | "is_official"
+  | "curator"
+  | "updated_at"
+> & {
+  fidelity: NonNullable<Guide["fidelity"]>;
+};
+
+export type GuideListResponse = {
+  count: number;
+  total: number;
+  items: GuideListItem[];
+};
+
+export type ApplyResponse = {
+  guide: string;
+  preset: string | null;
+  model: string;
+  output: string;
+  snapshot: Record<string, number>;
+  deterministic_score: number;
+  deterministic_details: Array<{
+    metric: string;
+    op: string;
+    target: number;
+    actual: number;
+    pass: boolean;
+    weight: number;
+  }>;
+  judge: { status: string; message: string };
+  requestId: string;
+};
+
+async function request<T>(
+  path: string,
+  init?: RequestInit,
+): Promise<T> {
+  const r = await fetch(path, {
+    ...init,
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      ...(init?.headers ?? {}),
+    },
+  });
+  if (!r.ok) {
+    let message = `${r.status} ${r.statusText}`;
+    try {
+      const body = (await r.json()) as { error?: string };
+      if (body?.error) message = body.error;
+    } catch {
+      // ignore JSON parse failure on error body
+    }
+    throw new Error(message);
+  }
+  return (await r.json()) as T;
+}
+
+export const api = {
+  listGuides: (params: {
+    eras?: string[];
+    useCases?: string[];
+    voiceAxes?: string[];
+    query?: string;
+  } = {}) => {
+    const sp = new URLSearchParams();
+    for (const e of params.eras ?? []) sp.append("era", e);
+    for (const u of params.useCases ?? []) sp.append("useCase", u);
+    for (const v of params.voiceAxes ?? []) sp.append("voice", v);
+    if (params.query) sp.set("q", params.query);
+    const qs = sp.toString();
+    return request<GuideListResponse>(`/v1/guides${qs ? `?${qs}` : ""}`);
+  },
+
+  getGuide: (slug: string) => request<Guide>(`/v1/guides/${slug}`),
+
+  listPresets: () =>
+    request<{ items: UseCasePreset[] }>(`/v1/presets`),
+
+  apply: (body: {
+    guide: string;
+    preset?: string;
+    model?: string;
+    input: string;
+    temperature?: number;
+  }) =>
+    request<ApplyResponse>(`/v1/apply`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+};
+
+export const queryKeys = {
+  guides: (filters?: Record<string, unknown>) =>
+    ["guides", filters ?? {}] as const,
+  guide: (slug: string) => ["guides", slug] as const,
+  presets: () => ["presets"] as const,
+};
