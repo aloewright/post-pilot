@@ -7,78 +7,78 @@ export const zola: Guide = {
   eras: ["Pre-1900"],
   kicker: "Pre-1900 · French Naturalism",
   standfirst:
-    "Long inventorying sentences. Bodies and rooms are described object by object, symptom by symptom, with the same level voice.",
+    "The pit and the body inventoried in the same level voice. Machinery is rendered as anatomy; bodies are rendered as parts.",
   description:
-    "Zola narrates the third-class carriage as if it were a clinical chart: the same sentence gathers luggage, illness, and posture in a single grammatical sweep, separated by semicolons and commas, never softened. Adjectives are placed in pairs and triples, almost always pinned to a body part or a piece of cloth. Useful when you want copy that surveys a crowded scene without sentimentalising it — the pity is in the accumulation of detail, not in any commentary the narrator offers.",
-  voice_axes: ["ornate", "lyrical"],
-  use_cases: ["narrative", "marketing", "email"],
+    "Zola narrates the coal pit as if it were a working organism: cables, cages, lungs, and ledgers gathered into a single grammatical sweep, with semicolons doing the joining and the verdict held back to the close. Industry and flesh are described in the same register — the shaft swallows men, a miner's chest stores coal, a household ledger lists francs alongside coughs. Useful when you want copy that surveys a process or a crowded scene without sentimentalising it; the pity, where it appears, sits inside the inventory rather than on top of it.",
+  voice_axes: ["ornate", "plain"],
+  use_cases: ["narrative", "marketing", "docs"],
   copyright_posture: "public-domain",
   voice_spec: {
-    sentence_length: { mean: 32, max: 70 },
+    sentence_length: { mean: 22, max: 60 },
     vocabulary_register:
-      "French naturalist prose; concrete, often clinical nouns ('phtisique', 'matelas', 'paupières bleuies'); abstractions admitted only as final summing words ('une infinie tristesse')",
+      "concrete, often industrial or clinical; specific units and counts ('five hundred and fifty-four metres', 'thirty sous a day', 'seven children'); abstractions admitted only as the closing word of a clause",
     syntax:
-      "long sentences hinged on semicolons and 'tandis que'; participial clauses ('emportés par...', 'tenait sur ses genoux...') tacked onto a main clause; adjectives in pairs and triples after the noun",
+      "long sentences hinged on semicolons and 'while'; participial and relative clauses tacked onto a single main clause; counts and names accumulated in series",
     figurative_language:
-      "almost no metaphor; the figure is the catalogue of physical detail — 'le nez pincé, les paupières bleuies, fermées dans sa face de cire'",
+      "the figure is the catalogue itself — when metaphor appears it is anatomical (the shaft 'swallows', the pit has 'giant intestines', the engine 'breathes')",
     pacing:
-      "unhurried, accumulative; the sentence keeps gathering bodies and objects until the inventory is complete, then closes on a flat noun phrase",
+      "unhurried, accumulative; the sentence keeps gathering bodies, machines, and numbers until the inventory is complete, then closes flatly",
   },
   do: [
-    "Build long sentences by tacking participial and relative clauses onto a single main clause; let semicolons and 'tandis que' carry the joins.",
-    "Place adjectives after the noun in pairs or triples, each one pinned to a specific body part or piece of cloth.",
-    "Inventory the scene object by object, symptom by symptom, with the same level voice for luggage and for illness.",
-    "Close the sentence on a flat summing phrase — a final noun, not a flourish.",
+    "Describe machinery and bodies in the same level register — let the shaft and the lung share a sentence.",
+    "Build long sentences by tacking participial clauses onto a single main clause; use semicolons and 'while' as the hinges.",
+    "Quote concrete counts: metres, francs, children, years of service. Numbers carry the weight that adjectives would in another voice.",
+    "Hold the verdict for the end of the paragraph, and let it land as a flat noun phrase, not a flourish.",
   ],
   dont: [
-    "Do not editorialise or name the pity; let the accumulation of physical detail produce it.",
-    "Do not reach for metaphor — the figure is the catalogue itself.",
-    "Do not break the long sentence into short ones; the unbroken sweep is the voice.",
-    "Do not abstract a body into a feeling; describe the body, then admit the feeling at the end if at all.",
+    "Do not name the pity, the injustice, or the horror; let the accumulation of physical and economic detail produce it.",
+    "Do not break the long inventorying sentence into short ones; the unbroken sweep is the voice.",
+    "Do not sentimentalise the worker — describe the cough, the wage, the bed shared by three, and stop there.",
+    "Do not reach for ornamental metaphor; if a figure appears, it should be anatomical or mechanical, drawn from the scene itself.",
   ],
   exemplars: [
     {
-      label: "Inventory of the carriage — third-class to Lourdes",
+      label: "The miner's chest as a store of coal",
       content:
-        "Au milieu de cette friperie, les grands malades, sur leurs étroits matelas, occupant plusieurs places, oscillaient, emportés par les secousses grondantes des roues; tandis que ceux qui pouvaient rester assis, s'adossaient aux cloisons, s'appuyaient à des oreillers, la face blême.",
+        "\"It's coal. I've got enough in my carcass to warm me till I die. And it's five years since I put a foot down below. I stored it up, it seems, without knowing it; it keeps you alive!\"\n\nThere was silence. The distant hammer struck regular blows in the pit, and the wind passed by with its moan, like a cry of hunger and weariness coming out of the depths of the night. Before the flames which grew low, the old man went on in lower tones, chewing over again his old recollections. Ah, certainly: it was not yesterday that he and his began hammering at the seam. The family had worked for the Montsou Mining Company since it started, and that was long ago, a hundred and six years already.",
       source:
-        "Émile Zola, Lourdes (Project Gutenberg #24850; public domain)",
+        "Émile Zola, Germinal (Project Gutenberg #56528; public domain)",
       is_generated: false,
     },
     {
-      label: "Portrait of the sick child",
+      label: "The shaft as a digesting body",
       content:
-        "En face d'elle, l'autre, celle qui était sur la banquette de Pierre, une ouvrière du même âge, en bonnet noir, le visage ravagé de misère et d'inquiétude, tenait sur ses genoux une fillette de sept ans, si pâle, si diminuée, qu'elle en paraissait à peine quatre. Le nez pincé, les paupières bleuies, fermées dans sa face de cire, l'enfant ne pouvait parler; et elle n'avait qu'une petite plainte, un gémissement doux, qui chaque fois déchirait le coeur de la mère, penchée sur elle.",
+        "He only understood one thing well: the shaft swallowed men by mouthfuls of twenty or thirty, and with so easy a gulp that it seemed to feel nothing go down. Since four o'clock the descent of the workmen had been going on. They came to the shed with naked feet and their lamps in their hands, waiting in little groups until a sufficient number had arrived. Without a sound, with the soft bound of a nocturnal beast, the iron cage arose from the night, wedged itself on the bolts with its four decks, each containing two trams full of coal. For half an hour the shaft went on devouring in this fashion, with more or less greedy gulps, according to the depth of the level to which the men went down, but without stopping, always hungry, with its giant intestines capable of digesting a nation.",
       source:
-        "Émile Zola, Lourdes (Project Gutenberg #24850; public domain)",
+        "Émile Zola, Germinal (Project Gutenberg #56528; public domain)",
       is_generated: false,
     },
   ],
   system_prompt:
-    "You write in the voice of Émile Zola as he narrates Lourdes. Build long sentences by tacking participial and relative clauses onto a single main clause; use semicolons and 'tandis que' (or 'while') as the hinges. Place adjectives after the noun, in pairs or triples, each one pinned to a specific body part or piece of cloth. Inventory the scene object by object, symptom by symptom, with the same level voice for luggage and for illness — let the accumulation of physical detail produce the pity, never name it. Avoid metaphor; the catalogue of detail is the figure. Close the sentence on a flat summing phrase rather than a flourish. The diction is clinical and concrete; abstractions are admitted only at the end of a clause, as the last word.",
+    "You write in the voice of Émile Zola as he narrates Germinal. Build long sentences by tacking participial and relative clauses onto a single main clause; use semicolons and 'while' as the hinges. Describe machinery and bodies in the same level register — the shaft swallows, the chest stores coal, the household ledger lists francs alongside coughs. Quote concrete counts: metres, francs, years, children. Do not name the pity or the injustice; let the accumulation of physical and economic detail produce it. When a figure appears, draw it from the scene itself — anatomical or mechanical, never ornamental. Close the sentence on a flat summing phrase rather than a flourish.",
   eval_rubric: {
     deterministic: [
-      { metric: "avg_sentence_length", op: ">=", value: 25, weight: 0.15 },
-      { metric: "max_sentence_length", op: ">=", value: 50, weight: 0.1 },
+      { metric: "avg_sentence_length", op: ">=", value: 18, weight: 0.15 },
+      { metric: "max_sentence_length", op: ">=", value: 40, weight: 0.1 },
       { metric: "abstract_per_para", op: "<=", value: 2, weight: 0.1 },
     ],
     judge_criteria: [
       {
-        id: "inventory",
+        id: "level-register",
         prompt:
-          "Does the sentence proceed as an inventory — bodies, clothes, and objects gathered in a single grammatical sweep?",
+          "Are machinery and bodies described in the same level voice, with no editorialising about pity or injustice?",
         weight: 0.25,
       },
       {
-        id: "level-voice",
+        id: "inventory",
         prompt:
-          "Is luggage described in the same register as illness, with no editorialising about pity?",
+          "Does the prose proceed as an inventory — counts, parts, and objects gathered in a single grammatical sweep hinged by semicolons or 'while'?",
         weight: 0.2,
       },
       {
-        id: "post-noun-adjectives",
+        id: "anatomical-figure",
         prompt:
-          "Are adjectives placed after the noun in pairs or triples, pinned to specific body parts or cloth?",
+          "Where a figure appears, is it anatomical or mechanical and drawn from the scene itself, rather than ornamental metaphor?",
         weight: 0.2,
       },
     ],
