@@ -44,16 +44,16 @@ export const twain: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Marketing tagline",
-      "content": "Discover the charm of yesteryears with a touch of Twain's wit.",
-      "source": "AI-generated in the Mark Twain style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "In this book a number of dialects are used, to wit: the Missouri negro dialect; the extremest form of the backwoods Southwestern dialect; the ordinary “Pike County” dialect; and four modified varieties of this last. The shadings have not been done in a haphazard fashion, or by guesswork; but painstakingly, and with the trustworthy guidance and support of personal familiarity with these several forms of speech.",
+      "source": "Mark Twain, Adventures of Huckleberry Finn (Project Gutenberg #76; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Social post",
-      "content": "If you think the past was simple, you haven't met our new classic collection yet!",
-      "source": "AI-generated in the Mark Twain style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "You don’t know about me without you have read a book by the name of The Adventures of Tom Sawyer; but that ain’t no matter. That book was made by Mr. Mark Twain, and he told the truth, mainly. There was things which he stretched, but mainly he told the truth. That is nothing. I never seen anybody but lied one time or another, without it was Aunt Polly, or the widow, or maybe Mary. Aunt Polly—Tom’s Aunt Polly, she is—and Mary, and the Widow Douglas is all told about in that book, which is mostly a true book, with some stretchers, as I said before.",
+      "source": "Mark Twain, Adventures of Huckleberry Finn (Project Gutenberg #76; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with a satirical and humorous tone, using American vernacular. Craft sentences that roll smoothly and capture the reader's attention with wit. Avoid modern expressions and keep the language authentic to the 19th century. Infuse your writing with irony and a leisurely pace, engaging the reader with a drawl that feels both familiar and clever.",

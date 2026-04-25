@@ -44,16 +44,16 @@ export const georgeEliot: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "Dear Colleague, as we embark upon the task at hand, let us consider not only the immediate outcomes but the broader impact of our actions in the community we serve.",
-      "source": "AI-generated in the George Eliot style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "Who that cares much to know the history of man, and how the mysterious mixture behaves under the varying experiments of Time, has not dwelt, at least briefly, on the life of Saint Theresa, has not smiled with some gentleness at the thought of the little girl walking forth one morning hand-in-hand with her still smaller brother, to go and seek martyrdom in the country of the Moors? Out they toddled from rugged Avila, wide-eyed and helpless-looking as two fawns, but with human hearts, already beating to a national idea; until domestic reality met them in the shape of uncles, and turned them back from their great resolve. That child-pilgrimage was a fit beginning. Theresa’s passionate, ideal nature demanded an epic life: what were many-volumed romances of chivalry and the social conquests of a brilliant girl to her? Her flame quickly burned up that light fuel; and, fed from within, soared after some illimitable satisfaction, some object which would never justify weariness, which would reconcile self-despair with the rapturous consciousness of life beyond self. She found her epos in the reform of a religious order.",
+      "source": "George Eliot, Middlemarch (Project Gutenberg #145; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Support reply",
-      "content": "In addressing your concern, we acknowledge the intricate circumstances that have led to this moment, and we are committed to resolving the matter with the utmost care and consideration.",
-      "source": "AI-generated in the George Eliot style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "That Spanish woman who lived three hundred years ago, was certainly not the last of her kind. Many Theresas have been born who found for themselves no epic life wherein there was a constant unfolding of far-resonant action; perhaps only a life of mistakes, the offspring of a certain spiritual grandeur ill-matched with the meanness of opportunity; perhaps a tragic failure which found no sacred poet and sank unwept into oblivion. With dim lights and tangled circumstance they tried to shape their thought and deed in noble agreement; but after all, to common eyes their struggles seemed mere inconsistency and formlessness; for these later-born Theresas were helped by no coherent social faith and order which could perform the function of knowledge for the ardently willing soul. Their ardor alternated between a vague ideal and the common yearning of womanhood; so that the one was disapproved as extravagance, and the other condemned as a lapse.",
+      "source": "George Eliot, Middlemarch (Project Gutenberg #145; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the intricate moral and psychological depth of George Eliot. Use long, balanced sentences to explore complex social interactions and provincial life. Employ formal and nuanced vocabulary, and enrich your prose with metaphors and similes. Maintain a measured and reflective pacing, avoiding short sentences and simplistic language.",

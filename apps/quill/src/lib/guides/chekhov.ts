@@ -44,16 +44,16 @@ export const chekhov: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Support reply",
-      "content": "Dear Customer, we understand your concern and are here to assist. Please rest assured that our team is diligently working to resolve the issue. We appreciate your patience and will keep you updated.",
-      "source": "AI-generated in the Anton Chekhov style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "A HOSPITAL assistant, called Yergunov, an empty-headed fellow, known throughout the district as a great braggart and drunkard, was returning one evening in Christmas week from the hamlet of Ryepino, where he had been to make some purchases for the hospital. That he might get home in good time and not be late, the doctor had lent him his very best horse.",
+      "source": "Anton Chekhov, Project Gutenberg Compilation of Short Stories by Chekhov (Project Gutenberg #57333; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Email opener",
-      "content": "I hope this message finds you well amidst the quiet rhythms of daily life. In reaching out, I wish to share a moment of understanding and connection.",
-      "source": "AI-generated in the Anton Chekhov style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "He did not know how to drive, he did not know the road, and he drove on at random, hoping that the horse would find the way of itself. Two hours passed; the horse was exhausted, he himself was chilled, and already began to fancy that he was not going home, but back towards Ryepino. But at last above the uproar of the storm he heard the far-away barking of a dog, and a murky red blur came into sight ahead of him: little by little, the outlines of a high gate could be discerned, then a long fence on which there were nails with their points uppermost, and beyond the fence there stood the slanting crane of a well. The wind drove away the mist of snow from before the eyes, and where there had been a red blur, there sprang up a small, squat little house with a steep thatched roof. Of the three little windows one, covered on the inside with something red, was lighted up.",
+      "source": "Anton Chekhov, Project Gutenberg Compilation of Short Stories by Chekhov (Project Gutenberg #57333; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with subtlety and depth, capturing the essence of human nature in simple, yet profound narratives. Focus on the quiet revelations and understated truths that emerge from everyday life. Avoid overt explanations or complex vocabulary; let actions and dialogue reveal emotions. Craft settings that reflect the inner life of characters, using sparse yet poignant figurative language.",

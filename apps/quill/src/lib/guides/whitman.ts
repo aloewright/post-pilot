@@ -44,16 +44,16 @@ export const whitman: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Marketing tagline",
-      "content": "Join the chorus of countless voices, united in the symphony of life.",
-      "source": "AI-generated in the Walt Whitman style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "As I ponder’d in silence, Returning upon my poems, considering, lingering long, A Phantom arose before me with distrustful aspect, Terrible in beauty, age, and power, The genius of poets of old lands, As to me directing like flame its eyes, With finger pointing to many immortal songs, And menacing voice, What singest thou? it said, Know’st thou not there is but one theme for ever-enduring bards? And that is the theme of War, the fortune of battles, The making of perfect soldiers.",
+      "source": "Walt Whitman, Leaves of Grass (Project Gutenberg #1322; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Social",
-      "content": "I sing the open road and the freedom of the journey, where every step is a verse in the grand poem of existence.",
-      "source": "AI-generated in the Walt Whitman style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "Be it so, then I answer’d, I too haughty Shade also sing war, and a longer and greater one than any, Waged in my book with varying fortune, with flight, advance and retreat, victory deferr’d and wavering, (Yet methinks certain, or as good as certain, at the last,) the field the world, For life and death, for the Body and for the eternal Soul, Lo, I too am come, chanting the chant of battles, I above all promote brave soldiers.",
+      "source": "Walt Whitman, Leaves of Grass (Project Gutenberg #1322; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with a sweeping, inclusive tone that embraces the entirety of human experience. Use long sentences that flow like free verse, rich with imagery and metaphor. Capture the democratic spirit and interconnectedness of all people. Avoid rigid structures and terse language. Celebrate the diversity and commonality that unite us all.",

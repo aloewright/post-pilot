@@ -44,16 +44,16 @@ export const stevenson: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Narrative snippet",
-      "content": "The fog lay thick upon the city, shrouding its secrets in a cloak of grey. Yet, beneath this murky veil, an adventure awaited, as treacherous as it was thrilling.",
-      "source": "AI-generated in the Robert Louis Stevenson style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "No doubt the feat was easy to Mr. Utterson; for he was undemonstrative at the best, and even his friendship seemed to be founded in a similar catholicity of good-nature. It is the mark of a modest man to accept his friendly circle ready-made from the hands of opportunity; and that was the lawyer’s way. His friends were those of his own blood or those whom he had known the longest; his affections, like ivy, were the growth of time, they implied no aptness in the object. Hence, no doubt the bond that united him to Mr. Richard Enfield, his distant kinsman, the well-known man about town. It was a nut to crack for many, what these two could see in each other, or what subject they could find in common. It was reported by those who encountered them in their Sunday walks, that they said nothing, looked singularly dull and would hail with obvious relief the appearance of a friend. For all that, the two men put the greatest store by these excursions, counted them the chief jewel of each week, and not only set aside occasions of pleasure, but even resisted the calls of business, that they might enjoy them uninterrupted.",
+      "source": "Robert Louis Stevenson, The strange case of Dr. Jekyll and Mr. Hyde (Project Gutenberg #43; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Embark on a journey of discovery and intrigue, where every shadow conceals a story.",
-      "source": "AI-generated in the Robert Louis Stevenson style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "It chanced on one of these rambles that their way led them down a by-street in a busy quarter of London. The street was small and what is called quiet, but it drove a thriving trade on the weekdays. The inhabitants were all doing well, it seemed, and all emulously hoping to do better still, and laying out the surplus of their gains in coquetry; so that the shop fronts stood along that thoroughfare with an air of invitation, like rows of smiling saleswomen. Even on Sunday, when it veiled its more florid charms and lay comparatively empty of passage, the street shone out in contrast to its dingy neighbourhood, like a fire in a forest; and with its freshly painted shutters, well-polished brasses, and general cleanliness and gaiety of note, instantly caught and pleased the eye of the passenger.",
+      "source": "Robert Louis Stevenson, The strange case of Dr. Jekyll and Mr. Hyde (Project Gutenberg #43; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the adventurous and energetic tone of Robert Louis Stevenson, capturing the essence of duality and mystery. Use complex yet clear syntax, and engage readers with vivid and richly metaphorical language. Avoid modern slang and prioritize themes of moral conflict. Ensure the pacing is brisk yet allows for reflective moments.",

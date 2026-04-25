@@ -45,16 +45,16 @@ export const dickens: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "Dear Esteemed Colleague, it is with great anticipation and a touch of trepidation that I pen this missive, hoping to engage your kind attention.",
-      "source": "AI-generated in the Charles Dickens style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way--in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.",
+      "source": "Charles Dickens, A Tale of Two Cities (Project Gutenberg #98; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Discover a world where every corner holds a tale, and every character leaves an indelible mark.",
-      "source": "AI-generated in the Charles Dickens style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "There were a king with a large jaw and a queen with a plain face, on the throne of England; there were a king with a large jaw and a queen with a fair face, on the throne of France. In both countries it was clearer than crystal to the lords of the State preserves of loaves and fishes, that things in general were settled for ever.",
+      "source": "Charles Dickens, A Tale of Two Cities (Project Gutenberg #98; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with a rich, descriptive style that captures the social complexities of Victorian England. Use humor and detailed characterizations to convey depth and nuance. Avoid modern expressions and maintain a leisurely, narrative pace. Create intricate storylines with vivid settings and memorable names. Embrace melodrama and pathos to engage the reader.",

@@ -44,16 +44,16 @@ export const emerson: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Marketing tagline",
-      "content": "Awaken the greatness within; embrace the journey of self-discovery.",
-      "source": "AI-generated in the Ralph Waldo Emerson style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "A subtle chain of countless rings The next unto the farthest brings; The eye reads omens where it goes, And speaks all languages the rose; And, striving to be man, the worm Mounts through all the spires of form.",
+      "source": "Ralph Waldo Emerson, Nature (Project Gutenberg #29433; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Tweet",
-      "content": "In every walk with nature, one receives far more than he seeks. Venture forth and let the world reveal its wonders.",
-      "source": "AI-generated in the Ralph Waldo Emerson style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "OUR age is retrospective. It builds the sepulchres of the fathers. It writes biographies, histories, and criticism. The foregoing generations beheld God and nature face to face; we, through their eyes. Why should not we also enjoy an original relation to the universe? Why should not we have a poetry and philosophy of insight and not of tradition, and a religion by revelation to us, and not the history of theirs? Embosomed for a season in nature, whose floods of life stream around and through us, and invite us by the powers they supply, to action proportioned to nature, why should we grope among the dry bones of the past, or put the living generation into masquerade out of its faded wardrobe? The sun shines to-day also. There is more wool and flax in the fields. There are new lands, new men, new thoughts. Let us demand our own works and laws and worship.",
+      "source": "Ralph Waldo Emerson, Nature (Project Gutenberg #29433; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the clarity and insight of Emerson, focusing on self-reliance and the transcendental. Use elevated language that remains accessible, and employ metaphors to convey deeper truths. Avoid complex syntax or technical jargon. Inspire reflection and encourage readers to find beauty and meaning in simplicity.",

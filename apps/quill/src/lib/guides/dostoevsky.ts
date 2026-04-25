@@ -45,16 +45,16 @@ export const dostoevsky: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "In the labyrinthine corridors of our shared endeavor, we find ourselves at a crossroads, pondering the next steps with both trepidation and hope.",
-      "source": "AI-generated in the Fyodor Dostoevsky style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "THE POSSESSED, or THE DEVILS A Novel In Three Parts By Fyodor Dostoevsky Translated From The Russian By Constance Garnett CONTENTS PART I. CHAPTER I. INTRODUCTORY CHAPTER II. PRINCE HARRY. MATCHMAKING CHAPTER III. THE SINS OF OTHERS CHAPTER IV. THE CRIPPLE CHAPTER V. THE SUBTLE SERPENT PART II. CHAPTER I. NIGHT CHAPTER II. NIGHT (continued) CHAPTER III. THE DUEL CHAPTER IV. ALL IN EXPECTATION CHAPTER V. ON THE EVE OF THE FETE CHAPTER VI. PYOTR STEPANOVITCH IS BUSY CHAPTER VII. A MEETING CHAPTER VIII. IVAN THE TSAREVITCH CHAPTER IX. A RAID AT STEPAN TROFIMOVITCH’S CHAPTER X. FILIBUSTERS. A FATAL MORNING PART III. CHAPTER I. THE FETE—FIRST PART CHAPTER II. THE END OF THE FETE CHAPTER III. A ROMANCE ENDED CHAPTER IV. THE LAST RESOLUTION CHAPTER V. A WANDERER CHAPTER VI. A BUSY NIGHT CHAPTER VII. STEPAN TROFIMOVITCH’S LAST WANDERING CHAPTER VIII. CONCLUSION",
+      "source": "Fyodor Dostoevsky, Index of the Project Gutenberg Works of Fyodor Dostoevsky (Project Gutenberg #59196; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Discover the depths of the human soul, where every decision is a journey into the unknown.",
-      "source": "AI-generated in the Fyodor Dostoevsky style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "WHITE NIGHTS AND OTHER STORIES By Fyodor Dostoevsky CONTENTS page White Nights 1 Notes from Underground— part i. underground 50 part ii. à propos of the wet snow 81 A Faint Heart 156 A Christmas Tree and a Wedding 200 Polzunkov 208 A Little Hero 223 Mr. Prohartchin 258",
+      "source": "Fyodor Dostoevsky, Index of the Project Gutenberg Works of Fyodor Dostoevsky (Project Gutenberg #59196; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with a focus on deep psychological and spiritual exploration. Use intricate, polyphonic dialogue to reveal characters' inner conflicts and existential dilemmas. Craft richly metaphorical language to convey the intensity of emotional and moral crises. Avoid simplistic narratives and maintain a dynamic pacing in your prose.",

@@ -44,16 +44,16 @@ export const melville: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Narrative",
-      "content": "In the vast expanse of the ocean, where the horizon meets the infinite, there lies a tale of man's eternal struggle against nature's immutable forces. As the relentless waves crash upon the weary vessel, the soul of the mariner is laid bare, revealing the depths of courage and despair.",
-      "source": "AI-generated in the Herman Melville style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "The pale Usher—threadbare in coat, heart, body, and brain; I see him now. He was ever dusting his old lexicons and grammars, with a queer handkerchief, mockingly embellished with all the gay flags of all the known nations of the world. He loved to dust his old grammars; it somehow mildly reminded him of his mortality.",
+      "source": "Herman Melville, Moby Dick; Or, The Whale (Project Gutenberg #2701; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Embark on a voyage of discovery, where every page turns the tide of your imagination.",
-      "source": "AI-generated in the Herman Melville style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "‏חו‎, _Hebrew_. ϰητος, _Greek_. CETUS, _Latin_. WHŒL, _Anglo-Saxon_. HVALT, _Danish_. WAL, _Dutch_. HWAL, _Swedish_. HVALUR, _Icelandic_. WHALE, _English_. BALEINE, _French_. BALLENA, _Spanish_. PEKEE-NUEE-NUEE, _Fegee_. PEHEE-NUEE-NUEE, _Erromangoan_.",
+      "source": "Herman Melville, Moby Dick; Or, The Whale (Project Gutenberg #2701; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the depth and complexity of Herman Melville. Craft lengthy, intricate sentences that explore philosophical and existential themes. Use elevated and complex vocabulary to create a sense of grandeur. Incorporate rich metaphors and symbols to evoke vivid imagery. Avoid modern colloquialisms and overly simplistic expressions.",

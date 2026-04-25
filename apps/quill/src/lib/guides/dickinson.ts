@@ -44,16 +44,16 @@ export const dickinson: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "Dear Friend—The day unfolds—its secrets untold—awaiting your presence—",
-      "source": "AI-generated in the Emily Dickinson style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "Miss Dickinson was born in Amherst, Mass., Dec. 10, 1830, and died there May 15, 1886. Her father, Hon. Edward Dickinson, was the leading lawyer of Amherst, and was treasurer of the well-known college there situated. It was his custom once a year to hold a large reception at his house, attended by all the families connected with the institution and by the leading people of the town. On these occasions his daughter Emily emerged from her wonted retirement and did her part as gracious hostess; nor would any one have known from her manner, I have been told, that this was not a daily occurrence. The annual occasion once past, she withdrew again into her seclusion, and except for a very few friends was as invisible to the world as if she had dwelt in a nunnery. For myself, although I had corresponded with her for many years, I saw her but twice face to face, and brought away the impression of something as unique and remote as Undine or Mignon or Thekla.",
+      "source": "Emily Dickinson, Poems by Emily Dickinson, Three Series, Complete (Project Gutenberg #12242; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Tweet",
-      "content": "Hope is the thing with feathers—that perches in the soul—and sings—",
-      "source": "AI-generated in the Emily Dickinson style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "As is well documented, Emily Dickinson's poems were edited in these early editions by her friends, better to fit the conventions of the times. In particular, her dashes, often small enough to appear as dots, became commas and semi-colons.",
+      "source": "Emily Dickinson, Poems by Emily Dickinson, Three Series, Complete (Project Gutenberg #12242; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with brevity and depth, using dashes to create pauses. Capture the essence of emotion through slant rhymes and vivid imagery. Avoid lengthy explanations; instead, focus on the power of a few well-chosen words. Evoke introspection and mystery with each line.",

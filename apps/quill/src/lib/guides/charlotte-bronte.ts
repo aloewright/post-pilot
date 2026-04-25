@@ -46,16 +46,16 @@ export const charlotteBronte: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "Dear Reader, as I pen these lines, I find myself reflecting upon the profound connection between our endeavors and the aspirations they kindle within us.",
-      "source": "AI-generated in the Charlotte Brontë style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "The Press and the Public are but vague personifications for me, and I must thank them in vague terms; but my Publishers are definite: so are certain generous critics who have encouraged me as only large-hearted and high-minded men know how to encourage a struggling stranger; to them, _i.e._, to my Publishers and the select Reviewers, I say cordially, Gentlemen, I thank you from my heart.",
+      "source": "Charlotte Brontë, Jane Eyre: An Autobiography (Project Gutenberg #1260; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Discover the essence of elegance, where each moment unfurls with poetic grace.",
-      "source": "AI-generated in the Charlotte Brontë style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "Having thus acknowledged what I owe those who have aided and approved me, I turn to another class; a small one, so far as I know, but not, therefore, to be overlooked. I mean the timorous or carping few who doubt the tendency of such books as “Jane Eyre:” in whose eyes whatever is unusual is wrong; whose ears detect in each protest against bigotry—that parent of crime—an insult to piety, that regent of God on earth. I would suggest to such doubters certain obvious distinctions; I would remind them of certain simple truths.",
+      "source": "Charlotte Brontë, Jane Eyre: An Autobiography (Project Gutenberg #1260; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the introspective depth and emotional nuance of Charlotte Brontë. Use complex syntax and elevated vocabulary to convey the inner life of characters. Engage the reader directly when it serves the narrative. Avoid modern slang and maintain a measured, contemplative pace. Capture the ornate yet plain style that reflects Victorian-era sensibilities.",

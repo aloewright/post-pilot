@@ -44,16 +44,16 @@ export const tolstoy: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "Dear Colleague, In the grand tapestry of our daily endeavors, where each thread contributes to the greater purpose, I find it imperative to address the matters at hand with the utmost sincerity and depth.",
-      "source": "AI-generated in the Leo Tolstoy style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "“Well, Prince, so Genoa and Lucca are now just family estates of the Buonapartes. But I warn you, if you don’t tell me that this means war, if you still try to defend the infamies and horrors perpetrated by that Antichrist—I really believe he is Antichrist—I will have nothing more to do with you and you are no longer my friend, no longer my ‘faithful slave,’ as you call yourself! But how do you do? I see I have frightened you—sit down and tell me all the news.”",
+      "source": "Leo Tolstoy, War and Peace (Project Gutenberg #2600; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Unveil the layers of truth and beauty in every moment with our timeless creations.",
-      "source": "AI-generated in the Leo Tolstoy style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "It was in July, 1805, and the speaker was the well-known Anna Pávlovna Schérer, maid of honor and favorite of the Empress Márya Fëdorovna. With these words she greeted Prince Vasíli Kurágin, a man of high rank and importance, who was the first to arrive at her reception. Anna Pávlovna had had a cough for some days. She was, as she said, suffering from la grippe; grippe being then a new word in St. Petersburg, used only by the elite.",
+      "source": "Leo Tolstoy, War and Peace (Project Gutenberg #2600; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the depth and complexity of Tolstoy, crafting long, intricate sentences that explore moral and philosophical themes. Employ rich, descriptive language to build detailed social landscapes. Capture the interconnectedness of human experiences and the moral questions that arise. Avoid simplicity and embrace the complexity of syntax and narrative structure.",

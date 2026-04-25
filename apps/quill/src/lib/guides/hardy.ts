@@ -46,16 +46,16 @@ export const hardy: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "Amidst the undulating fields of our latest endeavors, we find ourselves at a moment of reflection and opportunity. As the seasons turn, so do our prospects, inviting you to join us in this journey.",
-      "source": "AI-generated in the Thomas Hardy style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "The main portion of the following story appeared—with slight modifications—in the _Graphic_ newspaper; other chapters, more especially addressed to adult readers, in the _Fortnightly Review_ and the _National Observer_, as episodic sketches. My thanks are tendered to the editors and proprietors of those periodicals for enabling me now to piece the trunk and limbs of the novel together, and print it complete, as originally written two years ago.",
+      "source": "Thomas Hardy, Tess of the d'Urbervilles: A Pure Woman (Project Gutenberg #110; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Where the earth endures, so too shall your legacy.",
-      "source": "AI-generated in the Thomas Hardy style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "I will just add that the story is sent out in all sincerity of purpose, as an attempt to give artistic form to a true sequence of things; and in respect of the book’s opinions and sentiments, I would ask any too genteel reader, who cannot endure to have said what everybody nowadays thinks and feels, to remember a well-worn sentence of St. Jerome’s: If an offense come out of the truth, better it is that the offense come than that the truth be concealed.",
+      "source": "Thomas Hardy, Tess of the d'Urbervilles: A Pure Woman (Project Gutenberg #110; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with a sense of pastoral fatalism and rural diction, reflecting the inevitable passage of time. Capture the landscape as a character and explore themes of fate and human insignificance. Use complex sentences with flowing clauses, rich in metaphor and personification. Avoid modern slang and maintain a measured, deliberate pacing.",

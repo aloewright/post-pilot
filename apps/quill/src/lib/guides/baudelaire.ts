@@ -44,16 +44,16 @@ export const baudelaire: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Marketing tagline",
-      "content": "Discover the beauty in shadows, where elegance meets the ephemeral.",
-      "source": "AI-generated in the Charles Baudelaire style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "\"I'll cause thine overwhelming hatred to rebound Upon the cursèd tool of thy most wicked spite. Forsooth, the branches of this wretched tree I'll wound And rob its pestilential blossoms of their might!\"",
+      "source": "Charles Baudelaire, The Flowers of Evil (Project Gutenberg #36098; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Social",
-      "content": "In the city's heart, where the grotesque and the glorious dance, find your muse in the fleeting moments.",
-      "source": "AI-generated in the Charles Baudelaire style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "He trifles with the winds and with the clouds that glide, About the way unto the Cross, he loves to sing, The spirit on his pilgrimage; that faithful guide, Oft weeps to see him joyful like a bird of Spring.",
+      "source": "Charles Baudelaire, The Flowers of Evil (Project Gutenberg #36098; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with a focus on the duality of beauty and decay, infusing your text with rich imagery and symbolism. Embrace complex syntax and a lyrical tone to evoke introspection and melancholy. Avoid simplistic language and ensure your narrative weaves through the urban landscape, capturing its contrasts. Use elevated vocabulary to enhance the poetic quality of the prose.",

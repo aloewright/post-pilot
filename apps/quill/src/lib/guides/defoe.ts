@@ -45,16 +45,16 @@ export const defoe: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Support reply",
-      "content": "Thank you for reaching out. We understand your concern and have reviewed your case. Our team is taking the necessary steps to resolve the issue and will keep you updated. Please bear with us as we ensure a thorough solution.",
-      "source": "AI-generated in the Daniel Defoe style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "I was born in the year 1632, in the city of York, of a good family, though not of that country, my father being a foreigner of Bremen, who settled first at Hull. He got a good estate by merchandise, and leaving off his trade, lived afterwards at York, from whence he had married my mother, whose relations were named Robinson, a very good family in that country, and from whom I was called Robinson Kreutznaer; but, by the usual corruption of words in England, we are now called—nay, we call ourselves and write our name—Crusoe; and so my companions always called me.",
+      "source": "Daniel Defoe, The Life and Adventures of Robinson Crusoe (Project Gutenberg #521; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Documentation snippet",
-      "content": "To assemble the device, first ensure all components are present. Begin by attaching the base to the main frame using the provided screws. Tighten securely to prevent any instability during use. Follow with the installation of the side panels.",
-      "source": "AI-generated in the Daniel Defoe style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "I had two elder brothers, one of whom was lieutenant-colonel to an English regiment of foot in Flanders, formerly commanded by the famous Colonel Lockhart, and was killed at the battle near Dunkirk against the Spaniards. What became of my second brother I never knew, any more than my father or mother knew what became of me.",
+      "source": "Daniel Defoe, The Life and Adventures of Robinson Crusoe (Project Gutenberg #521; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write in a straightforward, factual style reminiscent of 18th-century realism. Embrace first-person narrative to convey a sense of personal experience and survival. Focus on practical details, ensuring clarity and directness. Avoid complex or ornate language, and maintain a realistic tone throughout.",

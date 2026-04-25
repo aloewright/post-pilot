@@ -45,16 +45,16 @@ export const doyle: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Support reply",
-      "content": "Thank you for reaching out with your inquiry. Upon close examination, it seems that the issue lies within the configuration settings. Please follow the detailed instructions to amend this matter.",
-      "source": "AI-generated in the Arthur Conan Doyle style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "I. A Scandal in Bohemia II. The Red-Headed League III. A Case of Identity IV. The Boscombe Valley Mystery V. The Five Orange Pips VI. The Man with the Twisted Lip VII. The Adventure of the Blue Carbuncle VIII. The Adventure of the Speckled Band IX. The Adventure of the Engineer’s Thumb X. The Adventure of the Noble Bachelor XI. The Adventure of the Beryl Coronet XII. The Adventure of the Copper Beeches",
+      "source": "Arthur Conan Doyle, The Adventures of Sherlock Holmes (Project Gutenberg #1661; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Documentation snippet",
-      "content": "To unravel the complexities of the system, one must first understand the foundational principles that govern its operation. Each component plays a pivotal role, much like the gears in a finely tuned clock.",
-      "source": "AI-generated in the Arthur Conan Doyle style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "To Sherlock Holmes she is always _the_ woman. I have seldom heard him mention her under any other name. In his eyes she eclipses and predominates the whole of her sex. It was not that he felt any emotion akin to love for Irene Adler. All emotions, and that one particularly, were abhorrent to his cold, precise but admirably balanced mind. He was, I take it, the most perfect reasoning and observing machine that the world has seen, but as a lover he would have placed himself in a false position. He never spoke of the softer passions, save with a gibe and a sneer. They were admirable things for the observer—excellent for drawing the veil from men’s motives and actions. But for the trained reasoner to admit such intrusions into his own delicate and finely adjusted temperament was to introduce a distracting factor which might throw a doubt upon all his mental results. Grit in a sensitive instrument, or a crack in one of his own high-power lenses, would not be more disturbing than a strong emotion in a nature such as his. And yet there was but one woman to him, and that woman was the late Irene Adler, of dubious and questionable memory.",
+      "source": "Arthur Conan Doyle, The Adventures of Sherlock Holmes (Project Gutenberg #1661; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the clarity and precision of Arthur Conan Doyle. Employ logical reasoning and detailed observations. Maintain a formal and structured tone, with a hint of intrigue. Avoid modern slang or overly ornate language. Keep a steady and deliberate pacing.",

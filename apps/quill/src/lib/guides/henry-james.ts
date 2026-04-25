@@ -45,16 +45,16 @@ export const henryJames: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "In considering the opportunity before us, one cannot help but reflect on the myriad possibilities that such an endeavor presents, inviting us to engage with both the challenges and the triumphs that lie ahead.",
-      "source": "AI-generated in the Henry James style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "“I quite agree—in regard to Griffin’s ghost, or whatever it was—that its appearing first to the little boy, at so tender an age, adds a particular touch. But it’s not the first occurrence of its charming kind that I know to have involved a child. If the child gives the effect another turn of the screw, what do you say to _two_ children—?”",
+      "source": "Henry James, The Turn of the Screw (Project Gutenberg #209; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Embark on a journey where every detail whispers the promise of profound transformation.",
-      "source": "AI-generated in the Henry James style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "I can see Douglas there before the fire, to which he had got up to present his back, looking down at his interlocutor with his hands in his pockets. “Nobody but me, till now, has ever heard. It’s quite too horrible.” This, naturally, was declared by several voices to give the thing the utmost price, and our friend, with quiet art, prepared his triumph by turning his eyes over the rest of us and going on: “It’s beyond everything. Nothing at all that I know touches it.”",
+      "source": "Henry James, The Turn of the Screw (Project Gutenberg #209; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with elaborate and intricate sentence structures, focusing on the psychological depth of characters. Use sophisticated language and explore the inner motivations and thoughts of individuals. Avoid simple syntax and instead employ complex, subordinate clauses. Ensure the narrative unfolds in a deliberate and measured pace, rich with descriptive detail.",

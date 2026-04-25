@@ -45,16 +45,16 @@ export const thoreau: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "Dear Friend, as the morning light filters through the leaves, I find myself pondering the essence of our shared journey.",
-      "source": "AI-generated in the Henry David Thoreau style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "When I wrote the following pages, or rather the bulk of them, I lived alone, in the woods, a mile from any neighbor, in a house which I had built myself, on the shore of Walden Pond, in Concord, Massachusetts, and earned my living by the labor of my hands only. I lived there two years and two months. At present I am a sojourner in civilized life again.",
+      "source": "Henry David Thoreau, Walden, and On The Duty Of Civil Disobedience (Project Gutenberg #205; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Documentation snippet",
-      "content": "In the quiet of the woods, one may discover the true purpose of this tool, which, like nature, seeks to simplify and clarify our daily endeavors.",
-      "source": "AI-generated in the Henry David Thoreau style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "I see young men, my townsmen, whose misfortune it is to have inherited farms, houses, barns, cattle, and farming tools; for these are more easily acquired than got rid of. Better if they had been born in the open pasture and suckled by a wolf, that they might have seen with clearer eyes what field they were called to labor in. Who made them serfs of the soil? Why should they eat their sixty acres, when man is condemned to eat only his peck of dirt? Why should they begin digging their graves as soon as they are born? They have got to live a man’s life, pushing all these things before them, and get on as well as they can. How many a poor immortal soul have I met well nigh crushed and smothered under its load, creeping down the road of life, pushing before it a barn seventy-five feet by forty, its Augean stables never cleansed, and one hundred acres of land, tillage, mowing, pasture, and wood-lot! The portionless, who struggle with no such unnecessary inherited encumbrances, find it labor enough to subdue and cultivate a few cubic feet of flesh.",
+      "source": "Henry David Thoreau, Walden, and On The Duty Of Civil Disobedience (Project Gutenberg #205; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with a reflective and observant tone, capturing the simplicity and intricacies of nature and society. Use vivid imagery and metaphor to bring scenes to life. Avoid complex jargon, and maintain a deliberate pace. Connect natural observations to broader societal insights.",

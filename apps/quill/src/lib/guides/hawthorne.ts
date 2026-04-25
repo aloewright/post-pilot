@@ -45,16 +45,16 @@ export const hawthorne: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Narrative",
-      "content": "In the shadowed depths of the ancient forest, where the light scarcely penetrates, lies the path of redemption and the specter of sin. Here, the trees stand as silent witnesses to the soul's solitary journey, each step echoing the whispers of bygone transgressions.",
-      "source": "AI-generated in the Nathaniel Hawthorne style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "It will be seen, likewise, that this Custom-House sketch has a certain propriety, of a kind always recognized in literature, as explaining how a large portion of the following pages came into my possession, and as offering proofs of the authenticity of a narrative therein contained. This, in fact,—a desire to put myself in my true position as editor, or very little more, of the most prolix among the tales that make up my volume,—this, and no other, is my true reason for assuming a personal relation with the public. In accomplishing the main purpose, it has appeared allowable, by a few extra touches, to give a faint representation of a mode of life not heretofore described, together with some of the characters that move in it, among whom the author happened to make one.",
+      "source": "Nathaniel Hawthorne, The Scarlet Letter (Project Gutenberg #25344; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Discover the hidden truths within the fabric of your own story.",
-      "source": "AI-generated in the Nathaniel Hawthorne style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "Cluster all these individuals together, as they sometimes were, with other miscellaneous ones to diversify the group, and, for the time being, it made the Custom-House a stirring scene. More frequently, however, on ascending the steps, you would discern—in the entry, if it were summer time, or in their appropriate rooms, if wintry or inclement weather—a row of venerable figures, sitting in old-fashioned chairs, which were tipped on their hind legs back against the wall. Oftentimes they were asleep, but occasionally might be heard talking together, in voices between speech and a snore, and with that lack of energy that distinguishes the occupants of almshouses, and all other human beings who depend for subsistence on charity, on monopolized labor, or anything else, but their own independent exertions. These old gentlemen—seated, like Matthew, at the receipt of customs, but not very liable to be summoned thence, like him, for apostolic errands—were Custom-House officers.",
+      "source": "Nathaniel Hawthorne, The Scarlet Letter (Project Gutenberg #25344; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with an elevated, archaic vocabulary and complex syntax. Use rich symbolism and allegory to convey moral ambiguity. Craft sentences that are reflective and deliberate, exploring themes of sin and redemption. Avoid modern slang and straightforward conclusions.",

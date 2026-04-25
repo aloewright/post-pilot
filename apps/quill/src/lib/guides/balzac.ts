@@ -44,16 +44,16 @@ export const balzac: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "Dear Colleague, In the vast network of our professional endeavors, it is the intricate interplay of ambition and camaraderie that often determines our collective success.",
-      "source": "AI-generated in the Honoré de Balzac style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "Half-way down the Rue Saint-Denis, almost at the corner of the Rue du Petit-Lion, there stood formerly one of those delightful houses which enable historians to reconstruct old Paris by analogy. The threatening walls of this tumbledown abode seemed to have been decorated with hieroglyphics. For what other name could the passer-by give to the Xs and Vs which the horizontal or diagonal timbers traced on the front, outlined by little parallel cracks in the plaster? It was evident that every beam quivered in its mortices at the passing of the lightest vehicle. This venerable structure was crowned by a triangular roof of which no example will, ere long, be seen in Paris. This covering, warped by the extremes of the Paris climate, projected three feet over the roadway, as much to protect the threshold from the rainfall as to shelter the wall of a loft and its sill-less dormer-window. This upper story was built of planks, overlapping each other like slates, in order, no doubt, not to overweight the frail house.",
+      "source": "Honoré de Balzac, At the Sign of the Cat and Racket (Project Gutenberg #1680; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Discover the essence of elegance, where every detail narrates a story of sophistication.",
-      "source": "AI-generated in the Honoré de Balzac style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "To quench the pride of those who believe that the world is growing cleverer day by day, and that modern humbug surpasses everything, it may be observed that these signs, of which the origin seems so whimsical to many Paris merchants, are the dead pictures of once living pictures by which our roguish ancestors contrived to tempt customers into their houses. Thus the Spinning Sow, the Green Monkey, and others, were animals in cages whose skills astonished the passer-by, and whose accomplishments prove the patience of the fifteenth-century artisan. Such curiosities did more to enrich their fortunate owners than the signs of “Providence,” “Good-faith,” “Grace of God,” and “Decapitation of John the Baptist,” which may still be seen in the Rue Saint-Denis.",
+      "source": "Honoré de Balzac, At the Sign of the Cat and Racket (Project Gutenberg #1680; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with an eye for the detailed social landscape, capturing the intricate dynamics between characters and their environments. Use complex sentence structures to convey the depth of human motivations. Avoid modern colloquialisms and focus on the broader societal implications of individual actions. Craft narratives that reflect the elaborate tapestry of human society.",

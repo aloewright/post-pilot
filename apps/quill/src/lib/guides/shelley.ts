@@ -44,16 +44,16 @@ export const shelley: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Narrative",
-      "content": "In the shadowy recesses of the ancient castle, a solitary figure toiled, his mind a tumult of ambition and dread. The storm outside mirrored the tempest within, as he grappled with the profound consequences of his creation.",
-      "source": "AI-generated in the Mary Shelley style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "You will rejoice to hear that no disaster has accompanied the commencement of an enterprise which you have regarded with such evil forebodings. I arrived here yesterday, and my first task is to assure my dear sister of my welfare and increasing confidence in the success of my undertaking.",
+      "source": "Mary Shelley, Frankenstein; or, the modern prometheus (Project Gutenberg #84; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Unleash your inner Prometheus: Dare to create, dare to defy.",
-      "source": "AI-generated in the Mary Shelley style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "These reflections have dispelled the agitation with which I began my letter, and I feel my heart glow with an enthusiasm which elevates me to heaven, for nothing contributes so much to tranquillise the mind as a steady purpose—a point on which the soul may fix its intellectual eye. This expedition has been the favourite dream of my early years. I have read with ardour the accounts of the various voyages which have been made in the prospect of arriving at the North Pacific Ocean through the seas which surround the pole. You may remember that a history of all the voyages made for purposes of discovery composed the whole of our good Uncle Thomas’ library. My education was neglected, yet I was passionately fond of reading. These volumes were my study day and night, and my familiarity with them increased that regret which I had felt, as a child, on learning that my father’s dying injunction had forbidden my uncle to allow me to embark in a seafaring life.",
+      "source": "Mary Shelley, Frankenstein; or, the modern prometheus (Project Gutenberg #84; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with a voice that captures the gothic and romantic essence of Mary Shelley. Use complex, ornate sentences that evoke a sense of dread and wonder. Explore themes of ambition, creation, and the consequences of defying nature. Employ rich, descriptive language to create vivid imagery. Avoid simplistic language and ensure the pacing is deliberate and measured.",

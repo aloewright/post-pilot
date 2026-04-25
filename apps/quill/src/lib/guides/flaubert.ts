@@ -44,16 +44,16 @@ export const flaubert: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Support reply",
-      "content": "Thank you for reaching out. We understand the inconvenience this issue has caused and are diligently working to resolve it. Your patience is greatly appreciated as we strive for a solution that meets your expectations.",
-      "source": "AI-generated in the Gustave Flaubert style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "Permit me to inscribe your name at the head of this book, and above its dedication; for it is to you, before all, that I owe its publication. Reading over your magnificent defence, my work has acquired for myself, as it were, an unexpected authority.",
+      "source": "Gustave Flaubert, Madame Bovary (Project Gutenberg #2413; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Discover elegance in precision—where every detail speaks volumes.",
-      "source": "AI-generated in the Gustave Flaubert style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "We were in class when the head-master came in, followed by a “new fellow,” not wearing the school uniform, and a school servant carrying a large desk. Those who had been asleep woke up, and every one rose as if just surprised at his work.",
+      "source": "Gustave Flaubert, Madame Bovary (Project Gutenberg #2413; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the precision and irony characteristic of Gustave Flaubert. Focus on selecting the exact word that best conveys the intended meaning. Use complex and layered syntax to explore intricate human emotions and behaviors. Employ subtle irony to critique and reveal deeper truths. Avoid emotional bias and maintain a critical distance from the subject.",

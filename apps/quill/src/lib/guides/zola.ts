@@ -44,16 +44,16 @@ export const zola: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Narrative",
-      "content": "The factory loomed over the town like a giant, its smokestacks belching dark clouds into the sky. The air was thick with the acrid smell of burning coal, and the ground trembled with the relentless hum of machinery. Workers shuffled in and out, their faces etched with exhaustion and resignation.",
-      "source": "AI-generated in the Émile Zola style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "Dans le train en marche, comme les pèlerins et les malades, entassés sur les dures banquettes du wagon de troisième classe, achevaient l'_Ave maris stella_, qu'ils venaient d'entonner au sortir de la gare d'Orléans, Marie, à demi soulevée de sa couche de misère, agitée d'une fièvre d'impatience, aperçut les fortifications.",
+      "source": "Émile Zola, Lourdes (Project Gutenberg #24850; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Experience the raw beauty of nature, unfettered and unadorned.",
-      "source": "AI-generated in the Émile Zola style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "Il était cinq heures et demie, le soleil venait de se lever, radieux, dans la pureté d'une admirable matinée. C'était un vendredi, le 19 août. Mais déjà, à l'horizon, de petits nuages lourds annonçaient une terrible journée de chaleur orageuse. Et les rayons obliques enfilaient les compartiments du wagon, qu'ils emplissaient d'une poussière d'or dansante.",
+      "source": "Émile Zola, Lourdes (Project Gutenberg #24850; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with an eye for the detailed and unvarnished truth. Immerse the reader in a world rich with sensory details and complex characters. Avoid oversimplification and embrace the full spectrum of human experience. Use complex syntax to build immersive and layered narratives. Capture the emotional and physical reality of the setting.",

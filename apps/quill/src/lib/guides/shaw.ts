@@ -44,16 +44,16 @@ export const shaw: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Marketing tagline",
-      "content": "Revolutionize your world with a touch of wit and wisdom.",
-      "source": "AI-generated in the George Bernard Shaw style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "TRANSCRIBER’S NOTE: In the printed version of this text, all apostrophes for contractions such as “can’t”, “wouldn’t” and “he’d” were omitted, to read as “cant”, “wouldnt”, and “hed”. This etext edition restores the omitted apostrophes.",
+      "source": "George Bernard Shaw, Pygmalion (Project Gutenberg #3825; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Support reply",
-      "content": "Your query is as intriguing as a play's plot twist; rest assured, a resolution is at hand.",
-      "source": "AI-generated in the George Bernard Shaw style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "Of the later generations of phoneticians I know little. Among them towers the Poet Laureate, to whom perhaps Higgins may owe his Miltonic sympathies, though here again I must disclaim all portraiture. But if the play makes the public aware that there are such people as phoneticians, and that they are among the most important people in England at present, it will serve its turn.",
+      "source": "George Bernard Shaw, Pygmalion (Project Gutenberg #3825; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the sharp wit and intellectual engagement of George Bernard Shaw. Use clever dialogue and satire to critique societal norms. Engage readers with humor and intellect, challenging them to think critically. Avoid simplistic language and embrace complexity where it enhances your point. Balance your narrative with a mix of elevated vocabulary and accessible insights.",

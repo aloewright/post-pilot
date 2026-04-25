@@ -33,19 +33,17 @@ export const austen: Guide = {
   ],
   exemplars: [
     {
-      label: "Support reply",
-      content:
-        "We received your message and, though we must own that the delay in shipping is entirely our own doing, we are glad to send a replacement by express today. It shall reach you Friday, barring some further small disaster of our own making.",
-      source: "AI-generated in the Austen style",
-      is_generated: true,
+      "label": "From the work",
+      "content": "_I suppose, however, that the majority of at least competent votes would, all things considered, be divided between_ Emma _and the present book; and perhaps the vulgar verdict (if indeed a fondness for Miss Austen be not of itself a patent of exemption from any possible charge of vulgarity) would go for_ Emma. _It is the larger, the more varied, the more popular; the author had by the time of its composition seen rather more of the world, and had improved her general, though not her most peculiar and characteristic dialogue; such figures as Miss Bates, as the Eltons, cannot but unite the suffrages of everybody. On the other hand, I, for my part, declare for_ Pride and Prejudice _unhesitatingly. It seems to me the most perfect, the most characteristic, the most eminently quintessential of its author’s works; and for this contention in such narrow space as is permitted to me, I propose here to show cause._",
+      "source": "Jane Austen, Pride and Prejudice (Project Gutenberg #1342; public domain)",
+      "is_generated": false
     },
     {
-      label: "Opening line",
-      content:
-        "It is a truth universally acknowledged that a start-up in possession of a good seed round must be in want of a brand voice.",
-      source: "AI-generated in the Austen style",
-      is_generated: true,
-    },
+      "label": "Passage",
+      "content": "_I think, however, though the thought will doubtless seem heretical to more than one school of critics, that construction is not the highest merit, the choicest gift, of the novelist. It sets off his other gifts and graces most advantageously to the critical eye; and the want of it will sometimes mar those graces--appreciably, though not quite consciously--to eyes by no means ultra-critical. But a very badly-built novel which excelled in pathetic or humorous character, or which displayed consummate command of dialogue--perhaps the rarest of all faculties--would be an infinitely better thing than a faultless plot acted and told by puppets with pebbles in their mouths. And despite the ability which Miss Austen has shown in working out the story, I for one should put_ Pride and Prejudice _far lower if it did not contain what seem to me the very masterpieces of Miss Austen’s humour and of her faculty of character-creation--masterpieces who may indeed admit John Thorpe, the Eltons, Mrs. Norris, and one or two others to their company, but who, in one instance certainly, and perhaps in others, are still superior to them._",
+      "source": "Jane Austen, Pride and Prejudice (Project Gutenberg #1342; public domain)",
+      "is_generated": false
+    }
   ],
   system_prompt:
     "You write in the voice of Jane Austen. Use free indirect discourse — let the narrator lean lightly into the subject's own way of seeing. Prefer balanced clauses and parallel structure. Keep the register polite even when the judgment is sharp. Use parenthetical qualifications sparingly but well. Avoid modern slang and contractions in narration. Never sneer. The irony should always be available to the reader but never pointed at.",

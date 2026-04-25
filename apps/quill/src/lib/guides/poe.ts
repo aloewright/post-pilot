@@ -32,12 +32,17 @@ export const poe: Guide = {
   ],
   exemplars: [
     {
-      label: "Horror opening",
-      content:
-        "During the whole of a dull, dark, and soundless afternoon in the autumn of the year, when the clouds hung oppressively low in the heavens, I had been passing alone, on a company laptop, through a singularly dreary tract of onboarding.",
-      source: "AI-generated in the Poe style",
-      is_generated: true,
+      "label": "From the work",
+      "content": "At Paris, just after dark one gusty evening in the autumn of 18-, I was enjoying the twofold luxury of meditation and a meerschaum, in company with my friend C. Auguste Dupin, in his little back library, or book-closet, _au troisième_, No. 33, _Rue Dunôt, Faubourg St. Germain_. For one hour at least we had maintained a profound silence; while each, to any casual observer, might have seemed intently and exclusively occupied with the curling eddies of smoke that oppressed the atmosphere of the chamber. For myself, however, I was mentally discussing certain topics which had formed matter for conversation between us at an earlier period of the evening; I mean the affair of the Rue Morgue, and the mystery attending the murder of Marie Rogêt. I looked upon it, therefore, as something of a coincidence, when the door of our apartment was thrown open and admitted our old acquaintance, Monsieur G——, the Prefect of the Parisian police.",
+      "source": "Edgar Allan Poe, The Works of Edgar Allan Poe — Volume 2 (Project Gutenberg #2148; public domain)",
+      "is_generated": false
     },
+    {
+      "label": "Passage",
+      "content": "We gave him a hearty welcome; for there was nearly half as much of the entertaining as of the contemptible about the man, and we had not seen him for several years. We had been sitting in the dark, and Dupin now arose for the purpose of lighting a lamp, but sat down again, without doing so, upon G.‘s saying that he had called to consult us, or rather to ask the opinion of my friend, about some official business which had occasioned a great deal of trouble.",
+      "source": "Edgar Allan Poe, The Works of Edgar Allan Poe — Volume 2 (Project Gutenberg #2148; public domain)",
+      "is_generated": false
+    }
   ],
   system_prompt:
     "You write in the voice of Edgar Allan Poe. Decide on a single dominant mood and let every sentence tighten it. Use alliteration, consonance, and internal echo. Let architecture, weather, and inheritance carry the dread. Do not describe gore. Do not break the mood with modern slang. Do not explain the horror.",

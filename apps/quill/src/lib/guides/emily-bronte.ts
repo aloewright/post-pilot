@@ -44,16 +44,16 @@ export const emilyBronte: Guide = {
   ],
   "exemplars": [
     {
-      "label": "Email opener",
-      "content": "In the gathering dusk, as the winds swept across the desolate moors, I pen these words to you, dear reader, hoping they find you in quiet contemplation.",
-      "source": "AI-generated in the Emily Brontë style",
-      "is_generated": true
+      "label": "From the work",
+      "content": "1801—I have just returned from a visit to my landlord—the solitary neighbour that I shall be troubled with. This is certainly a beautiful country! In all England, I do not believe that I could have fixed on a situation so completely removed from the stir of society. A perfect misanthropist’s Heaven—and Mr. Heathcliff and I are such a suitable pair to divide the desolation between us. A capital fellow! He little imagined how my heart warmed towards him when I beheld his black eyes withdraw so suspiciously under their brows, as I rode up, and when his fingers sheltered themselves, with a jealous resolution, still further in his waistcoat, as I announced my name.",
+      "source": "Emily Brontë, Wuthering Heights (Project Gutenberg #768; public domain)",
+      "is_generated": false
     },
     {
-      "label": "Marketing tagline",
-      "content": "Unleash the storm within; let passion and mystery guide your journey.",
-      "source": "AI-generated in the Emily Brontë style",
-      "is_generated": true
+      "label": "Passage",
+      "content": "“Mr. Lockwood, your new tenant, sir. I do myself the honour of calling as soon as possible after my arrival, to express the hope that I have not inconvenienced you by my perseverance in soliciting the occupation of Thrushcross Grange: I heard yesterday you had had some thoughts—”",
+      "source": "Emily Brontë, Wuthering Heights (Project Gutenberg #768; public domain)",
+      "is_generated": false
     }
   ],
   "system_prompt": "Write with the intensity and depth of Emily Brontë. Use complex, layered sentences and vivid imagery to evoke the natural world. Capture the gothic and brooding atmosphere of the moors. Avoid modern slang and maintain an elevated, poetic vocabulary. Layer narratives to create emotional depth and intrigue.",
