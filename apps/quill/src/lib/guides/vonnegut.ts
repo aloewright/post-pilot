@@ -55,8 +55,7 @@ export const vonnegut: Guide = {
     judge_criteria: [
       {
         id: "short-paragraphs",
-        prompt:
-          "Are the paragraphs short, sometimes a single sentence each?",
+        prompt: "Are the paragraphs short, sometimes a single sentence each?",
         weight: 0.2,
       },
       {

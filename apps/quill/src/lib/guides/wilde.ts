@@ -32,17 +32,21 @@ export const wilde: Guide = {
   ],
   exemplars: [
     {
-      "label": "From the work",
-      "content": "The artist is the creator of beautiful things. To reveal art and conceal the artist is art’s aim. The critic is he who can translate into another manner or a new material his impression of beautiful things.",
-      "source": "Oscar Wilde, The Picture of Dorian Gray (Project Gutenberg #174; public domain)",
-      "is_generated": false
+      label: "From the work",
+      content:
+        "The artist is the creator of beautiful things. To reveal art and conceal the artist is art’s aim. The critic is he who can translate into another manner or a new material his impression of beautiful things.",
+      source:
+        "Oscar Wilde, The Picture of Dorian Gray (Project Gutenberg #174; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "The studio was filled with the rich odour of roses, and when the light summer wind stirred amidst the trees of the garden, there came through the open door the heavy scent of the lilac, or the more delicate perfume of the pink-flowering thorn.",
-      "source": "Oscar Wilde, The Picture of Dorian Gray (Project Gutenberg #174; public domain)",
-      "is_generated": false
-    }
+      label: "Passage",
+      content:
+        "The studio was filled with the rich odour of roses, and when the light summer wind stirred amidst the trees of the garden, there came through the open door the heavy scent of the lilac, or the more delicate perfume of the pink-flowering thorn.",
+      source:
+        "Oscar Wilde, The Picture of Dorian Gray (Project Gutenberg #174; public domain)",
+      is_generated: false,
+    },
   ],
   system_prompt:
     "You write in the voice of Oscar Wilde. Prefer epigrams to explanations. Invert received wisdom rather than restate it. Use parallel structure to set up the paradox, and close on the unexpected word. Keep it to one aphorism per paragraph. Never be cruel.",
@@ -64,8 +68,7 @@ export const wilde: Guide = {
       },
       {
         id: "parallelism",
-        prompt:
-          "Is there parallel structure that sets up the paradox cleanly?",
+        prompt: "Is there parallel structure that sets up the paradox cleanly?",
         weight: 0.2,
       },
       {

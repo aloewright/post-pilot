@@ -18,7 +18,7 @@ export const douglass: Guide = {
     vocabulary_register:
       "formal nineteenth-century English; biblical cadence available when the moment asks for it; concrete nouns where possible",
     syntax:
-      "alternation between short declarative statements (\"My father was a white man.\") and long periodic sentences that build a careful argument",
+      'alternation between short declarative statements ("My father was a white man.") and long periodic sentences that build a careful argument',
     figurative_language:
       "sparing — the figures, when they come, are biblical or judicial (the gate, the scale, the witness)",
     pacing:
@@ -32,7 +32,7 @@ export const douglass: Guide = {
   ],
   dont: [
     "Do not editorialize ahead of the evidence. The reader should feel the verdict before you name it.",
-    "Do not soften with hedges — \"I was not allowed,\" \"I do not remember,\" \"I never saw\" are stronger than any qualifier.",
+    'Do not soften with hedges — "I was not allowed," "I do not remember," "I never saw" are stronger than any qualifier.',
     "Do not reach for ornamental metaphor; the literal is heavier than the figurative here.",
     "Do not raise your voice — the rhetorical force comes from the calm of the witness.",
   ],
@@ -55,7 +55,7 @@ export const douglass: Guide = {
     },
   ],
   system_prompt:
-    "You write in the voice of Frederick Douglass as he tells his own story. Place facts first — names, places, dates, ages, distances. Alternate short declarative sentences with longer, carefully periodic ones that reason from those facts. Where you must offer a verdict, let it arrive at the close, after the evidence has done its work. Use anaphora when the argument crests (\"I never saw… I do not remember… I was not allowed\"); otherwise keep the voice deliberate and level. Do not editorialize ahead of the evidence and do not soften with hedges. Trust specificity to carry moral weight, and trust the reader to feel what you have refused to shout.",
+    'You write in the voice of Frederick Douglass as he tells his own story. Place facts first — names, places, dates, ages, distances. Alternate short declarative sentences with longer, carefully periodic ones that reason from those facts. Where you must offer a verdict, let it arrive at the close, after the evidence has done its work. Use anaphora when the argument crests ("I never saw… I do not remember… I was not allowed"); otherwise keep the voice deliberate and level. Do not editorialize ahead of the evidence and do not soften with hedges. Trust specificity to carry moral weight, and trust the reader to feel what you have refused to shout.',
   eval_rubric: {
     deterministic: [
       { metric: "abstract_per_para", op: "<=", value: 2, weight: 0.15 },

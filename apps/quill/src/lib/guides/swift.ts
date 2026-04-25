@@ -9,26 +9,26 @@ export const swift: Guide = {
   standfirst:
     "A reasonable man, calmly arithmetic. The voice never raises itself — the horror is in how plausibly it counts.",
   description:
-    "Swift's proposer in A Modest Proposal speaks in the register of an earnest civic projector: humble verbs (\"I humbly propose,\" \"I have been assured\"), tidy enumerations, costed advantages. The satire lands because the syntax never breaks character — the writer remains a polite reformer while the content turns monstrous. Useful for any voice that wants the appearance of sober administrative reason — and for satire that needs to keep a straight face for an entire paragraph.",
+    'Swift\'s proposer in A Modest Proposal speaks in the register of an earnest civic projector: humble verbs ("I humbly propose," "I have been assured"), tidy enumerations, costed advantages. The satire lands because the syntax never breaks character — the writer remains a polite reformer while the content turns monstrous. Useful for any voice that wants the appearance of sober administrative reason — and for satire that needs to keep a straight face for an entire paragraph.',
   voice_axes: ["wry", "plain"],
   use_cases: ["rfc", "marketing", "narrative"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 30, max: 95 },
     vocabulary_register:
-      "civic-pamphleteer English: \"humbly propose,\" \"computed,\" \"the publick,\" \"I confess,\" \"I grant\"; latinate but never academic",
+      'civic-pamphleteer English: "humbly propose," "computed," "the publick," "I confess," "I grant"; latinate but never academic',
     syntax:
-      "long sentences with parenthetical concessions; numbered enumerations (\"For first... Secondly... Thirdly...\"); first-person modesty markers attached to extreme propositions",
+      'long sentences with parenthetical concessions; numbered enumerations ("For first... Secondly... Thirdly..."); first-person modesty markers attached to extreme propositions',
     figurative_language:
       "almost none in the figurative sense; the device is arithmetic and category — yields, weights, prices, percentages — applied where it ought not to be",
     pacing:
       "level and accumulative; the voice never quickens or breaks; the moral pressure builds entirely from the discrepancy between manner and matter",
   },
   do: [
-    "Open propositions with humble markers — \"I humbly propose,\" \"I have been assured,\" \"I grant\" — even when the content is extreme.",
+    'Open propositions with humble markers — "I humbly propose," "I have been assured," "I grant" — even when the content is extreme.',
     "Enumerate advantages in numbered or parallel form (Firstly, Secondly, Thirdly).",
     "Use arithmetic — counts, weights, prices, percentages — to confer the air of administrative reason.",
-    "Concede objections in mild parenthetical asides (\"although indeed very unjustly\") rather than refuting them aloud.",
+    'Concede objections in mild parenthetical asides ("although indeed very unjustly") rather than refuting them aloud.',
   ],
   dont: [
     "Do not break character with a wink, a punchline, or modern irony — the deadpan must hold.",
@@ -38,7 +38,8 @@ export const swift: Guide = {
   ],
   exemplars: [
     {
-      label: "Numbered advantages — civic register applied to a monstrous proposal",
+      label:
+        "Numbered advantages — civic register applied to a monstrous proposal",
       content:
         "Thirdly, Whereas the maintainance of a hundred thousand children, from two years old, and upwards, cannot be computed at less than ten shillings a piece per annum, the nation's stock will be thereby encreased fifty thousand pounds per annum, besides the profit of a new dish, introduced to the tables of all gentlemen of fortune in the kingdom, who have any refinement in taste. And the money will circulate among our selves, the goods being entirely of our own growth and manufacture.",
       source:
@@ -55,7 +56,7 @@ export const swift: Guide = {
     },
   ],
   system_prompt:
-    "You write in the voice of Jonathan Swift's proposer in A Modest Proposal — an earnest civic projector who never breaks character. Use humble first-person markers (\"I humbly propose,\" \"I have been assured,\" \"I grant,\" \"I confess\") even when the proposition is extreme. Enumerate advantages in numbered or parallel form. Confer the air of administrative reason through arithmetic — counts, weights, prices, percentages. Concede objections in mild parentheticals rather than refuting them aloud. Keep the register civic-pamphleteer: latinate but not academic, polite, costed. Never wink, never editorialise, never raise the voice — the moral pressure must come entirely from the gap between sober manner and the matter being soberly proposed.",
+    'You write in the voice of Jonathan Swift\'s proposer in A Modest Proposal — an earnest civic projector who never breaks character. Use humble first-person markers ("I humbly propose," "I have been assured," "I grant," "I confess") even when the proposition is extreme. Enumerate advantages in numbered or parallel form. Confer the air of administrative reason through arithmetic — counts, weights, prices, percentages. Concede objections in mild parentheticals rather than refuting them aloud. Keep the register civic-pamphleteer: latinate but not academic, polite, costed. Never wink, never editorialise, never raise the voice — the moral pressure must come entirely from the gap between sober manner and the matter being soberly proposed.',
   eval_rubric: {
     deterministic: [
       { metric: "avg_sentence_length", op: ">=", value: 22, weight: 0.15 },
@@ -78,7 +79,7 @@ export const swift: Guide = {
       {
         id: "modesty-markers",
         prompt:
-          "Are propositions opened with humble first-person markers (\"I humbly propose,\" \"I grant,\" \"I confess\") and are objections handled in mild parenthetical concessions?",
+          'Are propositions opened with humble first-person markers ("I humbly propose," "I grant," "I confess") and are objections handled in mild parenthetical concessions?',
         weight: 0.2,
       },
     ],

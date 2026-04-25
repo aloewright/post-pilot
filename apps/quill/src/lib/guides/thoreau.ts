@@ -9,7 +9,7 @@ export const thoreau: Guide = {
   standfirst:
     "Aphorism set against ledger. He moves from the day's small fact — beans, boots, a tailor — into a sentence that wants to govern your life, then back again before you can argue.",
   description:
-    "Thoreau in Walden alternates two modes inside a single paragraph: the homely particular (a stake in a cornfield, three pieces of limestone on a desk) and the sweeping aphorism (\"the mass of men lead lives of quiet desperation\"). He uses parallel rhetorical questions to pin a value, and ironic accountancy — \"a thick coat can be bought for five dollars\" — to expose how unreasonable the supposedly reasonable life is. Useful when you want copy that earns a moral claim by grounding it in a cheap, plain fact, and then climbs into the claim without apology.",
+    'Thoreau in Walden alternates two modes inside a single paragraph: the homely particular (a stake in a cornfield, three pieces of limestone on a desk) and the sweeping aphorism ("the mass of men lead lives of quiet desperation"). He uses parallel rhetorical questions to pin a value, and ironic accountancy — "a thick coat can be bought for five dollars" — to expose how unreasonable the supposedly reasonable life is. Useful when you want copy that earns a moral claim by grounding it in a cheap, plain fact, and then climbs into the claim without apology.',
   voice_axes: ["wry", "plain"],
   use_cases: ["narrative", "marketing", "rfc"],
   copyright_posture: "public-domain",
@@ -27,7 +27,7 @@ export const thoreau: Guide = {
   do: [
     "Set a homely particular — a stake, a coat, a price in dollars — beside a sentence that wants to govern a life.",
     "Use accounting and trade vocabulary ironically: capital, audit, ventures, profit and loss applied to ways of living.",
-    "Stack rhetorical questions in series to pin a single value (\"Why should we...? Shall we always...? Why should not...?\").",
+    'Stack rhetorical questions in series to pin a single value ("Why should we...? Shall we always...? Why should not...?").',
     "Let an aphorism arrive plainly, without preamble, and trust it to carry the paragraph.",
   ],
   dont: [
@@ -38,7 +38,8 @@ export const thoreau: Guide = {
   ],
   exemplars: [
     {
-      label: "Aphorism with the desperation paragraph — sermon arriving plainly",
+      label:
+        "Aphorism with the desperation paragraph — sermon arriving plainly",
       content:
         "The mass of men lead lives of quiet desperation. What is called resignation is confirmed desperation. From the desperate city you go into the desperate country, and have to console yourself with the bravery of minks and muskrats. A stereotyped but unconscious despair is concealed even under what are called the games and amusements of mankind. There is no play in them, for this comes after work. But it is a characteristic of wisdom not to do desperate things.",
       source:

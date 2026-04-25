@@ -9,7 +9,7 @@ export const tolstoy: Guide = {
   standfirst:
     "A roving omniscience that reports a room: who said what, who shrugged, whose smile changed which face. The narrator notices everyone — and quietly notices what each person fails to notice about himself.",
   description:
-    "Tolstoy in War and Peace narrates a drawing-room as if from a moving camera: dialogue is brisk and tagged, but each tag carries a small physiognomic verdict (\"Pierre looked solemnly at his audience over his spectacles,\" \"Prince Andrew's eyes were closed, so weary and sleepy did he seem\"). Description is plain and physical — height, hands, the tilt of a hat — and judgment is delivered in a clause attached to a gesture rather than in editorial. Useful for narrative copy that wants a fully populated scene, where small physical actions reveal psychology and the narrator's verdict rides quietly on top.",
+    'Tolstoy in War and Peace narrates a drawing-room as if from a moving camera: dialogue is brisk and tagged, but each tag carries a small physiognomic verdict ("Pierre looked solemnly at his audience over his spectacles," "Prince Andrew\'s eyes were closed, so weary and sleepy did he seem"). Description is plain and physical — height, hands, the tilt of a hat — and judgment is delivered in a clause attached to a gesture rather than in editorial. Useful for narrative copy that wants a fully populated scene, where small physical actions reveal psychology and the narrator\'s verdict rides quietly on top.',
   voice_axes: ["plain", "wry"],
   use_cases: ["narrative", "marketing", "email"],
   copyright_posture: "public-domain",
@@ -18,14 +18,14 @@ export const tolstoy: Guide = {
     vocabulary_register:
       "plain, concrete, mostly Anglo-Saxon in the Maude translation; social titles and rooms (drawing room, hall, footman, princess) carry social weight without commentary",
     syntax:
-      "tagged dialogue alternated with one-sentence physical observations; clauses of manner (\"smiling and drawing her work nearer to her\") attached to speech; occasional free-indirect glide into a character's self-account",
+      'tagged dialogue alternated with one-sentence physical observations; clauses of manner ("smiling and drawing her work nearer to her") attached to speech; occasional free-indirect glide into a character\'s self-account',
     figurative_language:
       "almost none; the figure is the observed gesture itself — a smile that 'said nothing,' a hand kept around a waist 'for a long time, as though embracing'",
     pacing:
       "scenic and conversational; long passages move through a roomful of people, each given one or two physical beats before the camera moves on",
   },
   do: [
-    "Tag dialogue with a small physical action that quietly carries the verdict (\"smiling joyfully,\" \"shrugging her shoulders\").",
+    'Tag dialogue with a small physical action that quietly carries the verdict ("smiling joyfully," "shrugging her shoulders").',
     "Move the narrator's eye through a room, giving each person one or two physical beats before passing on.",
     "Use plain, concrete description — height, hands, hat, gait — rather than abstract characterisation.",
     "Slip briefly into a character's self-account (free indirect) so the reader hears how they would explain themselves, then withdraw.",
@@ -48,7 +48,7 @@ export const tolstoy: Guide = {
     {
       label: "The narrator's eye moves through the hall — small physical beats",
       content:
-        "Two footmen, the princess' and his own, stood holding a shawl and a cloak, waiting for the conversation to finish. They listened to the French sentences which to them were meaningless, with an air of understanding but not wishing to appear to do so. The princess as usual spoke smilingly and listened with a laugh.\n\n\"I am very glad I did not go to the ambassador's,\" said Prince Hippolyte \"—so dull—. It has been a delightful evening, has it not? Delightful!\"",
+        'Two footmen, the princess\' and his own, stood holding a shawl and a cloak, waiting for the conversation to finish. They listened to the French sentences which to them were meaningless, with an air of understanding but not wishing to appear to do so. The princess as usual spoke smilingly and listened with a laugh.\n\n"I am very glad I did not go to the ambassador\'s," said Prince Hippolyte "—so dull—. It has been a delightful evening, has it not? Delightful!"',
       source:
         "Leo Tolstoy, War and Peace (Project Gutenberg #2600; public domain)",
       is_generated: false,

@@ -9,7 +9,7 @@ export const henryJames: Guide = {
   standfirst:
     "A first-person narrator who circles, qualifies, and italicises. Sentences hinge on dashes and inserted clauses. The thing is named, then unnamed, then named again — slightly differently.",
   description:
-    "James's governess narrates in long, self-correcting sentences full of em-dashes, italicised pronouns, and parenthetical asides that revise what was just said. The voice prefers the abstract and the implied (\"a kind of favor, an obligation he should gratefully incur\", \"a flash of this knowledge — for it was knowledge in the midst of dread\") to the named and the explicit. Pronouns matter; emphasis matters; what is withheld matters. Useful when you want copy that thinks aloud, refuses to commit too soon, and lets significance accumulate by qualification rather than by direct statement.",
+    'James\'s governess narrates in long, self-correcting sentences full of em-dashes, italicised pronouns, and parenthetical asides that revise what was just said. The voice prefers the abstract and the implied ("a kind of favor, an obligation he should gratefully incur", "a flash of this knowledge — for it was knowledge in the midst of dread") to the named and the explicit. Pronouns matter; emphasis matters; what is withheld matters. Useful when you want copy that thinks aloud, refuses to commit too soon, and lets significance accumulate by qualification rather than by direct statement.',
   voice_axes: ["ornate", "lyrical"],
   use_cases: ["narrative", "rfc", "email"],
   copyright_posture: "public-domain",
@@ -20,7 +20,7 @@ export const henryJames: Guide = {
     syntax:
       "long sentences hinged on em-dashes and semicolons; embedded parenthetical revisions; clauses that qualify the previous clause without ending the sentence",
     figurative_language:
-      "rare and abstract (\"a sudden vibration of duty and courage\", \"the spring of a beast\"); the figure is for the inner state, not the outer object",
+      'rare and abstract ("a sudden vibration of duty and courage", "the spring of a beast"); the figure is for the inner state, not the outer object',
     pacing:
       "circling — each sentence revises the one before; the meaning advances by qualification, not by event",
   },

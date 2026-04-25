@@ -9,7 +9,7 @@ export const hawthorne: Guide = {
   standfirst:
     "Long, qualified, slyly self-aware sentences. A grave register through which dry comedy keeps surfacing.",
   description:
-    "In the Custom-House sketch, Hawthorne writes long periodic sentences whose parentheticals and qualifying clauses are doing most of the comedy. The narrator looks at his colleagues with sympathetic irony — \"a most satisfactory object,\" \"a kind of new contrivance of Mother Nature in the shape of man\" — and the joke is the courtesy of the framing. Useful when you want copy with mock-formal gravity, character portraiture that observes without snubbing, or essayistic prose that wraps its judgment in long, considered breath.",
+    'In the Custom-House sketch, Hawthorne writes long periodic sentences whose parentheticals and qualifying clauses are doing most of the comedy. The narrator looks at his colleagues with sympathetic irony — "a most satisfactory object," "a kind of new contrivance of Mother Nature in the shape of man" — and the joke is the courtesy of the framing. Useful when you want copy with mock-formal gravity, character portraiture that observes without snubbing, or essayistic prose that wraps its judgment in long, considered breath.',
   voice_axes: ["ornate", "wry"],
   use_cases: ["narrative", "marketing", "rfc"],
   copyright_posture: "public-domain",

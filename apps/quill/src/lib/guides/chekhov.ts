@@ -40,7 +40,7 @@ export const chekhov: Guide = {
     {
       label: "Reported action with quiet weather",
       content:
-        "\"Wo!\" said Kalashnikov sternly, and he got on his horse; one half of the gate was opened, and by it lay a high snowdrift. \"Well, get on!\" shouted Kalashnikov. His little short-legged nag set off, and sank up to its stomach in the drift at once. Kalashnikov was white all over with the snow, and soon vanished from sight with his horse.\n\nWhen Yergunov went back into the room, Lyubka was creeping about the floor picking up her beads; Merik was not there.",
+        '"Wo!" said Kalashnikov sternly, and he got on his horse; one half of the gate was opened, and by it lay a high snowdrift. "Well, get on!" shouted Kalashnikov. His little short-legged nag set off, and sank up to its stomach in the drift at once. Kalashnikov was white all over with the snow, and soon vanished from sight with his horse.\n\nWhen Yergunov went back into the room, Lyubka was creeping about the floor picking up her beads; Merik was not there.',
       source:
         "Anton Chekhov, Project Gutenberg Compilation of Short Stories by Chekhov (Project Gutenberg #57333; public domain)",
       is_generated: false,

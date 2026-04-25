@@ -9,7 +9,7 @@ export const twain: Guide = {
   standfirst:
     "First-person American vernacular. Plain reasoning that arrives at a sly verdict by pretending not to notice it has.",
   description:
-    "Twain narrates Huckleberry Finn in a frontier dialect that thinks out loud — \"I reckoned,\" \"I judged,\" \"warn't no use\" — and arrives at moral judgment by reasoning from common sense rather than principle. The humor comes from the gap between the boy's matter-of-fact tone and what he is actually describing. Useful when you want copy that disarms with plainness, lets the reader feel smart, and lands its point sideways.",
+    'Twain narrates Huckleberry Finn in a frontier dialect that thinks out loud — "I reckoned," "I judged," "warn\'t no use" — and arrives at moral judgment by reasoning from common sense rather than principle. The humor comes from the gap between the boy\'s matter-of-fact tone and what he is actually describing. Useful when you want copy that disarms with plainness, lets the reader feel smart, and lands its point sideways.',
   voice_axes: ["plain", "wry"],
   use_cases: ["social", "marketing", "narrative"],
   copyright_posture: "public-domain",
@@ -25,7 +25,7 @@ export const twain: Guide = {
       "ambling and conversational; long sentences breathe through 'and' the way a kid tells a story",
   },
   do: [
-    "Use first person and let the narrator reason aloud — \"I reckoned,\" \"I judged,\" \"says I to myself.\"",
+    'Use first person and let the narrator reason aloud — "I reckoned," "I judged," "says I to myself."',
     "Join clauses with and, so, and but rather than with subordinating conjunctions.",
     "Use double negatives, contractions, and frontier idiom where they would fall naturally in speech.",
     "Let the joke come from the gap between the matter-of-fact tone and what is being described.",

@@ -41,16 +41,14 @@ export const zola: Guide = {
       label: "The miner's chest as a store of coal",
       content:
         "\"It's coal. I've got enough in my carcass to warm me till I die. And it's five years since I put a foot down below. I stored it up, it seems, without knowing it; it keeps you alive!\"\n\nThere was silence. The distant hammer struck regular blows in the pit, and the wind passed by with its moan, like a cry of hunger and weariness coming out of the depths of the night. Before the flames which grew low, the old man went on in lower tones, chewing over again his old recollections. Ah, certainly: it was not yesterday that he and his began hammering at the seam. The family had worked for the Montsou Mining Company since it started, and that was long ago, a hundred and six years already.",
-      source:
-        "Émile Zola, Germinal (Project Gutenberg #56528; public domain)",
+      source: "Émile Zola, Germinal (Project Gutenberg #56528; public domain)",
       is_generated: false,
     },
     {
       label: "The shaft as a digesting body",
       content:
         "He only understood one thing well: the shaft swallowed men by mouthfuls of twenty or thirty, and with so easy a gulp that it seemed to feel nothing go down. Since four o'clock the descent of the workmen had been going on. They came to the shed with naked feet and their lamps in their hands, waiting in little groups until a sufficient number had arrived. Without a sound, with the soft bound of a nocturnal beast, the iron cage arose from the night, wedged itself on the bolts with its four decks, each containing two trams full of coal. For half an hour the shaft went on devouring in this fashion, with more or less greedy gulps, according to the depth of the level to which the men went down, but without stopping, always hungry, with its giant intestines capable of digesting a nation.",
-      source:
-        "Émile Zola, Germinal (Project Gutenberg #56528; public domain)",
+      source: "Émile Zola, Germinal (Project Gutenberg #56528; public domain)",
       is_generated: false,
     },
   ],

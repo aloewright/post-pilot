@@ -9,7 +9,7 @@ export const nietzsche: Guide = {
   standfirst:
     "Mock-scriptural cadence, short numbered sections, and an aphorism that turns at the end. Thomas Common's translation gives every line a Bible-English ring.",
   description:
-    "In the sample (the Common translation), Zarathustra speaks in short numbered sections, frequently in the second-person plural and in the imperative. Sentences are short and declarative; verbs take archaic forms (\"Lo!\", \"Verily\", \"hath\"); the unit is the aphorism, often stacked by anaphora (\"I love him who...\") and turning at the close. Useful when you want copy that sounds like prophecy or manifesto without being merely loud — the form is austere, and the punchline is structural.",
+    'In the sample (the Common translation), Zarathustra speaks in short numbered sections, frequently in the second-person plural and in the imperative. Sentences are short and declarative; verbs take archaic forms ("Lo!", "Verily", "hath"); the unit is the aphorism, often stacked by anaphora ("I love him who...") and turning at the close. Useful when you want copy that sounds like prophecy or manifesto without being merely loud — the form is austere, and the punchline is structural.',
   voice_axes: ["lyrical", "terse"],
   use_cases: ["marketing", "rfc", "social"],
   copyright_posture: "public-domain",
@@ -18,27 +18,27 @@ export const nietzsche: Guide = {
     vocabulary_register:
       "mock-scriptural Bible-English (Thomas Common's 1909 translation); archaisms (thou, hath, doeth, verily, lo); abstractions personified (the spirit, the dragon, the lion)",
     syntax:
-      "short numbered sections; anaphoric stacks (\"I love him who...\", \"The hour when ye say...\"); inverted verbs and exclamations; aphorisms ending on a turn",
+      'short numbered sections; anaphoric stacks ("I love him who...", "The hour when ye say..."); inverted verbs and exclamations; aphorisms ending on a turn',
     figurative_language:
       "allegory and emblem (rope-dancer, camel-lion-child, the great dragon); metaphors named and then walked through, not merely glanced at",
     pacing:
-      "very short paragraphs, often one or two sentences; sections close on a thunderclap line (\"Thus spake Zarathustra\", \"GOD IS DEAD\")",
+      'very short paragraphs, often one or two sentences; sections close on a thunderclap line ("Thus spake Zarathustra", "GOD IS DEAD")',
   },
   do: [
     "Stack sentences by anaphora — repeat the opening clause and let each line vary one element.",
     "Keep paragraphs to one or two short sentences; let the white space carry the weight.",
-    "Use archaic inversions and exclamations (\"Lo!\", \"Verily\") when the line is meant as proclamation.",
+    'Use archaic inversions and exclamations ("Lo!", "Verily") when the line is meant as proclamation.',
     "Build an allegory by naming a figure (camel, lion, child) and then walking it through its transformations.",
   ],
   dont: [
     "Do not write the aphorism as a long argument; it should turn in one short sentence.",
     "Do not mix in modern academic register — the translation's Bible-English is the instrument.",
     "Do not pile abstractions without an emblem to carry them; the figure is what makes the line stick.",
-    "Do not soften the proclamation with hedges (\"perhaps\", \"in some sense\"); the voice is unhedged.",
+    'Do not soften the proclamation with hedges ("perhaps", "in some sense"); the voice is unhedged.',
   ],
   exemplars: [
     {
-      label: "Anaphoric stack — \"I love him who...\"",
+      label: 'Anaphoric stack — "I love him who..."',
       content:
         "I love him who liveth in order to know, and seeketh to know in order that the Superman may hereafter live. Thus seeketh he his own down-going.\n\nI love him who laboureth and inventeth, that he may build the house for the Superman, and prepare for him earth, animal, and plant: for thus seeketh he his own down-going.\n\nI love him who loveth his virtue: for virtue is the will to down-going, and an arrow of longing.",
       source:

@@ -40,7 +40,7 @@ export const dickinson: Guide = {
     {
       label: "Quatrains: domestic and absolute, with the closing question",
       content:
-        "Glee! The great storm is over!\nFour have recovered the land;\nForty gone down together\nInto the boiling sand.\n\nRing, for the scant salvation!\nToll, for the bonnie souls, --\nNeighbor and friend and bridegroom,\nSpinning upon the shoals!\n\nHow they will tell the shipwreck\nWhen winter shakes the door,\nTill the children ask, \"But the forty?\nDid they come back no more?\"",
+        'Glee! The great storm is over!\nFour have recovered the land;\nForty gone down together\nInto the boiling sand.\n\nRing, for the scant salvation!\nToll, for the bonnie souls, --\nNeighbor and friend and bridegroom,\nSpinning upon the shoals!\n\nHow they will tell the shipwreck\nWhen winter shakes the door,\nTill the children ask, "But the forty?\nDid they come back no more?"',
       source:
         "Emily Dickinson, Poems by Emily Dickinson, Three Series, Complete (Project Gutenberg #12242; public domain)",
       is_generated: false,

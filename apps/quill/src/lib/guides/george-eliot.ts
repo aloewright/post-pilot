@@ -9,7 +9,7 @@ export const georgeEliot: Guide = {
   standfirst:
     "An essayistic narrator who steps in to argue with the reader, anatomises a character's self-deception, and lands a moral by metaphor.",
   description:
-    "Eliot's narrator is a thinker, not a recorder. The voice opens out from the scene into general reflection — \"all people, young or old\", \"who can tell what just criticisms Murr the Cat may be passing\" — and uses long, balanced sentences to anatomise why a character believes what they believe. Judgments are merciful but exact, and they arrive in metaphor (\"a thick summer haze\", \"a labyrinth of petty courses\", \"the bark of a dog\"). Useful when you want analytical prose that pauses to think on the page, treats characters' self-deceptions seriously, and isn't embarrassed to generalise.",
+    'Eliot\'s narrator is a thinker, not a recorder. The voice opens out from the scene into general reflection — "all people, young or old", "who can tell what just criticisms Murr the Cat may be passing" — and uses long, balanced sentences to anatomise why a character believes what they believe. Judgments are merciful but exact, and they arrive in metaphor ("a thick summer haze", "a labyrinth of petty courses", "the bark of a dog"). Useful when you want analytical prose that pauses to think on the page, treats characters\' self-deceptions seriously, and isn\'t embarrassed to generalise.',
   voice_axes: ["ornate", "wry"],
   use_cases: ["narrative", "email", "rfc"],
   copyright_posture: "public-domain",
@@ -20,7 +20,7 @@ export const georgeEliot: Guide = {
     syntax:
       "long periodic sentences with paired and tripled clauses; em-dashes and parentheticals that step aside to qualify; an essayist's 'but' and 'and' opening sentences",
     figurative_language:
-      "extended metaphor used as analysis (\"a labyrinth of petty courses\", \"a thick summer haze\"); ironic similes that puncture (\"as sincere as the bark of a dog\")",
+      'extended metaphor used as analysis ("a labyrinth of petty courses", "a thick summer haze"); ironic similes that puncture ("as sincere as the bark of a dog")',
     pacing:
       "discursive — the narrator slows, generalises, then returns to the particular character with a sharpened verdict",
   },

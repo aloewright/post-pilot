@@ -46,7 +46,8 @@ export const shelley: Guide = {
       is_generated: false,
     },
     {
-      label: "The want of a friend — a paragraph that turns inward by accumulation",
+      label:
+        "The want of a friend — a paragraph that turns inward by accumulation",
       content:
         "But I have one want which I have never yet been able to satisfy, and the absence of the object of which I now feel as a most severe evil, I have no friend, Margaret: when I am glowing with the enthusiasm of success, there will be none to participate my joy; if I am assailed by disappointment, no one will endeavour to sustain me in dejection. I shall commit my thoughts to paper, it is true; but that is a poor medium for the communication of feeling. I desire the company of a man who could sympathise with me, whose eyes would reply to mine.",
       source:

@@ -9,7 +9,7 @@ export const hardy: Guide = {
   standfirst:
     "A geological narrator. The character is small; the landscape and the centuries are large. Dialect carries the speech, fatalism carries the frame.",
   description:
-    "Hardy zooms out. A girl's small grief is set against \"history in time\" and \"some immense sad soul, conterminous with the universe in space\". Place names (Marlott, Stourcastle, Bulbarrow) and topography do as much work as character description. Dialogue is rendered in unsoftened Dorset dialect. The narrator is a pessimist with a vocabulary of fate and dwindling — \"blighted\", \"shiftless\", \"funeral train\" — and is willing to be openly bitter about \"Nature's holy plan\". Useful when you want copy that locates a small event inside a vast frame and does not pretend the frame is kind.",
+    'Hardy zooms out. A girl\'s small grief is set against "history in time" and "some immense sad soul, conterminous with the universe in space". Place names (Marlott, Stourcastle, Bulbarrow) and topography do as much work as character description. Dialogue is rendered in unsoftened Dorset dialect. The narrator is a pessimist with a vocabulary of fate and dwindling — "blighted", "shiftless", "funeral train" — and is willing to be openly bitter about "Nature\'s holy plan". Useful when you want copy that locates a small event inside a vast frame and does not pretend the frame is kind.',
   voice_axes: ["lyrical", "ornate"],
   use_cases: ["narrative", "marketing"],
   copyright_posture: "public-domain",
@@ -20,14 +20,14 @@ export const hardy: Guide = {
     syntax:
       "long sentences that locate a person against a landscape; semicolons that bridge the small and the vast; sudden short sentences for a hard fact",
     figurative_language:
-      "cosmic similes (\"like a weaver's shuttle\", \"the apples on our stubbard-tree\"); imagery of fate, blight, and weight",
+      'cosmic similes ("like a weaver\'s shuttle", "the apples on our stubbard-tree"); imagery of fate, blight, and weight',
     pacing:
       "wide-to-close — establishes the hill, the village, the centuries, then the body in the lane",
   },
   do: [
     "Place a person against a landscape and a timescale before letting them speak.",
     "Render dialect speakers in their own spelling, even at the cost of friction for the reader.",
-    "Use one short, hard sentence to deliver a fact (\"Prince was killed!\", \"Tess looked alarmed.\") after a long descriptive build.",
+    'Use one short, hard sentence to deliver a fact ("Prince was killed!", "Tess looked alarmed.") after a long descriptive build.',
     "Reach for cosmic or geological scale when a small thing happens — the disproportion is the point.",
   ],
   dont: [
