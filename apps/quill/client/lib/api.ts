@@ -25,8 +25,14 @@ export type GuideListItem = Pick<
 export type GuideListResponse = {
   count: number;
   total: number;
+  matched: number;
+  offset: number;
+  limit: number;
+  nextOffset: number | null;
   items: GuideListItem[];
 };
+
+export type GuideSort = "author" | "era" | "recent" | "fidelity";
 
 export type ApplyResponse = {
   guide: string;
@@ -78,12 +84,18 @@ export const api = {
     useCases?: string[];
     voiceAxes?: string[];
     query?: string;
+    sort?: GuideSort;
+    limit?: number;
+    offset?: number;
   } = {}) => {
     const sp = new URLSearchParams();
     for (const e of params.eras ?? []) sp.append("era", e);
     for (const u of params.useCases ?? []) sp.append("useCase", u);
     for (const v of params.voiceAxes ?? []) sp.append("voice", v);
     if (params.query) sp.set("q", params.query);
+    if (params.sort) sp.set("sort", params.sort);
+    if (params.limit !== undefined) sp.set("limit", String(params.limit));
+    if (params.offset !== undefined) sp.set("offset", String(params.offset));
     const qs = sp.toString();
     return request<GuideListResponse>(`/v1/guides${qs ? `?${qs}` : ""}`);
   },

@@ -3,7 +3,7 @@ import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import { GUIDES, getGuide, listGuides } from "../lib/guides";
 import { guideToJSON, guideToYAML } from "../lib/export";
-import { ERAS, USE_CASES, VOICE_AXES } from "../lib/utils";
+import { ERAS, USE_CASES, VOICE_AXES, sortGuides } from "../lib/utils";
 import type { AppEnv } from "../index";
 
 export const guidesRouter = new Hono<AppEnv>();
@@ -29,6 +29,8 @@ const listQuerySchema = z.object({
     ),
   q: z.string().optional(),
   limit: z.coerce.number().int().min(1).max(100).default(50),
+  offset: z.coerce.number().int().min(0).default(0),
+  sort: z.enum(["author", "era", "recent", "fidelity"]).default("author"),
 });
 
 const exportFormatSchema = z.enum(["json", "yaml", "prompt"]).default("json");
@@ -41,44 +43,46 @@ guidesRouter.get("/", (c) => {
   const params = parsed.data;
   const q = params.q?.trim().toLowerCase();
 
-  const items = listGuides()
-    .filter((g) => {
-      if (
-        params.era.length &&
-        !params.era.some((e) =>
-          (ERAS as readonly string[]).includes(e) && g.eras.includes(e as never),
-        )
-      ) {
-        return false;
-      }
-      if (
-        params.useCase.length &&
-        !params.useCase.some(
-          (u) =>
-            (USE_CASES as readonly string[]).includes(u) &&
-            g.use_cases.includes(u as never),
-        )
-      ) {
-        return false;
-      }
-      if (
-        params.voice.length &&
-        !params.voice.some(
-          (v) =>
-            (VOICE_AXES as readonly string[]).includes(v) &&
-            g.voice_axes.includes(v as never),
-        )
-      ) {
-        return false;
-      }
-      if (q) {
-        const hay =
-          `${g.author} ${g.slug} ${g.kicker} ${g.standfirst} ${g.description}`.toLowerCase();
-        if (!hay.includes(q)) return false;
-      }
-      return true;
-    })
-    .slice(0, params.limit)
+  const filtered = listGuides().filter((g) => {
+    if (
+      params.era.length &&
+      !params.era.some((e) =>
+        (ERAS as readonly string[]).includes(e) && g.eras.includes(e as never),
+      )
+    ) {
+      return false;
+    }
+    if (
+      params.useCase.length &&
+      !params.useCase.some(
+        (u) =>
+          (USE_CASES as readonly string[]).includes(u) &&
+          g.use_cases.includes(u as never),
+      )
+    ) {
+      return false;
+    }
+    if (
+      params.voice.length &&
+      !params.voice.some(
+        (v) =>
+          (VOICE_AXES as readonly string[]).includes(v) &&
+          g.voice_axes.includes(v as never),
+      )
+    ) {
+      return false;
+    }
+    if (q) {
+      const hay =
+        `${g.author} ${g.slug} ${g.kicker} ${g.standfirst} ${g.description}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  const sorted = sortGuides(filtered, params.sort);
+  const items = sorted
+    .slice(params.offset, params.offset + params.limit)
     .map((g) => ({
       slug: g.slug,
       author: g.author,
@@ -95,7 +99,16 @@ guidesRouter.get("/", (c) => {
       fidelity: g.fidelity ?? [],
     }));
 
-  return c.json({ count: items.length, total: GUIDES.length, items });
+  const nextOffset = params.offset + items.length;
+  return c.json({
+    count: items.length,
+    total: GUIDES.length,
+    matched: filtered.length,
+    offset: params.offset,
+    limit: params.limit,
+    nextOffset: nextOffset < filtered.length ? nextOffset : null,
+    items,
+  });
 });
 
 guidesRouter.get("/:slug", (c) => {

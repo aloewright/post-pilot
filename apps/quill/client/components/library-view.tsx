@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
-import { api, queryKeys } from "../lib/api";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { api, queryKeys, type GuideSort } from "../lib/api";
 import {
   ERAS,
   USE_CASES,
@@ -12,15 +12,7 @@ import {
 import type { Era, UseCase, VoiceAxis } from "../../src/lib/types";
 import { GuideCard } from "./guide-card";
 
-type SortBy = "author" | "era" | "recent" | "fidelity";
-
-const ERA_ORDER: Record<Era, number> = {
-  "Pre-1900": 0,
-  Modernist: 1,
-  "Mid-20th": 2,
-  "Late-20th": 3,
-  Contemporary: 4,
-};
+const PAGE_SIZE = 30;
 
 function toggle<T>(arr: T[], value: T): T[] {
   return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
@@ -31,44 +23,57 @@ export function LibraryView() {
   const [useCases, setUseCases] = useState<UseCase[]>([]);
   const [voice, setVoice] = useState<VoiceAxis[]>([]);
   const [query, setQuery] = useState("");
-  const [sort, setSort] = useState<SortBy>("author");
+  const [sort, setSort] = useState<GuideSort>("author");
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: queryKeys.guides({ eras, useCases, voice, query }),
-    queryFn: () =>
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: queryKeys.guides({ eras, useCases, voice, query, sort }),
+    queryFn: ({ pageParam }) =>
       api.listGuides({
         eras,
         useCases,
         voiceAxes: voice,
         query: query || undefined,
+        sort,
+        limit: PAGE_SIZE,
+        offset: pageParam,
       }),
+    initialPageParam: 0,
+    getNextPageParam: (last) => last.nextOffset,
   });
 
-  const sorted = useMemo(() => {
-    if (!data) return [];
-    const items = data.items.slice();
-    switch (sort) {
-      case "author":
-        return items.sort((a, b) => a.author.localeCompare(b.author));
-      case "era":
-        return items.sort(
-          (a, b) => (ERA_ORDER[a.era as Era] ?? 99) - (ERA_ORDER[b.era as Era] ?? 99),
-        );
-      case "recent":
-        return items.sort((a, b) =>
-          b.updated_at.localeCompare(a.updated_at),
-        );
-      case "fidelity": {
-        const top = (item: (typeof items)[number]) =>
-          item.fidelity?.length
-            ? Math.max(...item.fidelity.map((f) => f.match))
-            : 0;
-        return items.sort((a, b) => top(b) - top(a));
-      }
-      default:
-        return items;
-    }
-  }, [data, sort]);
+  const items = useMemo(
+    () => data?.pages.flatMap((p) => p.items) ?? [],
+    [data],
+  );
+  const matched = data?.pages[0]?.matched ?? 0;
+  const total = data?.pages[0]?.total ?? 0;
+
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    const node = sentinelRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries[0]?.isIntersecting &&
+          hasNextPage &&
+          !isFetchingNextPage
+        ) {
+          fetchNextPage();
+        }
+      },
+      { rootMargin: "400px 0px" },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <div className="grid gap-10 md:grid-cols-[220px_1fr]">
@@ -129,7 +134,8 @@ export function LibraryView() {
             />
             {data ? (
               <span className="pp-byline whitespace-nowrap">
-                {sorted.length} of {data.total}
+                {items.length} of {matched}
+                {matched < total ? ` (${total} total)` : ""}
               </span>
             ) : null}
           </div>
@@ -137,7 +143,7 @@ export function LibraryView() {
             <span className="pp-byline">Sort</span>
             <select
               className="rounded-md border bg-transparent px-2 py-1.5 text-sm"
-              onChange={(e) => setSort(e.target.value as SortBy)}
+              onChange={(e) => setSort(e.target.value as GuideSort)}
               style={{
                 borderColor: "var(--strand-color-rule)",
                 color: "var(--strand-color-ink-primary)",
@@ -172,7 +178,7 @@ export function LibraryView() {
           >
             Loading guides…
           </p>
-        ) : sorted.length === 0 ? (
+        ) : items.length === 0 ? (
           <p
             className="rounded-lg border border-dashed p-8 text-center text-sm"
             style={{
@@ -183,23 +189,41 @@ export function LibraryView() {
             No guides match those filters. Try loosening one.
           </p>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {sorted.map((g, i) => (
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                key={g.slug}
-                transition={{
-                  duration: 0.35,
-                  delay: Math.min(i * 0.04, 0.32),
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                viewport={{ once: true }}
-                whileInView={{ opacity: 1, y: 0 }}
+          <>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+              {items.map((g, i) => (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  key={g.slug}
+                  transition={{
+                    duration: 0.35,
+                    delay: Math.min((i % PAGE_SIZE) * 0.04, 0.32),
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  viewport={{ once: true }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                >
+                  <GuideCard guide={g} />
+                </motion.div>
+              ))}
+            </div>
+            <div ref={sentinelRef} aria-hidden className="h-1 w-full" />
+            {isFetchingNextPage ? (
+              <p
+                className="text-center text-sm"
+                style={{ color: "var(--strand-color-ink-muted)" }}
               >
-                <GuideCard guide={g} />
-              </motion.div>
-            ))}
-          </div>
+                Loading more…
+              </p>
+            ) : !hasNextPage && items.length > 0 ? (
+              <p
+                className="text-center text-xs"
+                style={{ color: "var(--strand-color-ink-muted)" }}
+              >
+                End of library.
+              </p>
+            ) : null}
+          </>
         )}
       </div>
     </div>
