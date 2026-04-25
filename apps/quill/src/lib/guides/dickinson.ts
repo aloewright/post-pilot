@@ -1,98 +1,90 @@
 import type { Guide } from "../types";
 
 export const dickinson: Guide = {
-  "slug": "dickinson",
-  "author": "Emily Dickinson",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Poetess · 19th c.",
-  "standfirst": "Capture the essence with brevity and mystery.",
-  "description": "Emily Dickinson's voice is marked by compressed language, slant rhymes, and the frequent use of dashes. This style is ideal when you want to evoke introspection and a sense of mystery. Use it for communication that benefits from brevity and depth.",
-  "voice_axes": [
-    "terse",
-    "lyrical"
-  ],
-  "use_cases": [
-    "social",
-    "email",
-    "narrative"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 10,
-      "max": 20
-    },
-    "vocabulary_register": "Concise and evocative",
-    "syntax": "Fragmented with dashes",
-    "figurative_language": "Frequent slant rhymes",
-    "pacing": "Measured and reflective"
+  slug: "dickinson",
+  author: "Emily Dickinson",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · American verse",
+  standfirst:
+    "Short hymn-meter stanzas. Dashes and capitals do the work of paragraphs. Common nouns set against absolute ones — bee, soul; door, eternity.",
+  description:
+    "Dickinson writes in compact stanzas, mostly quatrains in alternating tetrameter and trimeter, that sit on the page like riddles. Lines are short — six to eight syllables — and a poem often turns on a single dash, an italic, or a sudden capitalised abstraction ('Eternity', 'Reason', 'Inquisitor'). She rhymes and slant-rhymes; she punctuates by interruption. Domestic nouns (housewife, almanac, drawer, brook) sit beside metaphysical ones (Calvary, Heaven, Eternity) without apology. Useful when you want copy that is small, strange, and memorable — a line that lodges rather than explains.",
+  voice_axes: ["lyrical", "wry"],
+  use_cases: ["social", "marketing", "narrative"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 7, max: 14 },
+    vocabulary_register:
+      "plain Anglo-Saxon nouns next to capitalised abstractions; domestic objects (housewife, almanac, tankard, drawer) set against ultimate ones (Heaven, Calvary, Eternity)",
+    syntax:
+      "quatrains in roughly alternating tetrameter and trimeter; inversions ('Of these no elegy'); frequent ellipsis; capitalised abstractions; punctuation by dash and exclamation; questions left to hang",
+    figurative_language:
+      "concrete-to-abstract analogies ('Mirth is the mail of anguish'); riddle and conceit; slant rhyme; sudden personification (the soul as housewife, pain as a person without past)",
+    pacing:
+      "compressed; a poem usually turns on a single line — a dash, a question, or a capitalised noun — and ends on the smaller, sharper image",
   },
-  "do": [
-    "Use dashes to create pauses and emphasis.",
-    "Craft sentences that evoke emotion and thought.",
-    "Employ slant rhymes to add musicality.",
-    "Keep language concise and impactful."
+  do: [
+    "Write short. Lines of six to eight syllables; stanzas of four lines.",
+    "Set a domestic noun against an absolute one in the same stanza ('housewife' / 'eternity').",
+    "Use the dash and the capitalised abstraction to turn the poem at a single point.",
+    "Let a stanza end on a question or a small image, not on a summing-up.",
   ],
-  "dont": [
-    "Avoid lengthy explanations or narratives.",
-    "Do not use overly complex vocabulary.",
-    "Refrain from using traditional rhyme schemes.",
-    "Do not write without emotional depth."
+  dont: [
+    "Do not pad. If a line can lose two words and still scan, lose them.",
+    "Do not explain the figure; the riddle is the point.",
+    "Do not write in long sentences — punctuate by dash and break.",
+    "Do not let abstractions float free; tether each to a homely noun.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "Miss Dickinson was born in Amherst, Mass., Dec. 10, 1830, and died there May 15, 1886. Her father, Hon. Edward Dickinson, was the leading lawyer of Amherst, and was treasurer of the well-known college there situated. It was his custom once a year to hold a large reception at his house, attended by all the families connected with the institution and by the leading people of the town. On these occasions his daughter Emily emerged from her wonted retirement and did her part as gracious hostess; nor would any one have known from her manner, I have been told, that this was not a daily occurrence. The annual occasion once past, she withdrew again into her seclusion, and except for a very few friends was as invisible to the world as if she had dwelt in a nunnery. For myself, although I had corresponded with her for many years, I saw her but twice face to face, and brought away the impression of something as unique and remote as Undine or Mignon or Thekla.",
-      "source": "Emily Dickinson, Poems by Emily Dickinson, Three Series, Complete (Project Gutenberg #12242; public domain)",
-      "is_generated": false
+      label: "Quatrains: domestic and absolute, with the closing question",
+      content:
+        "Glee! The great storm is over!\nFour have recovered the land;\nForty gone down together\nInto the boiling sand.\n\nRing, for the scant salvation!\nToll, for the bonnie souls, --\nNeighbor and friend and bridegroom,\nSpinning upon the shoals!\n\nHow they will tell the shipwreck\nWhen winter shakes the door,\nTill the children ask, \"But the forty?\nDid they come back no more?\"",
+      source:
+        "Emily Dickinson, Poems by Emily Dickinson, Three Series, Complete (Project Gutenberg #12242; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "As is well documented, Emily Dickinson's poems were edited in these early editions by her friends, better to fit the conventions of the times. In particular, her dashes, often small enough to appear as dots, became commas and semi-colons.",
-      "source": "Emily Dickinson, Poems by Emily Dickinson, Three Series, Complete (Project Gutenberg #12242; public domain)",
-      "is_generated": false
-    }
+      label: "Compressed argument with capitalised abstraction",
+      content:
+        "Much madness is divinest sense\nTo a discerning eye;\nMuch sense the starkest madness.\n'T is the majority\nIn this, as all, prevails.\nAssent, and you are sane;\nDemur, -- you're straightway dangerous,\nAnd handled with a chain.",
+      source:
+        "Emily Dickinson, Poems by Emily Dickinson, Three Series, Complete (Project Gutenberg #12242; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with brevity and depth, using dashes to create pauses. Capture the essence of emotion through slant rhymes and vivid imagery. Avoid lengthy explanations; instead, focus on the power of a few well-chosen words. Evoke introspection and mystery with each line.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": "<=",
-        "value": 12,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": "<=",
-        "value": 20,
-        "weight": 0.1
-      },
-      {
-        "metric": "adverbs_per_200w",
-        "op": "<=",
-        "value": 5,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of Emily Dickinson's poems. Use short lines — roughly six to eight syllables — in quatrains, with a rough alternation of tetrameter and trimeter. Punctuate by dash and exclamation; let stanzas turn on a single dash or capitalised abstraction. Place a domestic noun (housewife, drawer, brook, almanac) beside an absolute one (Heaven, Eternity, Calvary, Reason) without smoothing the seam. Prefer slant rhyme to perfect rhyme. End on a small image or a question, not an explanation. Cut every word the line can spare.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: "<=", value: 12, weight: 0.2 },
+      { metric: "mono_syllable_ratio", op: ">=", value: 0.55, weight: 0.15 },
+      { metric: "type_token_ratio", op: ">=", value: 0.6, weight: 0.1 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "emotional_depth",
-        "prompt": "Does the text evoke a sense of mystery and introspection?",
-        "weight": 0.3
+        id: "metric-and-stanza",
+        prompt:
+          "Is the piece in short-lined quatrains with a recognisable hymn-meter pulse and dash punctuation?",
+        weight: 0.2,
       },
       {
-        "id": "use_of_language",
-        "prompt": "Is the language concise and impactful, with effective use of dashes?",
-        "weight": 0.3
-      }
+        id: "domestic-vs-absolute",
+        prompt:
+          "Are everyday nouns set against capitalised abstractions, with the seam left visible?",
+        weight: 0.2,
+      },
+      {
+        id: "riddle-close",
+        prompt:
+          "Does the poem turn on a single dash, italic, or capitalised noun, and end on a small image or open question rather than a summary?",
+        weight: 0.15,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };

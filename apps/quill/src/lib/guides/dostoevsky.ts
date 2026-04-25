@@ -1,99 +1,90 @@
 import type { Guide } from "../types";
 
 export const dostoevsky: Guide = {
-  "slug": "dostoevsky",
-  "author": "Fyodor Dostoevsky",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Realist · 19th c.",
-  "standfirst": "Dive into the complex psychological landscapes with Dostoevsky's intricate voice.",
-  "description": "Dostoevsky's writing style is characterized by intense psychological exploration and polyphonic dialogue. Reach for this voice when you need to portray deep existential crises or multifaceted characters in a narrative setting.",
-  "voice_axes": [
-    "ornate",
-    "lyrical",
-    "wry"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 30,
-      "max": 60
-    },
-    "vocabulary_register": "Complex and philosophical",
-    "syntax": "Intricate and layered",
-    "figurative_language": "Rich metaphors and analogies",
-    "pacing": "Varied and dynamic"
+  slug: "dostoevsky",
+  author: "Fyodor Dostoevsky",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · Russian novel",
+  standfirst:
+    "Feverish interior monologue stitched into close third-person narration. Italics, ellipses and broken-off thoughts; squalor in concrete detail.",
+  description:
+    "Dostoevsky's narrator stays at the elbow of a single overheated consciousness, sliding without warning from outside description into the character's own muttering. Sentences are crowded — multiple commas, accumulating clauses — and break off into ellipsis or italics whenever the thought refuses to finish. The world is named in close, ugly particulars (a worn-out hat from Zimmerman's, a sticky table, fingernails, stairwell smells); the inner life arrives as exclamation, self-interruption and rhetorical question. Useful when you want copy with psychological pressure — a voice arguing with itself in public.",
+  voice_axes: ["wry", "ornate"],
+  use_cases: ["narrative", "email", "social"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 26, max: 70 },
+    vocabulary_register:
+      "concrete and slightly squalid (tenements, rags, beer, sticky tables); plain Anglo-Saxon for the world, abstract Russian-novel nouns for the inner life ('confusion', 'wretchedness', 'repulsion')",
+    syntax:
+      "close third person sliding into first-person muttering; long sentences thick with commas and parentheticals; ellipsis ('....') as a syntactic move; italics for stressed words; rhetorical questions and self-interruption",
+    figurative_language:
+      "minimal metaphor; impact comes from accumulation of physical detail and repeated abstract nouns ('loathsome, loathsome!')",
+    pacing:
+      "feverish, lurching; passages of patient external description give way without warning to a torrent of inner speech, then return",
   },
-  "do": [
-    "Explore the psychological depths of your characters.",
-    "Use dialogue to reveal conflicting perspectives.",
-    "Employ rich, metaphorical language to convey spiritual crises.",
-    "Craft sentences that vary in length and complexity."
+  do: [
+    "Slide between close description of the world and the character's first-person muttering, often inside the same paragraph.",
+    "Use ellipses and italics to mark the moment a thought breaks off or insists on a word.",
+    "Pile concrete physical detail — clothing, smells, furniture — around the inner crisis.",
+    "Let a character argue with himself in rhetorical questions and exclamations.",
   ],
-  "dont": [
-    "Avoid simplistic or superficial characterizations.",
-    "Do not shy away from exploring dark or controversial themes.",
-    "Refrain from using overly straightforward or plain language.",
-    "Don't neglect the use of dialogue to drive the narrative."
+  dont: [
+    "Do not smooth the syntax; the comma-thick, lurching sentence is the voice.",
+    "Do not name the emotion cleanly when the character would name it ten different ways and contradict himself.",
+    "Do not strip the squalor — torn hats, sticky tables, black fingernails are the texture of the world.",
+    "Do not stay outside the character; the narrator's distance is small and slippery.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "THE POSSESSED, or THE DEVILS A Novel In Three Parts By Fyodor Dostoevsky Translated From The Russian By Constance Garnett CONTENTS PART I. CHAPTER I. INTRODUCTORY CHAPTER II. PRINCE HARRY. MATCHMAKING CHAPTER III. THE SINS OF OTHERS CHAPTER IV. THE CRIPPLE CHAPTER V. THE SUBTLE SERPENT PART II. CHAPTER I. NIGHT CHAPTER II. NIGHT (continued) CHAPTER III. THE DUEL CHAPTER IV. ALL IN EXPECTATION CHAPTER V. ON THE EVE OF THE FETE CHAPTER VI. PYOTR STEPANOVITCH IS BUSY CHAPTER VII. A MEETING CHAPTER VIII. IVAN THE TSAREVITCH CHAPTER IX. A RAID AT STEPAN TROFIMOVITCH’S CHAPTER X. FILIBUSTERS. A FATAL MORNING PART III. CHAPTER I. THE FETE—FIRST PART CHAPTER II. THE END OF THE FETE CHAPTER III. A ROMANCE ENDED CHAPTER IV. THE LAST RESOLUTION CHAPTER V. A WANDERER CHAPTER VI. A BUSY NIGHT CHAPTER VII. STEPAN TROFIMOVITCH’S LAST WANDERING CHAPTER VIII. CONCLUSION",
-      "source": "Fyodor Dostoevsky, Index of the Project Gutenberg Works of Fyodor Dostoevsky (Project Gutenberg #59196; public domain)",
-      "is_generated": false
+      label: "Interior monologue breaking through close narration",
+      content:
+        "“I knew it,” he muttered in confusion, “I thought so! That’s the worst of all! Why, a stupid thing like this, the most trivial detail might spoil the whole plan. Yes, my hat is too noticeable.... It looks absurd and that makes it noticeable.... With my rags I ought to wear a cap, any sort of old pancake, but not this grotesque thing. Nobody wears such a hat, it would be noticed a mile off, it would be remembered.... What matters is that people would remember it, and that would give them a clue. For this business one should be as little conspicuous as possible.... Trifles, trifles are what matter! Why, it’s just such trifles that always ruin everything....”",
+      source:
+        "Fyodor Dostoevsky, Crime and Punishment (Project Gutenberg #2554; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "WHITE NIGHTS AND OTHER STORIES By Fyodor Dostoevsky CONTENTS page White Nights 1 Notes from Underground— part i. underground 50 part ii. à propos of the wet snow 81 A Faint Heart 156 A Christmas Tree and a Wedding 200 Polzunkov 208 A Little Hero 223 Mr. Prohartchin 258",
-      "source": "Fyodor Dostoevsky, Index of the Project Gutenberg Works of Fyodor Dostoevsky (Project Gutenberg #59196; public domain)",
-      "is_generated": false
-    }
+      label: "Squalor catalogued with the close-third narrator",
+      content:
+        "He was wearing an old and hopelessly ragged black dress coat, with all its buttons missing except one, and that one he had buttoned, evidently clinging to this last trace of respectability. A crumpled shirt front, covered with spots and stains, protruded from his canvas waistcoat. Like a clerk, he wore no beard, nor moustache, but had been so long unshaven that his chin looked like a stiff greyish brush.",
+      source:
+        "Fyodor Dostoevsky, Crime and Punishment (Project Gutenberg #2554; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with a focus on deep psychological and spiritual exploration. Use intricate, polyphonic dialogue to reveal characters' inner conflicts and existential dilemmas. Craft richly metaphorical language to convey the intensity of emotional and moral crises. Avoid simplistic narratives and maintain a dynamic pacing in your prose.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 25,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": ">=",
-        "value": 50,
-        "weight": 0.1
-      },
-      {
-        "metric": "type_token_ratio",
-        "op": ">=",
-        "value": 0.5,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of the narrator of Crime and Punishment. Stay close to a single overheated consciousness and let close third-person description slide, mid-paragraph, into that character's first-person muttering. Build long sentences out of commas and parentheticals; break thoughts off with ellipses; italicise the word the speaker cannot let pass. Catalogue the world in close, slightly squalid physical detail — clothing, smells, furniture, money — and let the inner crisis press through that detail rather than naming itself. Let the character argue with himself in rhetorical questions and repeat the same abstract noun until it bruises. Do not tidy the syntax.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: ">=", value: 20, weight: 0.15 },
+      { metric: "max_sentence_length", op: ">=", value: 45, weight: 0.15 },
+      { metric: "abstract_per_para", op: ">=", value: 2, weight: 0.15 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "psychological_depth",
-        "prompt": "Does the text explore deep psychological themes and conflicts?",
-        "weight": 0.4
+        id: "interior-bleed",
+        prompt:
+          "Does the narration slide between close third-person description and the character's first-person muttering, mid-paragraph, without smoothing the seam?",
+        weight: 0.2,
       },
       {
-        "id": "dialogue_complexity",
-        "prompt": "Is the dialogue rich and polyphonic, revealing multiple perspectives?",
-        "weight": 0.2
-      }
+        id: "broken-syntax",
+        prompt:
+          "Are ellipses, italics and rhetorical questions used to mark thoughts breaking off, insisting, and arguing with themselves?",
+        weight: 0.15,
+      },
+      {
+        id: "squalid-particulars",
+        prompt:
+          "Is the world rendered in close, slightly squalid physical detail — clothing, smells, furniture, money — pressing against the inner crisis?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };
