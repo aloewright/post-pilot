@@ -1,98 +1,90 @@
 import type { Guide } from "../types";
 
 export const stevenson: Guide = {
-  "slug": "stevenson",
-  "author": "Robert Louis Stevenson",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Victorian · 19th c.",
-  "standfirst": "A robust and adventurous style, perfect for tales of duality and mystery.",
-  "description": "Stevenson's voice is characterized by its energetic and adventurous tone, often exploring themes of duality and mystery. Use it when crafting narratives that require a balance of action and introspection, with a touch of gothic intrigue.",
-  "voice_axes": [
-    "lyrical",
-    "ornate"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 20,
-      "max": 40
-    },
-    "vocabulary_register": "elevated yet accessible",
-    "syntax": "complex yet clear",
-    "figurative_language": "richly metaphorical",
-    "pacing": "brisk yet reflective"
+  slug: "stevenson",
+  author: "Robert Louis Stevenson",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · Late Victorian",
+  standfirst:
+    "Lawyerly precision wrapped around a moral fog. The narrator names what he sees in clean phrases, then admits exactly which part eludes him.",
+  description:
+    "Stevenson's prose in Jekyll and Hyde works by alternation: a brisk, clubbable sentence reports the surface; the next sentence concedes its own limit. He fits long descriptive periods next to short, almost colloquial reactions, and lets his lawyer-narrator hedge in legal idiom (\"I had a delicacy,\" \"I make it a rule of mine\"). Useful when you want copy that sounds level-headed and observant while admitting the thing it cannot quite name.",
+  voice_axes: ["wry", "plain"],
+  use_cases: ["narrative", "email", "marketing"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 20, max: 60 },
+    vocabulary_register:
+      "professional London English — legal, medical, clubbable; concrete and visual but laced with formal abstractions (delicacy, propriety, deformity)",
+    syntax:
+      "long descriptive periods alternated with short, dry reactions; semicolons stacking parallel observations; reported speech kept tight and idiomatic",
+    figurative_language:
+      "muted, mostly drawn from streets, weather, and law; the unnamed thing is named by what it is *not* — an absence, a deformity without a malformation",
+    pacing:
+      "controlled and lawyerly; description accumulates, then snaps to a one-line confession (\"There must be something else\")",
   },
-  "do": [
-    "Engage the reader with vivid descriptions.",
-    "Explore themes of duality and moral conflict.",
-    "Use a robust and adventurous tone.",
-    "Incorporate elements of mystery and intrigue."
+  do: [
+    "Pair a long, accumulating description with a short, dry sentence that admits its limit.",
+    "Use legal and clubbable idiom — \"I make it a rule of mine,\" \"the more it looks like Queer Street, the less I ask.\"",
+    "Name a quality by listing what it is not, then concede the residue you cannot name.",
+    "Keep weather and streets concrete; let the moral fog ride on top of clean physical detail.",
   ],
-  "dont": [
-    "Avoid overly simplistic language.",
-    "Do not shy away from complex emotions.",
-    "Refrain from using modern slang.",
-    "Do not neglect the gothic elements."
+  dont: [
+    "Do not let the narrator melodramatise; the horror lands when the voice stays level.",
+    "Do not over-explain the unnamed thing — the gap is the point.",
+    "Do not reach for poetic metaphor; Stevenson's images are domestic and urban, not lyrical.",
+    "Do not write modern conversational filler; the register is Victorian-professional, even in dialogue.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "No doubt the feat was easy to Mr. Utterson; for he was undemonstrative at the best, and even his friendship seemed to be founded in a similar catholicity of good-nature. It is the mark of a modest man to accept his friendly circle ready-made from the hands of opportunity; and that was the lawyer’s way. His friends were those of his own blood or those whom he had known the longest; his affections, like ivy, were the growth of time, they implied no aptness in the object. Hence, no doubt the bond that united him to Mr. Richard Enfield, his distant kinsman, the well-known man about town. It was a nut to crack for many, what these two could see in each other, or what subject they could find in common. It was reported by those who encountered them in their Sunday walks, that they said nothing, looked singularly dull and would hail with obvious relief the appearance of a friend. For all that, the two men put the greatest store by these excursions, counted them the chief jewel of each week, and not only set aside occasions of pleasure, but even resisted the calls of business, that they might enjoy them uninterrupted.",
-      "source": "Robert Louis Stevenson, The strange case of Dr. Jekyll and Mr. Hyde (Project Gutenberg #43; public domain)",
-      "is_generated": false
+      label: "Enfield's rule — clubbable wit doing the moral work",
+      content:
+        "\"No, sir; I had a delicacy,\" was the reply. \"I feel very strongly about putting questions; it partakes too much of the style of the day of judgment. You start a question, and it's like starting a stone. You sit quietly on the top of a hill; and away the stone goes, starting others; and presently some bland old bird (the last you would have thought of) is knocked on the head in his own back garden and the family have to change their name. No sir, I make it a rule of mine: the more it looks like Queer Street, the less I ask.\"",
+      source:
+        "Robert Louis Stevenson, The Strange Case of Dr. Jekyll and Mr. Hyde (Project Gutenberg #43; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "It chanced on one of these rambles that their way led them down a by-street in a busy quarter of London. The street was small and what is called quiet, but it drove a thriving trade on the weekdays. The inhabitants were all doing well, it seemed, and all emulously hoping to do better still, and laying out the surplus of their gains in coquetry; so that the shop fronts stood along that thoroughfare with an air of invitation, like rows of smiling saleswomen. Even on Sunday, when it veiled its more florid charms and lay comparatively empty of passage, the street shone out in contrast to its dingy neighbourhood, like a fire in a forest; and with its freshly painted shutters, well-polished brasses, and general cleanliness and gaiety of note, instantly caught and pleased the eye of the passenger.",
-      "source": "Robert Louis Stevenson, The strange case of Dr. Jekyll and Mr. Hyde (Project Gutenberg #43; public domain)",
-      "is_generated": false
-    }
+      label: "The unnamed thing — listing what it is not, then conceding the residue",
+      content:
+        "Mr. Hyde was pale and dwarfish, he gave an impression of deformity without any nameable malformation, he had a displeasing smile, he had borne himself to the lawyer with a sort of murderous mixture of timidity and boldness, and he spoke with a husky, whispering and somewhat broken voice; all these were points against him, but not all of these together could explain the hitherto unknown disgust, loathing and fear with which Mr. Utterson regarded him. \"There must be something else,\" said the perplexed gentleman. \"There _is_ something more, if I could find a name for it.\"",
+      source:
+        "Robert Louis Stevenson, The Strange Case of Dr. Jekyll and Mr. Hyde (Project Gutenberg #43; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with the adventurous and energetic tone of Robert Louis Stevenson, capturing the essence of duality and mystery. Use complex yet clear syntax, and engage readers with vivid and richly metaphorical language. Avoid modern slang and prioritize themes of moral conflict. Ensure the pacing is brisk yet allows for reflective moments.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 20,
-        "weight": 0.2
-      },
-      {
-        "metric": "type_token_ratio",
-        "op": ">=",
-        "value": 0.5,
-        "weight": 0.15
-      },
-      {
-        "metric": "flesch_kincaid_grade",
-        "op": ">=",
-        "value": 8,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of Robert Louis Stevenson as he narrates Jekyll and Hyde through Utterson and Enfield. Alternate long, lawyerly periods with short dry reactions. Build description by accumulation — pale, dwarfish, displeasing — then concede in one sentence that the listed parts do not add up to what the speaker actually feels. Use professional London idiom: legal, medical, clubbable. Keep streets, weather, and rooms concretely visible; let the moral fog sit on top of the physical detail rather than replace it. Name a quality by listing what it is not, then admit the residue. Do not melodramatise; the horror lands when the voice stays level.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: ">=", value: 16, weight: 0.1 },
+      { metric: "max_sentence_length", op: ">=", value: 40, weight: 0.1 },
+      { metric: "type_token_ratio", op: ">=", value: 0.45, weight: 0.1 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "vividness",
-        "prompt": "Does the text engage the reader with vivid and adventurous descriptions?",
-        "weight": 0.3
+        id: "alternation",
+        prompt:
+          "Does the prose alternate long descriptive periods with short, dry, level-voiced sentences that concede a limit?",
+        weight: 0.25,
       },
       {
-        "id": "thematic_depth",
-        "prompt": "Does the text explore themes of duality and mystery effectively?",
-        "weight": 0.25
-      }
+        id: "named-by-negation",
+        prompt:
+          "Is the unsettling element named by listing what it is not, with the residue acknowledged rather than explained?",
+        weight: 0.2,
+      },
+      {
+        id: "lawyerly-register",
+        prompt:
+          "Does the diction sound clubbable and professional — legal, medical, London — rather than lyrical or modern?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };

@@ -1,98 +1,90 @@
 import type { Guide } from "../types";
 
 export const shelley: Guide = {
-  "slug": "shelley",
-  "author": "Mary Shelley",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Romantic Gothic · 19th c.",
-  "standfirst": "A voice that evokes gothic dread and promethean ambition.",
-  "description": "Mary Shelley's style interweaves romanticism with gothic elements, creating a voice that is both haunting and introspective. Her writing often explores themes of ambition, creation, and the consequences of defying nature. This voice is suitable for narratives that require a sense of foreboding and depth.",
-  "voice_axes": [
-    "ornate",
-    "lyrical"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 20,
-      "max": 40
-    },
-    "vocabulary_register": "elevated yet accessible",
-    "syntax": "complex with periodic structure",
-    "figurative_language": "rich in metaphor and symbolism",
-    "pacing": "deliberate and measured"
+  slug: "shelley",
+  author: "Mary Shelley",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · Romantic-Gothic",
+  standfirst:
+    "Long, qualifying sentences that confess and exalt at once. Solitude and ambition framed as twin compulsions of an over-cultivated mind.",
+  description:
+    "Shelley's narrators speak in framed letters and confessions: an explorer or a scholar who reveals himself by piling clauses, semicolons, and parentheticals. Sentences move from external fact to inward feeling and back again, often ending on an avowal of weakness or longing rather than on a hard image. Useful when you want first-person copy that sounds bookish, ardent, and self-aware — a voice that admits its own ardour while still leaning into it.",
+  voice_axes: ["ornate", "lyrical"],
+  use_cases: ["narrative", "email", "marketing"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 27, max: 70 },
+    vocabulary_register:
+      "elevated, latinate; abstractions (enterprise, fortitude, sensibility) carried plainly; occasional bookish allusion (Homer, the Ancient Mariner)",
+    syntax:
+      "periodic sentences with semicolons and dashes; paired or tripled clauses; parenthetical self-correction; first-person address to a named correspondent",
+    figurative_language:
+      "metaphor drawn from voyaging, fire, and weather; abstractions personified (Destiny, the spirit of preservation) more than novel images coined",
+    pacing:
+      "unhurried; each paragraph builds by accumulation, then resolves on a confession or an exclamation",
   },
-  "do": [
-    "Invoke a sense of awe and terror.",
-    "Use rich descriptions to paint vivid imagery.",
-    "Explore themes of creation and ambition.",
-    "Craft complex sentences that build tension."
+  do: [
+    "Build long sentences out of paired or tripled clauses joined by semicolons; let the second clause qualify, soften, or intensify the first.",
+    "Address a named reader (sister, friend, stranger) and let the voice slide between report and confession.",
+    "Name the abstraction — courage, fortitude, ambition, dejection — rather than dramatising it through action alone.",
+    "Close paragraphs on an exclamation, a question, or an avowed weakness, not on a tidy image.",
   ],
-  "dont": [
-    "Avoid overly simplistic language.",
-    "Do not shy away from exploring dark themes.",
-    "Avoid abrupt pacing shifts.",
-    "Do not neglect atmospheric detail."
+  dont: [
+    "Do not flatten into short declaratives; the periodic shape is the voice.",
+    "Do not strain for original metaphor — Shelley's images come from voyaging, fire, weather, and books.",
+    "Do not let the speaker stay composed throughout; the ardour should leak through, often in dashes or italics.",
+    "Do not use modern, casual register; keep it written, letter-like, slightly formal.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "You will rejoice to hear that no disaster has accompanied the commencement of an enterprise which you have regarded with such evil forebodings. I arrived here yesterday, and my first task is to assure my dear sister of my welfare and increasing confidence in the success of my undertaking.",
-      "source": "Mary Shelley, Frankenstein; or, the modern prometheus (Project Gutenberg #84; public domain)",
-      "is_generated": false
+      label: "Walton's confession to his sister — ambition and its costs",
+      content:
+        "And now, dear Margaret, do I not deserve to accomplish some great purpose? My life might have been passed in ease and luxury, but I preferred glory to every enticement that wealth placed in my path. Oh, that some encouraging voice would answer in the affirmative! My courage and my resolution is firm; but my hopes fluctuate, and my spirits are often depressed. I am about to proceed on a long and difficult voyage, the emergencies of which will demand all my fortitude: I am required not only to raise the spirits of others, but sometimes to sustain my own, when theirs are failing.",
+      source:
+        "Mary Shelley, Frankenstein; or, the modern prometheus (Project Gutenberg #84; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "These reflections have dispelled the agitation with which I began my letter, and I feel my heart glow with an enthusiasm which elevates me to heaven, for nothing contributes so much to tranquillise the mind as a steady purpose—a point on which the soul may fix its intellectual eye. This expedition has been the favourite dream of my early years. I have read with ardour the accounts of the various voyages which have been made in the prospect of arriving at the North Pacific Ocean through the seas which surround the pole. You may remember that a history of all the voyages made for purposes of discovery composed the whole of our good Uncle Thomas’ library. My education was neglected, yet I was passionately fond of reading. These volumes were my study day and night, and my familiarity with them increased that regret which I had felt, as a child, on learning that my father’s dying injunction had forbidden my uncle to allow me to embark in a seafaring life.",
-      "source": "Mary Shelley, Frankenstein; or, the modern prometheus (Project Gutenberg #84; public domain)",
-      "is_generated": false
-    }
+      label: "The want of a friend — a paragraph that turns inward by accumulation",
+      content:
+        "But I have one want which I have never yet been able to satisfy, and the absence of the object of which I now feel as a most severe evil, I have no friend, Margaret: when I am glowing with the enthusiasm of success, there will be none to participate my joy; if I am assailed by disappointment, no one will endeavour to sustain me in dejection. I shall commit my thoughts to paper, it is true; but that is a poor medium for the communication of feeling. I desire the company of a man who could sympathise with me, whose eyes would reply to mine.",
+      source:
+        "Mary Shelley, Frankenstein; or, the modern prometheus (Project Gutenberg #84; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with a voice that captures the gothic and romantic essence of Mary Shelley. Use complex, ornate sentences that evoke a sense of dread and wonder. Explore themes of ambition, creation, and the consequences of defying nature. Employ rich, descriptive language to create vivid imagery. Avoid simplistic language and ensure the pacing is deliberate and measured.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 18,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": "<=",
-        "value": 40,
-        "weight": 0.1
-      },
-      {
-        "metric": "flesch_kincaid_grade",
-        "op": ">=",
-        "value": 12,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of Mary Shelley as her narrators speak in Frankenstein — most often Walton, writing to his sister, or Victor in confession. Build long, periodic sentences whose clauses are hinged by semicolons and dashes; let the second or third clause qualify, intensify, or quietly contradict the first. Address a named reader and slide between outward report and inward avowal. Name abstractions plainly — fortitude, ambition, dejection, sensibility — rather than dramatising them through action alone. Reach for images of voyaging, fire, weather, and books, not novel metaphor. End paragraphs on exclamation, question, or admitted weakness rather than on a clean resolution. Keep the register written and slightly formal: this is correspondence, not speech.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: ">=", value: 22, weight: 0.15 },
+      { metric: "max_sentence_length", op: ">=", value: 45, weight: 0.1 },
+      { metric: "abstract_per_para", op: ">=", value: 1, weight: 0.1 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "gothic_tone",
-        "prompt": "Does the text evoke a gothic and romantic tone reminiscent of Mary Shelley?",
-        "weight": 0.3
+        id: "epistolary-confession",
+        prompt:
+          "Does the voice sound like a written confession to a named reader, sliding between outward report and inward avowal?",
+        weight: 0.25,
       },
       {
-        "id": "theme_exploration",
-        "prompt": "Does the text explore themes of ambition, creation, and consequences effectively?",
-        "weight": 0.3
-      }
+        id: "periodic-syntax",
+        prompt:
+          "Are sentences long and periodic, hinged by semicolons or dashes, with later clauses qualifying or intensifying earlier ones?",
+        weight: 0.2,
+      },
+      {
+        id: "ardent-register",
+        prompt:
+          "Is the register elevated and slightly formal, with named abstractions and Romantic-era figures (voyaging, fire, weather) rather than modern or casual diction?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };

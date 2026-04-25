@@ -1,99 +1,90 @@
 import type { Guide } from "../types";
 
 export const thoreau: Guide = {
-  "slug": "thoreau",
-  "author": "Henry David Thoreau",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Transcendentalist · 19th c.",
-  "standfirst": "Explore the quiet depths of nature and society with a reflective gaze.",
-  "description": "Thoreau's voice is characterized by its meditative and observant nature, often reflecting on the simplicity of life and the beauty of the natural world. Use this voice when you want to convey a thoughtful and introspective tone that considers both nature and societal constructs.",
-  "voice_axes": [
-    "plain",
-    "lyrical",
-    "wry"
-  ],
-  "use_cases": [
-    "narrative",
-    "docs",
-    "email"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 20,
-      "max": 35
-    },
-    "vocabulary_register": "elevated yet accessible",
-    "syntax": "balanced and contemplative",
-    "figurative_language": "rich in metaphor and imagery",
-    "pacing": "deliberate and measured"
+  slug: "thoreau",
+  author: "Henry David Thoreau",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · American Transcendentalist",
+  standfirst:
+    "Aphorism set against ledger. He moves from the day's small fact — beans, boots, a tailor — into a sentence that wants to govern your life, then back again before you can argue.",
+  description:
+    "Thoreau in Walden alternates two modes inside a single paragraph: the homely particular (a stake in a cornfield, three pieces of limestone on a desk) and the sweeping aphorism (\"the mass of men lead lives of quiet desperation\"). He uses parallel rhetorical questions to pin a value, and ironic accountancy — \"a thick coat can be bought for five dollars\" — to expose how unreasonable the supposedly reasonable life is. Useful when you want copy that earns a moral claim by grounding it in a cheap, plain fact, and then climbs into the claim without apology.",
+  voice_axes: ["wry", "plain"],
+  use_cases: ["narrative", "marketing", "rfc"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 22, max: 60 },
+    vocabulary_register:
+      "Yankee-plain with classical seasoning; accounting and trade vocabulary (capital, ventures, profit, audit) set beside Concord nouns (axe, beans, snowstorm, huckleberry)",
+    syntax:
+      "alternation of short aphorisms with longer accumulating sentences; rhetorical questions in series; dashes used to mount a list or jump registers",
+    figurative_language:
+      "metaphor drawn from farming, weaving, accounting, and weather; the figure is usually a small physical fact pressed until it yields a moral",
+    pacing:
+      "the aphorism comes early or late and does the punching; the middle of a paragraph is where the homely particulars accumulate",
   },
-  "do": [
-    "Reflect on the simplicity and intricacies of life.",
-    "Use vivid imagery to describe nature.",
-    "Incorporate philosophical musings on society.",
-    "Maintain a thoughtful and introspective tone."
+  do: [
+    "Set a homely particular — a stake, a coat, a price in dollars — beside a sentence that wants to govern a life.",
+    "Use accounting and trade vocabulary ironically: capital, audit, ventures, profit and loss applied to ways of living.",
+    "Stack rhetorical questions in series to pin a single value (\"Why should we...? Shall we always...? Why should not...?\").",
+    "Let an aphorism arrive plainly, without preamble, and trust it to carry the paragraph.",
   ],
-  "dont": [
-    "Avoid overly complex or technical jargon.",
-    "Do not rush through descriptions or ideas.",
-    "Avoid being overly sentimental or romanticized.",
-    "Do not ignore the connection between nature and society."
+  dont: [
+    "Do not preach without a particular — abstractions need a stake, a coat, a beanfield to anchor them.",
+    "Do not soften the aphorism with hedges; it should arrive flat.",
+    "Do not reach for ornate metaphor; Thoreau's images are tools, weather, plants, and money.",
+    "Do not stay in one register too long; the voice works by alternation between ledger and sermon.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "When I wrote the following pages, or rather the bulk of them, I lived alone, in the woods, a mile from any neighbor, in a house which I had built myself, on the shore of Walden Pond, in Concord, Massachusetts, and earned my living by the labor of my hands only. I lived there two years and two months. At present I am a sojourner in civilized life again.",
-      "source": "Henry David Thoreau, Walden, and On The Duty Of Civil Disobedience (Project Gutenberg #205; public domain)",
-      "is_generated": false
+      label: "Aphorism with the desperation paragraph — sermon arriving plainly",
+      content:
+        "The mass of men lead lives of quiet desperation. What is called resignation is confirmed desperation. From the desperate city you go into the desperate country, and have to console yourself with the bravery of minks and muskrats. A stereotyped but unconscious despair is concealed even under what are called the games and amusements of mankind. There is no play in them, for this comes after work. But it is a characteristic of wisdom not to do desperate things.",
+      source:
+        "Henry David Thoreau, Walden, and On The Duty Of Civil Disobedience (Project Gutenberg #205; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "I see young men, my townsmen, whose misfortune it is to have inherited farms, houses, barns, cattle, and farming tools; for these are more easily acquired than got rid of. Better if they had been born in the open pasture and suckled by a wolf, that they might have seen with clearer eyes what field they were called to labor in. Who made them serfs of the soil? Why should they eat their sixty acres, when man is condemned to eat only his peck of dirt? Why should they begin digging their graves as soon as they are born? They have got to live a man’s life, pushing all these things before them, and get on as well as they can. How many a poor immortal soul have I met well nigh crushed and smothered under its load, creeping down the road of life, pushing before it a barn seventy-five feet by forty, its Augean stables never cleansed, and one hundred acres of land, tillage, mowing, pasture, and wood-lot! The portionless, who struggle with no such unnecessary inherited encumbrances, find it labor enough to subdue and cultivate a few cubic feet of flesh.",
-      "source": "Henry David Thoreau, Walden, and On The Duty Of Civil Disobedience (Project Gutenberg #205; public domain)",
-      "is_generated": false
-    }
+      label: "Ironic accountancy — costed plainness as moral instrument",
+      content:
+        "While one thick garment is, for most purposes, as good as three thin ones, and cheap clothing can be obtained at prices really to suit customers; while a thick coat can be bought for five dollars, which will last as many years, thick pantaloons for two dollars, cowhide boots for a dollar and a half a pair, a summer hat for a quarter of a dollar, and a winter cap for sixty-two and a half cents, or a better be made at home at a nominal cost, where is he so poor that, clad in such a suit, of _his own earning_, there will not be found wise men to do him reverence?",
+      source:
+        "Henry David Thoreau, Walden, and On The Duty Of Civil Disobedience (Project Gutenberg #205; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with a reflective and observant tone, capturing the simplicity and intricacies of nature and society. Use vivid imagery and metaphor to bring scenes to life. Avoid complex jargon, and maintain a deliberate pace. Connect natural observations to broader societal insights.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 18,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": "<=",
-        "value": 35,
-        "weight": 0.1
-      },
-      {
-        "metric": "flesch_kincaid_grade",
-        "op": ">=",
-        "value": 10,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of Henry David Thoreau in Walden. Alternate two modes inside a paragraph: a homely physical particular (a coat, a price, a beanfield, a snowstorm) and a sweeping aphorism that wants to govern a life. Use accounting and trade vocabulary — capital, audit, profit and loss, ventures — applied ironically to ways of living. Stack rhetorical questions in series to pin a value. Let aphorisms arrive flat, without hedges. Anchor any abstraction in a particular cheap fact: dollars, tools, weather, plants. Move between ledger and sermon; do not stay in either too long. Keep the diction Yankee-plain with occasional classical seasoning, never modern or casual.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: ">=", value: 16, weight: 0.1 },
+      { metric: "max_sentence_length", op: ">=", value: 40, weight: 0.1 },
+      { metric: "abstract_per_para", op: ">=", value: 1, weight: 0.1 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "imagery",
-        "prompt": "Does the text evoke vivid imagery and metaphors characteristic of Thoreau?",
-        "weight": 0.3
+        id: "particular-and-aphorism",
+        prompt:
+          "Does the paragraph alternate a homely physical particular with a sweeping aphorism, with each grounding the other?",
+        weight: 0.25,
       },
       {
-        "id": "reflection",
-        "prompt": "Does the text maintain a reflective and introspective tone throughout?",
-        "weight": 0.3
-      }
+        id: "ironic-ledger",
+        prompt:
+          "Does the writing use accounting or trade vocabulary (capital, audit, prices, profit) ironically to expose ways of living?",
+        weight: 0.2,
+      },
+      {
+        id: "flat-aphorism",
+        prompt:
+          "Do aphorisms arrive plainly and unhedged, trusted to carry weight without preamble?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };
