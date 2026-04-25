@@ -10,6 +10,7 @@ import {
   Rule,
   Standfirst,
 } from "../components/editorial";
+import { AuthorIllustration } from "../components/author-illustration";
 import { FidelityPanel } from "../components/fidelity-panel";
 import { GuideActions } from "../components/guide-actions";
 import { api, queryKeys } from "../lib/api";
@@ -67,25 +68,34 @@ function GuidePage() {
         </span>
       </nav>
 
-      <header className="mb-10 flex flex-col gap-4">
-        <Kicker>{guide.kicker}</Kicker>
-        <Lede as="h1" size="xl">
-          {guide.author}
-        </Lede>
-        <Standfirst className="max-w-[56ch] text-xl">
-          {guide.standfirst}
-        </Standfirst>
-        <Byline className="mt-1">
-          Curated by {guide.curator} · Updated {guide.updated_at}
-        </Byline>
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          {guide.voice_axes.map((v) => (
-            <Chip key={v}>{VOICE_LABELS[v]}</Chip>
-          ))}
-          {guide.use_cases.map((u) => (
-            <Chip key={u}>{USE_CASE_LABELS[u]}</Chip>
-          ))}
+      <header className="mb-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_180px] md:items-start">
+        <div className="flex flex-col gap-4">
+          <Kicker>{guide.kicker}</Kicker>
+          <Lede as="h1" size="xl">
+            {guide.author}
+          </Lede>
+          <Standfirst className="max-w-[56ch] text-xl">
+            {guide.standfirst}
+          </Standfirst>
+          <Byline className="mt-1">
+            Curated by {guide.curator} · Updated {guide.updated_at}
+          </Byline>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            {guide.voice_axes.map((v) => (
+              <Chip key={v}>{VOICE_LABELS[v]}</Chip>
+            ))}
+            {guide.use_cases.map((u) => (
+              <Chip key={u}>{USE_CASE_LABELS[u]}</Chip>
+            ))}
+          </div>
         </div>
+
+        <AuthorIllustration
+          className="hidden md:block md:justify-self-end"
+          size={180}
+          slug={guide.slug}
+          style={{ color: "var(--strand-color-ink-primary)" }}
+        />
       </header>
 
       <div className="grid gap-12 md:grid-cols-[minmax(0,1fr)_320px]">

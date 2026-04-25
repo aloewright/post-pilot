@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { GuideListItem } from "../lib/api";
 import { USE_CASE_LABELS } from "../../src/lib/utils";
+import { AuthorIllustration } from "./author-illustration";
 import { Chip, Kicker, Lede, Standfirst } from "./editorial";
 
 function formatFidelity(match: number) {
@@ -14,7 +15,7 @@ export function GuideCard({ guide }: { guide: GuideListItem }) {
 
   return (
     <Link
-      className="group relative flex h-full flex-col justify-between gap-6 rounded-lg border p-6 transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:outline-none"
+      className="group relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-lg border p-6 transition-all hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:outline-none"
       params={{ slug: guide.slug }}
       style={{
         background: "var(--strand-color-surface-raised)",
@@ -22,7 +23,14 @@ export function GuideCard({ guide }: { guide: GuideListItem }) {
       }}
       to="/guides/$slug"
     >
-      <div className="flex flex-col gap-3">
+      <AuthorIllustration
+        className="pointer-events-none absolute -top-2 -right-2 opacity-90 transition-transform duration-500 ease-out group-hover:rotate-3 group-hover:scale-110"
+        size={86}
+        slug={guide.slug}
+        style={{ color: "var(--strand-color-ink-primary)" }}
+      />
+
+      <div className="flex flex-col gap-3 pr-20">
         <Kicker>{guide.kicker}</Kicker>
         <Lede as="h2" size="md">
           {guide.author}

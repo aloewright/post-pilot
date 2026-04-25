@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import type { GuideListItem } from "../lib/api";
+import { AuthorIllustration } from "./author-illustration";
 import { Kicker } from "./editorial";
 
 export function AuthorStrip({ guides }: { guides: GuideListItem[] }) {
@@ -30,7 +31,7 @@ export function AuthorStrip({ guides }: { guides: GuideListItem[] }) {
             whileInView={{ opacity: 1, y: 0 }}
           >
             <Link
-              className="block aspect-[4/5] overflow-hidden rounded-lg border p-4 transition-transform hover:-translate-y-0.5"
+              className="group/tile block aspect-[4/5] overflow-hidden rounded-lg border p-4 transition-transform hover:-translate-y-0.5"
               params={{ slug: g.slug }}
               style={{
                 background: "var(--strand-color-surface-raised)",
@@ -39,12 +40,20 @@ export function AuthorStrip({ guides }: { guides: GuideListItem[] }) {
               to="/guides/$slug"
             >
               <div className="flex h-full flex-col justify-between">
-                <span
-                  className="text-[0.62rem] font-semibold tracking-widest uppercase"
-                  style={{ color: "var(--strand-color-accent-kicker)" }}
-                >
-                  {g.era}
-                </span>
+                <div className="flex items-start justify-between">
+                  <span
+                    className="text-[0.62rem] font-semibold tracking-widest uppercase"
+                    style={{ color: "var(--strand-color-accent-kicker)" }}
+                  >
+                    {g.era}
+                  </span>
+                  <AuthorIllustration
+                    className="-mt-1 -mr-1 transition-transform duration-500 ease-out group-hover/tile:rotate-2"
+                    size={56}
+                    slug={g.slug}
+                    style={{ color: "var(--strand-color-ink-primary)" }}
+                  />
+                </div>
                 <span
                   className="pp-lede text-2xl"
                   style={{ lineHeight: 1 }}
