@@ -9,9 +9,7 @@ import { analyzeText, scoreDeterministic } from "../lib/rubric";
 // Cloudflare.Env as the base keeps literal-typed bindings (DO namespace,
 // POSTPILOT_ENV: "dev") while letting the agent read AI Gateway secrets.
 type AgentEnv = Cloudflare.Env & {
-  AI_GATEWAY_BASE_URL?: string;
-  AI_GATEWAY_TOKEN?: string;
-  AI_PROVIDER_KEY?: string;
+  AI_GATEWAY_ID?: string;
   DEFAULT_MODEL?: string;
 };
 
@@ -167,39 +165,32 @@ export class WritingSessionAgent extends Agent<AgentEnv, WritingSessionState> {
     systemPrompt: string;
     transcript: Message[];
   }): Promise<string> {
-    const base = this.env.AI_GATEWAY_BASE_URL;
-    const token = this.env.AI_GATEWAY_TOKEN;
-    if (!(base && token)) {
+    // Use the Workers AI binding with slug-based gateway routing — same
+    // pattern as /v1/apply and /v1/images. Binding handles cf-aig-authorization
+    // automatically; no URL+token plumbing needed.
+    const gatewayId = this.env.AI_GATEWAY_ID;
+    if (!(this.env.AI && gatewayId)) {
       const last = args.transcript.at(-1)?.content ?? "";
       return seededStub(last);
     }
-    const headers: Record<string, string> = {
-      "cf-aig-authorization": `Bearer ${token}`,
-      "content-type": "application/json",
-    };
-    if (this.env.AI_PROVIDER_KEY) {
-      headers.Authorization = `Bearer ${this.env.AI_PROVIDER_KEY}`;
-    }
-    const r = await fetch(base, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        model: this.state.model ?? this.env.DEFAULT_MODEL ?? "openai/gpt-5.5",
-        max_tokens: 1024,
-        temperature: this.state.temperature,
+    const model =
+      this.state.model ?? this.env.DEFAULT_MODEL ?? "openai/gpt-5.5";
+    const result = (await this.env.AI.run(
+      model as Parameters<Ai["run"]>[0],
+      {
+        // OpenAI gpt-5+/o1+ require max_completion_tokens and reject custom
+        // temperature; older / non-OpenAI models take the conventional shape.
+        ...(/^openai\/(gpt-5|o[1-9])/.test(model)
+          ? { max_completion_tokens: 1024 }
+          : { max_tokens: 1024, temperature: this.state.temperature }),
         messages: [
           { role: "system", content: args.systemPrompt },
           ...args.transcript.map((m) => ({ role: m.role, content: m.content })),
         ],
-      }),
-    });
-    if (!r.ok) {
-      throw new Error(`AI Gateway error: ${r.status}`);
-    }
-    const data = (await r.json()) as {
-      choices?: Array<{ message?: { content?: string } }>;
-    };
-    return data.choices?.[0]?.message?.content ?? "";
+      },
+      { gateway: { id: gatewayId } },
+    )) as { choices?: Array<{ message?: { content?: string } }> };
+    return result.choices?.[0]?.message?.content ?? "";
   }
 
   private sendError(connection: Connection, message: string) {

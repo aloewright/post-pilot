@@ -77,44 +77,45 @@ async function runCompletion(args: {
   model: string;
   temperature: number;
 }): Promise<string> {
-  // If an AI Gateway URL + token are configured, route through it. Otherwise
-  // fall back to the seeded stub so /v1/apply stays usable in dev.
-  const base = args.env.AI_GATEWAY_BASE_URL;
-  const token = args.env.AI_GATEWAY_TOKEN;
-  if (!(base && token)) {
+  // Use the Workers AI binding with slug-based AI Gateway routing — same
+  // pattern as /v1/images. The binding handles cf-aig-authorization
+  // automatically when `gateway.id` is set; no AI_GATEWAY_BASE_URL or
+  // bearer-token plumbing needed. Falls through to a stub when neither
+  // the binding nor a gateway slug is configured (e.g. local dev).
+  const gatewayId = args.env.AI_GATEWAY_ID;
+  if (!(args.env.AI && gatewayId)) {
     return seededStub(args.input);
   }
-  // OpenAI-compatible Unified endpoint. base is expected to already include
-  // /compat/chat/completions — we POST directly. cf-aig-authorization
-  // authenticates to the gateway; Authorization is the upstream provider
-  // key and is only sent when AI_PROVIDER_KEY is set (omit for BYOK).
-  const headers: Record<string, string> = {
-    "cf-aig-authorization": `Bearer ${token}`,
-    "content-type": "application/json",
-  };
-  if (args.env.AI_PROVIDER_KEY) {
-    headers.Authorization = `Bearer ${args.env.AI_PROVIDER_KEY}`;
-  }
-  const r = await fetch(base, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      model: args.model,
-      max_tokens: 1024,
-      temperature: args.temperature,
-      messages: [
-        { role: "system", content: args.systemPrompt },
-        { role: "user", content: args.input },
-      ],
-    }),
-  });
-  if (!r.ok) {
+  const opts = { gateway: { id: gatewayId } };
+  try {
+    const result = (await args.env.AI.run(
+      args.model as Parameters<Ai["run"]>[0],
+      {
+        // OpenAI gpt-5+/o1+ are strict: they require max_completion_tokens
+        // (not max_tokens) and only accept temperature=1 (the default).
+        // Older / non-OpenAI models keep the conventional shape.
+        ...(/^openai\/(gpt-5|o[1-9])/.test(args.model)
+          ? { max_completion_tokens: 1024 }
+          : { max_tokens: 1024, temperature: args.temperature }),
+        messages: [
+          { role: "system", content: args.systemPrompt },
+          { role: "user", content: args.input },
+        ],
+      },
+      opts,
+    )) as { choices?: Array<{ message?: { content?: string } }> };
+    return result.choices?.[0]?.message?.content ?? "";
+  } catch (e) {
+    console.error(
+      JSON.stringify({
+        msg: "ai_gateway_run_error",
+        gatewayId,
+        model: args.model,
+        error: (e as Error).message?.slice(0, 400),
+      }),
+    );
     throw new HTTPException(502, { message: "AI Gateway error" });
   }
-  const data = (await r.json()) as {
-    choices?: Array<{ message?: { content?: string } }>;
-  };
-  return data.choices?.[0]?.message?.content ?? "";
 }
 
 function seededStub(input: string): string {
