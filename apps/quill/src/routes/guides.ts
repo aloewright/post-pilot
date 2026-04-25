@@ -33,7 +33,9 @@ const listQuerySchema = z.object({
   sort: z.enum(["author", "era", "recent", "fidelity"]).default("author"),
 });
 
-const exportFormatSchema = z.enum(["json", "yaml", "prompt"]).default("json");
+const exportFormatSchema = z
+  .enum(["json", "yaml", "prompt", "export"])
+  .default("json");
 
 guidesRouter.get("/", (c) => {
   const parsed = listQuerySchema.safeParse(
@@ -130,9 +132,12 @@ guidesRouter.get("/:slug", (c) => {
       "content-type": "text/plain; charset=utf-8",
     });
   }
-  return c.body(guideToJSON(guide), 200, {
-    "content-type": "application/json; charset=utf-8",
-  });
+  if (format === "export") {
+    return c.body(guideToJSON(guide), 200, {
+      "content-type": "application/json; charset=utf-8",
+    });
+  }
+  return c.json(guide);
 });
 
 guidesRouter.get("/:slug/exemplars", (c) => {
