@@ -18,31 +18,48 @@
     "head_sampling_rate": 1
   },
 
+  "upload_source_maps": true,
+
   "vars": {
     "POSTPILOT_ENV": "dev"
-    // "AI_GATEWAY_BASE_URL": "https://gateway.ai.cloudflare.com/v1/<account>/<gateway>"
   },
 
-  // ---- Bindings (uncomment as you provision; M1 ships read-only) ----
-  //
-  // "d1_databases": [
-  //   { "binding": "DB", "database_name": "postpilot", "database_id": "<your-d1-id>", "migrations_dir": "drizzle" }
-  // ],
-  // "kv_namespaces": [
-  //   { "binding": "KV", "id": "<your-kv-id>" }
-  // ],
-  // "r2_buckets": [
-  //   { "binding": "R2", "bucket_name": "postpilot" }
-  // ],
-  // "durable_objects": {
-  //   "bindings": [
-  //     { "name": "RATE_LIMITER", "class_name": "RateLimiter" }
-  //   ]
-  // },
-  // "ai": { "binding": "AI" },
+  // AI_GATEWAY_BASE_URL, AI_GATEWAY_TOKEN, AI_PROVIDER_KEY are Cloudflare
+  // secrets, not vars. Provision via:
+  //   wrangler secret put AI_GATEWAY_BASE_URL   # gateway compat URL
+  //   wrangler secret put AI_GATEWAY_TOKEN      # CF_AIG_TOKEN (gateway auth)
+  //   wrangler secret put AI_PROVIDER_KEY       # only if not using BYOK
+  // or via Doppler → Cloudflare in scripts/bootstrap.sh.
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "postpilot",
+      "database_id": "e781b98a-b952-4533-b9ad-6018d3b207bb",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "kv_namespaces": [
+    { "binding": "KV", "id": "9f27206409fc43a0808b0e168dd901d7" }
+  ],
+  "r2_buckets": [{ "binding": "R2", "bucket_name": "postpilot" }],
+  "ai": { "binding": "AI" },
+
+  "durable_objects": {
+    "bindings": [
+      { "name": "WRITING_SESSION", "class_name": "WritingSessionAgent" }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["WritingSessionAgent"]
+    }
+  ]
 
   // Wrangler v4 surface: declare which secrets the worker expects.
   // "secrets": {
-  //   "required": ["BETTER_AUTH_SECRET", "AI_GATEWAY_TOKEN"]
+  //   "required": ["BETTER_AUTH_SECRET", "AI_GATEWAY_BASE_URL", "AI_GATEWAY_TOKEN"]
   // }
 }

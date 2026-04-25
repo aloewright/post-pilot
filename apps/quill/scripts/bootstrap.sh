@@ -110,21 +110,33 @@ if [[ "$DOPPLER_AVAILABLE" == "1" ]]; then
   fi
 
   green "→ Mirroring Doppler secrets into Cloudflare…"
-  for KEY in BETTER_AUTH_SECRET AI_GATEWAY_TOKEN; do
-    if VAL=$(doppler secrets get "$KEY" --plain 2>/dev/null); then
+  # Doppler key → Worker secret name. Doppler is the single source of truth;
+  # Worker secrets are derived from it.
+  declare -a SECRET_MAP=(
+    "BETTER_AUTH_SECRET:BETTER_AUTH_SECRET"
+    "CF_AIG_TOKEN:AI_GATEWAY_TOKEN"
+    "CLOUDFLARE_GATEWAY_URL:AI_GATEWAY_BASE_URL"
+    "ANTHROPIC_API_KEY:AI_PROVIDER_KEY"
+  )
+  for ENTRY in "${SECRET_MAP[@]}"; do
+    SRC="${ENTRY%%:*}"
+    DEST="${ENTRY##*:}"
+    if VAL=$(doppler secrets get "$SRC" --plain 2>/dev/null); then
       if [[ -n "$VAL" ]]; then
-        printf '%s' "$VAL" | wrangler secret put "$KEY" >/dev/null
-        green "  pushed $KEY → wrangler"
+        printf '%s' "$VAL" | wrangler secret put "$DEST" >/dev/null
+        green "  pushed $SRC → wrangler:$DEST"
       fi
     else
-      dim "  skipped $KEY (not in Doppler yet)"
+      dim "  skipped $SRC (not in Doppler)"
     fi
   done
 else
   dim "→ Skipping secrets mirroring (doppler not available)."
-  dim "  Set BETTER_AUTH_SECRET and AI_GATEWAY_TOKEN later via:"
+  dim "  Set secrets later via:"
   dim "    wrangler secret put BETTER_AUTH_SECRET"
+  dim "    wrangler secret put AI_GATEWAY_BASE_URL"
   dim "    wrangler secret put AI_GATEWAY_TOKEN"
+  dim "    wrangler secret put AI_PROVIDER_KEY   # only without BYOK"
 fi
 
 # ---------- D1 migrations ----------

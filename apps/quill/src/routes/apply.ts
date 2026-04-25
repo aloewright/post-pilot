@@ -25,9 +25,11 @@ const bodySchema = z.object({
 export const applyRouter = new Hono<AppEnv>();
 
 // POST /v1/apply — render a guide + preset against an input via AI Gateway.
-// M1 ships a deterministic stub so the playground works end-to-end before
-// AI Gateway credentials exist. Once you add AI_GATEWAY_BASE_URL + token
-// (or the AI binding), swap callAIGateway in for the stub.
+// Routes through the gateway's OpenAI-compatible Unified endpoint when both
+// AI_GATEWAY_BASE_URL (= .../v1/{account}/{gateway}/compat/chat/completions)
+// and AI_GATEWAY_TOKEN (= CF_AIG_TOKEN) are set. Otherwise returns a stub.
+// AI_PROVIDER_KEY is optional — needed only when the gateway is not using
+// BYOK / managed virtual keys for the upstream provider.
 applyRouter.post("/", async (c) => {
   const body = bodySchema.parse(await c.req.json());
 
@@ -84,31 +86,37 @@ async function runCompletion(args: {
   if (!(base && token)) {
     return seededStub(args.input);
   }
-  // Anthropic-shaped request via AI Gateway. Real wiring is M3 — left as
-  // a clearly-marked TODO; this branch is unreachable until vars are set.
-  // Keeping the call guarded keeps M1 deployable today.
-  const r = await fetch(`${base}/anthropic/v1/messages`, {
+  // OpenAI-compatible Unified endpoint. base is expected to already include
+  // /compat/chat/completions — we POST directly. cf-aig-authorization
+  // authenticates to the gateway; Authorization is the upstream provider
+  // key and is only sent when AI_PROVIDER_KEY is set (omit for BYOK).
+  const headers: Record<string, string> = {
+    "cf-aig-authorization": `Bearer ${token}`,
+    "content-type": "application/json",
+  };
+  if (args.env.AI_PROVIDER_KEY) {
+    headers.Authorization = `Bearer ${args.env.AI_PROVIDER_KEY}`;
+  }
+  const r = await fetch(base, {
     method: "POST",
-    headers: {
-      "x-api-key": token,
-      "anthropic-version": "2023-06-01",
-      "content-type": "application/json",
-    },
+    headers,
     body: JSON.stringify({
       model: args.model,
       max_tokens: 1024,
       temperature: args.temperature,
-      system: args.systemPrompt,
-      messages: [{ role: "user", content: args.input }],
+      messages: [
+        { role: "system", content: args.systemPrompt },
+        { role: "user", content: args.input },
+      ],
     }),
   });
   if (!r.ok) {
     throw new HTTPException(502, { message: "AI Gateway error" });
   }
   const data = (await r.json()) as {
-    content?: Array<{ type: string; text: string }>;
+    choices?: Array<{ message?: { content?: string } }>;
   };
-  return data.content?.[0]?.text ?? "";
+  return data.choices?.[0]?.message?.content ?? "";
 }
 
 function seededStub(input: string): string {

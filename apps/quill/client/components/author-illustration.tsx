@@ -17,7 +17,7 @@ export function AuthorIllustration({
   className,
   ...rest
 }: IllustrationProps) {
-  const Spot = SPOTS[slug] ?? SPOTS.__fallback;
+  const Spot = (SPOTS[slug] ?? SPOTS.__fallback) as SpotComponent;
   return (
     <Spot
       aria-hidden="true"

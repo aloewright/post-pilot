@@ -1,29 +1,29 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { routeAgentRequest } from "agents";
 import { contextMiddleware } from "./middleware/context";
 import { errorHandler } from "./middleware/error";
 import { applyRouter } from "./routes/apply";
 import { guidesRouter } from "./routes/guides";
 import { healthRouter } from "./routes/health";
 import { presetsRouter } from "./routes/presets";
+import { sessionsRouter } from "./routes/sessions";
 
-// Bindings declared in wrangler.jsonc. `wrangler types --env-interface
-// CloudflareBindings` regenerates worker-configuration.d.ts. Until you
-// run that locally, the type below tracks what we expect to find.
-//
-// Bindings still commented out in wrangler.jsonc are typed as optional so
-// the worker compiles before resources are provisioned. Remove the `?`
-// once the corresponding binding is uncommented and types are regenerated.
+// Bindings declared in wrangler.jsonc. `pnpm cf-typegen` regenerates
+// worker-configuration.d.ts to match. Required bindings are non-optional;
+// secrets stay optional so the worker still boots before they are provisioned.
 export type AppBindings = {
   ASSETS: Fetcher;
   POSTPILOT_ENV?: string;
   AI_GATEWAY_BASE_URL?: string;
   AI_GATEWAY_TOKEN?: string;
-  DB?: D1Database;
-  KV?: KVNamespace;
-  R2?: R2Bucket;
-  AI?: Ai;
+  AI_PROVIDER_KEY?: string;
+  DB: D1Database;
+  KV: KVNamespace;
+  R2: R2Bucket;
+  AI: Ai;
+  WRITING_SESSION: DurableObjectNamespace;
 };
 
 export type AppVariables = {
@@ -55,8 +55,17 @@ app.route("/v1/health", healthRouter);
 app.route("/v1/guides", guidesRouter);
 app.route("/v1/presets", presetsRouter);
 app.route("/v1/apply", applyRouter);
+app.route("/v1/sessions", sessionsRouter);
 
-// Anything not under /v1 falls through to the static SPA assets.
+// Stateful agent path: /agents/WritingSessionAgent/:name routes WebSocket +
+// HTTP traffic to a per-session Durable Object instance. Per-user history,
+// streaming, and tool use live there.
+app.all("/agents/*", async (c) => {
+  const res = await routeAgentRequest(c.req.raw, c.env);
+  return res ?? c.text("Not found", 404);
+});
+
+// Anything not under /v1 or /agents falls through to the static SPA assets.
 // `not_found_handling: "single-page-application"` in wrangler.jsonc means
 // deep links like /guides/hemingway resolve to index.html so TanStack
 // Router can take over.
@@ -71,3 +80,4 @@ app.get("*", async (c) => {
 });
 
 export default app;
+export { WritingSessionAgent } from "./agents/writing-session";
