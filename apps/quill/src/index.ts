@@ -22,6 +22,8 @@ export type AppBindings = {
   AI_GATEWAY_TOKEN?: string;
   AI_GATEWAY_ID?: string;
   AI_PROVIDER_KEY?: string;
+  DEFAULT_MODEL?: string;
+  IMAGE_MODEL?: string;
   BETTER_AUTH_SECRET?: string;
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;

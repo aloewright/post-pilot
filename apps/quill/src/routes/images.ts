@@ -3,8 +3,6 @@ import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import type { AppEnv } from "../index";
 
-export const DEFAULT_IMAGE_MODEL = "openai/gpt-image-2" as const;
-
 const bodySchema = z.object({
   prompt: z.string().min(1).max(4000),
   size: z
@@ -14,22 +12,29 @@ const bodySchema = z.object({
   background: z.enum(["transparent", "opaque", "auto"]).default("auto"),
   output_format: z.enum(["png", "webp", "jpeg"]).default("png"),
   image: z.string().optional(),
+  model: z.string().optional(),
 });
 
 export const imagesRouter = new Hono<AppEnv>();
 
-// POST /v1/images/generate — call openai/gpt-image-2 via the Workers AI
-// binding. Routes through AI Gateway when AI_GATEWAY_ID is set; otherwise
-// the binding's default account-level gateway. Returns the model's
-// { image: <url> } payload verbatim plus the model id and request id.
+// POST /v1/images/generate — image model is read from the IMAGE_MODEL var
+// binding so it can be swapped via the Cloudflare dashboard without a
+// redeploy. Routes through AI Gateway when AI_GATEWAY_ID is set.
 imagesRouter.post("/generate", async (c) => {
   const body = bodySchema.parse(await c.req.json());
+
+  const model = body.model ?? c.env.IMAGE_MODEL;
+  if (!model) {
+    throw new HTTPException(500, {
+      message: "IMAGE_MODEL var is not configured",
+    });
+  }
 
   const gatewayId = c.env.AI_GATEWAY_ID;
   const opts = gatewayId ? { gateway: { id: gatewayId } } : undefined;
 
   const result = (await c.env.AI.run(
-    DEFAULT_IMAGE_MODEL,
+    model as Parameters<Ai["run"]>[0],
     {
       prompt: body.prompt,
       size: body.size,
@@ -48,7 +53,7 @@ imagesRouter.post("/generate", async (c) => {
   }
 
   return c.json({
-    model: DEFAULT_IMAGE_MODEL,
+    model,
     image: result.image,
     requestId: c.get("requestId"),
   });

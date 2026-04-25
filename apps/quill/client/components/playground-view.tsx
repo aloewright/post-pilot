@@ -8,8 +8,12 @@ import type { Guide, UseCase } from "../../src/lib/types";
 import { Button, Kicker, Lede, Standfirst } from "./editorial";
 import { RubricSnapshot } from "./rubric-snapshot";
 
+// "" → let the server use its DEFAULT_MODEL var binding. Other entries are
+// per-request overrides; the server will accept any string the AI Gateway
+// understands.
 const MODELS = [
-  { id: "openai/gpt-5.5", label: "GPT-5.5 (default)" },
+  { id: "", label: "Server default (DEFAULT_MODEL)" },
+  { id: "openai/gpt-5.5", label: "GPT-5.5" },
   { id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6" },
   { id: "claude-opus-4-7", label: "Claude Opus 4.7" },
   { id: "gpt-5", label: "GPT-5" },
@@ -38,7 +42,7 @@ export function PlaygroundView({
   const [presetSlug, setPresetSlug] = useState<UseCase | "">(
     initialPreset ?? "",
   );
-  const [model, setModel] = useState<Model>("openai/gpt-5.5");
+  const [model, setModel] = useState<Model>("");
   const [temperature, setTemperature] = useState(0.7);
   const [input, setInput] = useState(
     "My package hasn't arrived and it's been two weeks.",
@@ -63,7 +67,7 @@ export function PlaygroundView({
       api.apply({
         guide: guideSlug,
         preset: presetSlug || undefined,
-        model,
+        model: model || undefined,
         input,
         temperature,
       }),

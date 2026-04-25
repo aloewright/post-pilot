@@ -12,6 +12,7 @@ type AgentEnv = Cloudflare.Env & {
   AI_GATEWAY_BASE_URL?: string;
   AI_GATEWAY_TOKEN?: string;
   AI_PROVIDER_KEY?: string;
+  DEFAULT_MODEL?: string;
 };
 
 type Role = "user" | "assistant" | "system";
@@ -26,25 +27,28 @@ type Message = {
 type WritingSessionState = {
   guideSlug: string | null;
   presetSlug: string | null;
-  model:
-    | "openai/gpt-5.5"
-    | "claude-sonnet-4-6"
-    | "claude-opus-4-7"
-    | "gpt-5"
-    | "llama-4-70b";
+  // null → use DEFAULT_MODEL binding at completion time. Any string accepted
+  // by the AI Gateway / Workers AI binding is valid.
+  model: string | null;
   temperature: number;
   messages: Message[];
 };
 
 type ClientCommand =
-  | { type: "configure"; guide?: string; preset?: string | null; model?: WritingSessionState["model"]; temperature?: number }
+  | {
+      type: "configure";
+      guide?: string;
+      preset?: string | null;
+      model?: string | null;
+      temperature?: number;
+    }
   | { type: "user"; content: string }
   | { type: "reset" };
 
 const DEFAULT_STATE: WritingSessionState = {
   guideSlug: null,
   presetSlug: null,
-  model: "openai/gpt-5.5",
+  model: null,
   temperature: 0.7,
   messages: [],
 };
@@ -172,7 +176,8 @@ export class WritingSessionAgent extends Agent<AgentEnv, WritingSessionState> {
       method: "POST",
       headers,
       body: JSON.stringify({
-        model: this.state.model,
+        model:
+          this.state.model ?? this.env.DEFAULT_MODEL ?? "openai/gpt-5.5",
         max_tokens: 1024,
         temperature: this.state.temperature,
         messages: [

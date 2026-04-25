@@ -10,15 +10,9 @@ import type { AppEnv } from "../index";
 const bodySchema = z.object({
   guide: z.string().min(1),
   preset: z.string().optional(),
-  model: z
-    .enum([
-      "openai/gpt-5.5",
-      "claude-sonnet-4-6",
-      "claude-opus-4-7",
-      "gpt-5",
-      "llama-4-70b",
-    ])
-    .default("openai/gpt-5.5"),
+  // Model is optional; when omitted the server falls back to the
+  // DEFAULT_MODEL var binding so it can be swapped from the dashboard.
+  model: z.string().min(1).optional(),
   input: z.string().min(1).max(4000),
   temperature: z.number().min(0).max(1).default(0.7),
 });
@@ -47,11 +41,12 @@ applyRouter.post("/", async (c) => {
   }
 
   const systemPrompt = applyPresetToSystemPrompt(guide, preset);
+  const model = body.model ?? c.env.DEFAULT_MODEL ?? "openai/gpt-5.5";
   const output = await runCompletion({
     env: c.env,
     systemPrompt,
     input: body.input,
-    model: body.model,
+    model,
     temperature: body.temperature,
   });
 
@@ -63,7 +58,7 @@ applyRouter.post("/", async (c) => {
   return c.json({
     guide: guide.slug,
     preset: preset?.slug ?? null,
-    model: body.model,
+    model,
     output,
     snapshot,
     deterministic_score: score.score,
