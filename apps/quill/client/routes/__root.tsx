@@ -8,7 +8,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     component: RootLayout,
     head: () => ({
       meta: [
-        { title: "Quill — Style guides for AI agents" },
+        { title: "Post Pilot — Style guides for AI agents" },
         {
           name: "description",
           content:

@@ -26,7 +26,7 @@ export function GuideActions({ guide }: { guide: Guide }) {
       }}
     >
       <div className="flex items-center justify-between">
-        <span className="quill-byline">Export</span>
+        <span className="pp-byline">Export</span>
         <div
           className="flex overflow-hidden rounded-md border text-xs"
           style={{ borderColor: "var(--strand-color-rule)" }}
@@ -84,7 +84,7 @@ export function GuideActions({ guide }: { guide: Guide }) {
         className="border-t pt-4"
         style={{ borderColor: "var(--strand-color-rule)" }}
       >
-        <span className="quill-byline">Compatible presets</span>
+        <span className="pp-byline">Compatible presets</span>
         <ul className="mt-2 flex flex-col gap-1 text-sm">
           {USE_CASE_PRESETS.filter((p) =>
             guide.use_cases.includes(p.slug),
@@ -97,7 +97,7 @@ export function GuideActions({ guide }: { guide: Guide }) {
                 {p.name}
               </span>
               <Link
-                className="quill-byline hover:underline"
+                className="pp-byline hover:underline"
                 search={{ guide: guide.slug, preset: p.slug }}
                 to="/playground"
               >

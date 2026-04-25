@@ -128,13 +128,13 @@ export function LibraryView() {
               value={query}
             />
             {data ? (
-              <span className="quill-byline whitespace-nowrap">
+              <span className="pp-byline whitespace-nowrap">
                 {sorted.length} of {data.total}
               </span>
             ) : null}
           </div>
           <label className="flex items-center gap-2 text-sm">
-            <span className="quill-byline">Sort</span>
+            <span className="pp-byline">Sort</span>
             <select
               className="rounded-md border bg-transparent px-2 py-1.5 text-sm"
               onChange={(e) => setSort(e.target.value as SortBy)}

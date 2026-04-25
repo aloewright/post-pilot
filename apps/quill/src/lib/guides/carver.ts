@@ -88,6 +88,6 @@ export const carver: Guide = {
     },
   ],
   is_official: true,
-  curator: "Quill",
+  curator: "Post Pilot",
   updated_at: "2026-04-19",
 };

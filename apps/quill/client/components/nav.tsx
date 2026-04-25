@@ -12,14 +12,14 @@ export function Nav() {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link
-          className="quill-lede text-xl"
+          className="pp-lede text-xl"
           style={{
             color: "var(--strand-color-ink-primary)",
             letterSpacing: "-0.01em",
           }}
           to="/"
         >
-          Quill
+          Post Pilot
         </Link>
         <div
           className="flex items-center gap-6 text-sm"

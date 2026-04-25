@@ -29,7 +29,7 @@ export function FidelityPanel({ scores }: { scores?: FidelityScore[] }) {
             </span>
             <span className="flex items-baseline gap-2">
               <span
-                className="quill-byline"
+                className="pp-byline"
                 style={{ fontFamily: "var(--strand-type-mono)" }}
               >
                 {s.model}

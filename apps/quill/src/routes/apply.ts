@@ -53,7 +53,7 @@ applyRouter.post("/", async (c) => {
   });
 
   // Compute deterministic rubric snapshot server-side. Judge scoring is
-  // deferred (Quill milestone M5) and runs out of band.
+  // deferred (Post Pilot milestone M5) and runs out of band.
   const snapshot = analyzeText(output);
   const score = scoreDeterministic(snapshot, guide.eval_rubric);
 

@@ -1,4 +1,4 @@
-# Quill
+# Post Pilot
 
 A curated library of author voice specifications for AI agents, served from a
 single Cloudflare Worker.
@@ -22,7 +22,7 @@ single Cloudflare Worker.
 
 ```bash
 pnpm install
-pnpm --filter quill dev   # Vite dev server + Worker on the same port
+pnpm --filter postpilot dev   # Vite dev server + Worker on the same port
 ```
 
 Open http://localhost:5173. The Worker serves `/v1/*` and Vite serves the SPA.

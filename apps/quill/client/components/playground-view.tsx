@@ -133,7 +133,7 @@ export function PlaygroundView({
       <div className="mb-6 grid gap-3 md:grid-cols-4">
         <Control label="Guide">
           <select
-            className="quill-select"
+            className="pp-select"
             onChange={(e) => setGuideSlug(e.target.value)}
             value={guideSlug}
           >
@@ -147,7 +147,7 @@ export function PlaygroundView({
 
         <Control label="Preset">
           <select
-            className="quill-select"
+            className="pp-select"
             onChange={(e) => setPresetSlug(e.target.value as UseCase | "")}
             value={presetSlug}
           >
@@ -164,7 +164,7 @@ export function PlaygroundView({
 
         <Control label="Model">
           <select
-            className="quill-select"
+            className="pp-select"
             onChange={(e) => setModel(e.target.value as Model)}
             value={model}
           >
@@ -200,7 +200,7 @@ export function PlaygroundView({
             value={input}
           />
           <div className="mt-3 flex items-center justify-between">
-            <span className="quill-byline">
+            <span className="pp-byline">
               {presetSlug
                 ? USE_CASE_PRESETS.find((p) => p.slug === presetSlug)?.name +
                   " preset"
@@ -283,7 +283,7 @@ export function PlaygroundView({
       ) : null}
 
       <style>{`
-        .quill-select {
+        .pp-select {
           width: 100%;
           background: var(--strand-color-surface-raised);
           border: 1px solid var(--strand-color-rule);

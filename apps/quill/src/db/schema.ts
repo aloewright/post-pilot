@@ -7,7 +7,7 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 
-// Quill data model — mirrors PRD §7.6.
+// Post Pilot data model — mirrors PRD §7.6.
 // M1 ships read-only with seed guides in code; once D1 is provisioned,
 // run `pnpm db:generate` then `pnpm db:migrate:remote` and seed via
 // scripts/seed.ts. Until then this schema is the contract, not the

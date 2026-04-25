@@ -17,7 +17,7 @@ import { presetsRouter } from "./routes/presets";
 // once the corresponding binding is uncommented and types are regenerated.
 export type AppBindings = {
   ASSETS: Fetcher;
-  QUILL_ENV?: string;
+  POSTPILOT_ENV?: string;
   AI_GATEWAY_BASE_URL?: string;
   AI_GATEWAY_TOKEN?: string;
   DB?: D1Database;

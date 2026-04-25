@@ -18,7 +18,7 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/playground")({
   component: PlaygroundPage,
   validateSearch: searchSchema,
-  head: () => ({ meta: [{ title: "Playground — Quill" }] }),
+  head: () => ({ meta: [{ title: "Playground — Post Pilot" }] }),
 });
 
 function PlaygroundPage() {

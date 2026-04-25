@@ -4,7 +4,7 @@ import { LibraryView } from "../components/library-view";
 
 export const Route = createFileRoute("/library")({
   component: LibraryPage,
-  head: () => ({ meta: [{ title: "Library — Quill" }] }),
+  head: () => ({ meta: [{ title: "Library — Post Pilot" }] }),
 });
 
 function LibraryPage() {

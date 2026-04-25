@@ -11,8 +11,8 @@ export function Footer() {
     >
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-10 text-sm md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
-          <span className="quill-lede text-base">Quill</span>
-          <span className="quill-byline">
+          <span className="pp-lede text-base">Post Pilot</span>
+          <span className="pp-byline">
             Style guides for AI agents, curated.
           </span>
         </div>

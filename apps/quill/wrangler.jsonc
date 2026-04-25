@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "quill",
+  "name": "postpilot",
   "main": "src/index.ts",
   "compatibility_date": "2026-04-25",
   "compatibility_flags": ["nodejs_compat"],
@@ -19,20 +19,20 @@
   },
 
   "vars": {
-    "QUILL_ENV": "dev"
+    "POSTPILOT_ENV": "dev"
     // "AI_GATEWAY_BASE_URL": "https://gateway.ai.cloudflare.com/v1/<account>/<gateway>"
   },
 
   // ---- Bindings (uncomment as you provision; M1 ships read-only) ----
   //
   // "d1_databases": [
-  //   { "binding": "DB", "database_name": "quill", "database_id": "<your-d1-id>", "migrations_dir": "drizzle" }
+  //   { "binding": "DB", "database_name": "postpilot", "database_id": "<your-d1-id>", "migrations_dir": "drizzle" }
   // ],
   // "kv_namespaces": [
   //   { "binding": "KV", "id": "<your-kv-id>" }
   // ],
   // "r2_buckets": [
-  //   { "binding": "R2", "bucket_name": "quill" }
+  //   { "binding": "R2", "bucket_name": "postpilot" }
   // ],
   // "durable_objects": {
   //   "bindings": [

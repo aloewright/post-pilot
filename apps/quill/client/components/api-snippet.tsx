@@ -1,7 +1,7 @@
 import { CopyButton } from "./copy-button";
 import { Kicker, Lede, Standfirst } from "./editorial";
 
-const SNIPPET = `// 1. Fetch a guide from your Quill Worker
+const SNIPPET = `// 1. Fetch a guide from your Post Pilot Worker
 const guide = await fetch("/v1/guides/hemingway").then((r) => r.json());
 
 // 2. Use its system prompt with any LLM (routed through AI Gateway)
@@ -23,7 +23,7 @@ export function ApiSnippet() {
           <Standfirst>
             Every guide exports a system prompt, a structured JSON spec, and
             an eval rubric. Use them with the AI Gateway of your choice, or
-            hit your own Quill Worker directly.
+            hit your own Post Pilot Worker directly.
           </Standfirst>
         </div>
 
@@ -38,10 +38,10 @@ export function ApiSnippet() {
             className="flex items-center justify-between border-b px-4 py-2.5"
             style={{ borderColor: "var(--strand-color-rule)" }}
           >
-            <span className="quill-byline">example.ts</span>
+            <span className="pp-byline">example.ts</span>
             <CopyButton size="sm" value={SNIPPET} variant="ghost" />
           </div>
-          <pre className="quill-mono overflow-auto p-4 text-[0.82rem]">
+          <pre className="pp-mono overflow-auto p-4 text-[0.82rem]">
             <code>{SNIPPET}</code>
           </pre>
         </div>

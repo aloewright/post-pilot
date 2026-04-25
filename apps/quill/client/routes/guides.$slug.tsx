@@ -28,7 +28,7 @@ export const Route = createFileRoute("/guides/$slug")({
       });
   },
   head: ({ params }) => ({
-    meta: [{ title: `${params.slug} — Quill` }],
+    meta: [{ title: `${params.slug} — Post Pilot` }],
   }),
 });
 
@@ -90,7 +90,7 @@ function GuidePage() {
 
       <div className="grid gap-12 md:grid-cols-[minmax(0,1fr)_320px]">
         <Column>
-          <p className="quill-standfirst mb-8 text-[1.05rem]">
+          <p className="pp-standfirst mb-8 text-[1.05rem]">
             {guide.description}
           </p>
 
@@ -169,7 +169,7 @@ function GuidePage() {
           <section className="mb-10">
             <Kicker>System prompt</Kicker>
             <pre
-              className="quill-mono mt-3 overflow-auto rounded-md border p-4 text-[0.82rem]"
+              className="pp-mono mt-3 overflow-auto rounded-md border p-4 text-[0.82rem]"
               style={{
                 background: "var(--strand-color-surface-raised)",
                 borderColor: "var(--strand-color-rule)",
@@ -185,18 +185,18 @@ function GuidePage() {
             <Kicker>Eval rubric</Kicker>
             <div className="mt-3 flex flex-col gap-6">
               <div>
-                <h3 className="quill-byline mb-2">Deterministic metrics</h3>
+                <h3 className="pp-byline mb-2">Deterministic metrics</h3>
                 <ul className="flex flex-col gap-2 text-sm">
                   {guide.eval_rubric.deterministic.map((m) => (
                     <li className="flex items-baseline gap-3" key={m.metric}>
                       <span
-                        className="quill-mono text-xs"
+                        className="pp-mono text-xs"
                         style={{ color: "var(--strand-color-ink-muted)" }}
                       >
                         {m.metric} {m.op} {m.value}
                       </span>
                       <span
-                        className="quill-byline ml-auto"
+                        className="pp-byline ml-auto"
                         style={{ color: "var(--strand-color-ink-faint)" }}
                       >
                         weight {m.weight.toFixed(2)}
@@ -206,7 +206,7 @@ function GuidePage() {
                 </ul>
               </div>
               <div>
-                <h3 className="quill-byline mb-2">Judge criteria</h3>
+                <h3 className="pp-byline mb-2">Judge criteria</h3>
                 <ul className="flex flex-col gap-3 text-sm">
                   {guide.eval_rubric.judge_criteria.map((c) => (
                     <li key={c.id}>
@@ -217,7 +217,7 @@ function GuidePage() {
                         {c.id}
                       </span>
                       <span
-                        className="ml-2 quill-byline"
+                        className="ml-2 pp-byline"
                         style={{ color: "var(--strand-color-ink-muted)" }}
                       >
                         weight {c.weight.toFixed(2)}
@@ -232,7 +232,7 @@ function GuidePage() {
                   ))}
                 </ul>
               </div>
-              <p className="quill-byline">
+              <p className="pp-byline">
                 Pass threshold:{" "}
                 <span
                   className="tabular-nums"

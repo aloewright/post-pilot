@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Quill provisioning bootstrap.
+# Post Pilot provisioning bootstrap.
 #
 # What this does, in order:
 #   1. Verifies wrangler + doppler CLIs are present and authenticated
@@ -21,7 +21,7 @@
 #
 # Usage:
 #   ./scripts/bootstrap.sh                    # uses wrangler login + (optional) doppler
-#   doppler run -p quill -c dev -- ./scripts/bootstrap.sh   # if everything in Doppler
+#   doppler run -p postpilot -c dev -- ./scripts/bootstrap.sh   # if everything in Doppler
 
 set -euo pipefail
 
@@ -60,11 +60,11 @@ else
 fi
 
 # ---------- D1 ----------
-green "→ Provisioning D1 database 'quill'…"
+green "→ Provisioning D1 database 'postpilot'…"
 DB_LIST_JSON=$(wrangler d1 list --json)
-DB_ID=$(jq -r '.[] | select(.name=="quill") | .uuid' <<<"$DB_LIST_JSON")
+DB_ID=$(jq -r '.[] | select(.name=="postpilot") | .uuid' <<<"$DB_LIST_JSON")
 if [[ -z "$DB_ID" ]]; then
-  CREATE_OUT=$(wrangler d1 create quill --json)
+  CREATE_OUT=$(wrangler d1 create postpilot --json)
   DB_ID=$(jq -r '.uuid // .database_id // .id' <<<"$CREATE_OUT")
   green "  created: $DB_ID"
 else
@@ -72,11 +72,11 @@ else
 fi
 
 # ---------- KV ----------
-green "→ Provisioning KV namespace 'QUILL_KV'…"
+green "→ Provisioning KV namespace 'POSTPILOT_KV'…"
 KV_LIST_JSON=$(wrangler kv namespace list)
-KV_ID=$(jq -r '.[] | select(.title | endswith("QUILL_KV")) | .id' <<<"$KV_LIST_JSON")
+KV_ID=$(jq -r '.[] | select(.title | endswith("POSTPILOT_KV")) | .id' <<<"$KV_LIST_JSON")
 if [[ -z "$KV_ID" ]]; then
-  CREATE_OUT=$(wrangler kv namespace create QUILL_KV)
+  CREATE_OUT=$(wrangler kv namespace create POSTPILOT_KV)
   KV_ID=$(grep -oE '"id":[[:space:]]*"[a-f0-9]+"' <<<"$CREATE_OUT" \
     | head -n1 | sed -E 's/.*"([a-f0-9]+)"/\1/')
   green "  created: $KV_ID"
@@ -85,12 +85,12 @@ else
 fi
 
 # ---------- R2 ----------
-green "→ Provisioning R2 bucket 'quill'…"
-if wrangler r2 bucket list --json 2>/dev/null | jq -e '.[] | select(.name=="quill")' >/dev/null; then
-  dim "  already exists: quill"
+green "→ Provisioning R2 bucket 'postpilot'…"
+if wrangler r2 bucket list --json 2>/dev/null | jq -e '.[] | select(.name=="postpilot")' >/dev/null; then
+  dim "  already exists: postpilot"
 else
-  wrangler r2 bucket create quill >/dev/null
-  green "  created: quill"
+  wrangler r2 bucket create postpilot >/dev/null
+  green "  created: postpilot"
 fi
 
 # ---------- Patch wrangler.jsonc ----------

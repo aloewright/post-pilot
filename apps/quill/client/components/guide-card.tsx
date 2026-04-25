@@ -36,7 +36,7 @@ export function GuideCard({ guide }: { guide: GuideListItem }) {
         ))}
         {fidelity > 0 ? (
           <span
-            className="ml-auto quill-byline"
+            className="ml-auto pp-byline"
             style={{ color: "var(--strand-color-accent-lede)" }}
           >
             {formatFidelity(fidelity)} fidelity

@@ -120,7 +120,7 @@
 
 /* ------------------- Editorial primitives ------------------- */
 @layer components {
-  .quill-kicker {
+  .pp-kicker {
     font-family: var(--strand-type-body-sans);
     font-size: 0.68rem;
     font-weight: 600;
@@ -132,7 +132,7 @@
     gap: 0.5rem;
   }
 
-  .quill-kicker::before {
+  .pp-kicker::before {
     content: "";
     display: inline-block;
     width: 1.25rem;
@@ -141,7 +141,7 @@
     opacity: 0.6;
   }
 
-  .quill-lede {
+  .pp-lede {
     font-family: var(--strand-type-display-serif);
     font-weight: 400;
     letter-spacing: -0.02em;
@@ -150,7 +150,7 @@
     text-wrap: balance;
   }
 
-  .quill-standfirst {
+  .pp-standfirst {
     font-family: var(--strand-type-body-sans);
     font-size: 1.125rem;
     line-height: 1.55;
@@ -158,23 +158,23 @@
     text-wrap: pretty;
   }
 
-  .quill-byline {
+  .pp-byline {
     font-family: var(--strand-type-body-sans);
     font-size: 0.8125rem;
     color: var(--strand-color-ink-faint);
     letter-spacing: 0.005em;
   }
 
-  .quill-column {
+  .pp-column {
     max-width: var(--strand-measure);
     color: var(--strand-color-ink-primary);
   }
 
-  .quill-column p {
+  .pp-column p {
     line-height: 1.7;
   }
 
-  .quill-pull {
+  .pp-pull {
     font-family: var(--strand-type-display-serif);
     font-weight: 400;
     font-style: italic;
@@ -187,14 +187,14 @@
     text-wrap: pretty;
   }
 
-  .quill-rule {
+  .pp-rule {
     height: 1px;
     background: var(--strand-color-rule);
     border: 0;
     margin: 2rem 0;
   }
 
-  .quill-chip {
+  .pp-chip {
     font-family: var(--strand-type-body-sans);
     font-size: 0.72rem;
     letter-spacing: 0.04em;
@@ -208,7 +208,7 @@
     gap: 0.25rem;
   }
 
-  .quill-mono {
+  .pp-mono {
     font-family: var(--strand-type-mono);
     font-size: 0.85rem;
     line-height: 1.6;
