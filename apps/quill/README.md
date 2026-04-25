@@ -64,7 +64,8 @@ After bootstrap:
 
 ```bash
 pnpm cf-typegen  # regenerate worker-configuration.d.ts
-pnpm deploy      # wrangler deploy
+pnpm cf:deploy   # wrangler deploy   (note: NOT `pnpm deploy` —
+                 #   that's a pnpm built-in for workspace deploys)
 ```
 
 ## Project layout

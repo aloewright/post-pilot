@@ -11,15 +11,17 @@
 #
 # Run from apps/quill/. Idempotent: safe to re-run.
 #
-# Required env (typically injected via Doppler in CI, or by `doppler run`):
-#   CLOUDFLARE_API_TOKEN — token with D1, KV, R2, Workers permissions
-#   CLOUDFLARE_ACCOUNT_ID — numeric account id
-#   DOPPLER_TOKEN — service token with read/write to your Doppler project
+# Auth, in order of preference:
+#   1. `wrangler login` (interactive OAuth) — simplest for solo dev
+#   2. CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID env vars — for CI / non-interactive
+#
+# Doppler is optional. If `doppler me` succeeds the secret-mirroring step
+# runs; otherwise it is skipped and you can run `wrangler secret put ...`
+# yourself later.
 #
 # Usage:
-#   doppler run -p quill -c dev -- ./scripts/bootstrap.sh
-# or with explicit env:
-#   CLOUDFLARE_API_TOKEN=... CLOUDFLARE_ACCOUNT_ID=... DOPPLER_TOKEN=... ./scripts/bootstrap.sh
+#   ./scripts/bootstrap.sh                    # uses wrangler login + (optional) doppler
+#   doppler run -p quill -c dev -- ./scripts/bootstrap.sh   # if everything in Doppler
 
 set -euo pipefail
 
@@ -37,26 +39,25 @@ require() {
 }
 
 require wrangler
-require doppler
 require jq
 require node
-
-if [[ -z "${CLOUDFLARE_API_TOKEN:-}" || -z "${CLOUDFLARE_ACCOUNT_ID:-}" ]]; then
-  red "CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID must be set."
-  red "Run \`wrangler login\` then export them, or use \`doppler run\`."
-  exit 1
-fi
-
-if [[ -z "${DOPPLER_TOKEN:-}" ]]; then
-  red "DOPPLER_TOKEN must be set. Run \`doppler login\` and \`doppler setup\` first."
-  exit 1
-fi
+# doppler is optional — only required for the secret-mirroring step
 
 green "→ Verifying Cloudflare account…"
-wrangler whoami >/dev/null
+if ! wrangler whoami >/dev/null 2>&1; then
+  red "wrangler is not authenticated."
+  red "Either run \`wrangler login\` (interactive OAuth),"
+  red "or set CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID in your environment."
+  exit 1
+fi
 
-green "→ Verifying Doppler project…"
-doppler me >/dev/null
+# Doppler is optional for the bootstrap itself: if absent, secret mirroring is skipped.
+DOPPLER_AVAILABLE=0
+if command -v doppler >/dev/null 2>&1 && doppler me >/dev/null 2>&1; then
+  DOPPLER_AVAILABLE=1
+else
+  dim "doppler not authenticated/installed — secret-mirroring step will be skipped."
+fi
 
 # ---------- D1 ----------
 green "→ Provisioning D1 database 'quill'…"
@@ -98,26 +99,33 @@ node scripts/patch-wrangler.mjs "$DB_ID" "$KV_ID"
 green "  done"
 
 # ---------- Secrets via Doppler → Cloudflare ----------
-green "→ Pushing secrets to Doppler…"
-if ! doppler secrets get BETTER_AUTH_SECRET --plain >/dev/null 2>&1; then
-  AUTH_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))")
-  doppler secrets set BETTER_AUTH_SECRET="$AUTH_SECRET" >/dev/null
-  green "  set BETTER_AUTH_SECRET (generated)"
-else
-  dim "  BETTER_AUTH_SECRET already in Doppler"
-fi
-
-green "→ Mirroring Doppler secrets into Cloudflare…"
-for KEY in BETTER_AUTH_SECRET AI_GATEWAY_TOKEN; do
-  if VAL=$(doppler secrets get "$KEY" --plain 2>/dev/null); then
-    if [[ -n "$VAL" ]]; then
-      printf '%s' "$VAL" | wrangler secret put "$KEY" >/dev/null
-      green "  pushed $KEY → wrangler"
-    fi
+if [[ "$DOPPLER_AVAILABLE" == "1" ]]; then
+  green "→ Pushing secrets to Doppler…"
+  if ! doppler secrets get BETTER_AUTH_SECRET --plain >/dev/null 2>&1; then
+    AUTH_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))")
+    doppler secrets set BETTER_AUTH_SECRET="$AUTH_SECRET" >/dev/null
+    green "  set BETTER_AUTH_SECRET (generated)"
   else
-    dim "  skipped $KEY (not in Doppler yet)"
+    dim "  BETTER_AUTH_SECRET already in Doppler"
   fi
-done
+
+  green "→ Mirroring Doppler secrets into Cloudflare…"
+  for KEY in BETTER_AUTH_SECRET AI_GATEWAY_TOKEN; do
+    if VAL=$(doppler secrets get "$KEY" --plain 2>/dev/null); then
+      if [[ -n "$VAL" ]]; then
+        printf '%s' "$VAL" | wrangler secret put "$KEY" >/dev/null
+        green "  pushed $KEY → wrangler"
+      fi
+    else
+      dim "  skipped $KEY (not in Doppler yet)"
+    fi
+  done
+else
+  dim "→ Skipping secrets mirroring (doppler not available)."
+  dim "  Set BETTER_AUTH_SECRET and AI_GATEWAY_TOKEN later via:"
+  dim "    wrangler secret put BETTER_AUTH_SECRET"
+  dim "    wrangler secret put AI_GATEWAY_TOKEN"
+fi
 
 # ---------- D1 migrations ----------
 green "→ Generating Drizzle migrations…"
@@ -130,4 +138,4 @@ echo
 dim "Next steps:"
 dim "  1) Edit wrangler.jsonc to uncomment d1_databases / kv_namespaces / r2_buckets sections (the ids are filled in)."
 dim "  2) Run: pnpm cf-typegen   # regenerate worker-configuration.d.ts"
-dim "  3) Deploy: pnpm deploy"
+dim "  3) Deploy: pnpm cf:deploy"
