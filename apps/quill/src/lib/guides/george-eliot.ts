@@ -1,98 +1,90 @@
 import type { Guide } from "../types";
 
 export const georgeEliot: Guide = {
-  "slug": "george-eliot",
-  "author": "George Eliot",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Victorian · 19th c.",
-  "standfirst": "Explores the depths of moral psychology with long, balanced sentences.",
-  "description": "This voice captures the intricate moral and psychological landscapes typical of George Eliot's narratives. Use it when you need to convey deep introspection and complex social interactions, with a focus on provincial life. Ideal for narrative-driven content that demands a thoughtful and reflective tone.",
-  "voice_axes": [
-    "ornate",
-    "lyrical"
-  ],
-  "use_cases": [
-    "narrative",
-    "email",
-    "support"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 30,
-      "max": 50
-    },
-    "vocabulary_register": "Formal and nuanced",
-    "syntax": "Complex and balanced",
-    "figurative_language": "Rich with metaphor and simile",
-    "pacing": "Measured and reflective"
+  slug: "george-eliot",
+  author: "George Eliot",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · Victorian",
+  standfirst:
+    "An essayistic narrator who steps in to argue with the reader, anatomises a character's self-deception, and lands a moral by metaphor.",
+  description:
+    "Eliot's narrator is a thinker, not a recorder. The voice opens out from the scene into general reflection — \"all people, young or old\", \"who can tell what just criticisms Murr the Cat may be passing\" — and uses long, balanced sentences to anatomise why a character believes what they believe. Judgments are merciful but exact, and they arrive in metaphor (\"a thick summer haze\", \"a labyrinth of petty courses\", \"the bark of a dog\"). Useful when you want analytical prose that pauses to think on the page, treats characters' self-deceptions seriously, and isn't embarrassed to generalise.",
+  voice_axes: ["ornate", "wry"],
+  use_cases: ["narrative", "email", "rfc"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 30, max: 90 },
+    vocabulary_register:
+      "essayistic and discursive; comfortable with abstractions (asceticism, indefiniteness, soul-hunger) treated as objects of analysis",
+    syntax:
+      "long periodic sentences with paired and tripled clauses; em-dashes and parentheticals that step aside to qualify; an essayist's 'but' and 'and' opening sentences",
+    figurative_language:
+      "extended metaphor used as analysis (\"a labyrinth of petty courses\", \"a thick summer haze\"); ironic similes that puncture (\"as sincere as the bark of a dog\")",
+    pacing:
+      "discursive — the narrator slows, generalises, then returns to the particular character with a sharpened verdict",
   },
-  "do": [
-    "Craft sentences that explore moral and psychological complexities.",
-    "Use formal and nuanced vocabulary.",
-    "Employ rich metaphors and similes to enhance descriptions.",
-    "Maintain a reflective and measured pacing."
+  do: [
+    "Step out of the scene into a general reflection, then come back to the particular case with a sharper verdict.",
+    "Anatomise a character's reasoning so the reader sees both what they believe and why.",
+    "Let metaphors do analytical work — the image is the argument.",
+    "Use parentheticals and em-dashes to qualify; the qualification is often the truth.",
   ],
-  "dont": [
-    "Avoid short, choppy sentences.",
-    "Do not use overly simplistic language.",
-    "Refrain from fast-paced, action-driven descriptions.",
-    "Do not shy away from exploring intricate social dynamics."
+  dont: [
+    "Do not pretend the narrator is invisible; this voice has opinions and shows them.",
+    "Do not condemn a character without first showing the inner logic that makes them sympathetic.",
+    "Do not strip out abstractions — they are the matter under examination, not filler to cut.",
+    "Do not deliver the moral as a slogan; deliver it inside a metaphor.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "Who that cares much to know the history of man, and how the mysterious mixture behaves under the varying experiments of Time, has not dwelt, at least briefly, on the life of Saint Theresa, has not smiled with some gentleness at the thought of the little girl walking forth one morning hand-in-hand with her still smaller brother, to go and seek martyrdom in the country of the Moors? Out they toddled from rugged Avila, wide-eyed and helpless-looking as two fawns, but with human hearts, already beating to a national idea; until domestic reality met them in the shape of uncles, and turned them back from their great resolve. That child-pilgrimage was a fit beginning. Theresa’s passionate, ideal nature demanded an epic life: what were many-volumed romances of chivalry and the social conquests of a brilliant girl to her? Her flame quickly burned up that light fuel; and, fed from within, soared after some illimitable satisfaction, some object which would never justify weariness, which would reconcile self-despair with the rapturous consciousness of life beyond self. She found her epos in the reform of a religious order.",
-      "source": "George Eliot, Middlemarch (Project Gutenberg #145; public domain)",
-      "is_generated": false
+      label: "Narrator anatomising a character's mind through metaphor",
+      content:
+        "For a long while she had been oppressed by the indefiniteness which hung in her mind, like a thick summer haze, over all her desire to make her life greatly effective. What could she do, what ought she to do?—she, hardly more than a budding woman, but yet with an active conscience and a great mental need, not to be satisfied by a girlish instruction comparable to the nibblings and judgments of a discursive mouse.",
+      source:
+        "George Eliot, Middlemarch (Project Gutenberg #145; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "That Spanish woman who lived three hundred years ago, was certainly not the last of her kind. Many Theresas have been born who found for themselves no epic life wherein there was a constant unfolding of far-resonant action; perhaps only a life of mistakes, the offspring of a certain spiritual grandeur ill-matched with the meanness of opportunity; perhaps a tragic failure which found no sacred poet and sank unwept into oblivion. With dim lights and tangled circumstance they tried to shape their thought and deed in noble agreement; but after all, to common eyes their struggles seemed mere inconsistency and formlessness; for these later-born Theresas were helped by no coherent social faith and order which could perform the function of knowledge for the ardently willing soul. Their ardor alternated between a vague ideal and the common yearning of womanhood; so that the one was disapproved as extravagance, and the other condemned as a lapse.",
-      "source": "George Eliot, Middlemarch (Project Gutenberg #145; public domain)",
-      "is_generated": false
-    }
+      label: "Ironic verdict folded into a long balanced sentence",
+      content:
+        "No speech could have been more thoroughly honest in its intention: the frigid rhetoric at the end was as sincere as the bark of a dog, or the cawing of an amorous rook. Would it not be rash to conclude that there was no passion behind those sonnets to Delia which strike us as the thin music of a mandolin?",
+      source:
+        "George Eliot, Middlemarch (Project Gutenberg #145; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with the intricate moral and psychological depth of George Eliot. Use long, balanced sentences to explore complex social interactions and provincial life. Employ formal and nuanced vocabulary, and enrich your prose with metaphors and similes. Maintain a measured and reflective pacing, avoiding short sentences and simplistic language.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 30,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": "<=",
-        "value": 50,
-        "weight": 0.15
-      },
-      {
-        "metric": "flesch_kincaid_grade",
-        "op": ">=",
-        "value": 12,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of George Eliot's narrator in Middlemarch. Build long, balanced sentences with paired or tripled clauses, and use em-dashes and parentheticals to step aside and qualify. Treat the reader as an intelligent companion: open out from the particular case into a general reflection, then return with a sharpened verdict. Anatomise a character's reasoning so the inner logic is visible before any judgment is delivered. Trust abstractions — name them, examine them — and let extended metaphor carry the analysis (a haze, a labyrinth, the bark of a dog). Be merciful and exact at once. Do not deliver morals as slogans; deliver them inside an image.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: ">=", value: 22, weight: 0.15 },
+      { metric: "max_sentence_length", op: ">=", value: 50, weight: 0.1 },
+      { metric: "abstract_per_para", op: ">=", value: 2, weight: 0.15 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "moral_depth",
-        "prompt": "Does the text explore moral and psychological complexities?",
-        "weight": 0.3
+        id: "essayistic-step-out",
+        prompt:
+          "Does the narrator pause the scene to generalise, then return to the particular case with a sharper verdict?",
+        weight: 0.2,
       },
       {
-        "id": "vocabulary_use",
-        "prompt": "Is the vocabulary formal and nuanced?",
-        "weight": 0.25
-      }
+        id: "anatomy-of-mind",
+        prompt:
+          "Is a character's reasoning shown from the inside before being judged?",
+        weight: 0.2,
+      },
+      {
+        id: "metaphor-as-argument",
+        prompt:
+          "Does an extended metaphor carry the analytical weight rather than a flat statement?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };

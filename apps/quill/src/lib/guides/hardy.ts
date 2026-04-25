@@ -1,100 +1,90 @@
 import type { Guide } from "../types";
 
 export const hardy: Guide = {
-  "slug": "hardy",
-  "author": "Thomas Hardy",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Victorian · 19th c.",
-  "standfirst": "A voice steeped in pastoral fatalism and rural diction.",
-  "description": "Thomas Hardy's voice captures the inevitable march of time and the rustic simplicity of rural life. It is ideal for narratives exploring the intersection of human fate and nature's indifference. Use it to convey a profound sense of place and existential reflection.",
-  "voice_axes": [
-    "lyrical",
-    "plain",
-    "wry"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email",
-    "social"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 20,
-      "max": 40
-    },
-    "vocabulary_register": "Rural and evocative",
-    "syntax": "Complex with flowing clauses",
-    "figurative_language": "Rich in metaphor and personification",
-    "pacing": "Measured and deliberate"
+  slug: "hardy",
+  author: "Thomas Hardy",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · Wessex",
+  standfirst:
+    "A geological narrator. The character is small; the landscape and the centuries are large. Dialect carries the speech, fatalism carries the frame.",
+  description:
+    "Hardy zooms out. A girl's small grief is set against \"history in time\" and \"some immense sad soul, conterminous with the universe in space\". Place names (Marlott, Stourcastle, Bulbarrow) and topography do as much work as character description. Dialogue is rendered in unsoftened Dorset dialect. The narrator is a pessimist with a vocabulary of fate and dwindling — \"blighted\", \"shiftless\", \"funeral train\" — and is willing to be openly bitter about \"Nature's holy plan\". Useful when you want copy that locates a small event inside a vast frame and does not pretend the frame is kind.",
+  voice_axes: ["lyrical", "ornate"],
+  use_cases: ["narrative", "marketing"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 26, max: 70 },
+    vocabulary_register:
+      "topographical and slightly archaic narration (conterminous, sylvan, primaeval) braided with unsoftened Dorset dialect ('Bain't you glad', 'a mampus of volk')",
+    syntax:
+      "long sentences that locate a person against a landscape; semicolons that bridge the small and the vast; sudden short sentences for a hard fact",
+    figurative_language:
+      "cosmic similes (\"like a weaver's shuttle\", \"the apples on our stubbard-tree\"); imagery of fate, blight, and weight",
+    pacing:
+      "wide-to-close — establishes the hill, the village, the centuries, then the body in the lane",
   },
-  "do": [
-    "Invoke the landscape as a character in its own right.",
-    "Use rural dialect to ground the setting.",
-    "Explore themes of fate and inevitability.",
-    "Craft sentences that flow with natural cadence."
+  do: [
+    "Place a person against a landscape and a timescale before letting them speak.",
+    "Render dialect speakers in their own spelling, even at the cost of friction for the reader.",
+    "Use one short, hard sentence to deliver a fact (\"Prince was killed!\", \"Tess looked alarmed.\") after a long descriptive build.",
+    "Reach for cosmic or geological scale when a small thing happens — the disproportion is the point.",
   ],
-  "dont": [
-    "Avoid modern slang or contemporary references.",
-    "Shun overly complex technical jargon.",
-    "Do not ignore the emotional depth of nature.",
-    "Refrain from fast-paced or abrupt transitions."
+  dont: [
+    "Do not console; the narrator's tone toward fate is bitter, not consoling.",
+    "Do not translate or normalise dialect.",
+    "Do not let the human action stand alone — anchor it to the road, the hill, the hour, the season.",
+    "Do not euphemise blight, decrepitude, or death; the words go in plainly.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "The main portion of the following story appeared—with slight modifications—in the _Graphic_ newspaper; other chapters, more especially addressed to adult readers, in the _Fortnightly Review_ and the _National Observer_, as episodic sketches. My thanks are tendered to the editors and proprietors of those periodicals for enabling me now to piece the trunk and limbs of the novel together, and print it complete, as originally written two years ago.",
-      "source": "Thomas Hardy, Tess of the d'Urbervilles: A Pure Woman (Project Gutenberg #110; public domain)",
-      "is_generated": false
+      label: "Cosmic frame around a small grief",
+      content:
+        "With no longer a companion to distract her, Tess fell more deeply into reverie than ever, her back leaning against the hives. The mute procession past her shoulders of trees and hedges became attached to fantastic scenes outside reality, and the occasional heave of the wind became the sigh of some immense sad soul, conterminous with the universe in space, and with history in time.",
+      source:
+        "Thomas Hardy, Tess of the d'Urbervilles (Project Gutenberg #110; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "I will just add that the story is sent out in all sincerity of purpose, as an attempt to give artistic form to a true sequence of things; and in respect of the book’s opinions and sentiments, I would ask any too genteel reader, who cannot endure to have said what everybody nowadays thinks and feels, to remember a well-worn sentence of St. Jerome’s: If an offense come out of the truth, better it is that the offense come than that the truth be concealed.",
-      "source": "Thomas Hardy, Tess of the d'Urbervilles: A Pure Woman (Project Gutenberg #110; public domain)",
-      "is_generated": false
-    }
+      label: "Unsoftened Dorset dialect carrying a plot point",
+      content:
+        "“That wer all a part of the larry! We’ve been found to be the greatest gentlefolk in the whole county—reaching all back long before Oliver Grumble’s time—to the days of the Pagan Turks—with monuments, and vaults, and crests, and ’scutcheons, and the Lord knows what all. In Saint Charles’s days we was made Knights o’ the Royal Oak, our real name being d’Urberville!... Don’t that make your bosom plim?”",
+      source:
+        "Thomas Hardy, Tess of the d'Urbervilles (Project Gutenberg #110; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with a sense of pastoral fatalism and rural diction, reflecting the inevitable passage of time. Capture the landscape as a character and explore themes of fate and human insignificance. Use complex sentences with flowing clauses, rich in metaphor and personification. Avoid modern slang and maintain a measured, deliberate pacing.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 18,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": "<=",
-        "value": 45,
-        "weight": 0.1
-      },
-      {
-        "metric": "type_token_ratio",
-        "op": ">=",
-        "value": 0.4,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of Thomas Hardy's narrator in Tess of the d'Urbervilles. Locate every human moment against a landscape and a timescale — the hill, the road, the hour, the centuries — before letting the person speak. Use long sentences that bridge the small body and the vast frame, then drop in a short, hard sentence when a fact has to land. Reach for cosmic or geological similes when the local event is small; the disproportion is the meaning. When dialect speakers appear, render them in their own Dorset spelling without translation. Keep words like 'blighted', 'shiftless', 'decrepitude' plain on the page. Do not console the reader; the narrator's view of fate is bitter and exact.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: ">=", value: 20, weight: 0.15 },
+      { metric: "max_sentence_length", op: ">=", value: 45, weight: 0.1 },
+      { metric: "abstract_per_para", op: ">=", value: 1, weight: 0.1 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "theme_alignment",
-        "prompt": "Does the text convey a sense of pastoral fatalism and rural diction?",
-        "weight": 0.3
+        id: "scale-disproportion",
+        prompt:
+          "Is a small human moment placed against a much larger frame — landscape, history, cosmos — within the same passage?",
+        weight: 0.2,
       },
       {
-        "id": "figurative_language_usage",
-        "prompt": "Is the use of metaphor and personification evocative and appropriate?",
-        "weight": 0.3
-      }
+        id: "dialect-fidelity",
+        prompt:
+          "When informal speakers appear, is their dialect rendered in their own spelling rather than smoothed into standard English?",
+        weight: 0.2,
+      },
+      {
+        id: "fatalist-diction",
+        prompt:
+          "Does the narrator's diction carry the weight of fate and dwindling without slipping into consolation?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };
