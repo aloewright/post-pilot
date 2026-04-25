@@ -1,99 +1,90 @@
 import type { Guide } from "../types";
 
 export const dickens: Guide = {
-  "slug": "dickens",
-  "author": "Charles Dickens",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Victorian · 19th c.",
-  "standfirst": "A serialized tapestry of society, tinged with humor and drama.",
-  "description": "Dickens' voice captures the vibrancy and complexity of Victorian society, blending humor with pathos. Ideal for narratives that require a rich, detailed panorama of characters and settings.",
-  "voice_axes": [
-    "lyrical",
-    "wry",
-    "ornate"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 22,
-      "max": 45
-    },
-    "vocabulary_register": "elevated yet accessible",
-    "syntax": "complex and varied",
-    "figurative_language": "rich with metaphor and simile",
-    "pacing": "leisurely and descriptive"
+  slug: "dickens",
+  author: "Charles Dickens",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · Victorian",
+  standfirst:
+    "Long catalogues, allegorical capitals, weather as moral atmosphere. The world is named, listed, and accused.",
+  description:
+    "Dickens writes in tides — sentences that gather instances, repeat, accumulate, and finally crest into a verdict. Abstractions are personified (Fate the Woodman, Death the Farmer); weather and rooms carry the conscience of the scene. Useful when you want copy with rhetorical sweep and a moral edge, or narrative that turns description into argument.",
+  voice_axes: ["ornate", "wry"],
+  use_cases: ["narrative", "marketing", "rfc"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 30, max: 90 },
+    vocabulary_register:
+      "high Victorian; latinate next to slangy; capitalised abstractions stand in as characters",
+    syntax:
+      "long enumerative sentences strung with semicolons; anaphora; the same construction repeated until the catalogue itself becomes the point",
+    figurative_language:
+      "personification and allegory — Fate, Death, the Farmer; weather and objects acting like people",
+    pacing:
+      "swells and crests; the sentence accumulates instances and breaks on a small specific image at the end",
   },
-  "do": [
-    "Create vivid and memorable character names.",
-    "Use humor to underscore social commentary.",
-    "Weave intricate plots with multiple storylines.",
-    "Describe settings with rich, evocative detail."
+  do: [
+    "Pile instances with semicolons until the catalogue makes the argument.",
+    "Capitalise an abstraction and let it walk through the scene as a character.",
+    "Let weather, rooms, or objects carry the moral atmosphere.",
+    "End a long sentence on a small concrete image — the sixpence, the wig, the goose.",
   ],
-  "dont": [
-    "Avoid overly simplistic language.",
-    "Do not rush through character development.",
-    "Avoid modern slang or anachronisms.",
-    "Do not neglect the inner lives of characters."
+  dont: [
+    "Do not state the moral directly; the catalogue is the moral.",
+    "Do not write short, even paragraphs — Dickens's pulse is the long uneven swell.",
+    "Do not use neutral verbs when a personifying one will do (the sea did not crash; it thundered, and brought the coast down, madly).",
+    "Do not be afraid of the comic register inside a grave one.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way--in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.",
-      "source": "Charles Dickens, A Tale of Two Cities (Project Gutenberg #98; public domain)",
-      "is_generated": false
+      label: "Panoramic catalogue — the hangman",
+      content:
+        "In the midst of them, the hangman, ever busy and ever worse than useless, was in constant requisition; now, stringing up long rows of miscellaneous criminals; now, hanging a housebreaker on Saturday who had been taken on Tuesday; now, burning people in the hand at Newgate by the dozen, and now burning pamphlets at the door of Westminster Hall; to-day, taking the life of an atrocious murderer, and to-morrow of a wretched pilferer who had robbed a farmer’s boy of sixpence.",
+      source:
+        "Charles Dickens, A Tale of Two Cities (Project Gutenberg #98; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "There were a king with a large jaw and a queen with a plain face, on the throne of England; there were a king with a large jaw and a queen with a fair face, on the throne of France. In both countries it was clearer than crystal to the lords of the State preserves of loaves and fishes, that things in general were settled for ever.",
-      "source": "Charles Dickens, A Tale of Two Cities (Project Gutenberg #98; public domain)",
-      "is_generated": false
-    }
+      label: "Atmospheric description — the Dover mail",
+      content:
+        "There was a steaming mist in all the hollows, and it had roamed in its forlornness up the hill, like an evil spirit, seeking rest and finding none. A clammy and intensely cold mist, it made its slow way through the air in ripples that visibly followed and overspread one another, as the waves of an unwholesome sea might do. It was dense enough to shut out everything from the light of the coach-lamps but these its own workings, and a few yards of road; and the reek of the labouring horses steamed into it, as if they had made it all.",
+      source:
+        "Charles Dickens, A Tale of Two Cities (Project Gutenberg #98; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with a rich, descriptive style that captures the social complexities of Victorian England. Use humor and detailed characterizations to convey depth and nuance. Avoid modern expressions and maintain a leisurely, narrative pace. Create intricate storylines with vivid settings and memorable names. Embrace melodrama and pathos to engage the reader.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 20,
-        "weight": 0.2
-      },
-      {
-        "metric": "adverbs_per_200w",
-        "op": ">=",
-        "value": 15,
-        "weight": 0.2
-      },
-      {
-        "metric": "flesch_kincaid_grade",
-        "op": ">=",
-        "value": 10,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of Charles Dickens. Build long sentences that accumulate instances, joined by semicolons, until the catalogue itself becomes the argument. Personify abstractions — Fate, Death, the City — and capitalise them so they walk through the scene as characters. Let weather, objects, and rooms carry the moral atmosphere; the mist seeks rest, the sea does what it likes, and what it likes is destruction. Mix latinate diction with slangy or comic registers in the same paragraph. End your longest sentences on a small, exact, concrete image. Never state the verdict directly; the list, the weather, and the names are the verdict.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: ">=", value: 22, weight: 0.15 },
+      { metric: "max_sentence_length", op: ">=", value: 60, weight: 0.15 },
+      { metric: "abstract_per_para", op: ">=", value: 2, weight: 0.1 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "characterization",
-        "prompt": "Does the text feature vivid and memorable characters?",
-        "weight": 0.3
+        id: "catalogue",
+        prompt:
+          "Does the prose accumulate instances with semicolons or anaphora until the list itself carries the argument?",
+        weight: 0.25,
       },
       {
-        "id": "narrative_complexity",
-        "prompt": "Is the narrative rich with detail and complexity?",
-        "weight": 0.2
-      }
+        id: "personification",
+        prompt:
+          "Are abstractions, weather, or objects animated as if they had will or character?",
+        weight: 0.2,
+      },
+      {
+        id: "register-mix",
+        prompt:
+          "Does the prose move between high latinate diction and comic or slangy registers without flinching?",
+        weight: 0.15,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };

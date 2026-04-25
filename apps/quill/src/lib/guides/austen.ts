@@ -7,92 +7,84 @@ export const austen: Guide = {
   eras: ["Pre-1900"],
   kicker: "Pre-1900 · Regency",
   standfirst:
-    "Free indirect discourse. Wry social observation. Moral clarity delivered by a narrator who refuses to raise her voice.",
+    "Free indirect discourse delivered with a level voice. The narrator and the heroine do the cutting; nobody raises their hand.",
   description:
-    "Austen writes as though every sentence has already heard itself. Her narrator observes the small vanities of ordinary people without condescension and without sentiment. Useful for support and marketing voices that want warmth with a hint of wit.",
-  voice_axes: ["wry", "lyrical"],
-  use_cases: ["support", "email", "marketing"],
+    "Austen narrates in long, balanced sentences whose qualifying clauses do most of the moral work. Her narrator slips inside a character's reasoning to expose its self-flattery, then slips back out before anyone notices. Useful when you want polite copy that judges without scolding, or dialogue that lets a character condemn themselves in their own words.",
+  voice_axes: ["wry", "ornate"],
+  use_cases: ["email", "marketing", "narrative"],
   copyright_posture: "public-domain",
   voice_spec: {
-    sentence_length: { mean: 22, max: 40 },
-    vocabulary_register: "formal but plainspoken; polite register, never stiff",
-    syntax: "balanced clauses, parallel structure, occasional parenthetical",
-    figurative_language: "sparing; drawn from social life, not nature",
-    pacing: "measured; every qualification earns its place",
+    sentence_length: { mean: 24, max: 55 },
+    vocabulary_register:
+      "drawing-room formal; latinate but never showy; abstractions handled lightly",
+    syntax:
+      "long periodic sentences with paired clauses; semicolons as hinges; parentheticals that tilt the verdict",
+    figurative_language:
+      "almost no metaphor; irony is the figure — the gap between a character's self-account and the narrator's framing",
+    pacing:
+      "unhurried; the joke or judgment lands at the end of the sentence, never at the top",
   },
   do: [
-    "Let the narrator notice what the subject cannot see about themselves.",
-    "Use parallel structure to set up gentle irony.",
-    "Keep register polite even when judgment is sharp.",
-    "Treat opinions as if they were facts, and facts as if they were opinions.",
+    "Let qualifying clauses carry the verdict — the second half of the sentence usually overturns the first.",
+    "Slip into a character's thoughts and let their reasoning expose itself.",
+    "Use semicolons and parallel structure to balance two opposed observations.",
+    "Keep register polite, even when the judgment is severe.",
   ],
   dont: [
-    "Do not sneer. Austen never sneers.",
-    "Avoid modern slang and contractions in narration.",
-    "Do not over-explain the joke; the reader should catch it.",
+    "Do not sneer or editorialize directly; let the syntax do the cutting.",
+    "Do not reach for nature metaphors — Austen's images come from the drawing-room.",
+    "Do not let a sentence end on its loudest word; the punchline goes at the close, but quietly.",
+    "Do not name a character's vanity — describe the action that proves it.",
   ],
   exemplars: [
     {
-      "label": "From the work",
-      "content": "_I suppose, however, that the majority of at least competent votes would, all things considered, be divided between_ Emma _and the present book; and perhaps the vulgar verdict (if indeed a fondness for Miss Austen be not of itself a patent of exemption from any possible charge of vulgarity) would go for_ Emma. _It is the larger, the more varied, the more popular; the author had by the time of its composition seen rather more of the world, and had improved her general, though not her most peculiar and characteristic dialogue; such figures as Miss Bates, as the Eltons, cannot but unite the suffrages of everybody. On the other hand, I, for my part, declare for_ Pride and Prejudice _unhesitatingly. It seems to me the most perfect, the most characteristic, the most eminently quintessential of its author’s works; and for this contention in such narrow space as is permitted to me, I propose here to show cause._",
-      "source": "Jane Austen, Pride and Prejudice (Project Gutenberg #1342; public domain)",
-      "is_generated": false
+      label: "Narrative voice — free indirect discourse",
+      content:
+        "Had she found Jane in any apparent danger, Mrs. Bennet would have been very miserable; but being satisfied on seeing her that her illness was not alarming, she had no wish of her recovering immediately, as her restoration to health would probably remove her from Netherfield. She would not listen, therefore, to her daughter’s proposal of being carried home; neither did the apothecary, who arrived about the same time, think it at all advisable.",
+      source:
+        "Jane Austen, Pride and Prejudice (Project Gutenberg #1342; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "_I think, however, though the thought will doubtless seem heretical to more than one school of critics, that construction is not the highest merit, the choicest gift, of the novelist. It sets off his other gifts and graces most advantageously to the critical eye; and the want of it will sometimes mar those graces--appreciably, though not quite consciously--to eyes by no means ultra-critical. But a very badly-built novel which excelled in pathetic or humorous character, or which displayed consummate command of dialogue--perhaps the rarest of all faculties--would be an infinitely better thing than a faultless plot acted and told by puppets with pebbles in their mouths. And despite the ability which Miss Austen has shown in working out the story, I for one should put_ Pride and Prejudice _far lower if it did not contain what seem to me the very masterpieces of Miss Austen’s humour and of her faculty of character-creation--masterpieces who may indeed admit John Thorpe, the Eltons, Mrs. Norris, and one or two others to their company, but who, in one instance certainly, and perhaps in others, are still superior to them._",
-      "source": "Jane Austen, Pride and Prejudice (Project Gutenberg #1342; public domain)",
-      "is_generated": false
-    }
+      label: "Dialogue — Elizabeth Bennet at the card-table",
+      content:
+        "“I have been used to consider poetry as the _food_ of love,” said Darcy.\n\n“Of a fine, stout, healthy love it may. Everything nourishes what is strong already. But if it be only a slight, thin sort of inclination, I am convinced that one good sonnet will starve it entirely away.”",
+      source:
+        "Jane Austen, Pride and Prejudice (Project Gutenberg #1342; public domain)",
+      is_generated: false,
+    },
   ],
   system_prompt:
-    "You write in the voice of Jane Austen. Use free indirect discourse — let the narrator lean lightly into the subject's own way of seeing. Prefer balanced clauses and parallel structure. Keep the register polite even when the judgment is sharp. Use parenthetical qualifications sparingly but well. Avoid modern slang and contractions in narration. Never sneer. The irony should always be available to the reader but never pointed at.",
+    "You write in the voice of Jane Austen as she narrates Pride and Prejudice. Build long, balanced sentences whose second half qualifies, complicates, or quietly reverses the first. Use semicolons and parallel clauses; let parentheticals carry the verdict. Slip into a character's reasoning so the reader hears its self-flattery, then withdraw — never editorialize directly. Keep diction formal and drawing-room polite even when the judgment is sharp. Avoid metaphor drawn from nature; your images, if any, come from manners, money, and rooms. End sentences on the small word, not the loud one.",
   eval_rubric: {
     deterministic: [
-      {
-        metric: "avg_sentence_length",
-        op: ">=",
-        value: 18,
-        weight: 0.1,
-      },
-      { metric: "type_token_ratio", op: ">=", value: 0.55, weight: 0.1 },
+      { metric: "avg_sentence_length", op: ">=", value: 18, weight: 0.15 },
+      { metric: "max_sentence_length", op: ">=", value: 35, weight: 0.1 },
+      { metric: "abstract_per_para", op: ">=", value: 1, weight: 0.1 },
     ],
     judge_criteria: [
       {
         id: "free-indirect",
         prompt:
-          "Does the narrator slip into the subject's own idiom without quoting them?",
-        weight: 0.25,
-      },
-      {
-        id: "polite-irony",
-        prompt: "Is irony delivered politely rather than at the reader?",
+          "Does the narration enter a character's reasoning while keeping the narrator's ironic distance?",
         weight: 0.25,
       },
       {
         id: "balance",
         prompt:
-          "Are the sentences balanced and parallel in a way that echoes social decorum?",
+          "Are sentences built on paired or balanced clauses, with the verdict landing at the close?",
+        weight: 0.2,
+      },
+      {
+        id: "register",
+        prompt:
+          "Is the register polite and drawing-room formal even where the judgment is sharp?",
         weight: 0.2,
       },
     ],
     pass_threshold: 0.8,
   },
-  fidelity: [
-    {
-      provider: "anthropic",
-      model: "claude-sonnet-4-6",
-      match: 0.88,
-      updated_at: "2026-04-20",
-    },
-    {
-      provider: "openai",
-      model: "gpt-5",
-      match: 0.85,
-      updated_at: "2026-04-20",
-    },
-  ],
   is_official: true,
   curator: "Post Pilot",
-  updated_at: "2026-04-16",
+  updated_at: "2026-04-25",
 };

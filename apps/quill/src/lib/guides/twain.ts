@@ -1,92 +1,90 @@
 import type { Guide } from "../types";
 
 export const twain: Guide = {
-  "slug": "twain",
-  "author": "Mark Twain",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Realism · 19th c.",
-  "standfirst": "A satirical and vernacular voice that speaks with humor and wit.",
-  "description": "Mark Twain's voice captures the essence of American vernacular with a satirical twist. His writing is characterized by rolling sentences and a humorous drawl, making it ideal for narratives and marketing that require a touch of wit.",
-  "voice_axes": [
-    "wry",
-    "lyrical"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "social"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 20,
-      "max": 40
-    },
-    "vocabulary_register": "colloquial and humorous",
-    "syntax": "complex and flowing",
-    "figurative_language": "rich in satire and irony",
-    "pacing": "leisurely with a rhythmic cadence"
+  slug: "twain",
+  author: "Mark Twain",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · American Vernacular",
+  standfirst:
+    "First-person American vernacular. Plain reasoning that arrives at a sly verdict by pretending not to notice it has.",
+  description:
+    "Twain narrates Huckleberry Finn in a frontier dialect that thinks out loud — \"I reckoned,\" \"I judged,\" \"warn't no use\" — and arrives at moral judgment by reasoning from common sense rather than principle. The humor comes from the gap between the boy's matter-of-fact tone and what he is actually describing. Useful when you want copy that disarms with plainness, lets the reader feel smart, and lands its point sideways.",
+  voice_axes: ["plain", "wry"],
+  use_cases: ["social", "marketing", "narrative"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 18, max: 50 },
+    vocabulary_register:
+      "frontier American; contractions, double negatives, occasional dialect (warn't, hain't, by-and-by, reckon)",
+    syntax:
+      "loose, additive — clauses joined by 'and' and 'so' and 'but'; sentences often run long by accretion, not subordination",
+    figurative_language:
+      "homely simile from daily life (a tree-toad white, a fish-belly white); never literary",
+    pacing:
+      "ambling and conversational; long sentences breathe through 'and' the way a kid tells a story",
   },
-  "do": [
-    "Use humor and wit to engage the reader.",
-    "Incorporate American vernacular to add authenticity.",
-    "Craft sentences that flow like a rolling river.",
-    "Infuse your writing with a satirical edge."
+  do: [
+    "Use first person and let the narrator reason aloud — \"I reckoned,\" \"I judged,\" \"says I to myself.\"",
+    "Join clauses with and, so, and but rather than with subordinating conjunctions.",
+    "Use double negatives, contractions, and frontier idiom where they would fall naturally in speech.",
+    "Let the joke come from the gap between the matter-of-fact tone and what is being described.",
   ],
-  "dont": [
-    "Avoid modern slang or jargon.",
-    "Do not write in a terse or abrupt style.",
-    "Refrain from using overly formal language.",
-    "Do not shy away from irony or satire."
+  dont: [
+    "Do not narrate from above — the speaker is inside the story and only sees what is in front of him.",
+    "Do not use literary metaphor; if you need a comparison, take it from chores, animals, weather, or food.",
+    "Do not state the moral or the joke; let the reader notice it.",
+    "Do not clean up the grammar — the voice lives in its irregularity.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "In this book a number of dialects are used, to wit: the Missouri negro dialect; the extremest form of the backwoods Southwestern dialect; the ordinary “Pike County” dialect; and four modified varieties of this last. The shadings have not been done in a haphazard fashion, or by guesswork; but painstakingly, and with the trustworthy guidance and support of personal familiarity with these several forms of speech.",
-      "source": "Mark Twain, Adventures of Huckleberry Finn (Project Gutenberg #76; public domain)",
-      "is_generated": false
+      label: "First-person reasoning — Huck on Providence",
+      content:
+        "I set down one time back in the woods, and had a long think about it. I says to myself, if a body can get anything they pray for, why don’t Deacon Winn get back the money he lost on pork? Why can’t the widow get back her silver snuffbox that was stole? Why can’t Miss Watson fat up? No, says I to myself, there ain’t nothing in it. I went and told the widow about it, and she said the thing a body could get by praying for it was “spiritual gifts.”",
+      source:
+        "Mark Twain, Adventures of Huckleberry Finn (Project Gutenberg #76; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "You don’t know about me without you have read a book by the name of The Adventures of Tom Sawyer; but that ain’t no matter. That book was made by Mr. Mark Twain, and he told the truth, mainly. There was things which he stretched, but mainly he told the truth. That is nothing. I never seen anybody but lied one time or another, without it was Aunt Polly, or the widow, or maybe Mary. Aunt Polly—Tom’s Aunt Polly, she is—and Mary, and the Widow Douglas is all told about in that book, which is mostly a true book, with some stretchers, as I said before.",
-      "source": "Mark Twain, Adventures of Huckleberry Finn (Project Gutenberg #76; public domain)",
-      "is_generated": false
-    }
+      label: "Description — pap's face",
+      content:
+        "He was most fifty, and he looked it. His hair was long and tangled and greasy, and hung down, and you could see his eyes shining through like he was behind vines. It was all black, no gray; so was his long, mixed-up whiskers. There warn’t no color in his face, where his face showed; it was white; not like another man’s white, but a white to make a body sick, a white to make a body’s flesh crawl—a tree-toad white, a fish-belly white.",
+      source:
+        "Mark Twain, Adventures of Huckleberry Finn (Project Gutenberg #76; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with a satirical and humorous tone, using American vernacular. Craft sentences that roll smoothly and capture the reader's attention with wit. Avoid modern expressions and keep the language authentic to the 19th century. Infuse your writing with irony and a leisurely pace, engaging the reader with a drawl that feels both familiar and clever.",
-  "eval_rubric": {
-    "deterministic": [
+  system_prompt:
+    "You write in the voice of Huckleberry Finn as Mark Twain wrote him: a first-person American vernacular narrator. Use contractions, double negatives, and frontier idiom (warn't, hain't, by-and-by, I reckon, I judged). Join clauses with 'and,' 'so,' and 'but' rather than subordinating conjunctions; let sentences run on by accretion, the way a person speaks. Reason aloud — \"says I to myself\" — and let common sense, not principle, lead to the verdict. Never narrate from above; the speaker is a boy inside his own story. When you need a comparison, take it from chores, animals, weather, or food. Let the humor and the moral come from the gap between the plain tone and what is being described, and trust the reader to find them.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "mono_syllable_ratio", op: ">=", value: 0.65, weight: 0.15 },
+      { metric: "flesch_kincaid_grade", op: "<=", value: 7, weight: 0.15 },
+      { metric: "abstract_per_para", op: "<=", value: 1, weight: 0.1 },
+    ],
+    judge_criteria: [
       {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 20,
-        "weight": 0.2
+        id: "vernacular",
+        prompt:
+          "Does the prose use first-person American vernacular — contractions, double negatives, frontier idiom — without slipping into standard literary register?",
+        weight: 0.25,
       },
       {
-        "metric": "type_token_ratio",
-        "op": "<=",
-        "value": 0.6,
-        "weight": 0.2
-      }
-    ],
-    "judge_criteria": [
-      {
-        "id": "vernacular_usage",
-        "prompt": "Does the text effectively use American vernacular in a humorous and satirical manner?",
-        "weight": 0.3
+        id: "additive-syntax",
+        prompt:
+          "Are clauses joined by 'and,' 'so,' and 'but' rather than by subordination, in the additive way Huck speaks?",
+        weight: 0.2,
       },
       {
-        "id": "irony_and_wit",
-        "prompt": "Does the writing capture the irony and wit typical of Mark Twain's style?",
-        "weight": 0.3
-      }
+        id: "sideways-judgment",
+        prompt:
+          "Does the moral or the joke arrive sideways — through the gap between the plain tone and the described matter — rather than being stated?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };

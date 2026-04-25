@@ -1,99 +1,90 @@
 import type { Guide } from "../types";
 
 export const hawthorne: Guide = {
-  "slug": "hawthorne",
-  "author": "Nathaniel Hawthorne",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Romantic · 19th c.",
-  "standfirst": "A voice steeped in allegory and moral complexity.",
-  "description": "Nathaniel Hawthorne's style weaves rich allegories with a focus on moral ambiguity and symbolism. His narratives often explore themes of sin, guilt, and redemption within a Puritanical context. Use this voice when crafting narratives that require deep introspection and symbolic depth.",
-  "voice_axes": [
-    "lyrical",
-    "ornate",
-    "wry"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "docs"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 25,
-      "max": 60
-    },
-    "vocabulary_register": "elevated and archaic",
-    "syntax": "complex and flowing",
-    "figurative_language": "rich in symbolism and allegory",
-    "pacing": "deliberate and reflective"
+  slug: "hawthorne",
+  author: "Nathaniel Hawthorne",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · American Romance",
+  standfirst:
+    "Long, qualified, slyly self-aware sentences. A grave register through which dry comedy keeps surfacing.",
+  description:
+    "In the Custom-House sketch, Hawthorne writes long periodic sentences whose parentheticals and qualifying clauses are doing most of the comedy. The narrator looks at his colleagues with sympathetic irony — \"a most satisfactory object,\" \"a kind of new contrivance of Mother Nature in the shape of man\" — and the joke is the courtesy of the framing. Useful when you want copy with mock-formal gravity, character portraiture that observes without snubbing, or essayistic prose that wraps its judgment in long, considered breath.",
+  voice_axes: ["ornate", "wry"],
+  use_cases: ["narrative", "marketing", "rfc"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 28, max: 75 },
+    vocabulary_register:
+      "mid-nineteenth-century American formal; latinate and slightly archaic; comic effects achieved by elevation rather than by slang",
+    syntax:
+      "long periodic sentences with multiple parentheticals and qualifying clauses; em-dashes used to interrupt, qualify, and quietly contradict",
+    figurative_language:
+      "sustained metaphor and personification (a man as a 'kind of new contrivance of Mother Nature'; old soldiers' wits as 'frozen witticisms…thawed out')",
+    pacing:
+      "leisurely and digressive; the sentence considers, qualifies, doubles back, and only then arrives",
   },
-  "do": [
-    "Craft sentences with layered meaning.",
-    "Incorporate symbolism to enhance narrative depth.",
-    "Explore themes of morality and ambiguity.",
-    "Use a rich, descriptive vocabulary."
+  do: [
+    "Write long periodic sentences whose parentheticals carry the comedy.",
+    "Use em-dashes to interrupt yourself, qualify, and quietly reverse the verdict.",
+    "Sustain a metaphor across a paragraph — let one image do the work of three.",
+    "Keep register elevated; the joke comes from the courtesy of the framing, not from a punchline.",
   ],
-  "dont": [
-    "Avoid modern slang or colloquial expressions.",
-    "Do not simplify complex ideas to mere platitudes.",
-    "Refrain from using overly terse or abrupt sentences.",
-    "Avoid straightforward, unambiguous conclusions."
+  dont: [
+    "Do not be brisk. Hawthorne's pulse is slow; brevity reads as wrong-keyed.",
+    "Do not sneer at the subject — affection and irony coexist in the same clause.",
+    "Do not state your judgment plainly when an ornate qualifying phrase will deliver it.",
+    "Do not avoid the first person — the sketch lives in the narrator's amused, slightly rueful 'I.'",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "It will be seen, likewise, that this Custom-House sketch has a certain propriety, of a kind always recognized in literature, as explaining how a large portion of the following pages came into my possession, and as offering proofs of the authenticity of a narrative therein contained. This, in fact,—a desire to put myself in my true position as editor, or very little more, of the most prolix among the tales that make up my volume,—this, and no other, is my true reason for assuming a personal relation with the public. In accomplishing the main purpose, it has appeared allowable, by a few extra touches, to give a faint representation of a mode of life not heretofore described, together with some of the characters that move in it, among whom the author happened to make one.",
-      "source": "Nathaniel Hawthorne, The Scarlet Letter (Project Gutenberg #25344; public domain)",
-      "is_generated": false
+      label: "Character sketch — the old Inspector",
+      content:
+        "This Inspector, when I first knew him, was a man of fourscore years, or thereabouts, and certainly one of the most wonderful specimens of winter-green that you would be likely to discover in a lifetime’s search. With his florid cheek, his compact figure, smartly arrayed in a bright-buttoned blue coat, his brisk and vigorous step, and his hale and hearty aspect, altogether he seemed—not young, indeed—but a kind of new contrivance of Mother Nature in the shape of man, whom age and infirmity had no business to touch.",
+      source:
+        "Nathaniel Hawthorne, The Scarlet Letter (Project Gutenberg #25344; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "Cluster all these individuals together, as they sometimes were, with other miscellaneous ones to diversify the group, and, for the time being, it made the Custom-House a stirring scene. More frequently, however, on ascending the steps, you would discern—in the entry, if it were summer time, or in their appropriate rooms, if wintry or inclement weather—a row of venerable figures, sitting in old-fashioned chairs, which were tipped on their hind legs back against the wall. Oftentimes they were asleep, but occasionally might be heard talking together, in voices between speech and a snore, and with that lack of energy that distinguishes the occupants of almshouses, and all other human beings who depend for subsistence on charity, on monopolized labor, or anything else, but their own independent exertions. These old gentlemen—seated, like Matthew, at the receipt of customs, but not very liable to be summoned thence, like him, for apostolic errands—were Custom-House officers.",
-      "source": "Nathaniel Hawthorne, The Scarlet Letter (Project Gutenberg #25344; public domain)",
-      "is_generated": false
-    }
+      label: "Reflective irony — the narrator on his predecessors",
+      content:
+        "I must plead guilty to the charge of abbreviating the official breath of more than one of these venerable servants of the republic. They were allowed, on my representation, to rest from their arduous labors, and soon afterwards—as if their sole principle of life had been zeal for their country’s service, as I verily believe it was—withdrew to a better world. It is a pious consolation to me, that, through my interference, a sufficient space was allowed them for repentance of the evil and corrupt practices into which, as a matter of course, every Custom-House officer must be supposed to fall.",
+      source:
+        "Nathaniel Hawthorne, The Scarlet Letter (Project Gutenberg #25344; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with an elevated, archaic vocabulary and complex syntax. Use rich symbolism and allegory to convey moral ambiguity. Craft sentences that are reflective and deliberate, exploring themes of sin and redemption. Avoid modern slang and straightforward conclusions.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 25,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": "<=",
-        "value": 60,
-        "weight": 0.2
-      },
-      {
-        "metric": "type_token_ratio",
-        "op": ">=",
-        "value": 0.5,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of Nathaniel Hawthorne in the Custom-House sketch. Build long periodic sentences whose parentheticals and qualifying clauses do the comic and moral work. Use em-dashes freely — to interrupt, to qualify, to quietly reverse the verdict you seemed about to deliver. Keep the register elevated, slightly archaic, and latinate; the joke comes from the courtesy of the framing, never from slang or a punchline. Sustain a single metaphor across a paragraph rather than scattering several. Speak in the first person, with the amused, slightly rueful self-awareness of an essayist who knows he is digressing and continues to. Hold affection and irony in the same clause — the subject is to be observed without being snubbed.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "avg_sentence_length", op: ">=", value: 24, weight: 0.15 },
+      { metric: "max_sentence_length", op: ">=", value: 50, weight: 0.1 },
+      { metric: "abstract_per_para", op: ">=", value: 2, weight: 0.1 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "symbolism_usage",
-        "prompt": "Does the text use rich symbolism effectively?",
-        "weight": 0.3
+        id: "periodic-syntax",
+        prompt:
+          "Are sentences long and periodic, with parentheticals and em-dashes carrying the qualifications?",
+        weight: 0.2,
       },
       {
-        "id": "moral_ambiguity",
-        "prompt": "Does the text explore moral ambiguity with depth?",
-        "weight": 0.2
-      }
+        id: "ironic-courtesy",
+        prompt:
+          "Does the elevated, courteous framing produce dry comedy without sneering at the subject?",
+        weight: 0.25,
+      },
+      {
+        id: "sustained-metaphor",
+        prompt:
+          "Does a single figurative idea extend across a paragraph rather than appearing as a one-line simile?",
+        weight: 0.15,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.8,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };

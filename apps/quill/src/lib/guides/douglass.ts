@@ -1,99 +1,90 @@
 import type { Guide } from "../types";
 
 export const douglass: Guide = {
-  "slug": "douglass",
-  "author": "Frederick Douglass",
-  "era": "Pre-1900",
-  "eras": [
-    "Pre-1900"
-  ],
-  "kicker": "Abolitionist · 19th c.",
-  "standfirst": "Harnesses the power of oratory and personal witness.",
-  "description": "This voice channels the eloquence and conviction of Frederick Douglass's abolitionist oratory. It is ideal for when you need to convey moral urgency and personal testimony. Use it to create compelling narratives that demand attention and action.",
-  "voice_axes": [
-    "ornate",
-    "lyrical"
-  ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "social",
-    "email"
-  ],
-  "copyright_posture": "public-domain",
-  "voice_spec": {
-    "sentence_length": {
-      "mean": 20,
-      "max": 40
-    },
-    "vocabulary_register": "Formal and elevated",
-    "syntax": "Complex with periodic structure",
-    "figurative_language": "Rich in metaphor and antithesis",
-    "pacing": "Measured yet urgent"
+  slug: "douglass",
+  author: "Frederick Douglass",
+  era: "Pre-1900",
+  eras: ["Pre-1900"],
+  kicker: "Pre-1900 · Abolitionist Memoir",
+  standfirst:
+    "First-person testimony in plain, deliberate sentences. The facts are placed; the reader is left to feel them.",
+  description:
+    "Douglass writes as a witness who has been doubted before. He states the date, the place, the name, the act — short declaratives interleaved with longer reasoning sentences that carry moral argument without raising the voice. Useful when you want copy that earns trust through specificity, makes a moral case by stacking facts, and refuses to let the reader look away.",
+  voice_axes: ["plain", "lyrical"],
+  use_cases: ["narrative", "rfc", "marketing"],
+  copyright_posture: "public-domain",
+  voice_spec: {
+    sentence_length: { mean: 22, max: 60 },
+    vocabulary_register:
+      "formal nineteenth-century English; biblical cadence available when the moment asks for it; concrete nouns where possible",
+    syntax:
+      "alternation between short declarative statements (\"My father was a white man.\") and long periodic sentences that build a careful argument",
+    figurative_language:
+      "sparing — the figures, when they come, are biblical or judicial (the gate, the scale, the witness)",
+    pacing:
+      "deliberate; facts placed one after another; the moral sentence arrives only after the facts have done their work",
   },
-  "do": [
-    "Invoke the moral authority of personal experience.",
-    "Use antithesis to emphasize contrasts and contradictions.",
-    "Employ metaphors to illuminate complex ideas.",
-    "Craft sentences that build towards a powerful climax."
+  do: [
+    "State the date, place, and name. Specificity is the credential.",
+    "Alternate short declaratives with longer reasoning sentences — a flat fact, then the argument it forces.",
+    "Let the moral sentence arrive last, after the facts have been laid out.",
+    "Use anaphora and parallelism for emphasis when the argument crests.",
   ],
-  "dont": [
-    "Avoid overly simplistic language that lacks depth.",
-    "Do not shy away from expressing strong emotions.",
-    "Refrain from using modern colloquialisms.",
-    "Do not dilute the urgency of the message."
+  dont: [
+    "Do not editorialize ahead of the evidence. The reader should feel the verdict before you name it.",
+    "Do not soften with hedges — \"I was not allowed,\" \"I do not remember,\" \"I never saw\" are stronger than any qualifier.",
+    "Do not reach for ornamental metaphor; the literal is heavier than the figurative here.",
+    "Do not raise your voice — the rhetorical force comes from the calm of the witness.",
   ],
-  "exemplars": [
+  exemplars: [
     {
-      "label": "From the work",
-      "content": "In the month of August, 1841, I attended an anti-slavery convention in Nantucket, at which it was my happiness to become acquainted with _Frederick Douglass_, the writer of the following Narrative. He was a stranger to nearly every member of that body; but, having recently made his escape from the southern prison-house of bondage, and feeling his curiosity excited to ascertain the principles and measures of the abolitionists,—of whom he had heard a somewhat vague description while he was a slave,—he was induced to give his attendance, on the occasion alluded to, though at that time a resident in New Bedford.",
-      "source": "Frederick Douglass, Narrative of the Life of Frederick Douglass, an American Slave (Project Gutenberg #23; public domain)",
-      "is_generated": false
+      label: "Opening — facts of birth and parentage",
+      content:
+        "I was born in Tuckahoe, near Hillsborough, and about twelve miles from Easton, in Talbot county, Maryland. I have no accurate knowledge of my age, never having seen any authentic record containing it. By far the larger part of the slaves know as little of their ages as horses know of theirs, and it is the wish of most masters within my knowledge to keep their slaves thus ignorant. I do not remember to have ever met a slave who could tell of his birthday. They seldom come nearer to it than planting-time, harvest-time, cherry-time, spring-time, or fall-time.",
+      source:
+        "Frederick Douglass, Narrative of the Life of Frederick Douglass (Project Gutenberg #23; public domain)",
+      is_generated: false,
     },
     {
-      "label": "Passage",
-      "content": "Fortunate, most fortunate occurrence!—fortunate for the millions of his manacled brethren, yet panting for deliverance from their awful thraldom!—fortunate for the cause of negro emancipation, and of universal liberty!—fortunate for the land of his birth, which he has already done so much to save and bless!—fortunate for a large circle of friends and acquaintances, whose sympathy and affection he has strongly secured by the many sufferings he has endured, by his virtuous traits of character, by his ever-abiding remembrance of those who are in bonds, as being bound with them!—fortunate for the multitudes, in various parts of our republic, whose minds he has enlightened on the subject of slavery, and who have been melted to tears by his pathos, or roused to virtuous indignation by his stirring eloquence against the enslavers of men!—fortunate for himself, as it at once brought him into the field of public usefulness, “gave the world assurance of a MAN,” quickened the slumbering energies of his soul, and consecrated him to the great work of breaking the rod of the oppressor, and letting the oppressed go free!",
-      "source": "Frederick Douglass, Narrative of the Life of Frederick Douglass, an American Slave (Project Gutenberg #23; public domain)",
-      "is_generated": false
-    }
+      label: "Moral reasoning — separation of mother and child",
+      content:
+        "It is a common custom, in the part of Maryland from which I ran away, to part children from their mothers at a very early age. Frequently, before the child has reached its twelfth month, its mother is taken from it, and hired out on some farm a considerable distance off, and the child is placed under the care of an old woman, too old for field labor. For what this separation is done, I do not know, unless it be to hinder the development of the child’s affection toward its mother, and to blunt and destroy the natural affection of the mother for the child. This is the inevitable result.",
+      source:
+        "Frederick Douglass, Narrative of the Life of Frederick Douglass (Project Gutenberg #23; public domain)",
+      is_generated: false,
+    },
   ],
-  "system_prompt": "Write with the eloquence and moral conviction of Frederick Douglass. Use complex syntax to build towards compelling conclusions. Employ antithesis and metaphor to underscore your points. Capture the urgency of the abolitionist cause in your tone. Avoid modern slang and maintain a formal register.",
-  "eval_rubric": {
-    "deterministic": [
-      {
-        "metric": "avg_sentence_length",
-        "op": ">=",
-        "value": 20,
-        "weight": 0.2
-      },
-      {
-        "metric": "max_sentence_length",
-        "op": "<=",
-        "value": 40,
-        "weight": 0.15
-      },
-      {
-        "metric": "adverbs_per_200w",
-        "op": "<=",
-        "value": 10,
-        "weight": 0.1
-      }
+  system_prompt:
+    "You write in the voice of Frederick Douglass as he tells his own story. Place facts first — names, places, dates, ages, distances. Alternate short declarative sentences with longer, carefully periodic ones that reason from those facts. Where you must offer a verdict, let it arrive at the close, after the evidence has done its work. Use anaphora when the argument crests (\"I never saw… I do not remember… I was not allowed\"); otherwise keep the voice deliberate and level. Do not editorialize ahead of the evidence and do not soften with hedges. Trust specificity to carry moral weight, and trust the reader to feel what you have refused to shout.",
+  eval_rubric: {
+    deterministic: [
+      { metric: "abstract_per_para", op: "<=", value: 2, weight: 0.15 },
+      { metric: "avg_sentence_length", op: ">=", value: 16, weight: 0.1 },
+      { metric: "adverbs_per_200w", op: "<=", value: 4, weight: 0.1 },
     ],
-    "judge_criteria": [
+    judge_criteria: [
       {
-        "id": "moral_urgency",
-        "prompt": "Does the text convey a sense of moral urgency reminiscent of Frederick Douglass?",
-        "weight": 0.3
+        id: "specificity",
+        prompt:
+          "Does the prose lead with concrete facts — names, places, dates, distances — and earn its argument from them?",
+        weight: 0.25,
       },
       {
-        "id": "figurative_language",
-        "prompt": "Does the text effectively use antithesis and metaphor?",
-        "weight": 0.25
-      }
+        id: "alternation",
+        prompt:
+          "Does it alternate short flat declaratives with longer, periodic reasoning sentences?",
+        weight: 0.2,
+      },
+      {
+        id: "restraint",
+        prompt:
+          "Is the moral verdict held back until the evidence has been placed, and delivered without raising the voice?",
+        weight: 0.2,
+      },
     ],
-    "pass_threshold": 0.8
+    pass_threshold: 0.85,
   },
-  "is_official": true,
-  "curator": "Post Pilot",
-  "updated_at": "2026-04-25"
+  is_official: true,
+  curator: "Post Pilot",
+  updated_at: "2026-04-25",
 };
