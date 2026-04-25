@@ -8,6 +8,7 @@ import { applyRouter } from "./routes/apply";
 import { authRouter } from "./routes/auth";
 import { guidesRouter } from "./routes/guides";
 import { healthRouter } from "./routes/health";
+import { imagesRouter } from "./routes/images";
 import { presetsRouter } from "./routes/presets";
 import { sessionsRouter } from "./routes/sessions";
 
@@ -19,6 +20,7 @@ export type AppBindings = {
   POSTPILOT_ENV?: string;
   AI_GATEWAY_BASE_URL?: string;
   AI_GATEWAY_TOKEN?: string;
+  AI_GATEWAY_ID?: string;
   AI_PROVIDER_KEY?: string;
   BETTER_AUTH_SECRET?: string;
   GITHUB_CLIENT_ID?: string;
@@ -61,6 +63,7 @@ app.route("/v1/health", healthRouter);
 app.route("/v1/guides", guidesRouter);
 app.route("/v1/presets", presetsRouter);
 app.route("/v1/apply", applyRouter);
+app.route("/v1/images", imagesRouter);
 app.route("/v1/sessions", sessionsRouter);
 app.route("/auth", authRouter);
 app.route("/api/auth", authRouter);

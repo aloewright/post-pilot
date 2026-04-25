@@ -12,12 +12,13 @@ const bodySchema = z.object({
   preset: z.string().optional(),
   model: z
     .enum([
+      "openai/gpt-5.5",
       "claude-sonnet-4-6",
       "claude-opus-4-7",
       "gpt-5",
       "llama-4-70b",
     ])
-    .default("claude-sonnet-4-6"),
+    .default("openai/gpt-5.5"),
   input: z.string().min(1).max(4000),
   temperature: z.number().min(0).max(1).default(0.7),
 });

@@ -27,6 +27,7 @@ type WritingSessionState = {
   guideSlug: string | null;
   presetSlug: string | null;
   model:
+    | "openai/gpt-5.5"
     | "claude-sonnet-4-6"
     | "claude-opus-4-7"
     | "gpt-5"
@@ -43,7 +44,7 @@ type ClientCommand =
 const DEFAULT_STATE: WritingSessionState = {
   guideSlug: null,
   presetSlug: null,
-  model: "claude-sonnet-4-6",
+  model: "openai/gpt-5.5",
   temperature: 0.7,
   messages: [],
 };
