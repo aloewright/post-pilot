@@ -3,14 +3,16 @@ import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import type { AppEnv } from "../index";
 
+// Schema is permissive: only `prompt` is required, every other field is
+// optional and forwarded only when the caller sets it. Different image
+// models (gpt-image-2, recraft/*, flux/*) accept different shapes; rather
+// than impose one model's schema we let unset fields fall through.
 const bodySchema = z.object({
   prompt: z.string().min(1).max(4000),
-  size: z
-    .enum(["1024x1024", "1024x1536", "1536x1024", "auto"])
-    .default("auto"),
-  quality: z.enum(["low", "medium", "high", "auto"]).default("auto"),
-  background: z.enum(["transparent", "opaque", "auto"]).default("auto"),
-  output_format: z.enum(["png", "webp", "jpeg"]).default("png"),
+  size: z.string().optional(),
+  quality: z.string().optional(),
+  background: z.string().optional(),
+  output_format: z.string().optional(),
   image: z.string().optional(),
   model: z.string().optional(),
 });
@@ -33,28 +35,31 @@ imagesRouter.post("/generate", async (c) => {
   const gatewayId = c.env.AI_GATEWAY_ID;
   const opts = gatewayId ? { gateway: { id: gatewayId } } : undefined;
 
-  const result = (await c.env.AI.run(
-    model as Parameters<Ai["run"]>[0],
-    {
-      prompt: body.prompt,
-      size: body.size,
-      quality: body.quality,
-      background: body.background,
-      output_format: body.output_format,
-      ...(body.image ? { image: body.image } : {}),
-    },
-    opts,
-  )) as { image?: string };
-
-  if (!result?.image) {
-    throw new HTTPException(502, {
-      message: "Image model returned no image url",
-    });
+  const input: Record<string, unknown> = { prompt: body.prompt };
+  if (body.size) {
+    input.size = body.size;
+  }
+  if (body.quality) {
+    input.quality = body.quality;
+  }
+  if (body.background) {
+    input.background = body.background;
+  }
+  if (body.output_format) {
+    input.output_format = body.output_format;
+  }
+  if (body.image) {
+    input.image = body.image;
   }
 
-  return c.json({
-    model,
-    image: result.image,
-    requestId: c.get("requestId"),
-  });
+  const result = (await c.env.AI.run(
+    model as Parameters<Ai["run"]>[0],
+    input,
+    opts
+  )) as Record<string, unknown>;
+
+  // Different models return different shapes: gpt-image-2 → { image: <url> },
+  // recraft / flux often → { image: <base64> } or stream a binary body.
+  // Pass the full payload through so the caller can handle either.
+  return c.json({ model, ...result, requestId: c.get("requestId") });
 });

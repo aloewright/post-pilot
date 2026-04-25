@@ -1,8 +1,4 @@
-import type {
-  ComponentPropsWithoutRef,
-  ElementType,
-  ReactNode,
-} from "react";
+import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
 type AsProps<T extends ElementType> = {
   as?: T;
@@ -129,7 +125,7 @@ export function Button({
         "inline-flex items-center justify-center gap-1.5 rounded-md font-medium whitespace-nowrap transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)] disabled:opacity-50 disabled:pointer-events-none",
         sizes[size],
         variants[variant],
-        className,
+        className
       )}
       {...props}
     />

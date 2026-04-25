@@ -21,9 +21,9 @@ export function ApiSnippet() {
             Fetch a guide. Drop it in.
           </Lede>
           <Standfirst>
-            Every guide exports a system prompt, a structured JSON spec, and
-            an eval rubric. Use them with the AI Gateway of your choice, or
-            hit your own Post Pilot Worker directly.
+            Every guide exports a system prompt, a structured JSON spec, and an
+            eval rubric. Use them with the AI Gateway of your choice, or hit
+            your own Post Pilot Worker directly.
           </Standfirst>
         </div>
 

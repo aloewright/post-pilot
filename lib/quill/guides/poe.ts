@@ -59,7 +59,8 @@ export const poe: Guide = {
       },
       {
         id: "sonic",
-        prompt: "Is there audible sound patterning (alliteration, consonance, rhythm)?",
+        prompt:
+          "Is there audible sound patterning (alliteration, consonance, rhythm)?",
         weight: 0.25,
       },
       {

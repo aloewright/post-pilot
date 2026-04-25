@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import type { GuideListItem } from "../lib/api";
 import { USE_CASE_LABELS } from "../../src/lib/utils";
+import type { GuideListItem } from "../lib/api";
 import { AuthorIllustration } from "./author-illustration";
 import { Chip, Kicker, Lede, Standfirst } from "./editorial";
 

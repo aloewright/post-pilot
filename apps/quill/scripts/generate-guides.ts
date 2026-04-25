@@ -41,12 +41,17 @@ function parseArgs(argv: string[]): Args {
     force: false,
   };
   for (const a of argv) {
-    if (a === "--dry") out.dry = true;
-    else if (a === "--force") out.force = true;
-    else if (a.startsWith("--limit=")) out.limit = Number(a.split("=")[1]);
-    else if (a.startsWith("--concurrency="))
+    if (a === "--dry") {
+      out.dry = true;
+    } else if (a === "--force") {
+      out.force = true;
+    } else if (a.startsWith("--limit=")) {
+      out.limit = Number(a.split("=")[1]);
+    } else if (a.startsWith("--concurrency=")) {
       out.concurrency = Number(a.split("=")[1]);
-    else if (a.startsWith("--model=")) out.model = a.split("=")[1] ?? out.model;
+    } else if (a.startsWith("--model=")) {
+      out.model = a.split("=")[1] ?? out.model;
+    }
   }
   return out;
 }
@@ -55,13 +60,15 @@ function existingSlugs(): Set<string> {
   return new Set(
     readdirSync(GUIDES_DIR)
       .filter((f) => f.endsWith(".ts") && f !== "index.ts")
-      .map((f) => f.replace(/\.ts$/, "")),
+      .map((f) => f.replace(/\.ts$/, ""))
   );
 }
 
 function envOrFail(name: string): string {
   const v = process.env[name];
-  if (!v) throw new Error(`missing env var: ${name}`);
+  if (!v) {
+    throw new Error(`missing env var: ${name}`);
+  }
   return v;
 }
 
@@ -125,7 +132,11 @@ const ALLOWED_USE_CASES = [
   "social",
   "code",
 ] as const;
-const ALLOWED_POSTURES = ["voice-inspired", "public-domain", "licensed"] as const;
+const ALLOWED_POSTURES = [
+  "voice-inspired",
+  "public-domain",
+  "licensed",
+] as const;
 const ALLOWED_METRICS = [
   "avg_sentence_length",
   "max_sentence_length",
@@ -137,7 +148,9 @@ const ALLOWED_METRICS = [
 ] as const;
 
 function validate(json: unknown, a: AuthorSeed): string | null {
-  if (!json || typeof json !== "object") return "not an object";
+  if (!json || typeof json !== "object") {
+    return "not an object";
+  }
   const j = json as Record<string, unknown>;
 
   for (const k of [
@@ -154,40 +167,61 @@ function validate(json: unknown, a: AuthorSeed): string | null {
     "system_prompt",
     "eval_rubric",
   ]) {
-    if (!(k in j)) return `missing field ${k}`;
+    if (!(k in j)) {
+      return `missing field ${k}`;
+    }
   }
 
-  if (!Array.isArray(j.voice_axes)) return "voice_axes not array";
+  if (!Array.isArray(j.voice_axes)) {
+    return "voice_axes not array";
+  }
   // Clamp to allowed values rather than fail — the model occasionally drifts
   // off-enum (e.g. "elegant"). Drop unknowns; if nothing is left, fail.
   const filteredAxes = j.voice_axes.filter((x) =>
-    ALLOWED_AXES.includes(x as never),
+    ALLOWED_AXES.includes(x as never)
   );
-  if (filteredAxes.length === 0) return "voice_axes had no valid entries";
+  if (filteredAxes.length === 0) {
+    return "voice_axes had no valid entries";
+  }
   j.voice_axes = filteredAxes;
-  if (!Array.isArray(j.use_cases)) return "use_cases not array";
+  if (!Array.isArray(j.use_cases)) {
+    return "use_cases not array";
+  }
   const filteredUseCases = j.use_cases.filter((x) =>
-    ALLOWED_USE_CASES.includes(x as never),
+    ALLOWED_USE_CASES.includes(x as never)
   );
-  if (filteredUseCases.length === 0) return "use_cases had no valid entries";
+  if (filteredUseCases.length === 0) {
+    return "use_cases had no valid entries";
+  }
   j.use_cases = filteredUseCases;
-  if (!ALLOWED_POSTURES.includes(j.copyright_posture as never))
+  if (!ALLOWED_POSTURES.includes(j.copyright_posture as never)) {
     return "copyright_posture invalid";
+  }
 
   const ex = j.exemplars as unknown;
-  if (!Array.isArray(ex) || ex.length !== 2) return "exemplars must be length 2";
+  if (!Array.isArray(ex) || ex.length !== 2) {
+    return "exemplars must be length 2";
+  }
   for (const e of ex) {
-    if (!e || typeof e !== "object") return "exemplar not an object";
+    if (!e || typeof e !== "object") {
+      return "exemplar not an object";
+    }
     const eo = e as Record<string, unknown>;
-    if (typeof eo.label !== "string" || typeof eo.content !== "string")
+    if (typeof eo.label !== "string" || typeof eo.content !== "string") {
       return "exemplar shape";
-    if (eo.is_generated !== true) return "exemplar.is_generated must be true";
-    if (typeof eo.source !== "string" || !eo.source.includes(a.name))
+    }
+    if (eo.is_generated !== true) {
+      return "exemplar.is_generated must be true";
+    }
+    if (typeof eo.source !== "string" || !eo.source.includes(a.name)) {
       return "exemplar.source must include author name";
+    }
   }
 
   const r = j.eval_rubric as Record<string, unknown> | undefined;
-  if (!r) return "eval_rubric missing";
+  if (!r) {
+    return "eval_rubric missing";
+  }
   if (
     !Array.isArray(r.deterministic) ||
     !r.deterministic.every((x) => {
@@ -199,8 +233,9 @@ function validate(json: unknown, a: AuthorSeed): string | null {
         typeof xo.weight === "number"
       );
     })
-  )
+  ) {
     return "deterministic invalid";
+  }
   if (
     !Array.isArray(r.judge_criteria) ||
     !r.judge_criteria.every((x) => {
@@ -211,17 +246,21 @@ function validate(json: unknown, a: AuthorSeed): string | null {
         typeof xo.weight === "number"
       );
     })
-  )
+  ) {
     return "judge_criteria invalid";
+  }
   if (
     typeof r.pass_threshold !== "number" ||
     r.pass_threshold < 0.5 ||
     r.pass_threshold > 1
-  )
+  ) {
     return "pass_threshold invalid";
+  }
 
   const vs = j.voice_spec as Record<string, unknown> | undefined;
-  if (!vs) return "voice_spec missing";
+  if (!vs) {
+    return "voice_spec missing";
+  }
   const sl = vs.sentence_length as Record<string, unknown> | undefined;
   if (
     !sl ||
@@ -229,10 +268,18 @@ function validate(json: unknown, a: AuthorSeed): string | null {
     typeof sl.max !== "number" ||
     sl.mean <= 0 ||
     sl.max < sl.mean
-  )
+  ) {
     return "voice_spec.sentence_length invalid";
-  for (const k of ["vocabulary_register", "syntax", "figurative_language", "pacing"]) {
-    if (typeof vs[k] !== "string") return `voice_spec.${k} invalid`;
+  }
+  for (const k of [
+    "vocabulary_register",
+    "syntax",
+    "figurative_language",
+    "pacing",
+  ]) {
+    if (typeof vs[k] !== "string") {
+      return `voice_spec.${k} invalid`;
+    }
   }
 
   return null;
@@ -241,7 +288,7 @@ function validate(json: unknown, a: AuthorSeed): string | null {
 async function callOpenAI(
   apiKey: string,
   model: string,
-  a: AuthorSeed,
+  a: AuthorSeed
 ): Promise<unknown> {
   const body = {
     model,
@@ -269,7 +316,9 @@ async function callOpenAI(
         choices?: Array<{ message?: { content?: string } }>;
       };
       const content = data.choices?.[0]?.message?.content;
-      if (!content) throw new Error("empty completion");
+      if (!content) {
+        throw new Error("empty completion");
+      }
       return JSON.parse(content);
     }
     if (r.status === 429) {
@@ -306,7 +355,9 @@ function renderGuideTs(a: AuthorSeed, j: Record<string, unknown>): string {
     curator: "Post Pilot",
     updated_at: new Date().toISOString().slice(0, 10),
   };
-  const slugVar = a.slug.replace(/-+([a-z0-9])/g, (_, c: string) => c.toUpperCase());
+  const slugVar = a.slug.replace(/-+([a-z0-9])/g, (_, c: string) =>
+    c.toUpperCase()
+  );
   return `import type { Guide } from "../types";\n\nexport const ${slugVar}: Guide = ${JSON.stringify(g, null, 2)};\n`;
 }
 
@@ -319,7 +370,12 @@ function buildIndex(slugs: string[]): string {
     })
     .join("\n");
   const list = sorted
-    .map((s) => "  " + s.replace(/-+([a-z0-9])/g, (_, c: string) => c.toUpperCase()) + ",")
+    .map(
+      (s) =>
+        "  " +
+        s.replace(/-+([a-z0-9])/g, (_, c: string) => c.toUpperCase()) +
+        ","
+    )
     .join("\n");
   return `import type { Guide } from "../types";
 ${imports}
@@ -345,14 +401,16 @@ export function allSlugs(): string[] {
 async function pool<T, R>(
   items: T[],
   concurrency: number,
-  fn: (t: T) => Promise<R>,
+  fn: (t: T) => Promise<R>
 ): Promise<Array<{ item: T; result?: R; error?: unknown }>> {
   const out: Array<{ item: T; result?: R; error?: unknown }> = [];
   let i = 0;
   const workers = Array.from({ length: concurrency }, async () => {
     while (true) {
       const idx = i++;
-      if (idx >= items.length) return;
+      if (idx >= items.length) {
+        return;
+      }
       const item = items[idx]!;
       try {
         const result = await fn(item);
@@ -368,19 +426,26 @@ async function pool<T, R>(
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
-  if (!existsSync(GUIDES_DIR)) mkdirSync(GUIDES_DIR, { recursive: true });
+  if (!existsSync(GUIDES_DIR)) {
+    mkdirSync(GUIDES_DIR, { recursive: true });
+  }
 
   const have = existingSlugs();
-  let work = AUTHORS.filter(
-    (a) => args.force || !have.has(a.slug),
-  ).slice(0, args.limit ?? AUTHORS.length);
+  const work = AUTHORS.filter((a) => args.force || !have.has(a.slug)).slice(
+    0,
+    args.limit ?? AUTHORS.length
+  );
 
   console.log(
-    `[gen] total=${AUTHORS.length} existing=${have.size} todo=${work.length} concurrency=${args.concurrency} dry=${args.dry}`,
+    `[gen] total=${AUTHORS.length} existing=${have.size} todo=${work.length} concurrency=${args.concurrency} dry=${args.dry}`
   );
   if (args.dry) {
-    for (const a of work.slice(0, 20)) console.log("  todo:", a.slug, "—", a.name);
-    if (work.length > 20) console.log(`  …and ${work.length - 20} more`);
+    for (const a of work.slice(0, 20)) {
+      console.log("  todo:", a.slug, "—", a.name);
+    }
+    if (work.length > 20) {
+      console.log(`  …and ${work.length - 20} more`);
+    }
     return;
   }
 
@@ -392,9 +457,11 @@ async function main() {
       try {
         const j = await callOpenAI(apiKey, args.model, a);
         const err = validate(j, a);
-        if (err) throw new Error("validation: " + err);
+        if (err) {
+          throw new Error(`validation: ${err}`);
+        }
         const ts = renderGuideTs(a, j as Record<string, unknown>);
-        writeFileSync(join(GUIDES_DIR, a.slug + ".ts"), ts);
+        writeFileSync(join(GUIDES_DIR, `${a.slug}.ts`), ts);
         return "ok" as const;
       } catch (e) {
         lastErr = e;
@@ -411,7 +478,7 @@ async function main() {
       "  fail:",
       (f.item as AuthorSeed).slug,
       "—",
-      (f.error as Error)?.message?.slice(0, 200),
+      (f.error as Error)?.message?.slice(0, 200)
     );
   }
 

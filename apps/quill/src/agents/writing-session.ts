@@ -65,7 +65,7 @@ export class WritingSessionAgent extends Agent<AgentEnv, WritingSessionState> {
       JSON.stringify({
         type: "hello",
         state: this.state,
-      }),
+      })
     );
   }
 
@@ -93,7 +93,10 @@ export class WritingSessionAgent extends Agent<AgentEnv, WritingSessionState> {
         await this.handleUserTurn(connection, cmd.content);
         return;
       default:
-        this.sendError(connection, `unknown command: ${(cmd as { type: string }).type}`);
+        this.sendError(
+          connection,
+          `unknown command: ${(cmd as { type: string }).type}`
+        );
     }
   }
 
@@ -111,10 +114,15 @@ export class WritingSessionAgent extends Agent<AgentEnv, WritingSessionState> {
   private async handleUserTurn(connection: Connection, content: string) {
     const guide = this.state.guideSlug ? getGuide(this.state.guideSlug) : null;
     if (!guide) {
-      this.sendError(connection, "no guide configured — send {type:'configure', guide:'…'} first");
+      this.sendError(
+        connection,
+        "no guide configured — send {type:'configure', guide:'…'} first"
+      );
       return;
     }
-    const preset = this.state.presetSlug ? getPreset(this.state.presetSlug) : null;
+    const preset = this.state.presetSlug
+      ? getPreset(this.state.presetSlug)
+      : null;
     const systemPrompt = applyPresetToSystemPrompt(guide, preset ?? null);
 
     const userMessage: Message = {
@@ -151,7 +159,7 @@ export class WritingSessionAgent extends Agent<AgentEnv, WritingSessionState> {
         snapshot,
         deterministic_score: score.score,
         deterministic_details: score.details,
-      }),
+      })
     );
   }
 
@@ -176,8 +184,7 @@ export class WritingSessionAgent extends Agent<AgentEnv, WritingSessionState> {
       method: "POST",
       headers,
       body: JSON.stringify({
-        model:
-          this.state.model ?? this.env.DEFAULT_MODEL ?? "openai/gpt-5.5",
+        model: this.state.model ?? this.env.DEFAULT_MODEL ?? "openai/gpt-5.5",
         max_tokens: 1024,
         temperature: this.state.temperature,
         messages: [

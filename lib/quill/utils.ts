@@ -12,7 +12,9 @@ export type SortBy = "author" | "era" | "recent" | "fidelity";
 export function filterGuides(guides: Guide[], f: GuideFilter): Guide[] {
   const q = f.query?.trim().toLowerCase() ?? "";
   return guides.filter((g) => {
-    if (f.eras?.length && !f.eras.some((e) => g.eras.includes(e))) return false;
+    if (f.eras?.length && !f.eras.some((e) => g.eras.includes(e))) {
+      return false;
+    }
     if (
       f.useCases?.length &&
       !f.useCases.some((u) => g.use_cases.includes(u))
@@ -28,7 +30,9 @@ export function filterGuides(guides: Guide[], f: GuideFilter): Guide[] {
     if (q) {
       const haystack =
         `${g.author} ${g.slug} ${g.kicker} ${g.standfirst} ${g.description}`.toLowerCase();
-      if (!haystack.includes(q)) return false;
+      if (!haystack.includes(q)) {
+        return false;
+      }
     }
     return true;
   });
@@ -52,16 +56,16 @@ export function sortGuides(guides: Guide[], by: SortBy): Guide[] {
     case "recent":
       return copy.sort((a, b) => b.updated_at.localeCompare(a.updated_at));
     case "fidelity":
-      return copy.sort(
-        (a, b) => topFidelity(b) - topFidelity(a),
-      );
+      return copy.sort((a, b) => topFidelity(b) - topFidelity(a));
     default:
       return copy;
   }
 }
 
 export function topFidelity(g: Guide): number {
-  if (!g.fidelity || g.fidelity.length === 0) return 0;
+  if (!g.fidelity || g.fidelity.length === 0) {
+    return 0;
+  }
   return Math.max(...g.fidelity.map((f) => f.match));
 }
 

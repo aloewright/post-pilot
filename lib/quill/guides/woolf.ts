@@ -61,12 +61,14 @@ export const woolf: Guide = {
       },
       {
         id: "drift",
-        prompt: "Does the sentence follow a turn of thought rather than a plot beat?",
+        prompt:
+          "Does the sentence follow a turn of thought rather than a plot beat?",
         weight: 0.25,
       },
       {
         id: "semicolons",
-        prompt: "Is there at least one long semicolon- or dash-chained sentence?",
+        prompt:
+          "Is there at least one long semicolon- or dash-chained sentence?",
         weight: 0.15,
       },
     ],

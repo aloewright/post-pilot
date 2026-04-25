@@ -1,7 +1,7 @@
+import { routeAgentRequest } from "agents";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { routeAgentRequest } from "agents";
 import { contextMiddleware } from "./middleware/context";
 import { errorHandler } from "./middleware/error";
 import { applyRouter } from "./routes/apply";
@@ -56,7 +56,7 @@ app.use(
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["content-type", "authorization", "x-api-key"],
     maxAge: 600,
-  }),
+  })
 );
 
 app.onError(errorHandler);
@@ -86,7 +86,7 @@ app.get("*", async (c) => {
   if (!c.env.ASSETS) {
     return c.text(
       "Static asset binding missing. Run `pnpm dev` (Vite) for the client.",
-      500,
+      500
     );
   }
   return c.env.ASSETS.fetch(c.req.raw);

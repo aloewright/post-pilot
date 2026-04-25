@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import type { Guide } from "@/lib/quill/types";
 import { guideToJSON, guideToYAML } from "@/lib/quill/export";
 import { USE_CASE_PRESETS } from "@/lib/quill/presets";
+import type { Guide } from "@/lib/quill/types";
 import { CopyButton } from "./copy-button";
 
 type Format = "prompt" | "json" | "yaml";
@@ -87,24 +87,24 @@ export function GuideActions({ guide }: { guide: Guide }) {
       >
         <span className="quill-byline">Compatible presets</span>
         <ul className="mt-2 flex flex-col gap-1 text-sm">
-          {USE_CASE_PRESETS.filter((p) =>
-            guide.use_cases.includes(p.slug),
-          ).map((p) => (
-            <li
-              className="flex items-baseline justify-between gap-3"
-              key={p.slug}
-            >
-              <span style={{ color: "var(--strand-color-ink-primary)" }}>
-                {p.name}
-              </span>
-              <Link
-                className="quill-byline hover:underline"
-                href={`/quill/playground?guide=${guide.slug}&preset=${p.slug}`}
+          {USE_CASE_PRESETS.filter((p) => guide.use_cases.includes(p.slug)).map(
+            (p) => (
+              <li
+                className="flex items-baseline justify-between gap-3"
+                key={p.slug}
               >
-                Try →
-              </Link>
-            </li>
-          ))}
+                <span style={{ color: "var(--strand-color-ink-primary)" }}>
+                  {p.name}
+                </span>
+                <Link
+                  className="quill-byline hover:underline"
+                  href={`/quill/playground?guide=${guide.slug}&preset=${p.slug}`}
+                >
+                  Try →
+                </Link>
+              </li>
+            )
+          )}
         </ul>
       </div>
     </div>

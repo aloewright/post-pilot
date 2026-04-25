@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { api, queryKeys } from "../lib/api";
 import { USE_CASE_PRESETS } from "../../src/lib/presets";
 import { analyzeText, scoreDeterministic } from "../../src/lib/rubric";
 import type { Guide, UseCase } from "../../src/lib/types";
+import { api, queryKeys } from "../lib/api";
 import { Button, Kicker, Lede, Standfirst } from "./editorial";
 import { RubricSnapshot } from "./rubric-snapshot";
 
@@ -37,22 +37,24 @@ export function PlaygroundView({
   const guides = guidesQuery.data?.items ?? [];
   const fallback = guides[0]?.slug;
   const [guideSlug, setGuideSlug] = useState<string>(
-    initialGuide ?? fallback ?? "",
+    initialGuide ?? fallback ?? ""
   );
   const [presetSlug, setPresetSlug] = useState<UseCase | "">(
-    initialPreset ?? "",
+    initialPreset ?? ""
   );
   const [model, setModel] = useState<Model>("");
   const [temperature, setTemperature] = useState(0.7);
   const [input, setInput] = useState(
-    "My package hasn't arrived and it's been two weeks.",
+    "My package hasn't arrived and it's been two weeks."
   );
   const [visibleOutput, setVisibleOutput] = useState("");
   const streamRef = useRef<number | null>(null);
 
   // Once guides arrive, default to the first one if none selected.
   useEffect(() => {
-    if (!guideSlug && fallback) setGuideSlug(fallback);
+    if (!guideSlug && fallback) {
+      setGuideSlug(fallback);
+    }
   }, [guideSlug, fallback]);
 
   const guideDetailQuery = useQuery({
@@ -79,7 +81,9 @@ export function PlaygroundView({
   // arrives. This is purely cosmetic — real streaming wires through AI
   // Gateway in M3.
   useEffect(() => {
-    if (streamRef.current) window.clearInterval(streamRef.current);
+    if (streamRef.current) {
+      window.clearInterval(streamRef.current);
+    }
     if (!output) {
       setVisibleOutput("");
       return;
@@ -90,13 +94,17 @@ export function PlaygroundView({
       i += Math.max(1, Math.floor(output.length / 80));
       if (i >= output.length) {
         setVisibleOutput(output);
-        if (streamRef.current) window.clearInterval(streamRef.current);
+        if (streamRef.current) {
+          window.clearInterval(streamRef.current);
+        }
       } else {
         setVisibleOutput(output.slice(0, i));
       }
     }, 24);
     return () => {
-      if (streamRef.current) window.clearInterval(streamRef.current);
+      if (streamRef.current) {
+        window.clearInterval(streamRef.current);
+      }
     };
   }, [output]);
 
@@ -106,7 +114,7 @@ export function PlaygroundView({
       guide
         ? scoreDeterministic(snapshot, guide.eval_rubric)
         : { score: 0, details: [] },
-    [snapshot, guide],
+    [snapshot, guide]
   );
 
   if (guidesQuery.isLoading) {
@@ -130,8 +138,8 @@ export function PlaygroundView({
         <Standfirst className="max-w-[60ch]">
           Pick a guide, pick a use case, send input. Rubric metrics compute
           locally as output arrives. AI Gateway wiring lands when{" "}
-          <code>AI_GATEWAY_BASE_URL</code> is set; until then the Worker
-          returns a deterministic stub.
+          <code>AI_GATEWAY_BASE_URL</code> is set; until then the Worker returns
+          a deterministic stub.
         </Standfirst>
       </div>
 
@@ -158,7 +166,7 @@ export function PlaygroundView({
           >
             <option value="">No preset</option>
             {USE_CASE_PRESETS.filter((p) =>
-              guide ? guide.use_cases.includes(p.slug) : true,
+              guide ? guide.use_cases.includes(p.slug) : true
             ).map((p) => (
               <option key={p.slug} value={p.slug}>
                 {p.name}
@@ -268,8 +276,8 @@ export function PlaygroundView({
                 style={{ color: "var(--strand-color-ink-faint)" }}
               >
                 Hit <kbd>Run</kbd> to call <code>POST /v1/apply</code>. The
-                deterministic rubric metrics will update as the output
-                streams in.
+                deterministic rubric metrics will update as the output streams
+                in.
               </p>
             )}
           </AnimatePresence>
@@ -310,6 +318,7 @@ function Control({
   children: React.ReactNode;
 }) {
   return (
+    // biome-ignore lint/a11y/noLabelWithoutControl: control is passed via children
     <label className="flex flex-col gap-1.5">
       <span
         className="text-[0.68rem] font-semibold tracking-widest uppercase"

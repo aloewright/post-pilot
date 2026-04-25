@@ -1,15 +1,15 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { api, queryKeys, type GuideSort } from "../lib/api";
+import type { Era, UseCase, VoiceAxis } from "../../src/lib/types";
 import {
   ERAS,
-  USE_CASES,
   USE_CASE_LABELS,
+  USE_CASES,
   VOICE_AXES,
   VOICE_LABELS,
 } from "../../src/lib/utils";
-import type { Era, UseCase, VoiceAxis } from "../../src/lib/types";
+import { api, type GuideSort, queryKeys } from "../lib/api";
 import { GuideCard } from "./guide-card";
 
 const PAGE_SIZE = 30;
@@ -50,7 +50,7 @@ export function LibraryView() {
 
   const items = useMemo(
     () => data?.pages.flatMap((p) => p.items) ?? [],
-    [data],
+    [data]
   );
   const matched = data?.pages[0]?.matched ?? 0;
   const total = data?.pages[0]?.total ?? 0;
@@ -58,18 +58,16 @@ export function LibraryView() {
   const sentinelRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const node = sentinelRef.current;
-    if (!node) return;
+    if (!node) {
+      return;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
-        if (
-          entries[0]?.isIntersecting &&
-          hasNextPage &&
-          !isFetchingNextPage
-        ) {
+        if (entries[0]?.isIntersecting && hasNextPage && !isFetchingNextPage) {
           fetchNextPage();
         }
       },
-      { rootMargin: "400px 0px" },
+      { rootMargin: "400px 0px" }
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -207,7 +205,7 @@ export function LibraryView() {
                 </motion.div>
               ))}
             </div>
-            <div ref={sentinelRef} aria-hidden className="h-1 w-full" />
+            <div aria-hidden className="h-1 w-full" ref={sentinelRef} />
             {isFetchingNextPage ? (
               <p
                 className="text-center text-sm"

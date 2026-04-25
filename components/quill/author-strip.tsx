@@ -46,12 +46,9 @@ export function AuthorStrip({ guides }: { guides: Guide[] }) {
                 >
                   {g.era}
                 </span>
-                <span
-                  className="quill-lede text-2xl"
-                  style={{ lineHeight: 1 }}
-                >
-                  {g.author.split(" ").map((part, idx) => (
-                    <span className="block" key={idx}>
+                <span className="quill-lede text-2xl" style={{ lineHeight: 1 }}>
+                  {g.author.split(" ").map((part) => (
+                    <span className="block" key={`${g.slug}-${part}`}>
                       {part}
                     </span>
                   ))}

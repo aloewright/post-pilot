@@ -23,8 +23,11 @@ type Args = { slug?: string; dry: boolean };
 function parseArgs(argv: string[]): Args {
   const out: Args = { dry: false };
   for (const a of argv) {
-    if (a === "--dry") out.dry = true;
-    else if (a.startsWith("--slug=")) out.slug = a.split("=")[1];
+    if (a === "--dry") {
+      out.dry = true;
+    } else if (a.startsWith("--slug=")) {
+      out.slug = a.split("=")[1];
+    }
   }
   return out;
 }
@@ -65,7 +68,9 @@ async function mcp(method: string, params: unknown): Promise<unknown> {
       params,
     }),
   });
-  if (!r.ok) throw new Error(`mcp ${r.status}: ${(await r.text()).slice(0, 300)}`);
+  if (!r.ok) {
+    throw new Error(`mcp ${r.status}: ${(await r.text()).slice(0, 300)}`);
+  }
   // SSE: parse the single `data:` payload.
   const text = await r.text();
   const dataLine = text
@@ -73,20 +78,26 @@ async function mcp(method: string, params: unknown): Promise<unknown> {
     .find((l) => l.startsWith("data:"))
     ?.slice(5)
     .trim();
-  if (!dataLine) throw new Error("mcp: no data line in SSE");
+  if (!dataLine) {
+    throw new Error("mcp: no data line in SSE");
+  }
   const env = JSON.parse(dataLine) as {
     result?: { content?: Array<{ type: string; text?: string }> };
     error?: { message: string };
   };
-  if (env.error) throw new Error(`mcp error: ${env.error.message}`);
+  if (env.error) {
+    throw new Error(`mcp error: ${env.error.message}`);
+  }
   const inner = env.result?.content?.[0]?.text;
-  if (!inner) return env.result;
+  if (!inner) {
+    return env.result;
+  }
   return JSON.parse(inner);
 }
 
 async function searchAuthor(name: string): Promise<Book[]> {
   const parts = name.split(" ");
-  const last = parts[parts.length - 1]!;
+  const last = parts.at(-1)!;
   const firstName = parts[0]!;
   // Search by last name only — Gutenberg's metadata has authors as
   // "Shaw, Bernard" (no George) and "Dostoyevsky, Fyodor" (transliterated),
@@ -102,22 +113,30 @@ async function searchAuthor(name: string): Promise<Book[]> {
   // Use a 4-char prefix on each side to absorb transliteration drift
   // (Dostoevsky / Dostoyevsky / Dostoyevski).
   const lastKey = last.slice(0, Math.min(5, last.length)).toLowerCase();
-  const firstKey = firstName.slice(0, Math.min(4, firstName.length)).toLowerCase();
+  const firstKey = firstName
+    .slice(0, Math.min(4, firstName.length))
+    .toLowerCase();
   return res
     .filter((b) =>
       b.authors.some((a) => {
-        const [surname, given = ""] = a.split(",", 2).map((s) => s.trim().toLowerCase());
-        if (!surname || !surname.includes(lastKey)) return false;
+        const [surname, given = ""] = a
+          .split(",", 2)
+          .map((s) => s.trim().toLowerCase());
+        if (!surname || !surname.includes(lastKey)) {
+          return false;
+        }
         // If the seed name has more than one part, also require the first
         // name to match the after-comma portion. Single-name authors
         // (e.g. "Voltaire", "Molière") get a free pass on this check.
-        if (parts.length === 1) return true;
+        if (parts.length === 1) {
+          return true;
+        }
         return given.includes(firstKey);
-      }),
+      })
     )
     .filter(
       (b) =>
-        !/^index of/i.test(b.title) && !/^the project gutenberg/i.test(b.title),
+        !/^index of/i.test(b.title) && !/^the project gutenberg/i.test(b.title)
     );
 }
 
@@ -132,9 +151,14 @@ async function readBookExcerpt(id: number, chars: number): Promise<string> {
   ];
   for (const u of urls) {
     const r = await fetch(u, {
-      headers: { "user-agent": "postpilot-seed/0.1 (https://postpilot.lazee.workers.dev)" },
+      headers: {
+        "user-agent":
+          "postpilot-seed/0.1 (https://postpilot.lazee.workers.dev)",
+      },
     });
-    if (!r.ok) continue;
+    if (!r.ok) {
+      continue;
+    }
     const buf = await r.arrayBuffer();
     const text = new TextDecoder("utf-8", { fatal: false }).decode(buf);
     return text.slice(0, chars);
@@ -149,11 +173,17 @@ async function readBookExcerpt(id: number, chars: number): Promise<string> {
  */
 function findExcerpts(text: string, count: number): string[] {
   // Cut off the preamble at the *** START OF THE PROJECT GUTENBERG EBOOK *** marker.
-  const startIdx = text.search(/\*{3}\s*START[^*]*GUTENBERG[^*]*EBOOK[^*]*\*{3}/i);
-  if (startIdx >= 0) text = text.slice(startIdx).replace(/^.*?\n/, "");
+  const startIdx = text.search(
+    /\*{3}\s*START[^*]*GUTENBERG[^*]*EBOOK[^*]*\*{3}/i
+  );
+  if (startIdx >= 0) {
+    text = text.slice(startIdx).replace(/^.*?\n/, "");
+  }
   // Cut off the postamble.
   const endIdx = text.search(/\*{3}\s*END[^*]*GUTENBERG[^*]*EBOOK[^*]*\*{3}/i);
-  if (endIdx >= 0) text = text.slice(0, endIdx);
+  if (endIdx >= 0) {
+    text = text.slice(0, endIdx);
+  }
   // Drop any leading "produced by", front matter, or chapter headings — best-
   // effort. We require a paragraph that starts with a capital letter, contains
   // a complete sentence, and isn't all uppercase.
@@ -169,17 +199,12 @@ function findExcerpts(text: string, count: number): string[] {
         !/^[A-Z\W\s]+$/.test(p) &&
         !/^chapter/i.test(p) &&
         !/^contents/i.test(p) &&
-        !/copyright|gutenberg|trademark|public domain/i.test(p),
+        !/copyright|gutenberg|trademark|public domain/i.test(p)
     );
   return paras.slice(0, count);
 }
 
-const LABELS = [
-  "From the work",
-  "Passage",
-  "Excerpt",
-  "From the text",
-];
+const LABELS = ["From the work", "Passage", "Excerpt", "From the text"];
 
 function patchExemplars(
   src: string,
@@ -189,11 +214,11 @@ function patchExemplars(
     content: string;
     source: string;
     is_generated: boolean;
-  }>,
+  }>
 ): string {
   const pretty = JSON.stringify(exemplars, null, 2)
     .split("\n")
-    .map((l, i) => (i === 0 ? l : "  " + l))
+    .map((l, i) => (i === 0 ? l : `  ${l}`))
     .join("\n");
   // Handle both the JSON-stringified shape (`"exemplars": [...]`, generated
   // guides) and the bare TS-object-literal shape (`exemplars: [...]`,
@@ -216,13 +241,19 @@ async function processGuide(file: string, dry: boolean): Promise<string> {
   // Extract the fields we care about with simple regexes — works for both the
   // JSON-shape (generated) and the bare TS-literal shape (handcrafted) files.
   const postureMatch = src.match(
-    /(?:"copyright_posture"|copyright_posture):\s*"([^"]+)"/,
+    /(?:"copyright_posture"|copyright_posture):\s*"([^"]+)"/
   );
-  if (!postureMatch || postureMatch[1] !== "public-domain") return "skip: not PD";
+  if (!postureMatch || postureMatch[1] !== "public-domain") {
+    return "skip: not PD";
+  }
   const authorMatch = src.match(/(?:"author"|author):\s*"([^"]+)"/);
-  if (!authorMatch) return "skip: no author";
+  if (!authorMatch) {
+    return "skip: no author";
+  }
   const slugMatch = src.match(/(?:"slug"|slug):\s*"([^"]+)"/);
-  if (!slugMatch) return "skip: no slug";
+  if (!slugMatch) {
+    return "skip: no slug";
+  }
   const g: Guide = {
     slug: slugMatch[1]!,
     author: authorMatch[1]!,
@@ -232,30 +263,38 @@ async function processGuide(file: string, dry: boolean): Promise<string> {
   };
 
   const books = await searchAuthor(g.author);
-  if (books.length === 0) return "skip: no books found";
+  if (books.length === 0) {
+    return "skip: no books found";
+  }
 
   // Walk the catalog top-down until we find books whose text is reachable.
   // Some Gutenberg ids 404 on the cache URL pattern; the second/third match
   // by the same author is usually fine.
   const passages: Array<{ book: Book; passage: string }> = [];
   for (const b of books) {
-    if (passages.length >= 2) break;
+    if (passages.length >= 2) {
+      break;
+    }
     let text: string;
     try {
-      text = await readBookExcerpt(b.id, 24000);
+      text = await readBookExcerpt(b.id, 24_000);
     } catch {
       continue;
     }
     const found = findExcerpts(text, 4);
     for (const p of found) {
-      if (passages.length >= 2) break;
+      if (passages.length >= 2) {
+        break;
+      }
       if (!passages.some((q) => q.passage === p)) {
         passages.push({ book: b, passage: p });
       }
     }
   }
-  if (passages.length === 0) return "skip: no excerpts extractable";
-  const primary = passages[0]!.book;
+  if (passages.length === 0) {
+    return "skip: no excerpts extractable";
+  }
+  const primary = passages[0]?.book;
 
   const newExemplars = passages.slice(0, 2).map((p, i) => ({
     label: LABELS[i] ?? "Passage",
@@ -275,9 +314,11 @@ async function processGuide(file: string, dry: boolean): Promise<string> {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   let files = readdirSync(GUIDES_DIR).filter(
-    (f) => f.endsWith(".ts") && f !== "index.ts",
+    (f) => f.endsWith(".ts") && f !== "index.ts"
   );
-  if (args.slug) files = files.filter((f) => f === `${args.slug}.ts`);
+  if (args.slug) {
+    files = files.filter((f) => f === `${args.slug}.ts`);
+  }
 
   console.log(`[gut] scanning ${files.length} guides; dry=${args.dry}`);
   let patched = 0;

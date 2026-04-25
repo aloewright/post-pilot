@@ -111,14 +111,14 @@ const Stroke = (
   props: Omit<
     SVGMotionProps<SVGPathElement>,
     "variants" | "initial" | "animate"
-  >,
+  >
 ) => <motion.path variants={drawVariants} {...props} />;
 
 const Fine = (
   props: Omit<
     SVGMotionProps<SVGPathElement>,
     "variants" | "initial" | "animate"
-  >,
+  >
 ) => (
   <motion.path
     opacity="0.45"
@@ -132,24 +132,26 @@ const StrokeCircle = (
   props: Omit<
     SVGMotionProps<SVGCircleElement>,
     "variants" | "initial" | "animate"
-  > & { dot?: boolean },
+  > & { dot?: boolean }
 ) => {
   const { dot, ...rest } = props;
-  return <motion.circle variants={dot ? dotVariants : drawVariants} {...rest} />;
+  return (
+    <motion.circle variants={dot ? dotVariants : drawVariants} {...rest} />
+  );
 };
 
 const StrokeEllipse = (
   props: Omit<
     SVGMotionProps<SVGEllipseElement>,
     "variants" | "initial" | "animate"
-  >,
+  >
 ) => <motion.ellipse variants={drawVariants} {...props} />;
 
-const FilledShape = (
+const _FilledShape = (
   props: Omit<
     SVGMotionProps<SVGPathElement>,
     "variants" | "initial" | "animate"
-  >,
+  >
 ) => <motion.path stroke="none" variants={fillVariants} {...props} />;
 
 /* -------------------------------------------------------------------------- */
@@ -336,7 +338,14 @@ const SPOTS: Record<string, SpotComponent> = {
       <StrokeCircle cx="46" cy="40" r="6" />
       <StrokeCircle cx="54" cy="40" r="6" />
       {/* center */}
-      <StrokeCircle cx="50" cy="36" r="1.4" fill="currentColor" stroke="none" dot />
+      <StrokeCircle
+        cx="50"
+        cy="36"
+        dot
+        fill="currentColor"
+        r="1.4"
+        stroke="none"
+      />
       {/* stem */}
       <Stroke d="M50 46 Q52 60 50 80" />
       {/* leaf */}
@@ -352,7 +361,14 @@ const SPOTS: Record<string, SpotComponent> = {
       {/* body */}
       <Stroke d="M30 56 Q30 40 46 38 Q60 38 64 48 L78 46 L72 52 L60 52 Q58 62 48 62 Q34 64 30 56 Z" />
       {/* eye */}
-      <StrokeCircle cx="48" cy="44" r="0.9" fill="currentColor" stroke="none" dot />
+      <StrokeCircle
+        cx="48"
+        cy="44"
+        dot
+        fill="currentColor"
+        r="0.9"
+        stroke="none"
+      />
       {/* legs */}
       <Stroke d="M44 62 L42 70" />
       <Stroke d="M50 62 L50 70" />
@@ -401,10 +417,38 @@ const SPOTS: Record<string, SpotComponent> = {
         ry="10"
         transform="rotate(120 50 50)"
       />
-      <StrokeCircle cx="50" cy="50" r="2.4" fill="currentColor" stroke="none" dot />
-      <StrokeCircle cx="82" cy="50" r="1.4" fill="currentColor" stroke="none" dot />
-      <StrokeCircle cx="34" cy="22" r="1.4" fill="currentColor" stroke="none" dot />
-      <StrokeCircle cx="34" cy="78" r="1.4" fill="currentColor" stroke="none" dot />
+      <StrokeCircle
+        cx="50"
+        cy="50"
+        dot
+        fill="currentColor"
+        r="2.4"
+        stroke="none"
+      />
+      <StrokeCircle
+        cx="82"
+        cy="50"
+        dot
+        fill="currentColor"
+        r="1.4"
+        stroke="none"
+      />
+      <StrokeCircle
+        cx="34"
+        cy="22"
+        dot
+        fill="currentColor"
+        r="1.4"
+        stroke="none"
+      />
+      <StrokeCircle
+        cx="34"
+        cy="78"
+        dot
+        fill="currentColor"
+        r="1.4"
+        stroke="none"
+      />
     </>
   ),
 

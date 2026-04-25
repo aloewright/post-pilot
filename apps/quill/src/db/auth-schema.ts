@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 // Drizzle schema for the better-auth tables. Mirrors drizzle/0001_better_auth.sql.
 // `usePlural: true` in the auth config means table names are pluralised; column

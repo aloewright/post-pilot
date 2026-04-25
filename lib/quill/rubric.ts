@@ -123,17 +123,13 @@ export function analyzeText(text: string): DeterministicSnapshot {
     .filter(Boolean);
 
   const sentenceLengths = sentences.map(
-    (s) =>
-      s
-        .split(WORD_SPLIT)
-        .filter((w) => /[A-Za-z]/.test(w))
-        .length,
+    (s) => s.split(WORD_SPLIT).filter((w) => /[A-Za-z]/.test(w)).length
   );
 
   const wordCount = words.length;
 
   const adverbs = words.filter(
-    (w) => w.length > 3 && w.endsWith("ly") && !ADVERB_EXCEPTIONS.has(w),
+    (w) => w.length > 3 && w.endsWith("ly") && !ADVERB_EXCEPTIONS.has(w)
   );
 
   const abstractHits = words.filter((w) => ABSTRACT_NOUNS.has(w)).length;
@@ -175,7 +171,7 @@ export function analyzeText(text: string): DeterministicSnapshot {
 
 export function scoreDeterministic(
   snapshot: DeterministicSnapshot,
-  rubric: EvalRubric,
+  rubric: EvalRubric
 ): {
   score: number;
   details: Array<{
@@ -190,9 +186,13 @@ export function scoreDeterministic(
   const details = rubric.deterministic.map((r) => {
     const actual = (snapshot as Record<string, number>)[r.metric] ?? 0;
     let pass = false;
-    if (r.op === "<=") pass = actual <= r.value;
-    else if (r.op === ">=") pass = actual >= r.value;
-    else pass = Math.abs(actual - r.value) < 0.001;
+    if (r.op === "<=") {
+      pass = actual <= r.value;
+    } else if (r.op === ">=") {
+      pass = actual >= r.value;
+    } else {
+      pass = Math.abs(actual - r.value) < 0.001;
+    }
     return {
       metric: r.metric,
       op: r.op,
@@ -202,8 +202,7 @@ export function scoreDeterministic(
       weight: r.weight,
     };
   });
-  const totalWeight =
-    details.reduce((a, b) => a + b.weight, 0) || 1;
+  const totalWeight = details.reduce((a, b) => a + b.weight, 0) || 1;
   const passWeight = details
     .filter((d) => d.pass)
     .reduce((a, b) => a + b.weight, 0);
@@ -211,9 +210,13 @@ export function scoreDeterministic(
 }
 
 function countSyllables(word: string): number {
-  if (!word) return 0;
+  if (!word) {
+    return 0;
+  }
   const w = word.toLowerCase().replace(/[^a-z]/g, "");
-  if (w.length <= 3) return 1;
+  if (w.length <= 3) {
+    return 1;
+  }
   const stripped = w
     .replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "")
     .replace(/^y/, "");

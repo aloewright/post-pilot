@@ -48,7 +48,10 @@ export function RubricSnapshot({
         >
           Live rubric snapshot
         </span>
-        <span className="text-xs" style={{ color: "var(--strand-color-ink-muted)" }}>
+        <span
+          className="text-xs"
+          style={{ color: "var(--strand-color-ink-muted)" }}
+        >
           target ≥ {targetPct}%
         </span>
       </div>
@@ -105,6 +108,7 @@ export function RubricSnapshot({
               </span>
               <span
                 aria-label={d.pass ? "pass" : "fail"}
+                role="img"
                 style={{
                   color: d.pass
                     ? "var(--strand-color-accent-lede)"

@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { PlaygroundView } from "../components/playground-view";
-import { USE_CASES } from "../../src/lib/utils";
 import type { UseCase } from "../../src/lib/types";
+import { USE_CASES } from "../../src/lib/utils";
+import { PlaygroundView } from "../components/playground-view";
 
 const searchSchema = z.object({
   guide: z.string().optional(),
@@ -11,7 +11,7 @@ const searchSchema = z.object({
     .optional()
     .refine(
       (v) => !v || (USE_CASES as readonly string[]).includes(v),
-      "unknown preset",
+      "unknown preset"
     ),
 });
 

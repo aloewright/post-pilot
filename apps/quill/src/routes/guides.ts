@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
-import { GUIDES, getGuide, listGuides } from "../lib/guides";
-import { guideToJSON, guideToYAML } from "../lib/export";
-import { ERAS, USE_CASES, VOICE_AXES, sortGuides } from "../lib/utils";
 import type { AppEnv } from "../index";
+import { guideToJSON, guideToYAML } from "../lib/export";
+import { GUIDES, getGuide, listGuides } from "../lib/guides";
+import { ERAS, sortGuides, USE_CASES, VOICE_AXES } from "../lib/utils";
 
 export const guidesRouter = new Hono<AppEnv>();
 
@@ -12,21 +12,15 @@ const listQuerySchema = z.object({
   era: z
     .union([z.string(), z.array(z.string())])
     .optional()
-    .transform((v) =>
-      v === undefined ? [] : Array.isArray(v) ? v : [v],
-    ),
+    .transform((v) => (v === undefined ? [] : Array.isArray(v) ? v : [v])),
   useCase: z
     .union([z.string(), z.array(z.string())])
     .optional()
-    .transform((v) =>
-      v === undefined ? [] : Array.isArray(v) ? v : [v],
-    ),
+    .transform((v) => (v === undefined ? [] : Array.isArray(v) ? v : [v])),
   voice: z
     .union([z.string(), z.array(z.string())])
     .optional()
-    .transform((v) =>
-      v === undefined ? [] : Array.isArray(v) ? v : [v],
-    ),
+    .transform((v) => (v === undefined ? [] : Array.isArray(v) ? v : [v])),
   q: z.string().optional(),
   limit: z.coerce.number().int().min(1).max(100).default(50),
   offset: z.coerce.number().int().min(0).default(0),
@@ -39,17 +33,20 @@ const exportFormatSchema = z
 
 guidesRouter.get("/", (c) => {
   const parsed = listQuerySchema.safeParse(
-    Object.fromEntries(new URL(c.req.url).searchParams),
+    Object.fromEntries(new URL(c.req.url).searchParams)
   );
-  if (!parsed.success) throw parsed.error;
+  if (!parsed.success) {
+    throw parsed.error;
+  }
   const params = parsed.data;
   const q = params.q?.trim().toLowerCase();
 
   const filtered = listGuides().filter((g) => {
     if (
       params.era.length &&
-      !params.era.some((e) =>
-        (ERAS as readonly string[]).includes(e) && g.eras.includes(e as never),
+      !params.era.some(
+        (e) =>
+          (ERAS as readonly string[]).includes(e) && g.eras.includes(e as never)
       )
     ) {
       return false;
@@ -59,7 +56,7 @@ guidesRouter.get("/", (c) => {
       !params.useCase.some(
         (u) =>
           (USE_CASES as readonly string[]).includes(u) &&
-          g.use_cases.includes(u as never),
+          g.use_cases.includes(u as never)
       )
     ) {
       return false;
@@ -69,7 +66,7 @@ guidesRouter.get("/", (c) => {
       !params.voice.some(
         (v) =>
           (VOICE_AXES as readonly string[]).includes(v) &&
-          g.voice_axes.includes(v as never),
+          g.voice_axes.includes(v as never)
       )
     ) {
       return false;
@@ -77,7 +74,9 @@ guidesRouter.get("/", (c) => {
     if (q) {
       const hay =
         `${g.author} ${g.slug} ${g.kicker} ${g.standfirst} ${g.description}`.toLowerCase();
-      if (!hay.includes(q)) return false;
+      if (!hay.includes(q)) {
+        return false;
+      }
     }
     return true;
   });
@@ -143,13 +142,17 @@ guidesRouter.get("/:slug", (c) => {
 guidesRouter.get("/:slug/exemplars", (c) => {
   const slug = c.req.param("slug");
   const guide = getGuide(slug);
-  if (!guide) throw new HTTPException(404, { message: "Guide not found" });
+  if (!guide) {
+    throw new HTTPException(404, { message: "Guide not found" });
+  }
   return c.json({ items: guide.exemplars });
 });
 
 guidesRouter.get("/:slug/rubric", (c) => {
   const slug = c.req.param("slug");
   const guide = getGuide(slug);
-  if (!guide) throw new HTTPException(404, { message: "Guide not found" });
+  if (!guide) {
+    throw new HTTPException(404, { message: "Guide not found" });
+  }
   return c.json(guide.eval_rubric);
 });

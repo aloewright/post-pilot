@@ -21,7 +21,7 @@ authRouter.all("/*", async (c) => {
       GOOGLE_CLIENT_ID: c.env.GOOGLE_CLIENT_ID,
       GOOGLE_CLIENT_SECRET: c.env.GOOGLE_CLIENT_SECRET,
     },
-    new URL(c.req.url).origin,
+    new URL(c.req.url).origin
   );
   return auth.handler(c.req.raw);
 });

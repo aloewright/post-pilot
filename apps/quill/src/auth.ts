@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
+// biome-ignore lint/performance/noNamespaceImport: drizzleAdapter expects schema as a single object
 import * as authSchema from "./db/auth-schema";
 
 // better-auth instance factory. Called per-request because the D1 binding
@@ -54,12 +55,16 @@ export function createAuth(env: AuthEnv, baseURL: string) {
     // Survives worker restarts; D1 stays the source of truth for users.
     secondaryStorage: env.KV
       ? {
-          get: async (key) => (await env.KV!.get(key)) ?? null,
+          get: async (key) => (await env.KV?.get(key)) ?? null,
           set: async (key, value, ttl) => {
-            await env.KV!.put(key, value, ttl ? { expirationTtl: ttl } : undefined);
+            await env.KV?.put(
+              key,
+              value,
+              ttl ? { expirationTtl: ttl } : undefined
+            );
           },
           delete: async (key) => {
-            await env.KV!.delete(key);
+            await env.KV?.delete(key);
           },
         }
       : undefined,

@@ -2,10 +2,10 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { USE_CASE_PRESETS } from "@/lib/quill/presets";
 import { analyzeText, scoreDeterministic } from "@/lib/quill/rubric";
 import type { Guide, UseCase } from "@/lib/quill/types";
-import { Button } from "@/components/ui/button";
 import { Kicker, Lede, Standfirst } from "./editorial";
 import { RubricSnapshot } from "./rubric-snapshot";
 
@@ -28,15 +28,15 @@ export function Playground({
   initialPreset?: UseCase;
 }) {
   const [guideSlug, setGuideSlug] = useState<string>(
-    initialGuide ?? guides[0]?.slug ?? "",
+    initialGuide ?? guides[0]?.slug ?? ""
   );
   const [presetSlug, setPresetSlug] = useState<UseCase | "">(
-    initialPreset ?? "",
+    initialPreset ?? ""
   );
   const [model, setModel] = useState<Model>("claude-sonnet-4-6");
   const [temperature, setTemperature] = useState(0.7);
   const [input, setInput] = useState(
-    "My package hasn't arrived and it's been two weeks.",
+    "My package hasn't arrived and it's been two weeks."
   );
   const [output, setOutput] = useState("");
   const [running, setRunning] = useState(false);
@@ -45,16 +45,18 @@ export function Playground({
 
   const guide = useMemo(
     () => guides.find((g) => g.slug === guideSlug) ?? guides[0],
-    [guides, guideSlug],
+    [guides, guideSlug]
   );
   const preset = useMemo(
     () => USE_CASE_PRESETS.find((p) => p.slug === presetSlug),
-    [presetSlug],
+    [presetSlug]
   );
 
   // Stream output into visible one character at a time once set.
   useEffect(() => {
-    if (streamRef.current) window.clearInterval(streamRef.current);
+    if (streamRef.current) {
+      window.clearInterval(streamRef.current);
+    }
     if (!output) {
       setVisibleOutput("");
       return;
@@ -65,13 +67,17 @@ export function Playground({
       i += Math.max(1, Math.floor(output.length / 80));
       if (i >= output.length) {
         setVisibleOutput(output);
-        if (streamRef.current) window.clearInterval(streamRef.current);
+        if (streamRef.current) {
+          window.clearInterval(streamRef.current);
+        }
       } else {
         setVisibleOutput(output.slice(0, i));
       }
     }, 24);
     return () => {
-      if (streamRef.current) window.clearInterval(streamRef.current);
+      if (streamRef.current) {
+        window.clearInterval(streamRef.current);
+      }
     };
   }, [output]);
 
@@ -81,11 +87,13 @@ export function Playground({
       guide
         ? scoreDeterministic(snapshot, guide.eval_rubric)
         : { score: 0, details: [] },
-    [snapshot, guide],
+    [snapshot, guide]
   );
 
   const run = async () => {
-    if (!guide || running) return;
+    if (!guide || running) {
+      return;
+    }
     setRunning(true);
     setOutput("");
     try {
@@ -99,7 +107,9 @@ export function Playground({
     }
   };
 
-  if (!guide) return null;
+  if (!guide) {
+    return null;
+  }
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
@@ -138,7 +148,7 @@ export function Playground({
           >
             <option value="">No preset</option>
             {USE_CASE_PRESETS.filter((p) =>
-              guide.use_cases.includes(p.slug),
+              guide.use_cases.includes(p.slug)
             ).map((p) => (
               <option key={p.slug} value={p.slug}>
                 {p.name}
@@ -186,8 +196,7 @@ export function Playground({
           />
           <div className="mt-3 flex items-center justify-between">
             <span className="quill-byline">
-              {preset ? preset.name + " preset" : "No preset"} ·{" "}
-              {guide.author}
+              {preset ? `${preset.name} preset` : "No preset"} · {guide.author}
             </span>
             <div className="flex gap-2">
               <Button
@@ -279,6 +288,7 @@ function Control({
   children: React.ReactNode;
 }) {
   return (
+    // biome-ignore lint/a11y/noLabelWithoutControl: control is passed via children
     <label className="flex flex-col gap-1.5">
       <span
         className="text-[0.68rem] font-semibold tracking-widest uppercase"

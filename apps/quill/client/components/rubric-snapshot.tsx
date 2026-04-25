@@ -40,9 +40,10 @@ export function RubricSnapshot({
   overallPct: number;
 }) {
   const targetPct = Math.round(rubric.pass_threshold * 100);
-  const overColor = overallPct >= targetPct
-    ? "var(--strand-color-accent-lede)"
-    : "var(--strand-color-ink-primary)";
+  const overColor =
+    overallPct >= targetPct
+      ? "var(--strand-color-accent-lede)"
+      : "var(--strand-color-ink-primary)";
 
   return (
     <motion.div
@@ -75,7 +76,12 @@ export function RubricSnapshot({
           <span style={{ color: "var(--strand-color-ink-muted)" }}>
             Deterministic match
           </span>
-          <CountUp className="text-2xl font-medium tabular-nums" color={overColor} value={overallPct} suffix="%" />
+          <CountUp
+            className="text-2xl font-medium tabular-nums"
+            color={overColor}
+            suffix="%"
+            value={overallPct}
+          />
         </div>
         <div
           className="mt-2 h-1.5 overflow-hidden rounded-full"
@@ -124,6 +130,7 @@ export function RubricSnapshot({
                   exit={{ scale: 0.6, opacity: 0 }}
                   initial={{ scale: 0.4, opacity: 0 }}
                   key={d.pass ? "pass" : "fail"}
+                  role="img"
                   style={{
                     color: d.pass
                       ? "var(--strand-color-accent-lede)"
@@ -170,9 +177,7 @@ function CountUp({
   duration?: number;
 }) {
   const mv = useMotionValue(value);
-  const display = useTransform(mv, (n) =>
-    `${n.toFixed(decimals)}${suffix}`,
-  );
+  const display = useTransform(mv, (n) => `${n.toFixed(decimals)}${suffix}`);
 
   useEffect(() => {
     const controls = animate(mv, value, {

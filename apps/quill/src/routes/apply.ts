@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
+import type { AppEnv } from "../index";
 import { applyPresetToSystemPrompt } from "../lib/export";
 import { getGuide } from "../lib/guides";
 import { getPreset } from "../lib/presets";
 import { analyzeText, scoreDeterministic } from "../lib/rubric";
-import type { AppEnv } from "../index";
 
 const bodySchema = z.object({
   guide: z.string().min(1),
@@ -30,10 +30,12 @@ applyRouter.post("/", async (c) => {
 
   const guide = getGuide(body.guide);
   if (!guide) {
-    throw new HTTPException(404, { message: `Guide '${body.guide}' not found` });
+    throw new HTTPException(404, {
+      message: `Guide '${body.guide}' not found`,
+    });
   }
 
-  const preset = body.preset ? getPreset(body.preset) ?? null : null;
+  const preset = body.preset ? (getPreset(body.preset) ?? null) : null;
   if (body.preset && !preset) {
     throw new HTTPException(404, {
       message: `Preset '${body.preset}' not found`,

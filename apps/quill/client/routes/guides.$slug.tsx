@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { USE_CASE_LABELS, VOICE_LABELS } from "../../src/lib/utils";
+import { AuthorIllustration } from "../components/author-illustration";
 import {
   Byline,
   Chip,
@@ -10,11 +12,9 @@ import {
   Rule,
   Standfirst,
 } from "../components/editorial";
-import { AuthorIllustration } from "../components/author-illustration";
 import { FidelityPanel } from "../components/fidelity-panel";
 import { GuideActions } from "../components/guide-actions";
 import { api, queryKeys } from "../lib/api";
-import { USE_CASE_LABELS, VOICE_LABELS } from "../../src/lib/utils";
 
 export const Route = createFileRoute("/guides/$slug")({
   component: GuidePage,
@@ -118,17 +118,13 @@ function GuidePage() {
                 Register
               </dt>
               <dd>{guide.voice_spec.vocabulary_register}</dd>
-              <dt style={{ color: "var(--strand-color-ink-muted)" }}>
-                Syntax
-              </dt>
+              <dt style={{ color: "var(--strand-color-ink-muted)" }}>Syntax</dt>
               <dd>{guide.voice_spec.syntax}</dd>
               <dt style={{ color: "var(--strand-color-ink-muted)" }}>
                 Figurative
               </dt>
               <dd>{guide.voice_spec.figurative_language}</dd>
-              <dt style={{ color: "var(--strand-color-ink-muted)" }}>
-                Pacing
-              </dt>
+              <dt style={{ color: "var(--strand-color-ink-muted)" }}>Pacing</dt>
               <dd>{guide.voice_spec.pacing}</dd>
             </dl>
           </section>

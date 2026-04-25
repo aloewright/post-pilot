@@ -19,11 +19,7 @@ export function QuillFooter() {
         <div className="flex flex-wrap items-center gap-5 text-xs">
           <Link href="/quill/library">Library</Link>
           <Link href="/quill/playground">Playground</Link>
-          <a
-            href="https://claude.ai/code"
-            rel="noreferrer"
-            target="_blank"
-          >
+          <a href="https://claude.ai/code" rel="noreferrer" target="_blank">
             Built with Claude Code
           </a>
         </div>

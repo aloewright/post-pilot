@@ -14,11 +14,11 @@ export const errorHandler: ErrorHandler<AppEnv> = (err, c) => {
         status: err.status,
         path: c.req.path,
         msg: err.message,
-      }),
+      })
     );
     return c.json(
       { error: err.message, status: err.status, requestId },
-      err.status,
+      err.status
     );
   }
 
@@ -30,7 +30,7 @@ export const errorHandler: ErrorHandler<AppEnv> = (err, c) => {
         requestId,
         issues: err.issues,
       },
-      400,
+      400
     );
   }
 
@@ -41,11 +41,11 @@ export const errorHandler: ErrorHandler<AppEnv> = (err, c) => {
       path: c.req.path,
       msg: err.message,
       stack: err.stack,
-    }),
+    })
   );
 
   return c.json(
     { error: "Internal server error", status: 500, requestId },
-    500,
+    500
   );
 };

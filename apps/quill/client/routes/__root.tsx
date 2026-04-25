@@ -17,7 +17,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         },
       ],
     }),
-  },
+  }
 );
 
 function RootLayout() {

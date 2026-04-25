@@ -18,7 +18,9 @@ export const users = sqliteTable("users", {
   email: text("email").notNull().unique(),
   name: text("name"),
   image: text("image"),
-  plan: text("plan", { enum: ["free", "paid"] }).notNull().default("free"),
+  plan: text("plan", { enum: ["free", "paid"] })
+    .notNull()
+    .default("free"),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
@@ -47,9 +49,7 @@ export const guides = sqliteTable(
     kicker: text("kicker").notNull(),
     standfirst: text("standfirst").notNull(),
     description: text("description").notNull(),
-    voiceAxes: text("voice_axes", { mode: "json" })
-      .$type<string[]>()
-      .notNull(),
+    voiceAxes: text("voice_axes", { mode: "json" }).$type<string[]>().notNull(),
     useCases: text("use_cases", { mode: "json" }).$type<string[]>().notNull(),
     copyrightPosture: text("copyright_posture", {
       enum: ["public-domain", "voice-inspired", "licensed"],
@@ -59,9 +59,7 @@ export const guides = sqliteTable(
     baseSpec: text("base_spec_json", { mode: "json" }).notNull(),
     systemPrompt: text("system_prompt").notNull(),
     evalRubric: text("eval_rubric", { mode: "json" }).notNull(),
-    isPublic: integer("is_public", { mode: "boolean" })
-      .notNull()
-      .default(true),
+    isPublic: integer("is_public", { mode: "boolean" }).notNull().default(true),
     isOfficial: integer("is_official", { mode: "boolean" })
       .notNull()
       .default(false),
@@ -79,7 +77,7 @@ export const guides = sqliteTable(
     slugIdx: index("guides_slug_idx").on(t.slug),
     publicIdx: index("guides_public_idx").on(t.isPublic),
     eraIdx: index("guides_era_idx").on(t.era),
-  }),
+  })
 );
 
 export const useCasePresets = sqliteTable("use_case_presets", {
@@ -124,9 +122,7 @@ export const collections = sqliteTable("collections", {
     .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   slug: text("slug").notNull(),
-  isPublic: integer("is_public", { mode: "boolean" })
-    .notNull()
-    .default(false),
+  isPublic: integer("is_public", { mode: "boolean" }).notNull().default(false),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
@@ -145,7 +141,7 @@ export const collectionItems = sqliteTable(
   },
   (t) => ({
     pk: primaryKey({ columns: [t.collectionId, t.guideId] }),
-  }),
+  })
 );
 
 export const apiKeys = sqliteTable("api_keys", {

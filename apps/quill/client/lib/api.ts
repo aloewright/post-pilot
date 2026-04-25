@@ -53,10 +53,7 @@ export type ApplyResponse = {
   requestId: string;
 };
 
-async function request<T>(
-  path: string,
-  init?: RequestInit,
-): Promise<T> {
+async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const r = await fetch(path, {
     ...init,
     headers: {
@@ -69,7 +66,9 @@ async function request<T>(
     let message = `${r.status} ${r.statusText}`;
     try {
       const body = (await r.json()) as { error?: string };
-      if (body?.error) message = body.error;
+      if (body?.error) {
+        message = body.error;
+      }
     } catch {
       // ignore JSON parse failure on error body
     }
@@ -79,31 +78,46 @@ async function request<T>(
 }
 
 export const api = {
-  listGuides: (params: {
-    eras?: string[];
-    useCases?: string[];
-    voiceAxes?: string[];
-    query?: string;
-    sort?: GuideSort;
-    limit?: number;
-    offset?: number;
-  } = {}) => {
+  listGuides: (
+    params: {
+      eras?: string[];
+      useCases?: string[];
+      voiceAxes?: string[];
+      query?: string;
+      sort?: GuideSort;
+      limit?: number;
+      offset?: number;
+    } = {}
+  ) => {
     const sp = new URLSearchParams();
-    for (const e of params.eras ?? []) sp.append("era", e);
-    for (const u of params.useCases ?? []) sp.append("useCase", u);
-    for (const v of params.voiceAxes ?? []) sp.append("voice", v);
-    if (params.query) sp.set("q", params.query);
-    if (params.sort) sp.set("sort", params.sort);
-    if (params.limit !== undefined) sp.set("limit", String(params.limit));
-    if (params.offset !== undefined) sp.set("offset", String(params.offset));
+    for (const e of params.eras ?? []) {
+      sp.append("era", e);
+    }
+    for (const u of params.useCases ?? []) {
+      sp.append("useCase", u);
+    }
+    for (const v of params.voiceAxes ?? []) {
+      sp.append("voice", v);
+    }
+    if (params.query) {
+      sp.set("q", params.query);
+    }
+    if (params.sort) {
+      sp.set("sort", params.sort);
+    }
+    if (params.limit !== undefined) {
+      sp.set("limit", String(params.limit));
+    }
+    if (params.offset !== undefined) {
+      sp.set("offset", String(params.offset));
+    }
     const qs = sp.toString();
     return request<GuideListResponse>(`/v1/guides${qs ? `?${qs}` : ""}`);
   },
 
   getGuide: (slug: string) => request<Guide>(`/v1/guides/${slug}`),
 
-  listPresets: () =>
-    request<{ items: UseCasePreset[] }>(`/v1/presets`),
+  listPresets: () => request<{ items: UseCasePreset[] }>("/v1/presets"),
 
   apply: (body: {
     guide: string;
@@ -112,7 +126,7 @@ export const api = {
     input: string;
     temperature?: number;
   }) =>
-    request<ApplyResponse>(`/v1/apply`, {
+    request<ApplyResponse>("/v1/apply", {
       method: "POST",
       body: JSON.stringify(body),
     }),

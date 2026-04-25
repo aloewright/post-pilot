@@ -16,8 +16,8 @@ function LibraryPage() {
           The Library
         </Lede>
         <Standfirst className="max-w-[52ch]">
-          Filter by era, use case, or voice. Every official guide ships with
-          a system prompt, a structured spec, and an eval rubric.
+          Filter by era, use case, or voice. Every official guide ships with a
+          system prompt, a structured spec, and an eval rubric.
         </Standfirst>
       </div>
       <LibraryView />

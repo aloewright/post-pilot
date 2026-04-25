@@ -86,25 +86,25 @@ export function GuideActions({ guide }: { guide: Guide }) {
       >
         <span className="pp-byline">Compatible presets</span>
         <ul className="mt-2 flex flex-col gap-1 text-sm">
-          {USE_CASE_PRESETS.filter((p) =>
-            guide.use_cases.includes(p.slug),
-          ).map((p) => (
-            <li
-              className="flex items-baseline justify-between gap-3"
-              key={p.slug}
-            >
-              <span style={{ color: "var(--strand-color-ink-primary)" }}>
-                {p.name}
-              </span>
-              <Link
-                className="pp-byline hover:underline"
-                search={{ guide: guide.slug, preset: p.slug }}
-                to="/playground"
+          {USE_CASE_PRESETS.filter((p) => guide.use_cases.includes(p.slug)).map(
+            (p) => (
+              <li
+                className="flex items-baseline justify-between gap-3"
+                key={p.slug}
               >
-                Try →
-              </Link>
-            </li>
-          ))}
+                <span style={{ color: "var(--strand-color-ink-primary)" }}>
+                  {p.name}
+                </span>
+                <Link
+                  className="pp-byline hover:underline"
+                  search={{ guide: guide.slug, preset: p.slug }}
+                  to="/playground"
+                >
+                  Try →
+                </Link>
+              </li>
+            )
+          )}
         </ul>
       </div>
     </div>

@@ -54,8 +54,7 @@ export const carver: Guide = {
     judge_criteria: [
       {
         id: "minimal",
-        prompt:
-          "Is the prose stripped to the essential without feeling curt?",
+        prompt: "Is the prose stripped to the essential without feeling curt?",
         weight: 0.25,
       },
       {

@@ -8,7 +8,9 @@ const PROVIDER_LABELS: Record<FidelityScore["provider"], string> = {
 };
 
 export function FidelityPanel({ scores }: { scores?: FidelityScore[] }) {
-  if (!scores || scores.length === 0) return null;
+  if (!scores || scores.length === 0) {
+    return null;
+  }
   return (
     <div
       className="rounded-lg border p-4"

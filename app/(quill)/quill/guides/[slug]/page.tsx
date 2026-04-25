@@ -26,7 +26,9 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const g = getGuide(slug);
-  if (!g) return { title: "Guide not found — Quill" };
+  if (!g) {
+    return { title: "Guide not found — Quill" };
+  }
   return {
     title: `${g.author} — Quill`,
     description: g.standfirst,
@@ -40,7 +42,9 @@ export default async function GuidePage({
 }) {
   const { slug } = await params;
   const guide = getGuide(slug);
-  if (!guide) notFound();
+  if (!guide) {
+    notFound();
+  }
 
   const featured = guide.exemplars[0];
 
@@ -100,17 +104,13 @@ export default async function GuidePage({
                 Register
               </dt>
               <dd>{guide.voice_spec.vocabulary_register}</dd>
-              <dt style={{ color: "var(--strand-color-ink-muted)" }}>
-                Syntax
-              </dt>
+              <dt style={{ color: "var(--strand-color-ink-muted)" }}>Syntax</dt>
               <dd>{guide.voice_spec.syntax}</dd>
               <dt style={{ color: "var(--strand-color-ink-muted)" }}>
                 Figurative
               </dt>
               <dd>{guide.voice_spec.figurative_language}</dd>
-              <dt style={{ color: "var(--strand-color-ink-muted)" }}>
-                Pacing
-              </dt>
+              <dt style={{ color: "var(--strand-color-ink-muted)" }}>Pacing</dt>
               <dd>{guide.voice_spec.pacing}</dd>
             </dl>
           </section>

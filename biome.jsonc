@@ -16,7 +16,10 @@
       "!components/elements",
       "!components/ui",
       "!lib/utils.ts",
-      "!hooks/use-mobile.ts"
+      "!hooks/use-mobile.ts",
+      "!apps/quill/scripts",
+      "!apps/quill/worker-configuration.d.ts",
+      "!apps/quill/client/routeTree.gen.ts"
     ]
   },
   "linter": {
@@ -25,12 +28,14 @@
         "noExplicitAny": "off",
         "noUnknownAtRules": "off",
         "noConsole": "off",
-        "noBitwiseOperators": "off"
+        "noBitwiseOperators": "off",
+        "useAwait": "off"
       },
       "style": {
         "noMagicNumbers": "off",
         "noNestedTernary": "off",
-        "useConsistentTypeDefinitions": "off"
+        "useConsistentTypeDefinitions": "off",
+        "noDescendingSpecificity": "off"
       },
       "nursery": {
         "noUnnecessaryConditions": "off",
@@ -52,5 +57,11 @@
         "useTopLevelRegex": "off"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["apps/quill/client/routes/**"],
+      "linter": { "rules": { "style": { "useFilenamingConvention": "off" } } }
+    }
+  ]
 }

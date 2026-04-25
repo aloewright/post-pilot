@@ -5,13 +5,13 @@ import { useMemo, useState } from "react";
 import type { Era, Guide, UseCase, VoiceAxis } from "@/lib/quill/types";
 import {
   ERAS,
-  USE_CASES,
-  USE_CASE_LABELS,
-  VOICE_AXES,
-  VOICE_LABELS,
   filterGuides,
   type SortBy,
   sortGuides,
+  USE_CASE_LABELS,
+  USE_CASES,
+  VOICE_AXES,
+  VOICE_LABELS,
 } from "@/lib/quill/utils";
 import { GuideCard } from "./guide-card";
 
@@ -41,24 +41,24 @@ export function Library({ guides }: { guides: Guide[] }) {
       <aside className="flex flex-col gap-6">
         <FilterGroup
           label="Era"
-          options={ERAS}
-          selected={eras}
           onToggle={(v) => setEras((prev) => toggle(prev, v))}
+          options={ERAS}
           render={(e) => e}
+          selected={eras}
         />
         <FilterGroup
           label="Use case"
-          options={USE_CASES}
-          selected={useCases}
           onToggle={(v) => setUseCases((prev) => toggle(prev, v))}
+          options={USE_CASES}
           render={(u) => USE_CASE_LABELS[u]}
+          selected={useCases}
         />
         <FilterGroup
           label="Voice"
-          options={VOICE_AXES}
-          selected={voice}
           onToggle={(v) => setVoice((prev) => toggle(prev, v))}
+          options={VOICE_AXES}
           render={(v) => VOICE_LABELS[v]}
+          selected={voice}
         />
 
         {eras.length + useCases.length + voice.length > 0 ? (
@@ -138,8 +138,8 @@ export function Library({ guides }: { guides: Guide[] }) {
                   delay: Math.min(i * 0.04, 0.32),
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
               >
                 <GuideCard guide={g} />
               </motion.div>

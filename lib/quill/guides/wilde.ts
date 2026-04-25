@@ -59,8 +59,7 @@ export const wilde: Guide = {
       },
       {
         id: "parallelism",
-        prompt:
-          "Is there parallel structure that sets up the paradox cleanly?",
+        prompt: "Is there parallel structure that sets up the paradox cleanly?",
         weight: 0.2,
       },
       {

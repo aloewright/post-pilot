@@ -54,12 +54,9 @@ export function AuthorStrip({ guides }: { guides: GuideListItem[] }) {
                     style={{ color: "var(--strand-color-ink-primary)" }}
                   />
                 </div>
-                <span
-                  className="pp-lede text-2xl"
-                  style={{ lineHeight: 1 }}
-                >
-                  {g.author.split(" ").map((part, idx) => (
-                    <span className="block" key={idx}>
+                <span className="pp-lede text-2xl" style={{ lineHeight: 1 }}>
+                  {g.author.split(" ").map((part) => (
+                    <span className="block" key={`${g.slug}-${part}`}>
                       {part}
                     </span>
                   ))}
