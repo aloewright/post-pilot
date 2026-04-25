@@ -5,6 +5,7 @@ import { routeAgentRequest } from "agents";
 import { contextMiddleware } from "./middleware/context";
 import { errorHandler } from "./middleware/error";
 import { applyRouter } from "./routes/apply";
+import { authRouter } from "./routes/auth";
 import { guidesRouter } from "./routes/guides";
 import { healthRouter } from "./routes/health";
 import { presetsRouter } from "./routes/presets";
@@ -19,6 +20,11 @@ export type AppBindings = {
   AI_GATEWAY_BASE_URL?: string;
   AI_GATEWAY_TOKEN?: string;
   AI_PROVIDER_KEY?: string;
+  BETTER_AUTH_SECRET?: string;
+  GITHUB_CLIENT_ID?: string;
+  GITHUB_CLIENT_SECRET?: string;
+  GOOGLE_CLIENT_ID?: string;
+  GOOGLE_CLIENT_SECRET?: string;
   DB: D1Database;
   KV: KVNamespace;
   R2: R2Bucket;
@@ -56,6 +62,8 @@ app.route("/v1/guides", guidesRouter);
 app.route("/v1/presets", presetsRouter);
 app.route("/v1/apply", applyRouter);
 app.route("/v1/sessions", sessionsRouter);
+app.route("/auth", authRouter);
+app.route("/api/auth", authRouter);
 
 // Stateful agent path: /agents/WritingSessionAgent/:name routes WebSocket +
 // HTTP traffic to a per-session Durable Object instance. Per-user history,

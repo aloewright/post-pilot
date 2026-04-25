@@ -17,11 +17,13 @@
     "kumo:doc": "kumo doc"
   },
   "dependencies": {
+    "@better-auth/core": "^1.6.9",
     "@cloudflare/kumo": "^1.19.0",
     "@phosphor-icons/react": "^2.1.7",
     "@tanstack/react-query": "^5.62.7",
     "@tanstack/react-router": "^1.95.0",
     "agents": "^0.11.5",
+    "better-auth": "^1.6.9",
     "drizzle-orm": "^0.45.2",
     "framer-motion": "^11.15.0",
     "hono": "^4.6.15",
