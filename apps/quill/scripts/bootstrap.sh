@@ -138,4 +138,4 @@ echo
 dim "Next steps:"
 dim "  1) Edit wrangler.jsonc to uncomment d1_databases / kv_namespaces / r2_buckets sections (the ids are filled in)."
 dim "  2) Run: pnpm cf-typegen   # regenerate worker-configuration.d.ts"
-dim "  3) Deploy: pnpm cf:deploy"
+dim "  3) Deploy: pnpm cf-deploy"
