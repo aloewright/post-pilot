@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { USE_CASE_LABELS } from "../../src/lib/utils";
+import { USE_CASE_LABELS, USE_CASES } from "../../src/lib/utils";
 import type { GuideListItem } from "../lib/api";
 import { COVERED } from "../lib/covers";
 import { AuthorIllustration } from "./author-illustration";
@@ -65,9 +65,12 @@ export function GuideCard({ guide }: { guide: GuideListItem }) {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          {guide.use_cases.slice(0, 3).map((uc) => (
-            <Chip key={uc}>{USE_CASE_LABELS[uc]}</Chip>
-          ))}
+          {guide.use_cases
+            .filter((uc) => (USE_CASES as readonly string[]).includes(uc))
+            .slice(0, 3)
+            .map((uc) => (
+              <Chip key={uc}>{USE_CASE_LABELS[uc]}</Chip>
+            ))}
           {fidelity > 0 ? (
             <span
               className="ml-auto pp-byline"

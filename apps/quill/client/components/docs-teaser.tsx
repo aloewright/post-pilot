@@ -8,8 +8,8 @@ export function DocsTeaser() {
         className="flex flex-col items-start justify-between gap-6 rounded-xl px-10 py-10 md:flex-row md:items-center md:gap-10 md:px-12 md:py-12"
         initial={{ opacity: 0, y: 12 }}
         style={{
-          background: "var(--strand-color-ink-primary)",
-          color: "var(--strand-color-surface-canvas)",
+          background: "var(--strand-color-accent-lede-soft)",
+          color: "var(--strand-color-ink-primary)",
         }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         viewport={{ once: true, margin: "-80px" }}
@@ -34,7 +34,7 @@ export function DocsTeaser() {
             className="pp-lede"
             style={{
               fontSize: "clamp(2rem, 4vw, 2.75rem)",
-              color: "var(--strand-color-surface-canvas)",
+              color: "var(--strand-color-ink-primary)",
             }}
           >
             Fetch a voice.{" "}
@@ -50,8 +50,7 @@ export function DocsTeaser() {
           <p
             className="mt-3 text-sm md:text-base"
             style={{
-              color: "var(--strand-color-surface-canvas)",
-              opacity: 0.7,
+              color: "var(--strand-color-ink-muted)",
               lineHeight: 1.55,
             }}
           >
@@ -62,8 +61,8 @@ export function DocsTeaser() {
         <Link
           className="inline-flex items-center justify-center rounded-md px-5 py-3 text-sm font-medium whitespace-nowrap transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
           style={{
-            background: "var(--strand-color-surface-canvas)",
-            color: "var(--strand-color-ink-primary)",
+            background: "var(--strand-color-accent-lede)",
+            color: "var(--strand-color-surface-canvas)",
           }}
           to="/docs"
         >

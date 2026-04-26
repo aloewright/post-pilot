@@ -80,7 +80,7 @@ function DocsPage() {
       <div className="mb-12 flex flex-col gap-4">
         <Kicker>Docs</Kicker>
         <Lede as="h1" size="lg">
-          Drop a voice into your LLM.
+          Drop a style into your LLM.
         </Lede>
         <Standfirst className="max-w-[52ch]">
           Post Pilot ships every guide as a system prompt, a structured JSON

@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { USE_CASE_LABELS, VOICE_LABELS } from "../../src/lib/utils";
+import { USE_CASE_LABELS, USE_CASES, VOICE_LABELS } from "../../src/lib/utils";
 import { AuthorIllustration } from "../components/author-illustration";
 import { COVERED } from "../lib/covers";
 import {
-  Byline,
   Chip,
   Column,
   Kicker,
@@ -78,16 +77,15 @@ function GuidePage() {
           <Standfirst className="max-w-[56ch] text-xl">
             {guide.standfirst}
           </Standfirst>
-          <Byline className="mt-1">
-            Curated by {guide.curator} · Updated {guide.updated_at}
-          </Byline>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             {guide.voice_axes.map((v) => (
               <Chip key={v}>{VOICE_LABELS[v]}</Chip>
             ))}
-            {guide.use_cases.map((u) => (
-              <Chip key={u}>{USE_CASE_LABELS[u]}</Chip>
-            ))}
+            {guide.use_cases
+              .filter((u) => (USE_CASES as readonly string[]).includes(u))
+              .map((u) => (
+                <Chip key={u}>{USE_CASE_LABELS[u]}</Chip>
+              ))}
           </div>
         </div>
 
