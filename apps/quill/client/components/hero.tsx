@@ -5,47 +5,40 @@ import { Kicker, Standfirst } from "./editorial";
 const CTA =
   "inline-flex items-center justify-center rounded-md px-5 py-3 text-sm font-medium transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]";
 
-const LEDE_LINE_1 = ["Prose,"];
-const LEDE_LINE_2 = ["not", "prompts"];
+type Segment = {
+  text: string;
+  italic?: boolean;
+  accent?: boolean;
+};
+
+// Two visual lines. Each segment is a contiguous run of same-styled chars.
+const LEDE_LINES: Segment[][] = [
+  [{ text: "Prose," }],
+  [
+    { text: "not " },
+    { text: "prompts", italic: true, accent: true },
+    { text: "." },
+  ],
+];
+
+const TOTAL_CHARS = LEDE_LINES.flat().reduce((n, s) => n + s.text.length, 0);
+const CHAR_STAGGER = 0.06; // 60ms per character — typewriter cadence
+const TYPING_END_S = 0.25 + TOTAL_CHARS * CHAR_STAGGER; // ~1.4s for 19 chars
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-const wordContainer = {
+const charContainer = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.18, delayChildren: 0.1 } },
-};
-
-const word = {
-  hidden: { y: "110%" },
   visible: {
-    y: 0,
-    transition: { duration: 0.85, ease },
+    transition: { staggerChildren: CHAR_STAGGER, delayChildren: 0.25 },
   },
 };
 
-// Period — appears LAST with a slight overshoot pop.
-const period = {
-  hidden: { opacity: 0, scale: 0.4 },
+const charVariant = {
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    scale: 1,
-    transition: {
-      duration: 0.55,
-      delay: 1.55,
-      ease: [0.34, 1.56, 0.64, 1],
-    },
-  },
-};
-
-const swash = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      pathLength: { duration: 1.2, ease, delay: 1.95 },
-      opacity: { duration: 0.3, delay: 1.95 },
-    },
+    transition: { duration: 0.04 },
   },
 };
 
@@ -72,81 +65,37 @@ export function Hero() {
         <div className="flex flex-col gap-8">
           <motion.h1
             className="pp-lede text-5xl md:text-7xl lg:text-[5.5rem]"
-            variants={wordContainer}
+            style={{ whiteSpace: "pre-wrap" }}
+            variants={charContainer}
           >
-            <span className="relative inline-block">
-              {/* Line 1: "Prose," */}
-              <span className="flex flex-wrap gap-x-[0.25em]">
-                {LEDE_LINE_1.map((w) => (
-                  <span
-                    className="inline-block overflow-hidden leading-[1.05]"
-                    key={w}
-                  >
+            {LEDE_LINES.map((line, lineIdx) => (
+              <span className="block" key={`line-${lineIdx}`}>
+                {line.map((seg, segIdx) =>
+                  Array.from(seg.text).map((ch, chIdx) => (
                     <motion.span
-                      className="inline-block"
-                      style={{ willChange: "transform" }}
-                      variants={word}
-                    >
-                      {w}
-                    </motion.span>
-                  </span>
-                ))}
-              </span>
-
-              {/* Line 2: "not prompts" + period */}
-              <span className="flex flex-wrap items-baseline gap-x-[0.25em]">
-                {LEDE_LINE_2.map((w, i) => (
-                  <span
-                    className="inline-block overflow-hidden leading-[1.05]"
-                    key={w}
-                  >
-                    <motion.span
-                      className="inline-block"
+                      key={`${lineIdx}-${segIdx}-${chIdx}`}
                       style={{
-                        willChange: "transform",
-                        fontStyle: i === 1 ? "italic" : undefined,
-                        color:
-                          i === 1
-                            ? "var(--strand-color-accent-lede)"
-                            : undefined,
+                        fontStyle: seg.italic ? "italic" : undefined,
+                        color: seg.accent
+                          ? "var(--strand-color-accent-lede)"
+                          : undefined,
                       }}
-                      variants={word}
+                      variants={charVariant}
                     >
-                      {w}
+                      {ch}
                     </motion.span>
-                  </span>
-                ))}
-                <motion.span
-                  className="inline-block leading-[1.05]"
-                  style={{ transformOrigin: "bottom center" }}
-                  variants={period}
-                >
-                  .
-                </motion.span>
+                  ))
+                )}
+                {/* Cursor lives at the end of the second line so it sits
+                    after the period when typing completes. */}
+                {lineIdx === LEDE_LINES.length - 1 ? (
+                  <span aria-hidden className="pp-cursor" />
+                ) : null}
               </span>
-
-              {/* Ink swash — draws AFTER the period lands. */}
-              <svg
-                aria-hidden="true"
-                className="pointer-events-none absolute -bottom-3 left-0 w-[min(420px,80%)]"
-                fill="none"
-                height="22"
-                preserveAspectRatio="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeWidth="2.4"
-                style={{ color: "var(--strand-color-accent-lede)" }}
-                viewBox="0 0 420 22"
-              >
-                <motion.path
-                  d="M4 14 Q 60 4 130 12 T 260 10 T 416 8"
-                  variants={swash}
-                />
-              </svg>
-            </span>
+            ))}
           </motion.h1>
 
-          <motion.div custom={1.4} variants={fadeUp}>
+          <motion.div custom={TYPING_END_S + 0.15} variants={fadeUp}>
             <Standfirst className="max-w-[40ch] text-xl md:text-2xl">
               A curated library of literary voices, packaged as drop-in prompts
               for any LLM. Style guides that read like style.
@@ -155,7 +104,7 @@ export function Hero() {
 
           <motion.div
             className="mt-2 flex flex-wrap items-center gap-3"
-            custom={1.7}
+            custom={TYPING_END_S + 0.4}
             variants={fadeUp}
           >
             <Link

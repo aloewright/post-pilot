@@ -232,4 +232,27 @@
   .pp-input::placeholder {
     color: var(--strand-color-ink-muted);
   }
+
+  /* Typewriter cursor used at the tail of the hero lede. Solid block that
+     blinks at the cadence of a classic terminal cursor. */
+  .pp-cursor {
+    display: inline-block;
+    width: 0.06em;
+    height: 0.85em;
+    margin-left: 0.05em;
+    vertical-align: baseline;
+    background: var(--strand-color-accent-lede);
+    animation: pp-cursor-blink 1s step-end infinite;
+  }
+
+  @keyframes pp-cursor-blink {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    50.01%,
+    100% {
+      opacity: 0;
+    }
+  }
 }
