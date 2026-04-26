@@ -8,25 +8,7 @@ import { api, queryKeys } from "../lib/api";
 import { Button, Kicker, Lede, Standfirst } from "./editorial";
 import { RubricSnapshot } from "./rubric-snapshot";
 
-// "" → let the server use its DEFAULT_MODEL var binding. Other entries are
-// per-request overrides; the server will accept any string the AI Gateway
-// understands.
-// Model ids that this account's AI Gateway actually has registered. Plain
-// IDs without provider prefix or unprefixed Anthropic IDs return
-// "Model not found" because the gateway hasn't been configured with
-// Anthropic BYOK on this account. Workers AI catalog models go in
-// directly without a `workers-ai/` prefix.
-//
-// To add a new model: configure it in the AI Gateway dashboard
-// (Provider Keys / BYOK or Workers AI), then add the id here.
-const MODELS = [
-  { id: "", label: "Server default (DEFAULT_MODEL)" },
-  { id: "openai/gpt-5.5", label: "GPT-5.5" },
-  { id: "openai/gpt-5", label: "GPT-5" },
-  { id: "@cf/meta/llama-3.3-70b-instruct-fp8-fast", label: "Llama 3.3 70B (Workers AI)" },
-] as const;
-
-type Model = (typeof MODELS)[number]["id"];
+const PLAYGROUND_MODEL = "workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 export function PlaygroundView({
   initialGuide,
@@ -48,7 +30,6 @@ export function PlaygroundView({
   const [presetSlug, setPresetSlug] = useState<UseCase | "">(
     initialPreset ?? ""
   );
-  const [model, setModel] = useState<Model>("");
   const [temperature, setTemperature] = useState(0.7);
   const [input, setInput] = useState(
     "My package hasn't arrived and it's been two weeks."
@@ -75,7 +56,7 @@ export function PlaygroundView({
       api.apply({
         guide: guideSlug,
         preset: presetSlug || undefined,
-        model: model || undefined,
+        model: PLAYGROUND_MODEL,
         input,
         temperature,
       }),
@@ -149,7 +130,7 @@ export function PlaygroundView({
         </Standfirst>
       </div>
 
-      <div className="mb-6 grid gap-3 md:grid-cols-4">
+      <div className="mb-6 grid gap-3 md:grid-cols-3">
         <Control label="Guide">
           <select
             className="pp-select"
@@ -176,20 +157,6 @@ export function PlaygroundView({
             ).map((p) => (
               <option key={p.slug} value={p.slug}>
                 {p.name}
-              </option>
-            ))}
-          </select>
-        </Control>
-
-        <Control label="Model">
-          <select
-            className="pp-select"
-            onChange={(e) => setModel(e.target.value as Model)}
-            value={model}
-          >
-            {MODELS.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.label}
               </option>
             ))}
           </select>

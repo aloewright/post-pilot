@@ -3,6 +3,7 @@ import { useState } from "react";
 import { guideToJSON, guideToYAML } from "../../src/lib/export";
 import { USE_CASE_PRESETS } from "../../src/lib/presets";
 import type { Guide } from "../../src/lib/types";
+import { BookmarkButton } from "./bookmark-button";
 import { CopyButton } from "./copy-button";
 
 type Format = "prompt" | "json" | "yaml";
@@ -25,6 +26,8 @@ export function GuideActions({ guide }: { guide: Guide }) {
         borderColor: "var(--strand-color-rule)",
       }}
     >
+      <BookmarkButton slug={guide.slug} />
+
       <div className="flex items-center justify-between">
         <span className="pp-byline">Export</span>
         <div

@@ -1,21 +1,22 @@
 /**
  * Generate Guide TS files for every author in scripts/authors.ts that does
- * not already exist in src/lib/guides/. Calls OpenAI directly (CF AI Gateway
- * slug returns 401 and the Anthropic credit balance is depleted; OpenAI is
- * the working path right now). Concurrency-bounded batches, strict-JSON
- * validation against the Guide shape.
+ * not already exist in src/lib/guides/. Routes through the Cloudflare
+ * AI Gateway dynamic/text_gen route — never calls a provider directly.
+ * Concurrency-bounded batches, strict-JSON validation against the Guide shape.
  *
  *   doppler run -- npx tsx scripts/generate-guides.ts
  *
  * Doppler keys consumed:
- *   OPENAI_API_KEY  → Authorization (required)
+ *   CLOUDFLARE_GATEWAY_URL  → full gateway compat URL ending in
+ *                             /compat/chat/completions (required)
+ *   CF_AIG_TOKEN            → bearer for cf-aig-authorization (required)
  *
  * Flags:
- *   --limit=N   only generate N guides (default: all missing)
- *   --concurrency=N (default 6)
- *   --model=gpt-4o (default)
- *   --dry        plan only, no API calls or writes
- *   --force      regenerate guides that already exist
+ *   --limit=N            only generate N guides (default: all missing)
+ *   --concurrency=N      (default 6)
+ *   --model=ROUTE        dynamic route slug (default dynamic/text_gen)
+ *   --dry                plan only, no API calls or writes
+ *   --force              regenerate guides that already exist
  */
 
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
@@ -36,7 +37,7 @@ type Args = {
 function parseArgs(argv: string[]): Args {
   const out: Args = {
     concurrency: 6,
-    model: "gpt-4o",
+    model: "dynamic/text_gen",
     dry: false,
     force: false,
   };
@@ -285,8 +286,9 @@ function validate(json: unknown, a: AuthorSeed): string | null {
   return null;
 }
 
-async function callOpenAI(
-  apiKey: string,
+async function callGateway(
+  url: string,
+  token: string,
   model: string,
   a: AuthorSeed
 ): Promise<unknown> {
@@ -303,10 +305,11 @@ async function callOpenAI(
 
   // Up to 5 retries on 429 with backoff honoring retry-after when present.
   for (let attempt = 0; attempt < 5; attempt++) {
-    const r = await fetch("https://api.openai.com/v1/chat/completions", {
+    const r = await fetch(url, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        "cf-aig-authorization": `Bearer ${token}`,
+        "cf-aig-zdr": "true",
         "content-type": "application/json",
       },
       body: JSON.stringify(body),
@@ -328,9 +331,9 @@ async function callOpenAI(
       continue;
     }
     const txt = await r.text();
-    throw new Error(`openai ${r.status}: ${txt.slice(0, 400)}`);
+    throw new Error(`gateway ${r.status}: ${txt.slice(0, 400)}`);
   }
-  throw new Error("openai 429: retries exhausted");
+  throw new Error("gateway 429: retries exhausted");
 }
 
 function renderGuideTs(a: AuthorSeed, j: Record<string, unknown>): string {
@@ -449,13 +452,14 @@ async function main() {
     return;
   }
 
-  const apiKey = envOrFail("OPENAI_API_KEY");
+  const gatewayUrl = envOrFail("CLOUDFLARE_GATEWAY_URL");
+  const gatewayToken = envOrFail("CF_AIG_TOKEN");
 
   const results = await pool(work, args.concurrency, async (a) => {
     let lastErr: unknown;
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
-        const j = await callOpenAI(apiKey, args.model, a);
+        const j = await callGateway(gatewayUrl, gatewayToken, args.model, a);
         const err = validate(j, a);
         if (err) {
           throw new Error(`validation: ${err}`);

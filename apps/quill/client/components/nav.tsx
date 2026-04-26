@@ -43,6 +43,15 @@ export function Nav() {
               style: { color: "var(--strand-color-ink-primary)" },
             }}
             className="hover:text-[color:var(--strand-color-ink-primary)]"
+            to="/bookmarks"
+          >
+            Bookmarks
+          </Link>
+          <Link
+            activeProps={{
+              style: { color: "var(--strand-color-ink-primary)" },
+            }}
+            className="hover:text-[color:var(--strand-color-ink-primary)]"
             to="/playground"
           >
             Playground
