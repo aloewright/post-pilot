@@ -1,4 +1,4 @@
-import type { ActiveUseCase, UseCasePreset } from "./types";
+import type { UseCasePreset } from "./types";
 
 export const USE_CASE_PRESETS: UseCasePreset[] = [
   {

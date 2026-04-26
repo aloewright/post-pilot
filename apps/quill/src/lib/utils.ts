@@ -89,6 +89,9 @@ export const USE_CASES: ActiveUseCase[] = [
   "fiction",
 ];
 
+// Wide so any UseCase value (including legacy tags on existing guides)
+// can be rendered without a missing-key error. Narrow to ActiveUseCase
+// after guide retagging is complete.
 export const USE_CASE_LABELS: Record<UseCase, string> = {
   // Active set
   docs: "Docs",
