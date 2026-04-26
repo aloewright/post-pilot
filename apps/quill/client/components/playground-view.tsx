@@ -65,9 +65,7 @@ export function PlaygroundView({
 
   const output = apply.data?.output ?? "";
 
-  // Suppress the loader for runs that come back fast — only show it once a
-  // request has been in flight for >500ms, so quick stub responses don't
-  // flash a spinner.
+  // 500ms debounce so fast responses don't flash a spinner.
   useEffect(() => {
     if (!apply.isPending) {
       setShowLoader(false);

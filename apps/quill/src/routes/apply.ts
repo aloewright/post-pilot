@@ -43,7 +43,10 @@ applyRouter.post("/", async (c) => {
   }
 
   const systemPrompt = applyPresetToSystemPrompt(guide, preset);
-  const model = body.model ?? c.env.DEFAULT_MODEL ?? "@cf/zai-org/glm-4.7-flash";
+  const model = body.model ?? c.env.DEFAULT_MODEL;
+  if (!model) {
+    throw new HTTPException(500, { message: "DEFAULT_MODEL not configured" });
+  }
   const output = await runCompletion({
     env: c.env,
     systemPrompt,

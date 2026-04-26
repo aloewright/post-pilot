@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { Kicker, Lede, Standfirst } from "../components/editorial";
 import { GuideCard } from "../components/guide-card";
 import { api, queryKeys } from "../lib/api";
@@ -12,14 +13,20 @@ export const Route = createFileRoute("/bookmarks")({
 
 function BookmarksPage() {
   const { bookmarks } = useBookmarks();
+  // Same query key as /library + /playground so all three share one cache
+  // entry — opening /bookmarks after either is a no-network read.
   const guidesQuery = useQuery({
-    queryKey: queryKeys.guides({ all: true }),
+    queryKey: queryKeys.guides({}),
     queryFn: () => api.listGuides({}),
   });
   const all = guidesQuery.data?.items ?? [];
-  const items = all
-    .filter((g) => bookmarks.has(g.slug))
-    .sort((a, b) => a.author.localeCompare(b.author));
+  const items = useMemo(
+    () =>
+      all
+        .filter((g) => bookmarks.has(g.slug))
+        .sort((a, b) => a.author.localeCompare(b.author)),
+    [all, bookmarks]
+  );
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
