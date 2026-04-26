@@ -1,0 +1,75 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "postpilot",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-04-25",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Vite emits the SPA to ./dist/client. SPA fallthrough so deep links
+  // (/library, /guides/hemingway, /playground) refresh cleanly.
+  "assets": {
+    "directory": "./dist/client",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+
+  "upload_source_maps": true,
+
+  "vars": {
+    "POSTPILOT_ENV": "dev",
+    // Model bindings — change in dashboard "Variables and Secrets" to swap
+    // models without redeploying. Any string accepted by the AI binding /
+    // AI Gateway works (e.g. "openai/gpt-5.5", "openai/gpt-image-2",
+    // "anthropic/claude-sonnet-4-6").
+    "DEFAULT_MODEL": "@cf/zai-org/glm-4.7-flash",
+    "IMAGE_MODEL": "openai/gpt-image-2",
+    // Cloudflare AI Gateway slug. "default" works for the common case;
+    // change in dashboard "Variables and Secrets" to point at a specific
+    // gateway with caching/rate-limit rules attached.
+    "AI_GATEWAY_ID": "default"
+  },
+
+  // AI_GATEWAY_BASE_URL, AI_GATEWAY_TOKEN, AI_PROVIDER_KEY are Cloudflare
+  // secrets, not vars. Provision via:
+  //   wrangler secret put AI_GATEWAY_BASE_URL   # gateway compat URL
+  //   wrangler secret put AI_GATEWAY_TOKEN      # CF_AIG_TOKEN (gateway auth)
+  //   wrangler secret put AI_PROVIDER_KEY       # only if not using BYOK
+  // or via Doppler → Cloudflare in scripts/bootstrap.sh.
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "postpilot",
+      "database_id": "e781b98a-b952-4533-b9ad-6018d3b207bb",
+      "migrations_dir": "drizzle"
+    }
+  ],
+  "kv_namespaces": [
+    { "binding": "KV", "id": "9f27206409fc43a0808b0e168dd901d7" }
+  ],
+  "r2_buckets": [{ "binding": "R2", "bucket_name": "postpilot" }],
+  "ai": { "binding": "AI" },
+
+  "durable_objects": {
+    "bindings": [
+      { "name": "WRITING_SESSION", "class_name": "WritingSessionAgent" }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["WritingSessionAgent"]
+    }
+  ]
+
+  // Wrangler v4 surface: declare which secrets the worker expects.
+  // "secrets": {
+  //   "required": ["BETTER_AUTH_SECRET", "AI_GATEWAY_BASE_URL", "AI_GATEWAY_TOKEN"]
+  // }
+}

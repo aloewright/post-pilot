@@ -1,0 +1,49 @@
+{
+  "name": "postpilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "cf-deploy": "vite build && wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --remote",
+    "kumo:ls": "kumo ls",
+    "kumo:doc": "kumo doc"
+  },
+  "dependencies": {
+    "@better-auth/core": "^1.6.9",
+    "@cloudflare/kumo": "^1.19.0",
+    "@phosphor-icons/react": "^2.1.7",
+    "@tanstack/react-query": "^5.62.7",
+    "@tanstack/react-router": "^1.95.0",
+    "agents": "^0.11.5",
+    "better-auth": "^1.6.9",
+    "drizzle-orm": "^0.45.2",
+    "framer-motion": "^11.15.0",
+    "hono": "^4.6.15",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.33.2",
+    "@cloudflare/workers-types": "^4.20250109.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "@tanstack/router-plugin": "^1.95.0",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "drizzle-kit": "^0.31.10",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7",
+    "wrangler": "^4.0.0"
+  }
+}
