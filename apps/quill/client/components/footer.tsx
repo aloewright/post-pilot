@@ -26,16 +26,6 @@ export function Footer() {
           </span>
           <Link to="/terms">Terms</Link>
           <Link to="/privacy">Privacy</Link>
-          <a
-            className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition-opacity hover:opacity-90"
-            href="https://buymeacoffee.com/allosaurus"
-            rel="noopener noreferrer"
-            style={{ background: "#ffdd00", color: "#1a1a1a" }}
-            target="_blank"
-          >
-            <span aria-hidden>☕</span>
-            Buy me a coffee
-          </a>
         </div>
       </div>
     </footer>

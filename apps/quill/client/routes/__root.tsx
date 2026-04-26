@@ -1,5 +1,6 @@
 import type { QueryClient } from "@tanstack/react-query";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import { BmcWidget } from "../components/bmc-widget";
 import { Footer } from "../components/footer";
 import { Nav } from "../components/nav";
 import { RouteTransition } from "../components/route-transition";
@@ -30,6 +31,7 @@ function RootLayout() {
         </RouteTransition>
       </main>
       <Footer />
+      <BmcWidget />
     </div>
   );
 }
