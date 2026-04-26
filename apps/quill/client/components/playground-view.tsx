@@ -11,13 +11,19 @@ import { RubricSnapshot } from "./rubric-snapshot";
 // "" → let the server use its DEFAULT_MODEL var binding. Other entries are
 // per-request overrides; the server will accept any string the AI Gateway
 // understands.
+// Model ids that this account's AI Gateway actually has registered. Plain
+// IDs without provider prefix or unprefixed Anthropic IDs return
+// "Model not found" because the gateway hasn't been configured with
+// Anthropic BYOK on this account. Workers AI catalog models go in
+// directly without a `workers-ai/` prefix.
+//
+// To add a new model: configure it in the AI Gateway dashboard
+// (Provider Keys / BYOK or Workers AI), then add the id here.
 const MODELS = [
   { id: "", label: "Server default (DEFAULT_MODEL)" },
   { id: "openai/gpt-5.5", label: "GPT-5.5" },
-  { id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6" },
-  { id: "claude-opus-4-7", label: "Claude Opus 4.7" },
-  { id: "gpt-5", label: "GPT-5" },
-  { id: "llama-4-70b", label: "Llama 4 70B (Workers AI)" },
+  { id: "openai/gpt-5", label: "GPT-5" },
+  { id: "@cf/meta/llama-3.3-70b-instruct-fp8-fast", label: "Llama 3.3 70B (Workers AI)" },
 ] as const;
 
 type Model = (typeof MODELS)[number]["id"];
