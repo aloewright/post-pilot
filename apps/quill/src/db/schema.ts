@@ -6,37 +6,30 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
+import { users } from "./auth-schema";
 
-// Post Pilot data model — mirrors PRD §7.6.
-// M1 ships read-only with seed guides in code; once D1 is provisioned,
-// run `pnpm db:generate` then `pnpm db:migrate:remote` and seed via
-// scripts/seed.ts. Until then this schema is the contract, not the
-// runtime store.
+// Post Pilot domain schema. The auth tables (users, sessions, accounts,
+// verifications) are owned by ./auth-schema.ts to match better-auth's
+// expected shape; we re-export `users` from there so domain tables can
+// reference it without duplicating the table definition.
+//
+// Seed data lives in src/lib/guides/* + scripts/seed.ts; runtime queries
+// against this schema land with M3+ features.
 
-export const users = sqliteTable("users", {
-  id: text("id").primaryKey(),
-  email: text("email").notNull().unique(),
-  name: text("name"),
-  image: text("image"),
+export { users } from "./auth-schema";
+
+// Per-user preference layer that domain code reads. Kept as a separate
+// table so the auth-managed users row stays untouched.
+export const userPreferences = sqliteTable("user_preferences", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
   plan: text("plan", { enum: ["free", "paid"] })
     .notNull()
     .default("free"),
-  createdAt: integer("created_at", { mode: "timestamp" })
+  updatedAt: integer("updated_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
-});
-
-// better-auth-cloudflare manages its own session table. We declare it here
-// for type completeness, but the source of truth is better-auth's schema.
-export const authSessions = sqliteTable("auth_sessions", {
-  id: text("id").primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
-  token: text("token").notNull().unique(),
-  ipAddress: text("ip_address"),
-  userAgent: text("user_agent"),
 });
 
 export const guides = sqliteTable(
