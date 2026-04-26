@@ -18,8 +18,7 @@ export function AuthorStrip({
       : "See all →";
   return (
     <section className="mx-auto max-w-6xl px-6 pb-24">
-      <div className="mb-6 flex items-center justify-between">
-        <Kicker>A few of the voices</Kicker>
+      <div className="mb-6 flex items-center justify-end">
         <Link
           className="text-sm hover:underline"
           style={{ color: "var(--strand-color-ink-muted)" }}

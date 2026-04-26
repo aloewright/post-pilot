@@ -32,7 +32,10 @@ export function DocsTeaser() {
           </p>
           <h2
             className="pp-lede"
-            style={{ fontSize: "clamp(2rem, 4vw, 2.75rem)" }}
+            style={{
+              fontSize: "clamp(2rem, 4vw, 2.75rem)",
+              color: "var(--strand-color-surface-canvas)",
+            }}
           >
             Fetch a voice.{" "}
             <span
@@ -47,7 +50,8 @@ export function DocsTeaser() {
           <p
             className="mt-3 text-sm md:text-base"
             style={{
-              color: "var(--strand-color-ink-muted)",
+              color: "var(--strand-color-surface-canvas)",
+              opacity: 0.7,
               lineHeight: 1.55,
             }}
           >
