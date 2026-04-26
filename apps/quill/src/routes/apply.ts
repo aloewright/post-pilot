@@ -43,7 +43,7 @@ applyRouter.post("/", async (c) => {
   }
 
   const systemPrompt = applyPresetToSystemPrompt(guide, preset);
-  const model = body.model ?? c.env.DEFAULT_MODEL ?? "openai/gpt-5.5";
+  const model = body.model ?? c.env.DEFAULT_MODEL ?? "@cf/zai-org/glm-4.7-flash";
   const output = await runCompletion({
     env: c.env,
     systemPrompt,
@@ -93,10 +93,12 @@ async function runCompletion(args: {
       {
         // OpenAI gpt-5+/o1+ are strict: they require max_completion_tokens
         // (not max_tokens) and only accept temperature=1 (the default).
-        // Older / non-OpenAI models keep the conventional shape.
+        // Reasoning models (e.g. @cf/zai-org/glm-4.7-flash) burn ~hundreds
+        // of tokens "thinking" before they emit content, so the budget here
+        // has to be generous or they finish_reason: length with content=null.
         ...(/^openai\/(gpt-5|o[1-9])/.test(args.model)
-          ? { max_completion_tokens: 1024 }
-          : { max_tokens: 1024, temperature: args.temperature }),
+          ? { max_completion_tokens: 4000 }
+          : { max_tokens: 4000, temperature: args.temperature }),
         messages: [
           { role: "system", content: args.systemPrompt },
           { role: "user", content: args.input },

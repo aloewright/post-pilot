@@ -8,7 +8,7 @@ import { api, queryKeys } from "../lib/api";
 import { Button, Kicker, Lede, Standfirst } from "./editorial";
 import { RubricSnapshot } from "./rubric-snapshot";
 
-const PLAYGROUND_MODEL = "workers-ai/@cf/meta/llama-3.3-70b-instruct-fp8-fast";
+const PLAYGROUND_MODEL = "@cf/zai-org/glm-4.7-flash";
 
 export function PlaygroundView({
   initialGuide,
@@ -35,6 +35,7 @@ export function PlaygroundView({
     "My package hasn't arrived and it's been two weeks."
   );
   const [visibleOutput, setVisibleOutput] = useState("");
+  const [showLoader, setShowLoader] = useState(false);
   const streamRef = useRef<number | null>(null);
 
   // Once guides arrive, default to the first one if none selected.
@@ -63,6 +64,18 @@ export function PlaygroundView({
   });
 
   const output = apply.data?.output ?? "";
+
+  // Suppress the loader for runs that come back fast — only show it once a
+  // request has been in flight for >500ms, so quick stub responses don't
+  // flash a spinner.
+  useEffect(() => {
+    if (!apply.isPending) {
+      setShowLoader(false);
+      return;
+    }
+    const t = window.setTimeout(() => setShowLoader(true), 500);
+    return () => window.clearTimeout(t);
+  }, [apply.isPending]);
 
   // Stream output character-by-character into the visible output once it
   // arrives. This is purely cosmetic — real streaming wires through AI
@@ -222,10 +235,13 @@ export function PlaygroundView({
             {apply.error ? (
               <p
                 className="min-h-[220px] text-sm"
+                key="err"
                 style={{ color: "var(--strand-color-ink-muted)" }}
               >
                 Error: {(apply.error as Error).message}
               </p>
+            ) : showLoader && !visibleOutput ? (
+              <Loader key="loader" />
             ) : visibleOutput ? (
               <motion.pre
                 animate={{ opacity: 1 }}
@@ -246,6 +262,7 @@ export function PlaygroundView({
             ) : (
               <p
                 className="min-h-[220px] text-sm italic"
+                key="placeholder"
                 style={{ color: "var(--strand-color-ink-faint)" }}
               >
                 Hit <kbd>Run</kbd> to call <code>POST /v1/apply</code>. The
@@ -301,6 +318,43 @@ function Control({
       </span>
       {children}
     </label>
+  );
+}
+
+function Loader() {
+  return (
+    <motion.div
+      animate={{ opacity: 1 }}
+      aria-busy="true"
+      aria-live="polite"
+      className="flex min-h-[220px] flex-col items-start gap-3"
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      role="status"
+    >
+      <span
+        className="text-[0.68rem] font-semibold tracking-widest uppercase"
+        style={{ color: "var(--strand-color-ink-muted)" }}
+      >
+        Generating…
+      </span>
+      <div className="flex items-center gap-1.5">
+        {[0, 1, 2].map((i) => (
+          <motion.span
+            animate={{ opacity: [0.25, 1, 0.25] }}
+            className="block h-1.5 w-1.5 rounded-full"
+            key={i}
+            style={{ background: "var(--strand-color-accent-lede)" }}
+            transition={{
+              duration: 1.1,
+              ease: "easeInOut",
+              repeat: Number.POSITIVE_INFINITY,
+              delay: i * 0.18,
+            }}
+          />
+        ))}
+      </div>
+    </motion.div>
   );
 }
 

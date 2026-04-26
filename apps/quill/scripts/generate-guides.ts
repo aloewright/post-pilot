@@ -37,7 +37,7 @@ type Args = {
 function parseArgs(argv: string[]): Args {
   const out: Args = {
     concurrency: 6,
-    model: "dynamic/text_gen",
+    model: "workers-ai/@cf/zai-org/glm-4.7-flash",
     dry: false,
     force: false,
   };
