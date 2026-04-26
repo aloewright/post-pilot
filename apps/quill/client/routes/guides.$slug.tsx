@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { USE_CASE_LABELS, VOICE_LABELS } from "../../src/lib/utils";
 import { AuthorIllustration } from "../components/author-illustration";
+import { COVERED } from "../lib/covers";
 import {
   Byline,
   Chip,
@@ -68,7 +69,7 @@ function GuidePage() {
         </span>
       </nav>
 
-      <header className="mb-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_180px] md:items-start">
+      <header className="mb-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_220px] md:items-start">
         <div className="flex flex-col gap-4">
           <Kicker>{guide.kicker}</Kicker>
           <Lede as="h1" size="xl">
@@ -90,12 +91,30 @@ function GuidePage() {
           </div>
         </div>
 
-        <AuthorIllustration
-          className="hidden md:block md:justify-self-end"
-          size={180}
-          slug={guide.slug}
-          style={{ color: "var(--strand-color-ink-primary)" }}
-        />
+        {COVERED.has(guide.slug) ? (
+          <div
+            className="hidden overflow-hidden rounded-lg border md:block md:justify-self-end"
+            style={{
+              width: 220,
+              aspectRatio: "1 / 1.618",
+              borderColor: "var(--strand-color-rule)",
+              background: "var(--strand-color-surface-raised)",
+            }}
+          >
+            <img
+              alt=""
+              className="h-full w-full object-cover"
+              src={`/covers/${guide.slug}.svg`}
+            />
+          </div>
+        ) : (
+          <AuthorIllustration
+            className="hidden md:block md:justify-self-end"
+            size={180}
+            slug={guide.slug}
+            style={{ color: "var(--strand-color-ink-primary)" }}
+          />
+        )}
       </header>
 
       <div className="grid gap-12 md:grid-cols-[minmax(0,1fr)_320px]">
