@@ -25,11 +25,26 @@
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "artifacts/**/*.ts",
+    "artifacts/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "hooks/**/*.ts",
+    "hooks/**/*.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.tsx",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "drizzle.config.ts",
+    "instrumentation.ts",
+    "instrumentation-client.ts",
     "next.config.js",
+    "next.config.ts",
+    "proxy.ts",
+    ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "apps"]
+  "exclude": ["node_modules", "apps", "apps/**", "apps/**/*"]
 }
