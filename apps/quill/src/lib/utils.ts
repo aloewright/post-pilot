@@ -1,4 +1,4 @@
-import type { Era, Guide, UseCase, VoiceAxis } from "./types";
+import type { ActiveUseCase, Era, Guide, UseCase, VoiceAxis } from "./types";
 
 export type GuideFilter = {
   eras?: Era[];
@@ -81,16 +81,28 @@ export const ERAS: Era[] = [
   "Contemporary",
 ];
 
-export const USE_CASES: UseCase[] = [
-  "support",
+export const USE_CASES: ActiveUseCase[] = [
   "docs",
   "email",
-  "marketing",
-  "narrative",
-  "rfc",
   "social",
-  "code",
+  "newsletter",
+  "fiction",
 ];
+
+export const USE_CASE_LABELS: Record<UseCase, string> = {
+  // Active set
+  docs: "Docs",
+  email: "Email",
+  social: "Social",
+  newsletter: "Newsletter",
+  fiction: "Fiction",
+  // Legacy — kept so guide-card / slug route don't blow up on old tags
+  support: "Support",
+  marketing: "Marketing",
+  narrative: "Narrative",
+  rfc: "RFC",
+  code: "Code",
+};
 
 export const VOICE_AXES: VoiceAxis[] = [
   "terse",
@@ -99,17 +111,6 @@ export const VOICE_AXES: VoiceAxis[] = [
   "plain",
   "wry",
 ];
-
-export const USE_CASE_LABELS: Record<UseCase, string> = {
-  support: "Support",
-  docs: "Docs",
-  email: "Email",
-  marketing: "Marketing",
-  narrative: "Narrative",
-  rfc: "RFC",
-  social: "Social",
-  code: "Code",
-};
 
 export const VOICE_LABELS: Record<VoiceAxis, string> = {
   terse: "Terse",

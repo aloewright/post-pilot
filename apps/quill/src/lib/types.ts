@@ -7,14 +7,23 @@ export type Era =
 
 export type VoiceAxis = "terse" | "lyrical" | "ornate" | "plain" | "wry";
 
-export type UseCase =
-  | "support"
+// Active set — what the UI surfaces.
+export type ActiveUseCase =
   | "docs"
   | "email"
+  | "social"
+  | "newsletter"
+  | "fiction";
+
+// Legacy values retained until guide retagging is complete.
+// Kept in the union so existing src/lib/guides/*.ts files type-check.
+// Will be narrowed to ActiveUseCase once retagging is done.
+export type UseCase =
+  | ActiveUseCase
+  | "support"
   | "marketing"
   | "narrative"
   | "rfc"
-  | "social"
   | "code";
 
 export type CopyrightPosture = "public-domain" | "voice-inspired" | "licensed";

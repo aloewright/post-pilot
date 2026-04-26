@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { Era, UseCase, VoiceAxis } from "../../src/lib/types";
+import type { ActiveUseCase, Era, VoiceAxis } from "../../src/lib/types";
 import {
   ERAS,
   USE_CASE_LABELS,
@@ -20,7 +20,7 @@ function toggle<T>(arr: T[], value: T): T[] {
 
 export function LibraryView() {
   const [eras, setEras] = useState<Era[]>([]);
-  const [useCases, setUseCases] = useState<UseCase[]>([]);
+  const [useCases, setUseCases] = useState<ActiveUseCase[]>([]);
   const [voice, setVoice] = useState<VoiceAxis[]>([]);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<GuideSort>("author");
