@@ -213,4 +213,23 @@
     font-size: 0.85rem;
     line-height: 1.6;
   }
+
+  .pp-input {
+    font-family: var(--strand-type-body-sans);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--strand-color-ink-primary);
+    background: var(--strand-color-surface-canvas);
+    border: 1px solid var(--strand-color-rule);
+    padding: 0.625rem 0.875rem;
+    border-radius: 6px;
+    transition: border-color 120ms ease;
+  }
+  .pp-input:focus {
+    outline: none;
+    border-color: var(--strand-color-ink-primary);
+  }
+  .pp-input::placeholder {
+    color: var(--strand-color-ink-muted);
+  }
 }

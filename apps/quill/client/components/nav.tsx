@@ -1,6 +1,10 @@
 import { Link } from "@tanstack/react-router";
+import { useSession } from "../lib/auth-client";
 
 export function Nav() {
+  const { data } = useSession();
+  const user = data?.user;
+
   return (
     <header
       className="sticky top-0 z-40 border-b backdrop-blur-xl"
@@ -43,15 +47,33 @@ export function Nav() {
           >
             Playground
           </Link>
+          {user ? (
+            <Link
+              activeProps={{
+                style: { color: "var(--strand-color-ink-primary)" },
+              }}
+              className="hover:text-[color:var(--strand-color-ink-primary)]"
+              to="/profile"
+            >
+              {user.name ?? user.email}
+            </Link>
+          ) : (
+            <Link
+              className="hover:text-[color:var(--strand-color-ink-primary)]"
+              to="/sign-in"
+            >
+              Log in
+            </Link>
+          )}
           <Link
             className="rounded-md border px-3 py-1.5 text-xs font-medium"
             style={{
               borderColor: "var(--strand-color-ink-primary)",
               color: "var(--strand-color-ink-primary)",
             }}
-            to="/library"
+            to={user ? "/library" : "/sign-up"}
           >
-            Browse guides
+            {user ? "Browse guides" : "Get started"}
           </Link>
         </div>
       </nav>
