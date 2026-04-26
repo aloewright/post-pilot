@@ -9,6 +9,7 @@ import {
   VOICE_AXES,
   VOICE_LABELS,
 } from "../../src/lib/utils";
+import { CANONICAL_VIBES, VIBE_TAGS, type VibeSlug } from "../../src/lib/vibes";
 import { api, type GuideSort, queryKeys } from "../lib/api";
 import { GuideCard } from "./guide-card";
 
@@ -18,12 +19,23 @@ function toggle<T>(arr: T[], value: T): T[] {
   return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
 }
 
-export function LibraryView() {
+export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
   const [eras, setEras] = useState<Era[]>([]);
   const [useCases, setUseCases] = useState<ActiveUseCase[]>([]);
-  const [voice, setVoice] = useState<VoiceAxis[]>([]);
+  const [voice, setVoice] = useState<VoiceAxis[]>(() =>
+    initialVibe && CANONICAL_VIBES.has(initialVibe)
+      ? [initialVibe as VoiceAxis]
+      : []
+  );
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<GuideSort>("author");
+
+  // For curated (non-canonical) vibe tags, filter results client-side
+  // by matching guide.slug against VIBE_TAGS[vibe].matches.
+  const curatedMatches =
+    initialVibe && !CANONICAL_VIBES.has(initialVibe)
+      ? VIBE_TAGS[initialVibe].matches
+      : undefined;
 
   const {
     data,
@@ -48,10 +60,19 @@ export function LibraryView() {
     getNextPageParam: (last) => last.nextOffset,
   });
 
-  const items = useMemo(
-    () => data?.pages.flatMap((p) => p.items) ?? [],
-    [data]
-  );
+  const items = useMemo(() => {
+    const all = data?.pages.flatMap((p) => p.items) ?? [];
+    if (curatedMatches && curatedMatches.length > 0) {
+      const allowed = new Set(curatedMatches);
+      return all.filter((g) => allowed.has(g.slug));
+    }
+    // If the curated tag has an empty matches array, surface zero results
+    // (the vibe hasn't been editorially curated yet).
+    if (curatedMatches && curatedMatches.length === 0) {
+      return [];
+    }
+    return all;
+  }, [data, curatedMatches]);
   const matched = data?.pages[0]?.matched ?? 0;
   const total = data?.pages[0]?.total ?? 0;
 
