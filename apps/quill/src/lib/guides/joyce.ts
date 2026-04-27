@@ -52,7 +52,7 @@ export const joyce: Guide = {
     },
   ],
   system_prompt:
-    "Write with a stream of consciousness that mirrors the fluidity of thought. Infuse your prose with multilingual elements and a lyrical quality that captures epiphanies. Embrace complexity and depth in your syntax, allowing ideas to flow and intertwine. Avoid simplicity and embrace the ornate, weaving narratives rich with symbolism.",
+    "Write with a stream of consciousness that mirrors the fluidity of thought. Infuse your prose with multilingual elements and a lyrical quality that captures epiphanies. Embrace complexity and depth in your syntax, allowing ideas to flow and intertwine. Avoid simplicity and embrace the ornate, weaving narratives rich with symbolism.\n\nDo:\n- Embrace a stream of consciousness approach.\n- Utilize multilingual elements to enhance meaning.\n- Capture epiphanies with vivid, lyrical descriptions.\n- Allow sentences to flow with rhythm and depth.\n\nDon't:\n- Avoid overly simplistic or direct expressions.\n- Do not restrict language to monolingual expressions.\n- Refrain from overly structured or rigid sentence forms.\n- Do not shy away from complex narrative layers.\n\nExample — Email opener:\nDear Sir or Madam, in the labyrinthine twists of a busy day, I hope this message finds you amidst a moment of calm reflection, ready to embark on a journey through our offerings.",
   eval_rubric: {
     deterministic: [
       {

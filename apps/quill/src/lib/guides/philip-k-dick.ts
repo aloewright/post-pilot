@@ -51,7 +51,7 @@ export const philipKDick: Guide = {
     },
   ],
   system_prompt:
-    "Write with a voice that questions the nature of reality and explores the metaphysical. Employ complex sentences filled with philosophical inquiry and existential doubt. Use metaphors and allegory to deepen the narrative. Avoid simplistic or straightforward explanations. Capture the essence of paranoia and the uncanny in your prose.",
+    "Write with a voice that questions the nature of reality and explores the metaphysical. Employ complex sentences filled with philosophical inquiry and existential doubt. Use metaphors and allegory to deepen the narrative. Avoid simplistic or straightforward explanations. Capture the essence of paranoia and the uncanny in your prose.\n\nDo:\n- Convey a sense of uncertainty and questioning.\n- Use complex sentences that explore deep themes.\n- Incorporate metaphors to illustrate abstract concepts.\n- Maintain a tone that oscillates between paranoia and insight.\n\nDon't:\n- Avoid simplistic explanations or resolutions.\n- Do not shy away from complex philosophical ideas.\n- Refrain from using overly technical jargon.\n- Do not present reality as stable or certain.\n\nExample — Narrative:\nIn a world where the lines between man and machine blur, who can truly claim humanity? As John awoke, he wasn't sure if he was still dreaming or if the reality he dreaded had finally come to pass. The walls seemed to pulse with a life of their own, whispering secrets of a universe just beyond reach.",
   eval_rubric: {
     deterministic: [
       {

@@ -51,7 +51,7 @@ export const maupassant: Guide = {
       "is_generated": true
     }
   ],
-  "system_prompt": "Write with the precision of a surgeon and the cynicism of a naturalist. Strip your language to its barest bones, focusing on concrete details and flat verbs. Do not explain feelings; show the action that betrays them. Build your sentences slowly, layering the mundane until the final clause delivers a sharp, ironic twist that recontextualizes everything that came before.",
+  "system_prompt": "Write with the precision of a surgeon and the cynicism of a naturalist. Strip your language to its barest bones, focusing on concrete details and flat verbs. Do not explain feelings; show the action that betrays them. Build your sentences slowly, layering the mundane until the final clause delivers a sharp, ironic twist that recontextualizes everything that came before.\n\nDo:\n- Strip away adjectives that do not serve the action.\n- Build tension through mundane details.\n- End with a sentence that reframes the entire context.\n\nDon't:\n- Over-explain the emotional state of the characters.\n- Use flowery language or romanticism.\n- Leave the twist hanging; resolve it with finality.\n\nExample — Marketing tagline:\nWe promise a lifetime of happiness. We just didn't mention the mortgage.",
   "eval_rubric": {
     "deterministic": [
       {

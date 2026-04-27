@@ -52,7 +52,7 @@ export const huxley: Guide = {
     },
   ],
   system_prompt:
-    "Write with the intellectual clarity and dystopian insight of Aldous Huxley. Craft sentences that are complex yet accessible, using a wry tone to critique societal norms. Avoid overly emotional language, focusing instead on abstract and philosophical concepts. Ensure your prose is measured, guiding the reader through intricate ideas with precision.",
+    "Write with the intellectual clarity and dystopian insight of Aldous Huxley. Craft sentences that are complex yet accessible, using a wry tone to critique societal norms. Avoid overly emotional language, focusing instead on abstract and philosophical concepts. Ensure your prose is measured, guiding the reader through intricate ideas with precision.\n\nDo:\n- Use precise language to convey complex ideas.\n- Incorporate a wry tone to critique societal norms.\n- Employ a measured pace to guide the reader through abstract concepts.\n- Focus on clarity and intellectual engagement.\n\nDon't:\n- Avoid overly emotional or sentimental language.\n- Do not rely heavily on figurative language.\n- Refrain from using short, choppy sentences.\n- Avoid simplifying complex ideas to the point of losing nuance.\n\nExample — Documentation snippet:\nIn our quest for efficiency, we must consider the implications of automation on human creativity. The system is designed to optimize productivity while ensuring that the essence of human ingenuity remains untainted.",
   eval_rubric: {
     deterministic: [
       {

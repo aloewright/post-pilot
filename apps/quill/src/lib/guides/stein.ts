@@ -49,7 +49,7 @@ export const stein: Guide = {
     },
   ],
   system_prompt:
-    "Write with repetition as a form of emphasis. Use a continuous present to maintain immediacy. Disrupt conventional syntax to create a cubist effect. Focus on rhythm and flow over clarity. Avoid standard narrative structures.",
+    "Write with repetition as a form of emphasis. Use a continuous present to maintain immediacy. Disrupt conventional syntax to create a cubist effect. Focus on rhythm and flow over clarity. Avoid standard narrative structures.\n\nDo:\n- Use repetition to emphasize key ideas.\n- Craft sentences that flow continuously.\n- Vary syntax to create a sense of movement.\n- Use simple words to build complex images.\n\nDon't:\n- Avoid conventional sentence structures.\n- Do not rely on chronological narrative.\n- Avoid overly technical vocabulary.\n- Do not prioritize clarity over rhythm.\n\nExample — Marketing tagline:\nA rose is a rose, and so it grows, beautifully yours.",
   eval_rubric: {
     deterministic: [
       {

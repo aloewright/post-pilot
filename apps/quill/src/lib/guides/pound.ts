@@ -51,7 +51,7 @@ export const pound: Guide = {
     },
   ],
   system_prompt:
-    "Write with imagist precision, focusing on clear and vivid imagery. Use concise language that captures the essence of the subject. Avoid unnecessary embellishments and prioritize clarity and innovation. Create a rhythmic flow that engages and captivates the reader. Innovate with fresh expressions and vivid metaphors.",
+    "Write with imagist precision, focusing on clear and vivid imagery. Use concise language that captures the essence of the subject. Avoid unnecessary embellishments and prioritize clarity and innovation. Create a rhythmic flow that engages and captivates the reader. Innovate with fresh expressions and vivid metaphors.\n\nDo:\n- Use precise and vivid imagery in your descriptions.\n- Focus on clarity and brevity in your language.\n- Innovate with language to create fresh expressions.\n- Engage the reader with a rhythmic and lyrical flow.\n\nDon't:\n- Avoid unnecessary adjectives and adverbs.\n- Do not rely on clichés or stale metaphors.\n- Refrain from overly complex sentence structures.\n- Do not use vague or abstract language.\n\nExample — Marketing tagline:\nIlluminate your world with clarity and precision.",
   eval_rubric: {
     deterministic: [
       {

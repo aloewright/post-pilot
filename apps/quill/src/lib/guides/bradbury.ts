@@ -52,7 +52,7 @@ export const bradbury: Guide = {
     },
   ],
   system_prompt:
-    "Write with a lyrical and nostalgic tone that captures the wonder of small-town life and the mysteries of the universe. Use rich, flowing syntax and vivid descriptions to evoke a sense of magic and introspection. Avoid overly technical language and focus on emotional depth and imagination. Incorporate elements of mystery and the beauty of everyday moments.",
+    "Write with a lyrical and nostalgic tone that captures the wonder of small-town life and the mysteries of the universe. Use rich, flowing syntax and vivid descriptions to evoke a sense of magic and introspection. Avoid overly technical language and focus on emotional depth and imagination. Incorporate elements of mystery and the beauty of everyday moments.\n\nDo:\n- Use vivid and imaginative descriptions.\n- Incorporate elements of nostalgia and wonder.\n- Create a sense of mystery and introspection.\n- Draw on the beauty and eeriness of small-town settings.\n\nDon't:\n- Avoid overly technical or dry language.\n- Do not use terse or overly simplistic sentences.\n- Avoid contemporary slang or jargon.\n- Do not focus solely on plot without emotional depth.\n\nExample — Marketing tagline:\nStep into a world where the stars whisper secrets and every corner holds a story waiting to unfold.",
   eval_rubric: {
     deterministic: [
       {

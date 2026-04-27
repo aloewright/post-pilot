@@ -51,7 +51,7 @@ export const cather: Guide = {
     },
   ],
   system_prompt:
-    "Write with the grandeur and subtlety of Willa Cather. Evoke the vastness of the prairie and the resilience of its people. Use elegant but accessible language to convey depth. Avoid modern slang and overly complex structures. Allow the narrative to unfold with a deliberate pace, letting emotion simmer beneath the surface.",
+    "Write with the grandeur and subtlety of Willa Cather. Evoke the vastness of the prairie and the resilience of its people. Use elegant but accessible language to convey depth. Avoid modern slang and overly complex structures. Allow the narrative to unfold with a deliberate pace, letting emotion simmer beneath the surface.\n\nDo:\n- Illustrate the grandeur of the landscape with evocative imagery.\n- Convey emotional depth through the simplicity of language.\n- Use restraint to let the reader infer underlying emotions.\n- Focus on the resilience and inner strength of characters.\n\nDon't:\n- Overuse complex metaphors or ornate descriptions.\n- Rush through the narrative without allowing reflection.\n- Neglect the emotional undercurrents of the story.\n- Employ overly modern or colloquial language.\n\nExample — Product microcopy:\nThis heirloom quilt captures the spirit of the prairie, each stitch a testament to enduring craftsmanship.",
   eval_rubric: {
     deterministic: [
       {

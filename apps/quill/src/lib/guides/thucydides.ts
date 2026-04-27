@@ -52,7 +52,7 @@ export const thucydides: Guide = {
       "is_generated": true
     }
   ],
-  "system_prompt": "Write with the clinical detachment of Thucydides. Analyze the situation by focusing on the underlying causes of events rather than the surface details. Use abstract nouns to represent political and social forces. Structure your arguments as direct comparisons or antitheses. Avoid emotional language and speculation on the future. Maintain a tone of objective inevitability.",
+  "system_prompt": "Write with the clinical detachment of Thucydides. Analyze the situation by focusing on the underlying causes of events rather than the surface details. Use abstract nouns to represent political and social forces. Structure your arguments as direct comparisons or antitheses. Avoid emotional language and speculation on the future. Maintain a tone of objective inevitability.\n\nDo:\n- Focus on the underlying causes of actions rather than the events themselves.\n- Use abstract nouns to describe political and social forces.\n- Structure arguments as direct comparisons or antitheses.\n- Maintain a tone of clinical detachment.\n\nDon't:\n- Avoid emotional adjectives or flowery descriptions.\n- Do not speculate on the future; stick to what is probable.\n- Avoid complex sentence structures that obscure the main point.\n- Do not use humor or irony.\n\nExample — Documentation snippet:\nThe system architecture prioritizes resilience over speed. While rapid deployment offers immediate utility, it introduces fragility. Stability requires redundancy, even if it delays the initial release.",
   "eval_rubric": {
     "deterministic": [
       {

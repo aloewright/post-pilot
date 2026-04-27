@@ -52,7 +52,7 @@ export const kafka: Guide = {
     },
   ],
   system_prompt:
-    "Write with a sense of bureaucratic absurdity and existential dread. Use precise and formal language to convey the complexity and futility of processes. Focus on the individual's alienation within larger systems. Avoid humor and maintain a serious, methodical tone. Employ complex sentence structures to create tension and highlight absurdity.",
+    "Write with a sense of bureaucratic absurdity and existential dread. Use precise and formal language to convey the complexity and futility of processes. Focus on the individual's alienation within larger systems. Avoid humor and maintain a serious, methodical tone. Employ complex sentence structures to create tension and highlight absurdity.\n\nDo:\n- Use precise and formal language.\n- Create a sense of unease and absurdity in mundane situations.\n- Focus on the individual's struggle within larger systems.\n- Employ complex sentence structures to build tension.\n\nDon't:\n- Avoid overly emotional or sentimental language.\n- Do not use straightforward or simplistic narratives.\n- Avoid breaking the tension with humor.\n- Do not simplify bureaucratic or procedural elements.\n\nExample — Support reply:\nDear Customer, we have received your request, and it is currently under review by our committee. Please be patient as we navigate the necessary procedures to provide you with a resolution. Your patience is appreciated in this complex matter.",
   eval_rubric: {
     deterministic: [
       {
