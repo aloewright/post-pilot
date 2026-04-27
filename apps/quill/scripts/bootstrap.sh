@@ -86,11 +86,11 @@ fi
 
 # ---------- R2 ----------
 green "→ Provisioning R2 bucket 'postpilot'…"
-if wrangler r2 bucket list --json 2>/dev/null | jq -e '.[] | select(.name=="postpilot")' >/dev/null; then
+if wrangler r2 bucket list 2>/dev/null | grep -q "postpilot"; then
   dim "  already exists: postpilot"
 else
-  wrangler r2 bucket create postpilot >/dev/null
-  green "  created: postpilot"
+  wrangler r2 bucket create postpilot >/dev/null && green "  created: postpilot" \
+    || dim "  already exists (create returned non-zero): postpilot"
 fi
 
 # ---------- Patch wrangler.jsonc ----------
