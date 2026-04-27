@@ -1,14 +1,23 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { USE_CASE_PRESETS } from "../../src/lib/presets";
 import { analyzeText, scoreDeterministic } from "../../src/lib/rubric";
 import type { Guide, UseCase } from "../../src/lib/types";
-import { api, queryKeys } from "../lib/api";
+import { api, type HumanizeJob, queryKeys } from "../lib/api";
+import { useSession } from "../lib/auth-client";
 import { Button, Standfirst } from "./editorial";
 import { RubricSnapshot } from "./rubric-snapshot";
 
 const PLAYGROUND_MODEL = "@cf/zai-org/glm-4.7-flash";
+
+type RunStage =
+  | { kind: "idle" }
+  | { kind: "stylizing" }
+  | { kind: "submitting-humanize" }
+  | { kind: "polling-humanize"; jobId: string }
+  | { kind: "done" }
+  | { kind: "error"; message: string };
 
 export function PlaygroundView({
   initialGuide,
@@ -17,6 +26,9 @@ export function PlaygroundView({
   initialGuide?: string;
   initialPreset?: UseCase;
 }) {
+  const { data: session } = useSession();
+  const queryClient = useQueryClient();
+
   // Pull every guide so the dropdown surfaces the full catalogue, not just
   // the server's default page (50). 500 is the server-enforced cap and well
   // above current corpus size.
@@ -37,6 +49,10 @@ export function PlaygroundView({
   const [input, setInput] = useState(
     "My package hasn't arrived and it's been two weeks."
   );
+  const [humanizeOn, setHumanizeOn] = useState(false);
+  const [stage, setStage] = useState<RunStage>({ kind: "idle" });
+  const [styledOutput, setStyledOutput] = useState("");
+  const [humanizedOutput, setHumanizedOutput] = useState<string | null>(null);
   const [visibleOutput, setVisibleOutput] = useState("");
   const [showLoader, setShowLoader] = useState(false);
   const streamRef = useRef<number | null>(null);
@@ -55,28 +71,133 @@ export function PlaygroundView({
   });
   const guide: Guide | undefined = guideDetailQuery.data;
 
-  const apply = useMutation({
-    mutationFn: () =>
-      api.apply({
+  // Credit balance + costs. Refetched after every billable action so the
+  // header pill stays in sync without a full reload.
+  const meQuery = useQuery({
+    queryKey: queryKeys.me(),
+    queryFn: () => api.me(),
+  });
+  const me = meQuery.data;
+
+  const checkoutMutation = useMutation({
+    mutationFn: () => api.billingCheckout(),
+    onSuccess: (r) => {
+      window.location.href = r.url;
+    },
+  });
+
+  // Polling humanize job status while we're waiting on Copyleaks.
+  const humanizeJob = useQuery({
+    queryKey:
+      stage.kind === "polling-humanize"
+        ? queryKeys.humanizeJob(stage.jobId)
+        : ["humanize", "noop"],
+    queryFn: () =>
+      stage.kind === "polling-humanize"
+        ? api.humanizeGet(stage.jobId)
+        : Promise.reject(new Error("no active job")),
+    enabled: stage.kind === "polling-humanize",
+    refetchInterval: (q) => {
+      const status = (q.state.data as HumanizeJob | undefined)?.status;
+      return status === "processing" || status === "queued" ? 2000 : false;
+    },
+  });
+
+  // When the humanize job finishes, capture output and reset stage.
+  useEffect(() => {
+    if (stage.kind !== "polling-humanize") {
+      return;
+    }
+    const j = humanizeJob.data;
+    if (j?.status === "done" && j.output) {
+      setHumanizedOutput(j.output);
+      setStage({ kind: "done" });
+      queryClient.invalidateQueries({ queryKey: queryKeys.me() });
+    } else if (j?.status === "failed") {
+      setStage({
+        kind: "error",
+        message: `Humanize failed: ${j.error ?? "unknown error"}`,
+      });
+      queryClient.invalidateQueries({ queryKey: queryKeys.me() });
+    }
+  }, [stage, humanizeJob.data, queryClient]);
+
+  async function run() {
+    if (!input.trim() || !guideSlug) {
+      return;
+    }
+    setStage({ kind: "stylizing" });
+    setStyledOutput("");
+    setHumanizedOutput(null);
+
+    let stylized: string;
+    try {
+      const r = await api.apply({
         guide: guideSlug,
         preset: presetSlug || undefined,
         model: PLAYGROUND_MODEL,
         input,
         temperature,
-      }),
-  });
+      });
+      stylized = r.output;
+      setStyledOutput(stylized);
+      queryClient.invalidateQueries({ queryKey: queryKeys.me() });
+    } catch (e) {
+      setStage({ kind: "error", message: (e as Error).message });
+      return;
+    }
 
-  const output = apply.data?.output ?? "";
+    if (!humanizeOn) {
+      setStage({ kind: "done" });
+      return;
+    }
+
+    setStage({ kind: "submitting-humanize" });
+    try {
+      const r = await api.humanizeSubmit(stylized);
+      setStage({ kind: "polling-humanize", jobId: r.jobId });
+      queryClient.invalidateQueries({ queryKey: queryKeys.me() });
+    } catch (e) {
+      setStage({
+        kind: "error",
+        message: `Humanize submit failed: ${(e as Error).message}`,
+      });
+    }
+  }
+
+  const output = humanizedOutput ?? styledOutput;
+  const isRunning =
+    stage.kind === "stylizing" ||
+    stage.kind === "submitting-humanize" ||
+    stage.kind === "polling-humanize";
+  const buttonLabel = (() => {
+    if (stage.kind === "stylizing") {
+      return "Stylizing…";
+    }
+    if (stage.kind === "submitting-humanize") {
+      return "Submitting…";
+    }
+    if (stage.kind === "polling-humanize") {
+      return "Humanizing…";
+    }
+    return humanizeOn ? "Stylize + humanize" : "Run";
+  })();
+
+  const stylizeCost = input.length * (me?.costs.STYLIZE_PER_CHAR ?? 1);
+  const humanizeCost = input.length * (me?.costs.HUMANIZE_PER_CHAR ?? 5);
+  const totalCost = stylizeCost + (humanizeOn ? humanizeCost : 0);
+  const balance = me?.balance ?? 0;
+  const insufficient = me?.authenticated && totalCost > balance;
 
   // 500ms debounce so fast responses don't flash a spinner.
   useEffect(() => {
-    if (!apply.isPending) {
+    if (!isRunning) {
       setShowLoader(false);
       return;
     }
     const t = window.setTimeout(() => setShowLoader(true), 500);
     return () => window.clearTimeout(t);
-  }, [apply.isPending]);
+  }, [isRunning]);
 
   // Stream output character-by-character into the visible output once it
   // arrives. This is purely cosmetic — real streaming wires through AI
@@ -131,11 +252,19 @@ export function PlaygroundView({
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div className="mb-10">
-        <Standfirst className="max-w-[60ch]">
-          Pick author, use case, and enter your prompt to receive an example
-          output.
-        </Standfirst>
+      <div className="mb-10 flex flex-col gap-4">
+        <div className="flex items-start justify-between gap-6">
+          <Standfirst className="max-w-[60ch]">
+            Pick author, use case, and enter your prompt to receive an example
+            output. Toggle Humanize to soften AI cadence via Copyleaks.
+          </Standfirst>
+          <BalancePill
+            authenticated={Boolean(me?.authenticated)}
+            balance={balance}
+            onBuy={() => checkoutMutation.mutate()}
+            buying={checkoutMutation.isPending}
+          />
+        </div>
       </div>
 
       <div className="mb-6 grid gap-3 md:grid-cols-3">
@@ -193,47 +322,112 @@ export function PlaygroundView({
             style={{ color: "var(--strand-color-ink-primary)" }}
             value={input}
           />
-          <div className="mt-3 flex items-center justify-between">
-            <span className="pp-byline">
-              {presetSlug
-                ? USE_CASE_PRESETS.find((p) => p.slug === presetSlug)?.name +
-                  " preset"
-                : "No preset"}
-              {guide ? ` · ${guide.author}` : ""}
-            </span>
-            <div className="flex gap-2">
-              <Button
-                onClick={() => {
-                  setInput("");
-                  apply.reset();
+          <div className="mt-3 flex flex-col gap-3">
+            <div className="flex items-center justify-between gap-3">
+              <HumanizeToggle
+                authenticated={Boolean(me?.authenticated)}
+                disabled={isRunning}
+                on={humanizeOn}
+                onToggle={() => setHumanizeOn((v) => !v)}
+              />
+              <span
+                className="pp-byline"
+                style={{
+                  color: insufficient
+                    ? "var(--strand-color-accent-lede)"
+                    : "var(--strand-color-ink-muted)",
                 }}
-                size="sm"
-                type="button"
-                variant="ghost"
               >
-                Clear
-              </Button>
-              <Button
-                disabled={apply.isPending || !input.trim() || !guideSlug}
-                onClick={() => apply.mutate()}
-                size="sm"
-                type="button"
-              >
-                {apply.isPending ? "Running…" : "Run"}
-              </Button>
+                {humanizeOn
+                  ? `${stylizeCost.toLocaleString()} + ${humanizeCost.toLocaleString()} = ${totalCost.toLocaleString()} credits`
+                  : `${totalCost.toLocaleString()} credits`}
+              </span>
             </div>
+            <div className="flex items-center justify-between">
+              <span className="pp-byline">
+                {presetSlug
+                  ? `${USE_CASE_PRESETS.find((p) => p.slug === presetSlug)?.name} preset`
+                  : "No preset"}
+                {guide ? ` · ${guide.author}` : ""}
+              </span>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => {
+                    setInput("");
+                    setStyledOutput("");
+                    setHumanizedOutput(null);
+                    setStage({ kind: "idle" });
+                  }}
+                  size="sm"
+                  type="button"
+                  variant="ghost"
+                >
+                  Clear
+                </Button>
+                <Button
+                  disabled={
+                    isRunning ||
+                    !input.trim() ||
+                    !guideSlug ||
+                    Boolean(insufficient)
+                  }
+                  onClick={run}
+                  size="sm"
+                  type="button"
+                >
+                  {buttonLabel}
+                </Button>
+              </div>
+            </div>
+            {insufficient ? (
+              <div
+                className="rounded-md border px-3 py-2 text-xs"
+                style={{
+                  borderColor: "var(--strand-color-accent-lede)",
+                  color: "var(--strand-color-ink-primary)",
+                  background: "var(--strand-color-surface-raised)",
+                }}
+              >
+                Need {totalCost.toLocaleString()} credits, have{" "}
+                {balance.toLocaleString()}.{" "}
+                <button
+                  className="underline"
+                  disabled={checkoutMutation.isPending}
+                  onClick={() => checkoutMutation.mutate()}
+                  type="button"
+                >
+                  {checkoutMutation.isPending ? "Opening…" : "Buy credits"}
+                </button>
+              </div>
+            ) : null}
+            {!session?.user ? (
+              <div
+                className="rounded-md border px-3 py-2 text-xs"
+                style={{
+                  borderColor: "var(--strand-color-rule)",
+                  color: "var(--strand-color-ink-muted)",
+                }}
+              >
+                Sign in to run the playground — new accounts get welcome
+                credits to try it out.
+              </div>
+            ) : null}
           </div>
         </Panel>
 
-        <Panel label="Output">
+        <Panel
+          label={
+            humanizedOutput ? "Output (humanized)" : "Output"
+          }
+        >
           <AnimatePresence mode="wait">
-            {apply.error ? (
+            {stage.kind === "error" ? (
               <p
                 className="min-h-[220px] text-sm"
                 key="err"
                 style={{ color: "var(--strand-color-ink-muted)" }}
               >
-                Error: {(apply.error as Error).message}
+                {stage.message}
               </p>
             ) : showLoader && !visibleOutput ? (
               <Loader key="loader" />
@@ -292,6 +486,93 @@ export function PlaygroundView({
         }
       `}</style>
     </section>
+  );
+}
+
+function BalancePill({
+  authenticated,
+  balance,
+  buying,
+  onBuy,
+}: {
+  authenticated: boolean;
+  balance: number;
+  buying: boolean;
+  onBuy: () => void;
+}) {
+  if (!authenticated) {
+    return null;
+  }
+  return (
+    <div className="flex items-center gap-3">
+      <div
+        className="rounded-full border px-3 py-1.5 text-xs tabular-nums"
+        style={{
+          borderColor: "var(--strand-color-rule)",
+          background: "var(--strand-color-surface-raised)",
+          color: "var(--strand-color-ink-primary)",
+        }}
+        title="Credit balance"
+      >
+        <span style={{ color: "var(--strand-color-ink-muted)" }}>balance</span>{" "}
+        {balance.toLocaleString()}c
+      </div>
+      <button
+        className="rounded-full border px-3 py-1.5 text-xs"
+        disabled={buying}
+        onClick={onBuy}
+        style={{
+          borderColor: "var(--strand-color-ink-primary)",
+          color: "var(--strand-color-ink-primary)",
+        }}
+        type="button"
+      >
+        {buying ? "Opening…" : "Buy credits"}
+      </button>
+    </div>
+  );
+}
+
+function HumanizeToggle({
+  authenticated,
+  disabled,
+  on,
+  onToggle,
+}: {
+  authenticated: boolean;
+  disabled: boolean;
+  on: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <label
+      className="flex items-center gap-2 text-xs"
+      style={{
+        color: authenticated
+          ? "var(--strand-color-ink-primary)"
+          : "var(--strand-color-ink-muted)",
+        cursor: authenticated && !disabled ? "pointer" : "not-allowed",
+      }}
+    >
+      <input
+        checked={on}
+        disabled={disabled || !authenticated}
+        onChange={onToggle}
+        style={{ accentColor: "var(--strand-color-accent-lede)" }}
+        type="checkbox"
+      />
+      <span className="font-semibold tracking-wider uppercase">
+        Humanize output
+      </span>
+      {!authenticated ? (
+        <span
+          className="text-[0.62rem] tracking-widest uppercase"
+          style={{ color: "var(--strand-color-ink-faint)" }}
+        >
+          (sign in)
+        </span>
+      ) : null}
+    </label>
   );
 }
 

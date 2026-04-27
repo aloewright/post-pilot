@@ -93,6 +93,45 @@ export type HumanizeJob = {
 export type HumanizeSubmitResponse = {
   jobId: string;
   status: HumanizeJobStatus;
+  creditsCharged: number;
+  balance: number;
+};
+
+export type CreditCosts = {
+  STYLIZE_PER_CHAR: number;
+  HUMANIZE_PER_CHAR: number;
+};
+
+export type MeResponse = {
+  authenticated: boolean;
+  via?: "session" | "api_key";
+  balance: number | null;
+  lifetimeUsed: number | null;
+  lifetimePurchased: number | null;
+  costs: CreditCosts;
+};
+
+export type UsageItem = {
+  id: string;
+  delta: number;
+  reason: "welcome" | "topup" | "apply" | "humanize" | "refund" | "adjust";
+  refId: string | null;
+  createdAt: string | number;
+};
+
+export type ApiKeyItem = {
+  id: string;
+  name: string;
+  prefix: string;
+  createdAt: string | number;
+  lastUsedAt: string | number | null;
+};
+
+export type ApiKeyCreated = {
+  id: string;
+  name: string;
+  prefix: string;
+  plaintext: string;
 };
 
 export const api = {
@@ -160,6 +199,33 @@ export const api = {
 
   humanizeList: () =>
     request<{ items: HumanizeJob[] }>("/v1/humanize"),
+
+  me: () => request<MeResponse>("/v1/me"),
+
+  usage: () => request<{ items: UsageItem[] }>("/v1/me/usage"),
+
+  billingCheckout: () =>
+    request<{ url: string; checkoutId: string }>("/v1/billing/checkout", {
+      method: "POST",
+      body: JSON.stringify({}),
+    }),
+
+  billingPortal: () =>
+    request<{ url: string }>("/v1/billing/portal", {
+      method: "POST",
+      body: JSON.stringify({}),
+    }),
+
+  listKeys: () => request<{ items: ApiKeyItem[] }>("/v1/keys"),
+
+  createKey: (name: string) =>
+    request<ApiKeyCreated>("/v1/keys", {
+      method: "POST",
+      body: JSON.stringify({ name }),
+    }),
+
+  deleteKey: (id: string) =>
+    request<{ ok: true }>(`/v1/keys/${id}`, { method: "DELETE" }),
 };
 
 export const queryKeys = {
@@ -169,4 +235,7 @@ export const queryKeys = {
   presets: () => ["presets"] as const,
   humanizeJobs: () => ["humanize", "list"] as const,
   humanizeJob: (id: string) => ["humanize", "job", id] as const,
+  me: () => ["me"] as const,
+  usage: () => ["me", "usage"] as const,
+  apiKeys: () => ["keys"] as const,
 };
