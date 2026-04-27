@@ -77,6 +77,24 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return (await r.json()) as T;
 }
 
+export type HumanizeJobStatus = "queued" | "processing" | "done" | "failed";
+
+export type HumanizeJob = {
+  id: string;
+  status: HumanizeJobStatus;
+  inputChars: number;
+  input: string;
+  output: string | null;
+  error: string | null;
+  createdAt: string;
+  completedAt: string | null;
+};
+
+export type HumanizeSubmitResponse = {
+  jobId: string;
+  status: HumanizeJobStatus;
+};
+
 export const api = {
   listGuides: (
     params: {
@@ -130,6 +148,18 @@ export const api = {
       method: "POST",
       body: JSON.stringify(body),
     }),
+
+  humanizeSubmit: (input: string) =>
+    request<HumanizeSubmitResponse>("/v1/humanize", {
+      method: "POST",
+      body: JSON.stringify({ input }),
+    }),
+
+  humanizeGet: (jobId: string) =>
+    request<HumanizeJob>(`/v1/humanize/${jobId}`),
+
+  humanizeList: () =>
+    request<{ items: HumanizeJob[] }>("/v1/humanize"),
 };
 
 export const queryKeys = {
@@ -137,4 +167,6 @@ export const queryKeys = {
     ["guides", filters ?? {}] as const,
   guide: (slug: string) => ["guides", slug] as const,
   presets: () => ["presets"] as const,
+  humanizeJobs: () => ["humanize", "list"] as const,
+  humanizeJob: (id: string) => ["humanize", "job", id] as const,
 };

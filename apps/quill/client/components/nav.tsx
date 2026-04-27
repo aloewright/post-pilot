@@ -56,6 +56,15 @@ export function Nav() {
           >
             Playground
           </Link>
+          <Link
+            activeProps={{
+              style: { color: "var(--strand-color-ink-primary)" },
+            }}
+            className="hover:text-[color:var(--strand-color-ink-primary)]"
+            to="/humanize"
+          >
+            Humanize
+          </Link>
           {user ? (
             <Link
               activeProps={{

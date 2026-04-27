@@ -171,6 +171,62 @@ export const playgroundRuns = sqliteTable("playground_runs", {
     .default(sql`(unixepoch())`),
 });
 
+// Humanize feature: paid pro tier turns AI-stylized prose through Copyleaks
+// and returns a humanized variant. Jobs are async (Copyleaks scan ID) and
+// the frontend polls /v1/humanize/:id; the row holds the full lifecycle.
+export const humanizeJobs = sqliteTable(
+  "humanize_jobs",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    status: text("status", {
+      enum: ["queued", "processing", "done", "failed"],
+    })
+      .notNull()
+      .default("queued"),
+    scanId: text("scan_id"),
+    input: text("input").notNull(),
+    inputChars: integer("input_chars").notNull(),
+    output: text("output"),
+    error: text("error"),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+    completedAt: integer("completed_at", { mode: "timestamp" }),
+  },
+  (t) => ({
+    userCreatedIdx: index("humanize_jobs_user_created_idx").on(
+      t.userId,
+      t.createdAt
+    ),
+    scanIdx: index("humanize_jobs_scan_idx").on(t.scanId),
+  })
+);
+
+// Per-user usage counters. One row per user per UTC calendar month.
+// `monthKey` format is `YYYY-MM` so the next month rollover is just a
+// new row, no cron needed. Hourly rate-limit window is computed from the
+// humanize_jobs.createdAt index, no separate counter.
+export const humanizeUsage = sqliteTable(
+  "humanize_usage",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    monthKey: text("month_key").notNull(),
+    chars: integer("chars").notNull().default(0),
+    jobs: integer("jobs").notNull().default(0),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.monthKey] }),
+  })
+);
+
 export const evalRuns = sqliteTable("eval_runs", {
   id: text("id").primaryKey(),
   guideId: text("guide_id")
