@@ -1,12 +1,45 @@
+import { BookmarkSimple } from "@phosphor-icons/react";
 import { Link } from "@tanstack/react-router";
+import type { MouseEvent } from "react";
 import { USE_CASE_LABELS, USE_CASES } from "../../src/lib/utils";
 import type { GuideListItem } from "../lib/api";
+import { useBookmarks } from "../lib/bookmarks";
 import { COVERED } from "../lib/covers";
 import { AuthorIllustration } from "./author-illustration";
 import { Chip, Kicker, Lede, Standfirst } from "./editorial";
 
 function formatFidelity(match: number) {
   return `${Math.round(match * 100)}%`;
+}
+
+function BookmarkPin({ slug }: { slug: string }) {
+  const { isBookmarked, toggle } = useBookmarks();
+  const on = isBookmarked(slug);
+
+  // The card itself is a <Link>; intercept so the click toggles the bookmark
+  // instead of navigating.
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggle(slug);
+  };
+
+  return (
+    <button
+      aria-label={on ? "Remove bookmark" : "Bookmark this author"}
+      aria-pressed={on}
+      className="absolute top-2 right-2 inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors"
+      onClick={handleClick}
+      style={{
+        background: on ? "#dc2626" : "transparent",
+        borderColor: "#000",
+        color: on ? "#fff" : "#000",
+      }}
+      type="button"
+    >
+      <BookmarkSimple size={16} weight={on ? "fill" : "regular"} />
+    </button>
+  );
 }
 
 export function GuideCard({ guide }: { guide: GuideListItem }) {
@@ -53,6 +86,7 @@ export function GuideCard({ guide }: { guide: GuideListItem }) {
             />
           </div>
         )}
+        <BookmarkPin slug={guide.slug} />
       </div>
 
       <div className="flex flex-1 flex-col justify-between gap-4 p-6">
