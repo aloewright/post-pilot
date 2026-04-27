@@ -5,7 +5,7 @@ import { USE_CASE_PRESETS } from "../../src/lib/presets";
 import { analyzeText, scoreDeterministic } from "../../src/lib/rubric";
 import type { Guide, UseCase } from "../../src/lib/types";
 import { api, queryKeys } from "../lib/api";
-import { Button, Kicker, Lede, Standfirst } from "./editorial";
+import { Button, Standfirst } from "./editorial";
 import { RubricSnapshot } from "./rubric-snapshot";
 
 const PLAYGROUND_MODEL = "@cf/zai-org/glm-4.7-flash";
@@ -128,16 +128,10 @@ export function PlaygroundView({
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 md:py-24">
-      <div className="mb-10 flex flex-col gap-3">
-        <Kicker>Playground</Kicker>
-        <Lede as="h1" size="lg">
-          Test any voice against any input.
-        </Lede>
+      <div className="mb-10">
         <Standfirst className="max-w-[60ch]">
-          Pick a guide, pick a use case, send input. Rubric metrics compute
-          locally as output arrives. AI Gateway wiring lands when{" "}
-          <code>AI_GATEWAY_BASE_URL</code> is set; until then the Worker returns
-          a deterministic stub.
+          Pick author, use case, and enter your prompt to receive an example
+          output.
         </Standfirst>
       </div>
 
