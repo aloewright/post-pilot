@@ -27,10 +27,67 @@ export const userPreferences = sqliteTable("user_preferences", {
   plan: text("plan", { enum: ["free", "paid"] })
     .notNull()
     .default("free"),
+  // Polar customer id, set the first time we open a checkout for this user.
+  // Reused on every subsequent checkout/portal call so receipts stay attached
+  // to one customer even across credit-pack purchases.
+  polarCustomerId: text("polar_customer_id"),
   updatedAt: integer("updated_at", { mode: "timestamp" })
     .notNull()
     .default(sql`(unixepoch())`),
 });
+
+// Source of truth for "how many credits the user has right now".
+// Mutations are atomic SQL arithmetic; the credit_ledger row is the audit
+// log. Invariant: SUM(credit_ledger.delta) WHERE user = X equals balance.
+export const creditBalance = sqliteTable("credit_balance", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  balance: integer("balance").notNull().default(0),
+  lifetimePurchased: integer("lifetime_purchased").notNull().default(0),
+  lifetimeUsed: integer("lifetime_used").notNull().default(0),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .notNull()
+    .default(sql`(unixepoch())`),
+});
+
+// Append-only ledger. Positive delta = credit (topup/welcome/refund),
+// negative = debit (apply/humanize). refId points at the originating row
+// (job id, polar order id, etc.) so we can join back for support.
+export const creditLedger = sqliteTable(
+  "credit_ledger",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    delta: integer("delta").notNull(),
+    reason: text("reason", {
+      enum: [
+        "welcome",
+        "topup",
+        "apply",
+        "humanize",
+        "refund",
+        "adjust",
+      ],
+    }).notNull(),
+    refId: text("ref_id"),
+    metadata: text("metadata", { mode: "json" }).$type<
+      Record<string, unknown>
+    >(),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+  },
+  (t) => ({
+    userCreatedIdx: index("credit_ledger_user_created_idx").on(
+      t.userId,
+      t.createdAt
+    ),
+    refIdx: index("credit_ledger_ref_idx").on(t.refId),
+  })
+);
 
 export const guides = sqliteTable(
   "guides",
@@ -137,18 +194,28 @@ export const collectionItems = sqliteTable(
   })
 );
 
-export const apiKeys = sqliteTable("api_keys", {
-  id: text("id").primaryKey(),
-  userId: text("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  name: text("name").notNull(),
-  keyHash: text("key_hash").notNull().unique(),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(unixepoch())`),
-  lastUsedAt: integer("last_used_at", { mode: "timestamp" }),
-});
+export const apiKeys = sqliteTable(
+  "api_keys",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    // First 12 chars of the plaintext key, stored for masked display in the
+    // UI ("pp_live_a4f2…"). The full key is never persisted; lookup happens
+    // by SHA-256 hash.
+    prefix: text("prefix").notNull().default(""),
+    keyHash: text("key_hash").notNull().unique(),
+    createdAt: integer("created_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+    lastUsedAt: integer("last_used_at", { mode: "timestamp" }),
+  },
+  (t) => ({
+    userIdx: index("api_keys_user_idx").on(t.userId),
+  })
+);
 
 export const playgroundRuns = sqliteTable("playground_runs", {
   id: text("id").primaryKey(),
