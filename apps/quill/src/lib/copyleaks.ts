@@ -19,7 +19,7 @@ export type CopyleaksConfig = {
 };
 
 export type SubmitResult =
-  | { ok: true; scanId: string }
+  | { ok: true; scanId: string; syncOutput?: string }
   | { ok: false; error: string };
 
 export type PollResult =
@@ -28,7 +28,7 @@ export type PollResult =
   | { status: "failed"; error: string };
 
 export async function login(cfg: CopyleaksConfig): Promise<string> {
-  const r = await fetch(`${ID_BASE}/v3/account/login/api-key`, {
+  const r = await fetch(`${ID_BASE}/v3/account/login/api`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ email: cfg.email, key: cfg.apiKey }),
@@ -49,24 +49,38 @@ export async function submit(
   text: string
 ): Promise<SubmitResult> {
   const scanId = crypto.randomUUID();
-  const r = await fetch(`${API_BASE}/v1/writer-detector/${scanId}/check`, {
+  const r = await fetch(`${API_BASE}/v2/writer-detector/${scanId}/check`, {
     method: "POST",
     headers: {
       authorization: `Bearer ${token}`,
       "content-type": "application/json",
     },
-    body: JSON.stringify({
-      text,
-      // Humanize-specific options — leave defaults so Copyleaks picks the
-      // current "best" preset. Tighten later if quality drifts.
-      sandbox: false,
-    }),
+    body: JSON.stringify({ text, sandbox: false }),
   });
+  const rawBody = await r.text();
   if (!r.ok) {
     return {
       ok: false,
-      error: `copyleaks submit ${r.status}: ${(await r.text()).slice(0, 200)}`,
+      error: `copyleaks submit ${r.status}: ${rawBody.slice(0, 200)}`,
     };
+  }
+  // Log actual response structure once so we can see the real shape.
+  console.log(
+    JSON.stringify({ msg: "copyleaks_check_response", scanId, body: rawBody.slice(0, 500) })
+  );
+  // The check endpoint may return the result synchronously (status 200) or
+  // queue it asynchronously. Try to extract output immediately.
+  try {
+    const parsed = JSON.parse(rawBody) as {
+      output?: { humanized?: string; text?: string };
+      status?: string;
+    };
+    const output = parsed.output?.humanized ?? parsed.output?.text;
+    if (output) {
+      return { ok: true, scanId, syncOutput: output };
+    }
+  } catch {
+    // not JSON or no output — fall through to async poll
   }
   return { ok: true, scanId };
 }
@@ -75,7 +89,7 @@ export async function result(
   token: string,
   scanId: string
 ): Promise<PollResult> {
-  const r = await fetch(`${API_BASE}/v1/writer-detector/${scanId}/result`, {
+  const r = await fetch(`${API_BASE}/v2/writer-detector/${scanId}/result`, {
     headers: { authorization: `Bearer ${token}` },
   });
   if (r.status === 404 || r.status === 202) {
