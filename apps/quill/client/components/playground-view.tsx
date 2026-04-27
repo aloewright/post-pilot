@@ -17,9 +17,12 @@ export function PlaygroundView({
   initialGuide?: string;
   initialPreset?: UseCase;
 }) {
+  // Pull every guide so the dropdown surfaces the full catalogue, not just
+  // the server's default page (50). 500 is the server-enforced cap and well
+  // above current corpus size.
   const guidesQuery = useQuery({
     queryKey: queryKeys.guides({ all: true }),
-    queryFn: () => api.listGuides({}),
+    queryFn: () => api.listGuides({ limit: 500 }),
   });
 
   const guides = guidesQuery.data?.items ?? [];

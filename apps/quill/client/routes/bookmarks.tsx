@@ -13,11 +13,12 @@ export const Route = createFileRoute("/bookmarks")({
 
 function BookmarksPage() {
   const { bookmarks } = useBookmarks();
-  // Same query key as /library + /playground so all three share one cache
-  // entry — opening /bookmarks after either is a no-network read.
+  // Pull the full catalogue (limit 500 = server cap) so we can resolve
+  // bookmarks beyond the server's 50-row default page. Shares its cache
+  // entry with /playground.
   const guidesQuery = useQuery({
-    queryKey: queryKeys.guides({}),
-    queryFn: () => api.listGuides({}),
+    queryKey: queryKeys.guides({ all: true }),
+    queryFn: () => api.listGuides({ limit: 500 }),
   });
   const all = guidesQuery.data?.items ?? [];
   const items = useMemo(
