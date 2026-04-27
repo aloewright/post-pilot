@@ -18,9 +18,9 @@ export function AuthorStrip({
       : "See all →";
   return (
     <section className="mx-auto max-w-6xl px-6 pb-24">
-      <div className="mb-6 flex items-center justify-end">
+      <div className="mt-4 mb-10 flex items-center justify-end pr-2">
         <Link
-          className="inline-flex items-center rounded-md border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--strand-color-ink-primary)] hover:text-[var(--strand-color-surface-canvas)]"
+          className="inline-flex items-center rounded-md border px-3 py-1.5 text-xs font-medium"
           style={{
             borderColor: "var(--strand-color-ink-primary)",
             color: "var(--strand-color-ink-primary)",
