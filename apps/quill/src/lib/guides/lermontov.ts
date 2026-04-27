@@ -15,12 +15,7 @@ export const lermontov: Guide = {
     "plain",
     "terse"
   ],
-  "use_cases": [
-    "marketing",
-    "email",
-    "social",
-    "docs"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

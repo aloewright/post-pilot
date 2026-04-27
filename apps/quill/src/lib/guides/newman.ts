@@ -14,12 +14,7 @@ export const newman: Guide = {
     "lyrical",
     "ornate"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "email",
-    "narrative"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

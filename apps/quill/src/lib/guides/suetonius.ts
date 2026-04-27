@@ -14,11 +14,7 @@ export const suetonius: Guide = {
     "plain",
     "terse"
   ],
-  "use_cases": [
-    "docs",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -15,11 +15,7 @@ export const montaigne: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "narrative",
-    "email",
-    "docs"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

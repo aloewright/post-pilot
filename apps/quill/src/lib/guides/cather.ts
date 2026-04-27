@@ -11,7 +11,7 @@ export const cather: Guide = {
   description:
     "Willa Cather's voice evokes the expansive landscapes and resilient characters of the American Midwest. Use this style for narratives that require a sense of grandeur with understated elegance. Ideal for marketing and storytelling that demands depth and nuance.",
   voice_axes: ["lyrical", "plain"],
-  use_cases: ["marketing", "narrative", "docs"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

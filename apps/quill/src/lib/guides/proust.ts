@@ -11,7 +11,7 @@ export const proust: Guide = {
   description:
     "This voice emulates Marcel Proust's rich, flowing prose, ideal for exploring complex ideas and moments of introspection. Use this style when you want to delve deeply into the nuances of memory and perception, weaving elaborate sentences that guide the reader through a tapestry of thought and emotion.",
   voice_axes: ["ornate", "lyrical"],
-  use_cases: ["narrative", "email", "marketing"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

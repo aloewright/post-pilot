@@ -14,11 +14,7 @@ export const spinoza: Guide = {
     "terse",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "rfc",
-    "support"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

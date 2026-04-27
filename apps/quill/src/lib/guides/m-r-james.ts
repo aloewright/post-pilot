@@ -15,12 +15,7 @@ export const mRJames: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "narrative",
-    "email",
-    "docs",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -15,12 +15,7 @@ export const seiShonagon: Guide = {
     "ornate",
     "wry"
   ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "social",
-    "docs"
-  ],
+  "use_cases": ["email"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

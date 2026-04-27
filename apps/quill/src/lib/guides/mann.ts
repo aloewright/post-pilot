@@ -11,7 +11,7 @@ export const mann: Guide = {
   description:
     "Thomas Mann's voice is characterized by its ironic detachment and grandiose exploration of themes. His writing often employs long, complex sentences that build intricate narratives, making it suitable for detailed and reflective storytelling. Reach for this voice when crafting narratives that require depth and a touch of irony.",
   voice_axes: ["ornate", "wry"],
-  use_cases: ["narrative", "marketing", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

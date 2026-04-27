@@ -15,11 +15,7 @@ export const lamb: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "email",
-    "marketing",
-    "narrative"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

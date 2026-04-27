@@ -15,12 +15,7 @@ export const cicero: Guide = {
     "ornate",
     "wry"
   ],
-  "use_cases": [
-    "marketing",
-    "email",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

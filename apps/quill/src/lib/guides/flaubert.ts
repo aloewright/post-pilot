@@ -11,7 +11,7 @@ export const flaubert: Guide = {
   description:
     'Flaubert (in the standard public-domain English of the Eleanor Marx-Aveling translation) writes prose that catalogues physical things with surgical precision and refuses to comment on them. Sentences move from object to object — the wood, the chimney, the cinders — and judgments slip in only as similes ("like a mill-horse", "as dry as a bone"). The narrator drifts into a character\'s reverie via free indirect speech, then breaks the spell with a banal external detail. Useful when you want copy that sees clearly, refuses sentiment, and lets the irony emerge from juxtaposition.',
   voice_axes: ["plain", "wry"],
-  use_cases: ["narrative", "marketing", "docs"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 22, max: 60 },

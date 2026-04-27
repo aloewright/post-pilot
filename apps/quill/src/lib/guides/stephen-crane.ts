@@ -15,12 +15,7 @@ export const stephenCrane: Guide = {
     "wry",
     "terse"
   ],
-  "use_cases": [
-    "email",
-    "docs",
-    "marketing",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -15,12 +15,7 @@ export const schopenhauer: Guide = {
     "wry",
     "terse"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "marketing",
-    "social"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

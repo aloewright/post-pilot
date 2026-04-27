@@ -15,12 +15,7 @@ export const theodoreDreiser: Guide = {
     "plain",
     "wry"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "docs",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

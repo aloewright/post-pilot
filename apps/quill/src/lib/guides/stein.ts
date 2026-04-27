@@ -10,7 +10,7 @@ export const stein: Guide = {
   description:
     "Gertrude Stein's voice employs repetition and a continuous present to create a sense of insistence and immediacy. Her cubist syntax breaks conventional patterns, offering a unique narrative structure. Reach for this voice when you want to convey complexity through simplicity and rhythm.",
   voice_axes: ["lyrical", "ornate"],
-  use_cases: ["narrative", "marketing", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

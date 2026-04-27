@@ -14,11 +14,7 @@ export const frankNorris: Guide = {
     "lyrical",
     "ornate"
   ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

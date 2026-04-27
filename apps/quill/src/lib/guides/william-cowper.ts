@@ -15,12 +15,7 @@ export const williamCowper: Guide = {
     "lyrical",
     "wry"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["fiction", "email"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

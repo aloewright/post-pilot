@@ -14,11 +14,7 @@ export const deQuincey: Guide = {
     "ornate",
     "lyrical"
   ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "social"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

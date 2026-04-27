@@ -15,12 +15,7 @@ export const tocqueville: Guide = {
     "ornate",
     "wry"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

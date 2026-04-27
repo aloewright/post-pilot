@@ -14,12 +14,7 @@ export const leopoldoAlas: Guide = {
     "lyrical",
     "wry"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "social",
-    "docs"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -14,12 +14,7 @@ export const ruskin: Guide = {
     "ornate",
     "lyrical"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "email",
-    "social"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

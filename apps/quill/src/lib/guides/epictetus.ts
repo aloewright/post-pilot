@@ -15,11 +15,7 @@ export const epictetus: Guide = {
     "plain",
     "wry"
   ],
-  "use_cases": [
-    "email",
-    "docs",
-    "support"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

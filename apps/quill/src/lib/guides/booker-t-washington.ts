@@ -14,11 +14,7 @@ export const bookerTWashington: Guide = {
     "plain",
     "lyrical"
   ],
-  "use_cases": [
-    "narrative",
-    "docs",
-    "marketing"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

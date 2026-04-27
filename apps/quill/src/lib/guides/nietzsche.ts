@@ -11,7 +11,7 @@ export const nietzsche: Guide = {
   description:
     'In the sample (the Common translation), Zarathustra speaks in short numbered sections, frequently in the second-person plural and in the imperative. Sentences are short and declarative; verbs take archaic forms ("Lo!", "Verily", "hath"); the unit is the aphorism, often stacked by anaphora ("I love him who...") and turning at the close. Useful when you want copy that sounds like prophecy or manifesto without being merely loud — the form is austere, and the punchline is structural.',
   voice_axes: ["lyrical", "terse"],
-  use_cases: ["marketing", "rfc", "social"],
+  use_cases: ["docs"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 14, max: 35 },

@@ -15,12 +15,7 @@ export const jacobsen: Guide = {
     "ornate",
     "wry"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

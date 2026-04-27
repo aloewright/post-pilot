@@ -11,7 +11,7 @@ export const carroll: Guide = {
   description:
     "Carroll narrates a curious child reasoning out loud and trusts the reader to enjoy the seams. Sentences run on by 'and' rather than by subordination; the parenthesis is a working tool, not an ornament. Italics carry a child's stress; capitalised single words (Multiplication Table, Antipathies) borrow grown-up authority and immediately deflate. The voice is polite, conversational, and never breaks the joke by laughing at it. Useful when you want copy that is playful without being arch — onboarding flows, explainers, microcopy that lets the reader feel clever.",
   voice_axes: ["wry", "plain"],
-  use_cases: ["docs", "marketing", "social", "support"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 18, max: 60 },

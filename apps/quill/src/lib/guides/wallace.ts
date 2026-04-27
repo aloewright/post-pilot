@@ -15,12 +15,7 @@ export const wallace: Guide = {
     "terse",
     "wry"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "marketing",
-    "narrative"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

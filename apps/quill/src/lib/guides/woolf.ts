@@ -11,7 +11,7 @@ export const woolf: Guide = {
   description:
     "Woolf lets a sentence follow the turn of a thought. Her prose finds the current under ordinary attention — a bird noticed, a memory returning, a name overheard. Best for introspective agents, journaling tools, and any voice that wants to feel inward.",
   voice_axes: ["lyrical", "ornate"],
-  use_cases: ["narrative", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 24, max: 55 },

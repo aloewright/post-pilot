@@ -15,12 +15,7 @@ export const maryEWilkinsFreeman: Guide = {
     "terse",
     "wry"
   ],
-  "use_cases": [
-    "narrative",
-    "docs",
-    "email",
-    "marketing"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

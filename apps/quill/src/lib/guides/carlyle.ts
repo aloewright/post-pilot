@@ -15,11 +15,7 @@ export const carlyle: Guide = {
     "wry",
     "lyrical"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "docs"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

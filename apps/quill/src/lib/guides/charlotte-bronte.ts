@@ -11,7 +11,7 @@ export const charlotteBronte: Guide = {
   description:
     "Brontë's Jane speaks as witness. Sentences are long but jointed by colons and semicolons rather than diffuse subordination — each clause is a separate observation set in series. Setting is read for feeling: the November day, the red-room, the shut curtain are not décor but evidence of an inner state. The narrator names emotion directly (terror, mutiny, dread) and accepts the moral weight of what she has felt. Useful when you want first-person copy with conviction — testimony, founder letters, op-ed prose — that is plain in vocabulary but unafraid of its own intensity.",
   voice_axes: ["lyrical", "plain"],
-  use_cases: ["narrative", "email", "marketing"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 22, max: 55 },

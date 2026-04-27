@@ -11,7 +11,7 @@ export const hemingway: Guide = {
   description:
     "Hemingway's voice is what remains after every unnecessary word is removed. It trusts the reader to supply what is not stated, and it distrusts adjectives that do a stronger verb's job. Useful when you want product copy, microcopy, or support replies that feel confident and unhurried.",
   voice_axes: ["terse", "plain"],
-  use_cases: ["support", "marketing", "code"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: { mean: 9, max: 18 },

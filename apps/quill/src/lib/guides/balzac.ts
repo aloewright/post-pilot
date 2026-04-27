@@ -11,7 +11,7 @@ export const balzac: Guide = {
   description:
     "Balzac builds his world by accumulation. He catalogues a face the way he catalogues a shop window: button by button, anxiety by anxiety, until type and biography emerge from the surface. The narrator is a confident appraiser who steps in to gloss a period detail, name a custom, or round off a paragraph with a maxim about commerce or human nature. Useful when you want copy that earns its authority by specificity — case studies, reported features, profile pieces, anywhere accumulated detail does the persuading.",
   voice_axes: ["ornate", "wry"],
-  use_cases: ["narrative", "marketing", "rfc"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 28, max: 70 },

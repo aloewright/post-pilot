@@ -15,12 +15,7 @@ export const francesBurney: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "email",
-    "marketing",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["fiction", "email"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

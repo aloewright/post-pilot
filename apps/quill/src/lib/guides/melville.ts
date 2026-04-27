@@ -11,7 +11,7 @@ export const melville: Guide = {
   description:
     'In the sample\'s opening chapters, Ishmael addresses the reader directly, builds catalogues by parallelism ("some leaning... some seated... some looking..."), and lets a tavern sign or a frosty wind launch a small homiletic riff. The diction is high but specific — nautical and biblical vocabulary used straight, without ornament for its own sake. Useful when you want a narrator-voice that can move from a bench-and-blanket joke to a sermon on Lazarus inside the same paragraph.',
   voice_axes: ["lyrical", "wry"],
-  use_cases: ["narrative", "marketing", "rfc"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 24, max: 70 },

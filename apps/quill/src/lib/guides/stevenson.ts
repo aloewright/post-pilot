@@ -11,7 +11,7 @@ export const stevenson: Guide = {
   description:
     'Stevenson\'s prose in Jekyll and Hyde works by alternation: a brisk, clubbable sentence reports the surface; the next sentence concedes its own limit. He fits long descriptive periods next to short, almost colloquial reactions, and lets his lawyer-narrator hedge in legal idiom ("I had a delicacy," "I make it a rule of mine"). Useful when you want copy that sounds level-headed and observant while admitting the thing it cannot quite name.',
   voice_axes: ["wry", "plain"],
-  use_cases: ["narrative", "email", "marketing"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 20, max: 60 },

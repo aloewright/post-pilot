@@ -10,7 +10,7 @@ export const hammett: Guide = {
   description:
     "Dashiell Hammett's voice is characterized by its directness and economy, often used to convey gritty, hard-boiled detective stories. This style is well-suited for narratives that require a sense of urgency and stark realism. Reach for this voice when crafting suspenseful, plot-driven content with a focus on action and dialogue.",
   voice_axes: ["terse", "plain"],
-  use_cases: ["narrative", "email", "marketing"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

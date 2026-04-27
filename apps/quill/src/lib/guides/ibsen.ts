@@ -11,7 +11,7 @@ export const ibsen: Guide = {
   description:
     "The sample is a play, so the unit is the speech, not the sentence. Ibsen's lines are short, conversational, and almost entirely free of metaphor; the menace is structural — diminutives (skylark, songbird, little Nora) returned with each turn until the reader hears the cage. Stage directions are economical and behavioral. Useful for dialogue-driven copy where you want a domestic surface and an undertow that the second reading reveals.",
   voice_axes: ["plain", "wry"],
-  use_cases: ["narrative", "support", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 12, max: 30 },

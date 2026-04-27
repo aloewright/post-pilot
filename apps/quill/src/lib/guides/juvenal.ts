@@ -14,11 +14,7 @@ export const juvenal: Guide = {
     "ornate",
     "wry"
   ],
-  "use_cases": [
-    "marketing",
-    "email",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -14,11 +14,7 @@ export const bunin: Guide = {
     "lyrical",
     "wry"
   ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "voice-inspired",
   "voice_spec": {
     "sentence_length": {

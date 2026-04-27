@@ -11,7 +11,7 @@ export const hardy: Guide = {
   description:
     'Hardy zooms out. A girl\'s small grief is set against "history in time" and "some immense sad soul, conterminous with the universe in space". Place names (Marlott, Stourcastle, Bulbarrow) and topography do as much work as character description. Dialogue is rendered in unsoftened Dorset dialect. The narrator is a pessimist with a vocabulary of fate and dwindling — "blighted", "shiftless", "funeral train" — and is willing to be openly bitter about "Nature\'s holy plan". Useful when you want copy that locates a small event inside a vast frame and does not pretend the frame is kind.',
   voice_axes: ["lyrical", "ornate"],
-  use_cases: ["narrative", "marketing"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 26, max: 70 },

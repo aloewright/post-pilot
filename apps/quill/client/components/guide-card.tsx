@@ -89,28 +89,30 @@ export function GuideCard({ guide }: { guide: GuideListItem }) {
         <BookmarkPin slug={guide.slug} />
       </div>
 
-      <div className="flex flex-1 flex-col justify-between gap-4 p-6">
-        <div className="flex flex-col gap-3">
+      <div className="flex flex-1 flex-col justify-between gap-3 p-4">
+        <div className="flex flex-col gap-2">
           <Kicker>{guide.kicker}</Kicker>
-          <Lede as="h2" size="md">
+          <Lede as="h2" size="sm">
             {guide.author}
           </Lede>
-          <Standfirst className="text-[0.95rem]">{guide.standfirst}</Standfirst>
+          <Standfirst className="line-clamp-3 text-[0.85rem]">
+            {guide.standfirst}
+          </Standfirst>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-1.5">
           {guide.use_cases
             .filter((uc) => (USE_CASES as readonly string[]).includes(uc))
-            .slice(0, 3)
+            .slice(0, 2)
             .map((uc) => (
               <Chip key={uc}>{USE_CASE_LABELS[uc]}</Chip>
             ))}
           {fidelity > 0 ? (
             <span
-              className="ml-auto pp-byline"
+              className="ml-auto pp-byline text-[0.7rem]"
               style={{ color: "var(--strand-color-accent-lede)" }}
             >
-              {formatFidelity(fidelity)} fidelity
+              {formatFidelity(fidelity)}
             </span>
           ) : null}
         </div>

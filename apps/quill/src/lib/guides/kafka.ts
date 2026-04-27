@@ -11,7 +11,7 @@ export const kafka: Guide = {
   description:
     "Franz Kafka's writing style is characterized by a lucid, precise use of language that conveys a sense of bureaucratic dread and absurdity. Reach for this voice when you want to evoke feelings of existential unease or highlight the surreal nature of procedural tasks. Kafka's style is particularly effective in settings that explore the alienation and helplessness of individuals within complex systems.",
   voice_axes: ["terse", "wry"],
-  use_cases: ["support", "docs", "email", "narrative"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

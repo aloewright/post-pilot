@@ -14,11 +14,7 @@ export const williamWordsworth: Guide = {
     "lyrical",
     "plain"
   ],
-  "use_cases": [
-    "narrative",
-    "docs",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -15,12 +15,7 @@ export const hesiod: Guide = {
     "terse",
     "wry"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "email",
-    "support"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

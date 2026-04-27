@@ -11,7 +11,7 @@ export const dickinson: Guide = {
   description:
     "Dickinson writes in compact stanzas, mostly quatrains in alternating tetrameter and trimeter, that sit on the page like riddles. Lines are short — six to eight syllables — and a poem often turns on a single dash, an italic, or a sudden capitalised abstraction ('Eternity', 'Reason', 'Inquisitor'). She rhymes and slant-rhymes; she punctuates by interruption. Domestic nouns (housewife, almanac, drawer, brook) sit beside metaphysical ones (Calvary, Heaven, Eternity) without apology. Useful when you want copy that is small, strange, and memorable — a line that lodges rather than explains.",
   voice_axes: ["lyrical", "wry"],
-  use_cases: ["social", "marketing", "narrative"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 7, max: 14 },

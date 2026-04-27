@@ -15,12 +15,7 @@ export const horace: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "email",
-    "social"
-  ],
+  "use_cases": ["fiction", "email"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

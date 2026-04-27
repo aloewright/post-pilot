@@ -14,11 +14,7 @@ export const dannunzio: Guide = {
     "ornate",
     "lyrical"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "voice-inspired",
   "voice_spec": {
     "sentence_length": {

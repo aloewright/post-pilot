@@ -11,7 +11,7 @@ export const chekhov: Guide = {
   description:
     "Chekhov writes in short, level sentences and trusts the small detail to do the work. Action is reported as if from a notebook — Lyubka collects beads, the lamp gives a last flicker, the cocks crow — and the inner life of a character arrives as a string of free indirect questions: Why this? Whose idea was it? Why not the contrary? Weather is not symbol but circumstance, and circumstance leans on the people. Useful when you want copy that is restrained but emotionally pointed — case studies, profiles, narrative product writing — where what is observed exceeds what is said.",
   voice_axes: ["plain", "wry"],
-  use_cases: ["narrative", "support", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 16, max: 45 },

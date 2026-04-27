@@ -11,7 +11,7 @@ export const asimov: Guide = {
   description:
     "Asimov's nonfiction reads like a confident teacher who has decided the reader deserves plain explanations instead of flattery. Every paragraph advances the lesson. Ideal for tutorials, onboarding, and technical explainers where clarity matters more than style.",
   voice_axes: ["plain"],
-  use_cases: ["docs", "support", "code"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: { mean: 16, max: 26 },

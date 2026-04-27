@@ -11,7 +11,7 @@ export const shelley: Guide = {
   description:
     "Shelley's narrators speak in framed letters and confessions: an explorer or a scholar who reveals himself by piling clauses, semicolons, and parentheticals. Sentences move from external fact to inward feeling and back again, often ending on an avowal of weakness or longing rather than on a hard image. Useful when you want first-person copy that sounds bookish, ardent, and self-aware — a voice that admits its own ardour while still leaning into it.",
   voice_axes: ["ornate", "lyrical"],
-  use_cases: ["narrative", "email", "marketing"],
+  use_cases: ["fiction", "email"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 27, max: 70 },

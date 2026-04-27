@@ -11,7 +11,7 @@ export const zola: Guide = {
   description:
     "Zola narrates the coal pit as if it were a working organism: cables, cages, lungs, and ledgers gathered into a single grammatical sweep, with semicolons doing the joining and the verdict held back to the close. Industry and flesh are described in the same register — the shaft swallows men, a miner's chest stores coal, a household ledger lists francs alongside coughs. Useful when you want copy that surveys a process or a crowded scene without sentimentalising it; the pity, where it appears, sits inside the inventory rather than on top of it.",
   voice_axes: ["ornate", "plain"],
-  use_cases: ["narrative", "marketing", "docs"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 22, max: 60 },

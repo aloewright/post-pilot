@@ -15,12 +15,7 @@ export const macaulay: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "social",
-    "docs"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

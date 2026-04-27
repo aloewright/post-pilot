@@ -15,11 +15,7 @@ export const russell: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "rfc"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

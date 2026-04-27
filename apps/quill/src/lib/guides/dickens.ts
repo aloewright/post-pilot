@@ -11,7 +11,7 @@ export const dickens: Guide = {
   description:
     "Dickens writes in tides — sentences that gather instances, repeat, accumulate, and finally crest into a verdict. Abstractions are personified (Fate the Woodman, Death the Farmer); weather and rooms carry the conscience of the scene. Useful when you want copy with rhetorical sweep and a moral edge, or narrative that turns description into argument.",
   voice_axes: ["ornate", "wry"],
-  use_cases: ["narrative", "marketing", "rfc"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 30, max: 90 },

@@ -11,7 +11,7 @@ export const twain: Guide = {
   description:
     'Twain narrates Huckleberry Finn in a frontier dialect that thinks out loud — "I reckoned," "I judged," "warn\'t no use" — and arrives at moral judgment by reasoning from common sense rather than principle. The humor comes from the gap between the boy\'s matter-of-fact tone and what he is actually describing. Useful when you want copy that disarms with plainness, lets the reader feel smart, and lands its point sideways.',
   voice_axes: ["plain", "wry"],
-  use_cases: ["social", "marketing", "narrative"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 18, max: 50 },

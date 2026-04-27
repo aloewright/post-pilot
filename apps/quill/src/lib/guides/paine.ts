@@ -14,11 +14,7 @@ export const paine: Guide = {
     "terse",
     "plain"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

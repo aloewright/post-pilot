@@ -15,12 +15,7 @@ export const aphraBehn: Guide = {
     "lyrical",
     "terse"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "social",
-    "email"
-  ],
+  "use_cases": ["fiction", "email"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

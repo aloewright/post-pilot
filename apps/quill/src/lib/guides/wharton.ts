@@ -10,7 +10,7 @@ export const wharton: Guide = {
   description:
     "Edith Wharton's style captures the nuances of Gilded Age society with a keen eye for irony and detail. Her voice is ideal for narratives that explore social dynamics with a touch of wit and grace. Use this style when you need to convey sophistication and subtle critique.",
   voice_axes: ["ornate", "wry"],
-  use_cases: ["narrative", "marketing", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

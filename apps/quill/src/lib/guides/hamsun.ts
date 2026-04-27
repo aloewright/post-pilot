@@ -15,11 +15,7 @@ export const hamsun: Guide = {
     "lyrical",
     "plain"
   ],
-  "use_cases": [
-    "narrative",
-    "social",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

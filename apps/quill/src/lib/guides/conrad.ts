@@ -11,7 +11,7 @@ export const conrad: Guide = {
   description:
     "Joseph Conrad's voice is characterized by intricate sentence structures and rich, atmospheric detail. His writing often explores themes of existential dread and moral ambiguity, set against the backdrop of the sea as a crucible for human character. Use this voice when crafting narratives that require depth and introspection.",
   voice_axes: ["ornate", "lyrical"],
-  use_cases: ["narrative", "marketing", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

@@ -11,7 +11,7 @@ export const douglass: Guide = {
   description:
     "Douglass writes as a witness who has been doubted before. He states the date, the place, the name, the act — short declaratives interleaved with longer reasoning sentences that carry moral argument without raising the voice. Useful when you want copy that earns trust through specificity, makes a moral case by stacking facts, and refuses to let the reader look away.",
   voice_axes: ["plain", "lyrical"],
-  use_cases: ["narrative", "rfc", "marketing"],
+  use_cases: ["email", "docs"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 22, max: 60 },

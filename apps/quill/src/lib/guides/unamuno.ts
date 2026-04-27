@@ -14,12 +14,7 @@ export const unamuno: Guide = {
     "lyrical",
     "wry"
   ],
-  "use_cases": [
-    "narrative",
-    "docs",
-    "email",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

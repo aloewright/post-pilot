@@ -15,12 +15,7 @@ export const alexanderPope: Guide = {
     "ornate",
     "terse"
   ],
-  "use_cases": [
-    "marketing",
-    "email",
-    "docs",
-    "social"
-  ],
+  "use_cases": ["fiction", "email"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

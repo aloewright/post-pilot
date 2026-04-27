@@ -11,7 +11,7 @@ export const swift: Guide = {
   description:
     'Swift\'s proposer in A Modest Proposal speaks in the register of an earnest civic projector: humble verbs ("I humbly propose," "I have been assured"), tidy enumerations, costed advantages. The satire lands because the syntax never breaks character — the writer remains a polite reformer while the content turns monstrous. Useful for any voice that wants the appearance of sober administrative reason — and for satire that needs to keep a straight face for an entire paragraph.',
   voice_axes: ["wry", "plain"],
-  use_cases: ["rfc", "marketing", "narrative"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 30, max: 95 },

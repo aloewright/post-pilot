@@ -11,7 +11,7 @@ export const vonnegut: Guide = {
   description:
     "Vonnegut wrote as though he were telling the reader a very hard truth over a cup of coffee. Short paragraphs. Plain words. Jokes that do not flinch from grief. Well suited to plain-language legal copy, compliance notices, and onboarding flows that want warmth without softness.",
   voice_axes: ["plain", "wry"],
-  use_cases: ["docs", "support", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: { mean: 10, max: 20 },

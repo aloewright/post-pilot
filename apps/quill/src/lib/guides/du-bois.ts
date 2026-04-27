@@ -15,12 +15,7 @@ export const duBois: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "voice-inspired",
   "voice_spec": {
     "sentence_length": {

@@ -14,11 +14,7 @@ export const williamJames: Guide = {
     "plain",
     "wry"
   ],
-  "use_cases": [
-    "docs",
-    "narrative",
-    "email"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

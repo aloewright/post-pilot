@@ -14,11 +14,7 @@ export const kropotkin: Guide = {
     "lyrical",
     "plain"
   ],
-  "use_cases": [
-    "narrative",
-    "docs",
-    "social"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

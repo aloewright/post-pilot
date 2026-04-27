@@ -15,12 +15,7 @@ export const goethe: Guide = {
     "ornate",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "marketing",
-    "narrative"
-  ],
+  "use_cases": ["fiction", "email"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

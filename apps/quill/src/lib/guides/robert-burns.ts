@@ -15,12 +15,7 @@ export const robertBurns: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "social",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

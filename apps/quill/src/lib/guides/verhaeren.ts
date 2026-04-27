@@ -14,11 +14,7 @@ export const verhaeren: Guide = {
     "lyrical",
     "ornate"
   ],
-  "use_cases": [
-    "marketing",
-    "narrative",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

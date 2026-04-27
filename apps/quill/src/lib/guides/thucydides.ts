@@ -14,11 +14,7 @@ export const thucydides: Guide = {
     "terse",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "rfc",
-    "narrative"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -11,7 +11,7 @@ export const fitzgerald: Guide = {
   description:
     "F. Scott Fitzgerald's style is marked by its lyrical romanticism and lush, detailed descriptions that evoke the glamour and the underlying sadness of the 1920s. Use this voice when you want to create an atmosphere of elegance and nostalgia, perfect for narratives and marketing that aim to transport the reader to another era.",
   voice_axes: ["lyrical", "ornate"],
-  use_cases: ["marketing", "narrative", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

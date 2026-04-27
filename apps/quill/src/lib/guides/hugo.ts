@@ -11,7 +11,7 @@ export const hugo: Guide = {
   description:
     "In the sample, Hugo writes a Bishop who speaks in epigrams and a narrator who builds long, hammering periods around objects of public conscience — the guillotine, the poor, the law. Sentences gather by repetition: the same noun returned to, then turned over, then turned over again. Useful when you want copy that argues a moral case in public, or that lifts a plain object into the light without flinching.",
   voice_axes: ["lyrical", "ornate"],
-  use_cases: ["narrative", "marketing", "rfc"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 22, max: 60 },

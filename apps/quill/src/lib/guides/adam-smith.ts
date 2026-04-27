@@ -15,12 +15,7 @@ export const adamSmith: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "narrative",
-    "email"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

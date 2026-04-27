@@ -15,11 +15,7 @@ export const benJonson: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "marketing",
-    "social",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

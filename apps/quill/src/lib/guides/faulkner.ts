@@ -11,7 +11,7 @@ export const faulkner: Guide = {
   description:
     "William Faulkner's writing style is known for its complex sentence structures and deep exploration of themes such as history, identity, and the human condition. This voice is ideal for narrative-driven content that seeks to convey a profound sense of place and character.",
   voice_axes: ["ornate", "lyrical"],
-  use_cases: ["narrative", "marketing", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

@@ -11,7 +11,7 @@ export const doyle: Guide = {
   description:
     "Doyle gives us a steady Victorian first-person narrator — Watson — whose sentences are orderly, polite, and a little admiring, and inside that frame he sets Holmes's voice: short declarative sentences, single-word ripostes, demonstrative reasoning from a small physical fact to a confident inference. Description prefers concrete particulars (a parallel cut on a sole, a bulge on a top-hat, a watermark in paper) over feeling. Dialogue often runs in volleys of one- and two-word lines. Useful when you want copy that walks the reader from observation to conclusion in the open, with Watson's calm and Holmes's clipped certainty.",
   voice_axes: ["plain", "wry"],
-  use_cases: ["narrative", "support", "marketing"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 18, max: 50 },

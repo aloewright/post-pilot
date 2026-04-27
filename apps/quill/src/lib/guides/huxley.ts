@@ -11,7 +11,7 @@ export const huxley: Guide = {
   description:
     "Aldous Huxley's style is characterized by cool, intellectual prose that often explores dystopian themes. His writing is ideal for conveying complex ideas with clarity and precision, making it suitable for narrative and analytical contexts. Reach for this voice when you need to discuss abstract concepts or societal critiques with a detached yet insightful tone.",
   voice_axes: ["lyrical", "plain", "wry"],
-  use_cases: ["narrative", "docs", "marketing", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

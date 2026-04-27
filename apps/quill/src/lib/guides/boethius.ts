@@ -14,11 +14,7 @@ export const boethius: Guide = {
     "lyrical",
     "ornate"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "narrative"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

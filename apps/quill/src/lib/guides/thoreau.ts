@@ -11,7 +11,7 @@ export const thoreau: Guide = {
   description:
     'Thoreau in Walden alternates two modes inside a single paragraph: the homely particular (a stake in a cornfield, three pieces of limestone on a desk) and the sweeping aphorism ("the mass of men lead lives of quiet desperation"). He uses parallel rhetorical questions to pin a value, and ironic accountancy — "a thick coat can be bought for five dollars" — to expose how unreasonable the supposedly reasonable life is. Useful when you want copy that earns a moral claim by grounding it in a cheap, plain fact, and then climbs into the claim without apology.',
   voice_axes: ["wry", "plain"],
-  use_cases: ["narrative", "marketing", "rfc"],
+  use_cases: ["email", "docs"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 22, max: 60 },

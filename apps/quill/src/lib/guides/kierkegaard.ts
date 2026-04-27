@@ -15,11 +15,7 @@ export const kierkegaard: Guide = {
     "ornate",
     "lyrical"
   ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

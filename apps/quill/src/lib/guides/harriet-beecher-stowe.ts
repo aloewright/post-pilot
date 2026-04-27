@@ -14,11 +14,7 @@ export const harrietBeecherStowe: Guide = {
     "lyrical",
     "ornate"
   ],
-  "use_cases": [
-    "marketing",
-    "email",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

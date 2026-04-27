@@ -15,12 +15,7 @@ export const julesVerne: Guide = {
     "ornate",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "narrative",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

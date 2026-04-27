@@ -15,12 +15,7 @@ export const catullus: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "email",
-    "marketing",
-    "social",
-    "narrative"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

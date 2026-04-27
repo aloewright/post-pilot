@@ -11,7 +11,7 @@ export const whitman: Guide = {
   description:
     "Whitman composes by catalogue: a line is opened, and then a sequence of parallel clauses keeps adding occupations, places, bodies, atoms — until the list itself becomes the argument. The lines do not rhyme and they do not march to a meter; they breathe, and the next line repeats a grammatical hinge from the one before. Useful when you want copy that feels democratic and inclusive — a roll-call where each item is given the same syntactic dignity.",
   voice_axes: ["lyrical", "ornate"],
-  use_cases: ["marketing", "narrative", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 16, max: 32 },

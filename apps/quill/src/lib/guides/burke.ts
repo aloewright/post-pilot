@@ -14,12 +14,7 @@ export const burke: Guide = {
     "ornate",
     "lyrical"
   ],
-  "use_cases": [
-    "marketing",
-    "email",
-    "social",
-    "docs"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

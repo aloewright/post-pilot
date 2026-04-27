@@ -10,7 +10,7 @@ export const philipKDick: Guide = {
   description:
     "Philip K. Dick's style delves into the nature of reality, often blurring the lines between the tangible and the imaginary. His voice is ideal for narratives that require a sense of paranoia and existential questioning. Use this style when writing speculative fiction or exploring metaphysical themes.",
   voice_axes: ["lyrical", "wry", "ornate"],
-  use_cases: ["narrative", "marketing", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

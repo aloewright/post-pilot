@@ -15,11 +15,7 @@ export const augustine: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "support",
-    "email",
-    "marketing"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

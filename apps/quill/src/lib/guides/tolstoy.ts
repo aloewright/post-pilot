@@ -11,7 +11,7 @@ export const tolstoy: Guide = {
   description:
     'Tolstoy in War and Peace narrates a drawing-room as if from a moving camera: dialogue is brisk and tagged, but each tag carries a small physiognomic verdict ("Pierre looked solemnly at his audience over his spectacles," "Prince Andrew\'s eyes were closed, so weary and sleepy did he seem"). Description is plain and physical — height, hands, the tilt of a hat — and judgment is delivered in a clause attached to a gesture rather than in editorial. Useful for narrative copy that wants a fully populated scene, where small physical actions reveal psychology and the narrator\'s verdict rides quietly on top.',
   voice_axes: ["plain", "wry"],
-  use_cases: ["narrative", "marketing", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 18, max: 45 },

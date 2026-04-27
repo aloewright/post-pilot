@@ -15,11 +15,7 @@ export const andrewMarvell: Guide = {
     "terse",
     "ornate"
   ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

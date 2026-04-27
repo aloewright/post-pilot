@@ -11,7 +11,7 @@ export const bradbury: Guide = {
   description:
     "Ray Bradbury's voice is characterized by its poetic and evocative style, blending science fiction with a deep sense of nostalgia. His writing often explores themes of childhood wonder and the eerie beauty of small-town America. Use this voice when you want to capture a sense of magic and introspection, ideal for narrative and marketing contexts.",
   voice_axes: ["lyrical", "wry"],
-  use_cases: ["narrative", "marketing", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

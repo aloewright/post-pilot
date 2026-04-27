@@ -11,7 +11,7 @@ export const baudelaire: Guide = {
   description:
     "The Flowers of Evil works in regular metrical stanzas — usually quatrains, often a sonnet — where elevated diction meets squalid material. Baudelaire apostrophises: he addresses Muse, Sea, free man, mortal. Abstractions are capitalised and treated as agents (Sorrow, Despair, Beauty, Time). Synaesthesia is the signature figure: scents that sing, sounds that have colour. Useful when you want copy with ceremonial cadence — invocations, manifestos, brand poems — that is willing to name a feeling as a proper noun and bow to it.",
   voice_axes: ["lyrical", "ornate"],
-  use_cases: ["marketing", "narrative", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 10, max: 22 },

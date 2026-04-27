@@ -11,7 +11,7 @@ export const defoe: Guide = {
   description:
     "Defoe writes Crusoe in the voice of a man recounting his own folly long after the storm. Sentences run on by accumulation — clause hooked to clause with semicolons, 'so', and 'but' — piling up circumstance, calculation and consequence in roughly the order they were lived. Diction is plain and practical; the rare moral comes plainly named — 'duty', 'Providence', 'misfortune' — and is treated as a ledger entry against the speaker's own conduct. Useful when you want a confessional first-person voice that itemises events with the patience of a man who survived them.",
   voice_axes: ["plain", "ornate"],
-  use_cases: ["narrative", "email", "rfc"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 38, max: 95 },

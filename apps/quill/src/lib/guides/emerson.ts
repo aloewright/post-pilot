@@ -11,7 +11,7 @@ export const emerson: Guide = {
   description:
     "Emerson's prose is sermon-built: a paragraph proceeds by short declarative sentences that each make a claim, and the claims escalate from a concrete observation ('I see the spectacle of morning from the hill-top over against my house') to a metaphysical pronouncement ('Spirit is the Creator. Spirit hath life in itself'). He capitalises abstractions — Nature, Reason, Spirit, Beauty — and treats them as agents. He uses the first-person singular as a public voice; he does not hedge. Useful when you want manifesto-grade copy: confident, lifted, willing to land on a sentence the reader will quote.",
   voice_axes: ["lyrical", "ornate"],
-  use_cases: ["marketing", "rfc", "narrative"],
+  use_cases: ["email", "docs"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 19, max: 55 },

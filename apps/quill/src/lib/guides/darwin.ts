@@ -14,10 +14,7 @@ export const darwin: Guide = {
     "plain",
     "ornate"
   ],
-  "use_cases": [
-    "docs",
-    "narrative"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

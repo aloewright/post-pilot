@@ -15,11 +15,7 @@ export const joelChandlerHarris: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "narrative",
-    "social",
-    "marketing"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

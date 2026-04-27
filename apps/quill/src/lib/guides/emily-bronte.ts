@@ -11,7 +11,7 @@ export const emilyBronte: Guide = {
   description:
     "Brontë gives Lockwood — a fussy, self-flattering townsman — a prose that piles up clauses and proper inventories of objects, then lets the moor people interrupt him with hard, unsoftened dialect. The voice catalogues a room until it has nothing left to catalogue, then names a feeling with a single Latinate noun (vehemence, disposition, virulency). Useful when you want narration that observes coldly while the speaker still gives himself away.",
   voice_axes: ["ornate", "wry"],
-  use_cases: ["narrative", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 28, max: 70 },

@@ -11,7 +11,7 @@ export const joyce: Guide = {
   description:
     "This voice emulates the fluid, introspective, and richly textured prose of James Joyce. Use it to explore the depths of human consciousness and capture the fleeting moments of insight with linguistic flair. Ideal for narrative explorations that require a deep dive into the mind's labyrinth.",
   voice_axes: ["lyrical", "ornate", "wry"],
-  use_cases: ["narrative", "marketing", "email", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

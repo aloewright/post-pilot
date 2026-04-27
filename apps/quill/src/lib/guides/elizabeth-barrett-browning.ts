@@ -14,12 +14,7 @@ export const elizabethBarrettBrowning: Guide = {
     "lyrical",
     "ornate"
   ],
-  "use_cases": [
-    "email",
-    "marketing",
-    "narrative",
-    "docs"
-  ],
+  "use_cases": ["fiction", "email"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

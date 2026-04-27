@@ -15,11 +15,7 @@ export const williamBlake: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "marketing",
-    "docs",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

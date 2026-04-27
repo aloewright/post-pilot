@@ -14,11 +14,7 @@ export const wollstonecraft: Guide = {
     "ornate",
     "wry"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "marketing"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

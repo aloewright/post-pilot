@@ -11,7 +11,7 @@ export const georgeEliot: Guide = {
   description:
     'Eliot\'s narrator is a thinker, not a recorder. The voice opens out from the scene into general reflection — "all people, young or old", "who can tell what just criticisms Murr the Cat may be passing" — and uses long, balanced sentences to anatomise why a character believes what they believe. Judgments are merciful but exact, and they arrive in metaphor ("a thick summer haze", "a labyrinth of petty courses", "the bark of a dog"). Useful when you want analytical prose that pauses to think on the page, treats characters\' self-deceptions seriously, and isn\'t embarrassed to generalise.',
   voice_axes: ["ornate", "wry"],
-  use_cases: ["narrative", "email", "rfc"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 30, max: 90 },

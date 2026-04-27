@@ -14,11 +14,7 @@ export const petrarch: Guide = {
     "lyrical",
     "ornate"
   ],
-  "use_cases": [
-    "marketing",
-    "email",
-    "narrative"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -15,12 +15,7 @@ export const hazlitt: Guide = {
     "wry",
     "terse"
   ],
-  "use_cases": [
-    "email",
-    "marketing",
-    "social",
-    "docs"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

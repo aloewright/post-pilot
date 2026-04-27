@@ -15,12 +15,7 @@ export const pascal: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "marketing",
-    "social"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

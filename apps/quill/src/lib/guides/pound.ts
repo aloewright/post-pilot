@@ -11,7 +11,7 @@ export const pound: Guide = {
   description:
     "This voice embodies the Modernist emphasis on clear, sharp imagery and a commitment to innovation, as championed by Ezra Pound. Use this style when you need to convey complex ideas through precise and evocative language, making every word count.",
   voice_axes: ["terse", "lyrical", "plain"],
-  use_cases: ["marketing", "narrative", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

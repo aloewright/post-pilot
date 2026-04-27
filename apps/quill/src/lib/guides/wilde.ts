@@ -11,7 +11,7 @@ export const wilde: Guide = {
   description:
     "Wilde writes in epigrams. His sentences earn their wit by inverting an assumption the reader didn't know they held. Useful for social copy with bite and brand voices that can afford to be a little vain.",
   voice_axes: ["wry", "ornate"],
-  use_cases: ["social", "marketing", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 16, max: 28 },

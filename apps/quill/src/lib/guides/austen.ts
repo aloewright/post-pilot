@@ -11,7 +11,7 @@ export const austen: Guide = {
   description:
     "Austen narrates in long, balanced sentences whose qualifying clauses do most of the moral work. Her narrator slips inside a character's reasoning to expose its self-flattery, then slips back out before anyone notices. Useful when you want polite copy that judges without scolding, or dialogue that lets a character condemn themselves in their own words.",
   voice_axes: ["wry", "ornate"],
-  use_cases: ["email", "marketing", "narrative"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 24, max: 55 },

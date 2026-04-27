@@ -11,7 +11,7 @@ export const anderson: Guide = {
   description:
     "Sherwood Anderson's voice delves into the inner lives of characters in small-town America, revealing their hidden desires and struggles. His writing style is spare yet profound, making it ideal for narratives that explore human complexities beneath mundane surfaces.",
   voice_axes: ["plain", "lyrical"],
-  use_cases: ["narrative", "email", "marketing"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

@@ -15,12 +15,7 @@ export const bagehot: Guide = {
     "plain",
     "terse"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "email",
-    "narrative"
-  ],
+  "use_cases": ["email", "docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

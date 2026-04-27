@@ -15,12 +15,7 @@ export const algernonBlackwood: Guide = {
     "ornate",
     "wry"
   ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email",
-    "docs"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "voice-inspired",
   "voice_spec": {
     "sentence_length": {

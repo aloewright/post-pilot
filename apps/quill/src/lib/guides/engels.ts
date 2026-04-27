@@ -15,12 +15,7 @@ export const engels: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "docs",
-    "marketing",
-    "email",
-    "social"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -10,7 +10,7 @@ export const hesse: Guide = {
   description:
     "This voice emulates Hermann Hesse's style, weaving spiritual quests with clear, introspective language. Ideal for narratives or content that seeks depth and reflection, it draws on Eastern philosophies and parable-like storytelling to engage the reader.",
   voice_axes: ["lyrical", "plain"],
-  use_cases: ["narrative", "marketing", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: {

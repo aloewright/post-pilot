@@ -14,11 +14,7 @@ export const riderHaggard: Guide = {
     "ornate",
     "lyrical"
   ],
-  "use_cases": [
-    "narrative",
-    "marketing",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

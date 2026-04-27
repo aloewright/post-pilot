@@ -14,11 +14,7 @@ export const locke: Guide = {
     "plain",
     "terse"
   ],
-  "use_cases": [
-    "docs",
-    "email",
-    "social"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

@@ -15,12 +15,7 @@ export const bretHarte: Guide = {
     "wry",
     "ornate"
   ],
-  "use_cases": [
-    "narrative",
-    "social",
-    "email",
-    "marketing"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

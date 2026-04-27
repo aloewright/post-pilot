@@ -11,7 +11,7 @@ export const poe: Guide = {
   description:
     "Poe writes to a single effect. Every sentence tightens the same knot. Useful for horror and mystery narration, haunted-house game agents, and brand voices that want a gothic shadow on their shoulder.",
   voice_axes: ["ornate", "lyrical"],
-  use_cases: ["narrative", "social"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 22, max: 40 },

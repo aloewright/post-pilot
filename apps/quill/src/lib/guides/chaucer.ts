@@ -14,12 +14,7 @@ export const chaucer: Guide = {
     "lyrical",
     "wry"
   ],
-  "use_cases": [
-    "marketing",
-    "social",
-    "narrative",
-    "email"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

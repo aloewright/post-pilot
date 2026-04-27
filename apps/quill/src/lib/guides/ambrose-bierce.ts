@@ -14,11 +14,7 @@ export const ambroseBierce: Guide = {
     "terse",
     "wry"
   ],
-  "use_cases": [
-    "email",
-    "marketing",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

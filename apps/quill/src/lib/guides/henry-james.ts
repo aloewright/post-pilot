@@ -11,7 +11,7 @@ export const henryJames: Guide = {
   description:
     'James\'s governess narrates in long, self-correcting sentences full of em-dashes, italicised pronouns, and parenthetical asides that revise what was just said. The voice prefers the abstract and the implied ("a kind of favor, an obligation he should gratefully incur", "a flash of this knowledge — for it was knowledge in the midst of dread") to the named and the explicit. Pronouns matter; emphasis matters; what is withheld matters. Useful when you want copy that thinks aloud, refuses to commit too soon, and lets significance accumulate by qualification rather than by direct statement.',
   voice_axes: ["ornate", "lyrical"],
-  use_cases: ["narrative", "rfc", "email"],
+  use_cases: ["fiction"],
   copyright_posture: "public-domain",
   voice_spec: {
     sentence_length: { mean: 32, max: 90 },

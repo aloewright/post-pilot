@@ -14,11 +14,7 @@ export const freud: Guide = {
     "plain",
     "terse"
   ],
-  "use_cases": [
-    "docs",
-    "narrative",
-    "email"
-  ],
+  "use_cases": ["docs"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {

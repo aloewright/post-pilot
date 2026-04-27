@@ -15,12 +15,7 @@ export const snorriSturluson: Guide = {
     "wry",
     "plain"
   ],
-  "use_cases": [
-    "narrative",
-    "docs",
-    "marketing",
-    "social"
-  ],
+  "use_cases": ["fiction"],
   "copyright_posture": "public-domain",
   "voice_spec": {
     "sentence_length": {
