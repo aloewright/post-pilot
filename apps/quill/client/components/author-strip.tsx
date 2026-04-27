@@ -20,8 +20,11 @@ export function AuthorStrip({
     <section className="mx-auto max-w-6xl px-6 pb-24">
       <div className="mb-6 flex items-center justify-end">
         <Link
-          className="text-sm hover:underline"
-          style={{ color: "var(--strand-color-ink-muted)" }}
+          className="inline-flex items-center rounded-md border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-[var(--strand-color-ink-primary)] hover:text-[var(--strand-color-surface-canvas)]"
+          style={{
+            borderColor: "var(--strand-color-ink-primary)",
+            color: "var(--strand-color-ink-primary)",
+          }}
           to="/library"
         >
           {seeAllLabel}
