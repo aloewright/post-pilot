@@ -48,6 +48,7 @@ import { chekhov } from "./chekhov";
 import { christopherMarlowe } from "./christopher-marlowe";
 import { cicero } from "./cicero";
 import { conrad } from "./conrad";
+import { cormacMccarthy } from "./cormac-mccarthy";
 import { dannunzio } from "./dannunzio";
 import { dante } from "./dante";
 import { darwin } from "./darwin";
@@ -85,6 +86,7 @@ import { georgeEtherege } from "./george-etherege";
 import { georgeHerbert } from "./george-herbert";
 import { georgeMacdonald } from "./george-macdonald";
 import { georgeOrwell } from "./george-orwell";
+import { georgeSaunders } from "./george-saunders";
 import { gerardManleyHopkins } from "./gerard-manley-hopkins";
 import { gibbon } from "./gibbon";
 import { goethe } from "./goethe";
@@ -102,6 +104,7 @@ import { henryJames } from "./henry-james";
 import { herodotus } from "./herodotus";
 import { hesiod } from "./hesiod";
 import { hesse } from "./hesse";
+import { hilaryMantel } from "./hilary-mantel";
 import { homer } from "./homer";
 import { horace } from "./horace";
 import { hugo } from "./hugo";
@@ -114,6 +117,7 @@ import { jacobsen } from "./jacobsen";
 import { jamesBaldwin } from "./james-baldwin";
 import { jamesFenimoreCooper } from "./james-fenimore-cooper";
 import { jeromeKJerome } from "./jerome-k-jerome";
+import { joanDidion } from "./joan-didion";
 import { joelChandlerHarris } from "./joel-chandler-harris";
 import { johnBuchan } from "./john-buchan";
 import { johnDonne } from "./john-donne";
@@ -133,6 +137,7 @@ import { kateChopin } from "./kate-chopin";
 import { keller } from "./keller";
 import { kierkegaard } from "./kierkegaard";
 import { kleist } from "./kleist";
+import { knausgaard } from "./knausgaard";
 import { kropotkin } from "./kropotkin";
 import { lMMontgomery } from "./l-m-montgomery";
 import { lamb } from "./lamb";
@@ -169,6 +174,7 @@ import { newman } from "./newman";
 import { nietzsche } from "./nietzsche";
 import { novalis } from "./novalis";
 import { oHenry } from "./o-henry";
+import { oceanVuong } from "./ocean-vuong";
 import { oliverGoldsmith } from "./oliver-goldsmith";
 import { omarKhayyam } from "./omar-khayyam";
 import { ovid } from "./ovid";
@@ -186,6 +192,7 @@ import { poe } from "./poe";
 import { pound } from "./pound";
 import { proust } from "./proust";
 import { pushkin } from "./pushkin";
+import { raymondCarver } from "./raymond-carver";
 import { richardBrinsleySheridan } from "./richard-brinsley-sheridan";
 import { riderHaggard } from "./rider-haggard";
 import { rimbaud } from "./rimbaud";
@@ -195,6 +202,7 @@ import { robertHerrick } from "./robert-herrick";
 import { ruskin } from "./ruskin";
 import { russell } from "./russell";
 import { saki } from "./saki";
+import { sallyRooney } from "./sally-rooney";
 import { samuelTaylorColeridge } from "./samuel-taylor-coleridge";
 import { sappho } from "./sappho";
 import { sarahOrneJewett } from "./sarah-orne-jewett";
@@ -226,6 +234,7 @@ import { thoreau } from "./thoreau";
 import { thucydides } from "./thucydides";
 import { tocqueville } from "./tocqueville";
 import { tolstoy } from "./tolstoy";
+import { toniMorrison } from "./toni-morrison";
 import { turgenev } from "./turgenev";
 import { twain } from "./twain";
 import { unamuno } from "./unamuno";
@@ -305,6 +314,7 @@ export const GUIDES: Guide[] = [
   christopherMarlowe,
   cicero,
   conrad,
+  cormacMccarthy,
   dannunzio,
   dante,
   darwin,
@@ -342,6 +352,7 @@ export const GUIDES: Guide[] = [
   georgeHerbert,
   georgeMacdonald,
   georgeOrwell,
+  georgeSaunders,
   gerardManleyHopkins,
   gibbon,
   goethe,
@@ -359,6 +370,7 @@ export const GUIDES: Guide[] = [
   herodotus,
   hesiod,
   hesse,
+  hilaryMantel,
   homer,
   horace,
   hugo,
@@ -371,6 +383,7 @@ export const GUIDES: Guide[] = [
   jamesBaldwin,
   jamesFenimoreCooper,
   jeromeKJerome,
+  joanDidion,
   joelChandlerHarris,
   johnBuchan,
   johnDonne,
@@ -390,6 +403,7 @@ export const GUIDES: Guide[] = [
   keller,
   kierkegaard,
   kleist,
+  knausgaard,
   kropotkin,
   lMMontgomery,
   lamb,
@@ -426,6 +440,7 @@ export const GUIDES: Guide[] = [
   nietzsche,
   novalis,
   oHenry,
+  oceanVuong,
   oliverGoldsmith,
   omarKhayyam,
   ovid,
@@ -443,6 +458,7 @@ export const GUIDES: Guide[] = [
   pound,
   proust,
   pushkin,
+  raymondCarver,
   richardBrinsleySheridan,
   riderHaggard,
   rimbaud,
@@ -452,6 +468,7 @@ export const GUIDES: Guide[] = [
   ruskin,
   russell,
   saki,
+  sallyRooney,
   samuelTaylorColeridge,
   sappho,
   sarahOrneJewett,
@@ -483,6 +500,7 @@ export const GUIDES: Guide[] = [
   thucydides,
   tocqueville,
   tolstoy,
+  toniMorrison,
   turgenev,
   twain,
   unamuno,
