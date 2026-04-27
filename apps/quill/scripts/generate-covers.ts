@@ -9,6 +9,17 @@
  * Workers AI, then downloads the resulting SVG and writes it to
  * public/covers/{slug}.svg.
  *
+ * MANUAL ONLY — DO NOT WIRE INTO BUILD HOOKS.
+ *   - Each call to recraft/recraftv4-vector is a paid Workers AI inference
+ *     (~$0.04/cover at last check). Running this on every CI build, every
+ *     install, or every deploy would burn real money.
+ *   - The script is intentionally NOT in any package.json npm script and
+ *     not in any postinstall/prebuild/CI workflow. If you find yourself
+ *     wanting to add it: don't. Run it as a one-off when you add new
+ *     authors, then commit the resulting SVGs.
+ *   - The default behavior is idempotent: it skips slugs that already have
+ *     a cover on disk. Mass regeneration only happens with --force.
+ *
  * Flags:
  *   --base=http://localhost:5173    dev server URL (default 5173)
  *   --limit=N                        cap how many prompts to run (default: all)
