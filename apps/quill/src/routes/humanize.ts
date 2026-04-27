@@ -3,7 +3,6 @@ import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
-import { createAuth } from "../auth";
 import { humanizeJobs } from "../db/schema";
 import * as schema from "../db/schema";
 import {
@@ -12,13 +11,21 @@ import {
   result as copyleaksResult,
   submit as copyleaksSubmit,
 } from "../lib/copyleaks";
-import { checkQuota, QUOTA, recordUsage } from "../lib/humanize-quota";
+import {
+  debit,
+  HUMANIZE_PER_INPUT_CHAR_CAP,
+  humanizeCost,
+  isWithinHourlyHumanizeCap,
+  refund,
+} from "../lib/credits";
+import { requireIdentity } from "../lib/identify";
+import { ingestUsageEvent } from "../lib/polar";
 import type { AppEnv } from "../index";
 
 export const humanizeRouter = new Hono<AppEnv>();
 
 const submitSchema = z.object({
-  input: z.string().min(1).max(QUOTA.PER_INPUT_CHAR_CAP + 100),
+  input: z.string().min(1).max(HUMANIZE_PER_INPUT_CHAR_CAP + 100),
 });
 
 function requireCopyleaks(c: { env: AppEnv["Bindings"] }) {
@@ -33,33 +40,34 @@ function requireCopyleaks(c: { env: AppEnv["Bindings"] }) {
   return { email, apiKey };
 }
 
-// POST /v1/humanize — accept input, gate on plan + quota, submit to
-// Copyleaks, persist a queued/processing job, return { jobId }.
+// POST /v1/humanize — submit text, debit credits up front (refund on
+// failure), forward to Copyleaks, return jobId.
 humanizeRouter.post("/", async (c) => {
-  const auth = createAuth(c.env, new URL(c.req.url).origin);
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
-  if (!session?.user) {
-    throw new HTTPException(401, { message: "Sign in to humanize text." });
-  }
-  const userId = session.user.id;
+  const id = await requireIdentity(c);
+  const userId = id.userId;
 
   const body = submitSchema.parse(await c.req.json());
   const inputChars = body.input.length;
 
-  const db = drizzle(c.env.DB, { schema });
-
-  const quota = await checkQuota(db, userId, inputChars);
-  if (!quota.ok) {
-    const status = quota.reason === "not_paid" ? 402 : 429;
-    throw new HTTPException(status, { message: quota.message });
+  if (inputChars > HUMANIZE_PER_INPUT_CHAR_CAP) {
+    throw new HTTPException(400, {
+      message: `Input exceeds ${HUMANIZE_PER_INPUT_CHAR_CAP.toLocaleString()} characters.`,
+    });
   }
 
-  const cl = requireCopyleaks(c);
+  const db = drizzle(c.env.DB, { schema });
+
+  if (!(await isWithinHourlyHumanizeCap(db, userId))) {
+    throw new HTTPException(429, {
+      message: "Hourly humanize limit reached. Try again shortly.",
+    });
+  }
+
+  const cost = humanizeCost(inputChars);
   const jobId = crypto.randomUUID();
 
-  // Insert as queued first so even if Copyleaks call fails we have a row
-  // to surface the error back to the user (and so the hourly counter
-  // catches the attempt).
+  // Insert the job first so a credit-shortfall failure still leaves a
+  // record + the user sees it in their history.
   await db.insert(humanizeJobs).values({
     id: jobId,
     userId,
@@ -68,6 +76,20 @@ humanizeRouter.post("/", async (c) => {
     inputChars,
   });
 
+  const debited = await debit(db, userId, cost, "humanize", jobId, {
+    inputChars,
+  });
+  if (!debited.ok) {
+    await db
+      .update(humanizeJobs)
+      .set({ status: "failed", error: "Insufficient credits." })
+      .where(eq(humanizeJobs.id, jobId));
+    throw new HTTPException(402, {
+      message: `Need ${cost.toLocaleString()} credits, have ${debited.balance.toLocaleString()}. Buy more to continue.`,
+    });
+  }
+
+  const cl = requireCopyleaks(c);
   let token: string;
   try {
     token = await getCachedToken(c.env.KV, cl);
@@ -76,13 +98,12 @@ humanizeRouter.post("/", async (c) => {
       .update(humanizeJobs)
       .set({ status: "failed", error: (e as Error).message.slice(0, 500) })
       .where(eq(humanizeJobs.id, jobId));
+    await refund(db, userId, cost, jobId);
     throw new HTTPException(502, { message: "Copyleaks login failed." });
   }
 
   const submitResult = await copyleaksSubmit(token, body.input);
   if (!submitResult.ok) {
-    // 401 here can mean the cached token expired early — drop the cache so
-    // the next request re-logins.
     if (submitResult.error.includes("401")) {
       await invalidateCachedToken(c.env.KV);
     }
@@ -90,6 +111,7 @@ humanizeRouter.post("/", async (c) => {
       .update(humanizeJobs)
       .set({ status: "failed", error: submitResult.error.slice(0, 500) })
       .where(eq(humanizeJobs.id, jobId));
+    await refund(db, userId, cost, jobId);
     throw new HTTPException(502, { message: "Copyleaks submission failed." });
   }
 
@@ -98,25 +120,42 @@ humanizeRouter.post("/", async (c) => {
     .set({ status: "processing", scanId: submitResult.scanId })
     .where(eq(humanizeJobs.id, jobId));
 
-  return c.json({ jobId, status: "processing" });
+  // Best-effort: tell Polar's meter we consumed credits. Doesn't bill —
+  // the credit pack already paid for it — but powers the analytics view.
+  if (c.env.QUILL_POLAR_ACCESS_TOKEN) {
+    c.executionCtx.waitUntil(
+      ingestUsageEvent(
+        { accessToken: c.env.QUILL_POLAR_ACCESS_TOKEN },
+        {
+          externalCustomerId: userId,
+          credits: cost,
+          kind: "humanize",
+          refId: jobId,
+        }
+      )
+    );
+  }
+
+  return c.json({
+    jobId,
+    status: "processing",
+    creditsCharged: cost,
+    balance: debited.newBalance,
+  });
 });
 
-// GET /v1/humanize/:id — return current state. If still processing, ask
-// Copyleaks; if it just finished, finalize the row + bump usage.
+// GET /v1/humanize/:id — return current state. If still processing,
+// forward-poll Copyleaks; on failure refund credits.
 humanizeRouter.get("/:id", async (c) => {
-  const auth = createAuth(c.env, new URL(c.req.url).origin);
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
-  if (!session?.user) {
-    throw new HTTPException(401, { message: "Sign in to view jobs." });
-  }
-  const userId = session.user.id;
-  const id = c.req.param("id");
+  const id = await requireIdentity(c);
+  const userId = id.userId;
+  const jobId = c.req.param("id");
 
   const db = drizzle(c.env.DB, { schema });
   const rows = await db
     .select()
     .from(humanizeJobs)
-    .where(eq(humanizeJobs.id, id))
+    .where(eq(humanizeJobs.id, jobId))
     .limit(1);
   const job = rows[0];
   if (!job || job.userId !== userId) {
@@ -126,8 +165,6 @@ humanizeRouter.get("/:id", async (c) => {
   if (job.status === "done" || job.status === "failed") {
     return c.json(serializeJob(job));
   }
-
-  // Still processing — forward-poll Copyleaks and finalize if ready.
   if (!job.scanId) {
     return c.json(serializeJob(job));
   }
@@ -146,15 +183,14 @@ humanizeRouter.get("/:id", async (c) => {
         error: r.error.slice(0, 500),
         completedAt: new Date(),
       })
-      .where(eq(humanizeJobs.id, id));
+      .where(eq(humanizeJobs.id, jobId));
+    await refund(db, userId, humanizeCost(job.inputChars), jobId);
     return c.json({ ...serializeJob(job), status: "failed", error: r.error });
   }
-  // r.status === "done"
   await db
     .update(humanizeJobs)
     .set({ status: "done", output: r.output, completedAt: new Date() })
-    .where(eq(humanizeJobs.id, id));
-  await recordUsage(db, userId, job.inputChars);
+    .where(eq(humanizeJobs.id, jobId));
   return c.json({
     ...serializeJob(job),
     status: "done",
@@ -163,16 +199,11 @@ humanizeRouter.get("/:id", async (c) => {
   });
 });
 
-// GET /v1/humanize — list the user's recent jobs (newest first, last 20).
-// Side effect: any of the user's stale-processing jobs get a forward-poll
-// sweep so the list always shows current state. No background cron.
+// GET /v1/humanize — recent jobs (newest 20). Sweeps stale-processing
+// rows so the list is always current; refunds on failure.
 humanizeRouter.get("/", async (c) => {
-  const auth = createAuth(c.env, new URL(c.req.url).origin);
-  const session = await auth.api.getSession({ headers: c.req.raw.headers });
-  if (!session?.user) {
-    throw new HTTPException(401, { message: "Sign in to view jobs." });
-  }
-  const userId = session.user.id;
+  const id = await requireIdentity(c);
+  const userId = id.userId;
 
   const db = drizzle(c.env.DB, { schema });
   const rows = await db
@@ -182,11 +213,12 @@ humanizeRouter.get("/", async (c) => {
     .orderBy(desc(humanizeJobs.createdAt))
     .limit(20);
 
-  // Sweep stale-processing jobs in parallel. Failures here don't break the
-  // list response — the row just stays "processing" and next list will retry.
   const stale = rows.filter((r) => r.status === "processing" && r.scanId);
   if (stale.length > 0 && c.env.COPYLEAKS_EMAIL && c.env.COPYLEAKS_API_KEY) {
-    const cl = { email: c.env.COPYLEAKS_EMAIL, apiKey: c.env.COPYLEAKS_API_KEY };
+    const cl = {
+      email: c.env.COPYLEAKS_EMAIL,
+      apiKey: c.env.COPYLEAKS_API_KEY,
+    };
     try {
       const token = await getCachedToken(c.env.KV, cl);
       await Promise.all(
@@ -195,23 +227,31 @@ humanizeRouter.get("/", async (c) => {
           if (cr.status === "done") {
             await db
               .update(humanizeJobs)
-              .set({ status: "done", output: cr.output, completedAt: new Date() })
+              .set({
+                status: "done",
+                output: cr.output,
+                completedAt: new Date(),
+              })
               .where(eq(humanizeJobs.id, r.id));
-            await recordUsage(db, userId, r.inputChars);
             r.status = "done";
             r.output = cr.output;
           } else if (cr.status === "failed") {
             await db
               .update(humanizeJobs)
-              .set({ status: "failed", error: cr.error.slice(0, 500), completedAt: new Date() })
+              .set({
+                status: "failed",
+                error: cr.error.slice(0, 500),
+                completedAt: new Date(),
+              })
               .where(eq(humanizeJobs.id, r.id));
+            await refund(db, userId, humanizeCost(r.inputChars), r.id);
             r.status = "failed";
             r.error = cr.error;
           }
         })
       );
     } catch {
-      // Sweep is best-effort — surface raw rows below.
+      // best-effort
     }
   }
 
@@ -226,7 +266,8 @@ function serializeJob(j: typeof humanizeJobs.$inferSelect) {
     input: j.input,
     output: j.output,
     error: j.error,
-    createdAt: j.createdAt instanceof Date ? j.createdAt.toISOString() : j.createdAt,
+    createdAt:
+      j.createdAt instanceof Date ? j.createdAt.toISOString() : j.createdAt,
     completedAt:
       j.completedAt instanceof Date
         ? j.completedAt.toISOString()

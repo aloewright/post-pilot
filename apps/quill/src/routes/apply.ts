@@ -1,9 +1,14 @@
+import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
+import * as schema from "../db/schema";
 import type { AppEnv } from "../index";
+import { debit, refund, stylizeCost } from "../lib/credits";
 import { applyPresetToSystemPrompt } from "../lib/export";
 import { getGuide } from "../lib/guides";
+import { requireIdentity } from "../lib/identify";
+import { ingestUsageEvent } from "../lib/polar";
 import { getPreset } from "../lib/presets";
 import { analyzeText, scoreDeterministic } from "../lib/rubric";
 
@@ -26,6 +31,7 @@ export const applyRouter = new Hono<AppEnv>();
 // AI_PROVIDER_KEY is optional — needed only when the gateway is not using
 // BYOK / managed virtual keys for the upstream provider.
 applyRouter.post("/", async (c) => {
+  const id = await requireIdentity(c);
   const body = bodySchema.parse(await c.req.json());
 
   const guide = getGuide(body.guide);
@@ -47,16 +53,54 @@ applyRouter.post("/", async (c) => {
   if (!model) {
     throw new HTTPException(500, { message: "DEFAULT_MODEL not configured" });
   }
-  const output = await runCompletion({
-    env: c.env,
-    systemPrompt,
-    input: body.input,
-    model,
-    temperature: body.temperature,
-  });
 
-  // Compute deterministic rubric snapshot server-side. Judge scoring is
-  // deferred (Post Pilot milestone M5) and runs out of band.
+  // Debit credits up-front, refund (via direct ledger write) if the model
+  // call fails. We intentionally bill on input length: it's predictable
+  // before the call and protects us against runaway model output.
+  const cost = stylizeCost(body.input.length);
+  const refId = c.get("requestId");
+  const db = drizzle(c.env.DB, { schema });
+  const debited = await debit(db, id.userId, cost, "apply", refId, {
+    inputChars: body.input.length,
+    guide: guide.slug,
+    preset: preset?.slug ?? null,
+  });
+  if (!debited.ok) {
+    throw new HTTPException(402, {
+      message: `Need ${cost.toLocaleString()} credits, have ${debited.balance.toLocaleString()}. Buy more to continue.`,
+    });
+  }
+
+  let output: string;
+  try {
+    output = await runCompletion({
+      env: c.env,
+      systemPrompt,
+      input: body.input,
+      model,
+      temperature: body.temperature,
+    });
+  } catch (e) {
+    // Refund on infra failure so the user isn't billed for a failed call.
+    await refund(db, id.userId, cost, refId);
+    throw e;
+  }
+
+  // Best-effort meter event for Polar analytics.
+  if (c.env.QUILL_POLAR_ACCESS_TOKEN) {
+    c.executionCtx.waitUntil(
+      ingestUsageEvent(
+        { accessToken: c.env.QUILL_POLAR_ACCESS_TOKEN },
+        {
+          externalCustomerId: id.userId,
+          credits: cost,
+          kind: "apply",
+          refId,
+        }
+      )
+    );
+  }
+
   const snapshot = analyzeText(output);
   const score = scoreDeterministic(snapshot, guide.eval_rubric);
 
@@ -69,6 +113,8 @@ applyRouter.post("/", async (c) => {
     deterministic_score: score.score,
     deterministic_details: score.details,
     judge: { status: "deferred", message: "Judge runs land in M5." },
+    creditsCharged: cost,
+    balance: debited.newBalance,
     requestId: c.get("requestId"),
   });
 });

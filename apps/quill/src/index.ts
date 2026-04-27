@@ -6,10 +6,13 @@ import { contextMiddleware } from "./middleware/context";
 import { errorHandler } from "./middleware/error";
 import { applyRouter } from "./routes/apply";
 import { authRouter } from "./routes/auth";
+import { billingRouter } from "./routes/billing";
 import { guidesRouter } from "./routes/guides";
 import { healthRouter } from "./routes/health";
 import { humanizeRouter } from "./routes/humanize";
 import { imagesRouter } from "./routes/images";
+import { keysRouter } from "./routes/keys";
+import { meRouter } from "./routes/me";
 import { presetsRouter } from "./routes/presets";
 import { sessionsRouter } from "./routes/sessions";
 
@@ -32,6 +35,16 @@ export type AppBindings = {
   GITHUB_CLIENT_SECRET?: string;
   GOOGLE_CLIENT_ID?: string;
   GOOGLE_CLIENT_SECRET?: string;
+  // Polar billing (org-scoped access token + product/meter ids set up in
+  // the Polar dashboard or via the API). The webhook secret arrives under
+  // the legacy POST_PILOT_POLAR_SECRET name to match Doppler.
+  QUILL_POLAR_ACCESS_TOKEN?: string;
+  QUILL_POLAR_ORG_ID?: string;
+  QUILL_POLAR_ORG_SLUG?: string;
+  QUILL_POLAR_METER_ID?: string;
+  QUILL_POLAR_CREDITS_PRODUCT_ID?: string;
+  QUILL_POLAR_CREDITS_PACK_SIZE?: string;
+  POST_PILOT_POLAR_SECRET?: string;
   DB: D1Database;
   KV: KVNamespace;
   R2: R2Bucket;
@@ -71,6 +84,9 @@ app.route("/v1/apply", applyRouter);
 app.route("/v1/humanize", humanizeRouter);
 app.route("/v1/images", imagesRouter);
 app.route("/v1/sessions", sessionsRouter);
+app.route("/v1/billing", billingRouter);
+app.route("/v1/keys", keysRouter);
+app.route("/v1/me", meRouter);
 app.route("/auth", authRouter);
 app.route("/api/auth", authRouter);
 
