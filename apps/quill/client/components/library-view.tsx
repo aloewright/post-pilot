@@ -2,14 +2,13 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ActiveUseCase, Era, VoiceAxis } from "../../src/lib/types";
+import { ERAS, USE_CASE_LABELS, USE_CASES } from "../../src/lib/utils";
 import {
-  ERAS,
-  USE_CASE_LABELS,
-  USE_CASES,
-  VOICE_AXES,
-  VOICE_LABELS,
-} from "../../src/lib/utils";
-import { CANONICAL_VIBES, VIBE_TAGS, type VibeSlug } from "../../src/lib/vibes";
+  CANONICAL_VIBES,
+  VIBE_DISPLAY_ORDER,
+  VIBE_TAGS,
+  type VibeSlug,
+} from "../../src/lib/vibes";
 import { api, type GuideSort, queryKeys } from "../lib/api";
 import { GuideCard } from "./guide-card";
 
@@ -22,20 +21,26 @@ function toggle<T>(arr: T[], value: T): T[] {
 export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
   const [eras, setEras] = useState<Era[]>([]);
   const [useCases, setUseCases] = useState<ActiveUseCase[]>([]);
-  const [voice, setVoice] = useState<VoiceAxis[]>(() =>
-    initialVibe && CANONICAL_VIBES.has(initialVibe)
-      ? [initialVibe as VoiceAxis]
-      : []
+  const [vibes, setVibes] = useState<VibeSlug[]>(
+    initialVibe ? [initialVibe] : []
   );
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<GuideSort>("author");
 
-  // For curated (non-canonical) vibe tags, filter results client-side
-  // by matching guide.slug against VIBE_TAGS[vibe].matches.
-  const curatedMatches =
-    initialVibe && !CANONICAL_VIBES.has(initialVibe)
-      ? VIBE_TAGS[initialVibe].matches
-      : undefined;
+  // Vibes split into two groups (see src/lib/vibes.ts):
+  //   - Canonical (terse/lyrical/ornate/wry): filter via guide.voice_axes
+  //     server-side.
+  //   - Curated (hard-boiled, plainspoken, …): filter client-side via the
+  //     hand-curated matches[] list on each tag.
+  // When any curated vibe is active we fetch unfiltered (queryVoiceAxes=[])
+  // so we can union canonical + curated client-side; otherwise we let the
+  // server narrow by voice_axes for efficiency.
+  const canonicalVibes = vibes.filter((v) =>
+    CANONICAL_VIBES.has(v)
+  ) as VoiceAxis[];
+  const curatedVibes = vibes.filter((v) => !CANONICAL_VIBES.has(v));
+  const hasCurated = curatedVibes.length > 0;
+  const queryVoiceAxes = hasCurated ? [] : canonicalVibes;
 
   const {
     data,
@@ -45,12 +50,18 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
     isFetchingNextPage,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: queryKeys.guides({ eras, useCases, voice, query, sort }),
+    queryKey: queryKeys.guides({
+      eras,
+      useCases,
+      voice: queryVoiceAxes,
+      query,
+      sort,
+    }),
     queryFn: ({ pageParam }) =>
       api.listGuides({
         eras,
         useCases,
-        voiceAxes: voice,
+        voiceAxes: queryVoiceAxes,
         query: query || undefined,
         sort,
         limit: PAGE_SIZE,
@@ -62,17 +73,23 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
 
   const items = useMemo(() => {
     const all = data?.pages.flatMap((p) => p.items) ?? [];
-    if (curatedMatches && curatedMatches.length > 0) {
-      const allowed = new Set(curatedMatches);
-      return all.filter((g) => allowed.has(g.slug));
+    if (vibes.length === 0) {
+      return all;
     }
-    // If the curated tag has an empty matches array, surface zero results
-    // (the vibe hasn't been editorially curated yet).
-    if (curatedMatches && curatedMatches.length === 0) {
-      return [];
-    }
-    return all;
-  }, [data, curatedMatches]);
+    const curatedSlugs = new Set(
+      curatedVibes.flatMap((v) => VIBE_TAGS[v].matches ?? [])
+    );
+    const canonicalSet = new Set<VoiceAxis>(canonicalVibes);
+    return all.filter((g) => {
+      if (curatedSlugs.has(g.slug)) {
+        return true;
+      }
+      if (canonicalSet.size === 0) {
+        return false;
+      }
+      return g.voice_axes.some((va) => canonicalSet.has(va));
+    });
+  }, [data, vibes, canonicalVibes, curatedVibes]);
   const matched = data?.pages[0]?.matched ?? 0;
   const total = data?.pages[0]?.total ?? 0;
 
@@ -113,18 +130,18 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
         />
         <FilterGroup
           label="Voice"
-          onToggle={(v) => setVoice((prev) => toggle(prev, v))}
-          options={VOICE_AXES}
-          render={(v) => VOICE_LABELS[v]}
-          selected={voice}
+          onToggle={(v) => setVibes((prev) => toggle(prev, v))}
+          options={VIBE_DISPLAY_ORDER}
+          render={(v) => VIBE_TAGS[v].label}
+          selected={vibes}
         />
-        {eras.length + useCases.length + voice.length > 0 ? (
+        {eras.length + useCases.length + vibes.length > 0 ? (
           <button
             className="self-start text-xs underline"
             onClick={() => {
               setEras([]);
               setUseCases([]);
-              setVoice([]);
+              setVibes([]);
             }}
             style={{ color: "var(--strand-color-ink-muted)" }}
             type="button"
