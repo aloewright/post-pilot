@@ -28,10 +28,10 @@
     // "anthropic/claude-sonnet-4-6").
     "DEFAULT_MODEL": "@cf/zai-org/glm-4.7-flash",
     "IMAGE_MODEL": "openai/gpt-image-2",
-    // Cloudflare AI Gateway slug. "default" works for the common case;
-    // change in dashboard "Variables and Secrets" to point at a specific
-    // gateway with caching/rate-limit rules attached.
-    "AI_GATEWAY_ID": "default"
+    // Cloudflare AI Gateway slug. "x" is the canonical gateway in this
+    // account (per CLAUDE.md). Change in dashboard "Variables and Secrets"
+    // to point at a different gateway with its own caching/rate-limit rules.
+    "AI_GATEWAY_ID": "x"
   },
 
   // AI_GATEWAY_BASE_URL, AI_GATEWAY_TOKEN, AI_PROVIDER_KEY are Cloudflare
