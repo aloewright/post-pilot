@@ -292,9 +292,12 @@ async function callGateway(
   model: string,
   a: AuthorSeed
 ): Promise<unknown> {
+  // glm-4.7-flash is a reasoning model — it spends ~hundreds of tokens
+  // thinking before emitting the JSON, so the cap has to clear both phases
+  // or completions return finish_reason: length with content=null.
   const body = {
     model,
-    max_tokens: 2000,
+    max_tokens: 8000,
     temperature: 0.6,
     response_format: { type: "json_object" },
     messages: [
