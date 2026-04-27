@@ -98,7 +98,7 @@ export function Hero() {
           <motion.div custom={TYPING_END_S + 0.15} variants={fadeUp}>
             <Standfirst className="max-w-[40ch] text-xl md:text-2xl">
               A curated library of literary voices, packaged as drop-in prompts
-              for any LLM. Style guides that read like style.
+              for any LLM. Prompts for styling your prose.
             </Standfirst>
           </motion.div>
 
