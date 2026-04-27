@@ -214,8 +214,23 @@ function validate(json: unknown, a: AuthorSeed): string | null {
     if (eo.is_generated !== true) {
       return "exemplar.is_generated must be true";
     }
-    if (typeof eo.source !== "string" || !eo.source.includes(a.name)) {
-      return "exemplar.source must include author name";
+    if (typeof eo.source !== "string") {
+      return "exemplar.source must be string";
+    }
+    // Match diacritic-insensitive on ANY meaningful token from the seed
+    // (name words + slug parts, length ≥ 4 to skip "pere"/"fils"/"jr").
+    // The model often emits the native form (Théophile, Camões) instead of
+    // the ASCII seed, or just a surname instead of full name — we accept
+    // any of those rather than fail the whole guide.
+    const norm = (s: string) =>
+      s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase();
+    const sourceNorm = norm(eo.source);
+    const tokens = [...a.name.split(/\s+/), ...a.slug.split("-")]
+      // Split parens/punctuation off ("(Clarin)" → "clarin").
+      .flatMap((s) => norm(s).split(/[^a-z]+/))
+      .filter((t) => t.length >= 4);
+    if (!tokens.some((t) => sourceNorm.includes(t))) {
+      return "exemplar.source must include some author name token";
     }
   }
 
@@ -223,19 +238,24 @@ function validate(json: unknown, a: AuthorSeed): string | null {
   if (!r) {
     return "eval_rubric missing";
   }
-  if (
-    !Array.isArray(r.deterministic) ||
-    !r.deterministic.every((x) => {
-      const xo = x as Record<string, unknown>;
-      return (
-        ALLOWED_METRICS.includes(xo.metric as never) &&
-        ["<=", ">=", "=="].includes(xo.op as string) &&
-        typeof xo.value === "number" &&
-        typeof xo.weight === "number"
-      );
-    })
-  ) {
+  if (!Array.isArray(r.deterministic)) {
     return "deterministic invalid";
+  }
+  // Drop bad entries rather than failing the whole guide. Same forgiving
+  // treatment we apply to voice_axes / use_cases — the model occasionally
+  // invents a metric name or uses `<` instead of `<=`. Require at least one
+  // valid entry to remain.
+  r.deterministic = r.deterministic.filter((x) => {
+    const xo = x as Record<string, unknown>;
+    return (
+      ALLOWED_METRICS.includes(xo.metric as never) &&
+      ["<=", ">=", "=="].includes(xo.op as string) &&
+      typeof xo.value === "number" &&
+      typeof xo.weight === "number"
+    );
+  });
+  if (r.deterministic.length === 0) {
+    return "deterministic had no valid entries";
   }
   if (
     !Array.isArray(r.judge_criteria) ||
@@ -313,6 +333,10 @@ async function callGateway(
       headers: {
         "cf-aig-authorization": `Bearer ${token}`,
         "cf-aig-zdr": "true",
+        // Gateway "x" has a 30-day cache_ttl. Without this, an early bad
+        // generation for an author gets cached and every subsequent retry
+        // returns the same broken response.
+        "cf-aig-skip-cache": "true",
         "content-type": "application/json",
       },
       body: JSON.stringify(body),

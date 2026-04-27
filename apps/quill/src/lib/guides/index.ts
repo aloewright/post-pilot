@@ -3,6 +3,7 @@ import { adamSmith } from "./adam-smith";
 import { aeschylus } from "./aeschylus";
 import { aleksisKivi } from "./aleksis-kivi";
 import { alexanderPope } from "./alexander-pope";
+import { alexandreDumasPere } from "./alexandre-dumas-pere";
 import { alfredTennyson } from "./alfred-tennyson";
 import { algernonBlackwood } from "./algernon-blackwood";
 import { ambroseBierce } from "./ambrose-bierce";
@@ -34,6 +35,7 @@ import { bretHarte } from "./bret-harte";
 import { bunin } from "./bunin";
 import { burke } from "./burke";
 import { caesar } from "./caesar";
+import { camoes } from "./camoes";
 import { carlyle } from "./carlyle";
 import { carroll } from "./carroll";
 import { cather } from "./cather";
@@ -56,6 +58,7 @@ import { dickinson } from "./dickinson";
 import { dostoevsky } from "./dostoevsky";
 import { douglass } from "./douglass";
 import { doyle } from "./doyle";
+import { drosteHulshoff } from "./droste-hulshoff";
 import { duBois } from "./du-bois";
 import { eNesbit } from "./e-nesbit";
 import { edmundSpenser } from "./edmund-spenser";
@@ -76,6 +79,7 @@ import { francesHodgsonBurnett } from "./frances-hodgson-burnett";
 import { francisBeaumont } from "./francis-beaumont";
 import { frankNorris } from "./frank-norris";
 import { freud } from "./freud";
+import { gautier } from "./gautier";
 import { georgeEliot } from "./george-eliot";
 import { georgeEtherege } from "./george-etherege";
 import { georgeHerbert } from "./george-herbert";
@@ -83,6 +87,7 @@ import { georgeMacdonald } from "./george-macdonald";
 import { gerardManleyHopkins } from "./gerard-manley-hopkins";
 import { gibbon } from "./gibbon";
 import { goethe } from "./goethe";
+import { gogol } from "./gogol";
 import { hammett } from "./hammett";
 import { hamsun } from "./hamsun";
 import { hardy } from "./hardy";
@@ -130,6 +135,7 @@ import { kropotkin } from "./kropotkin";
 import { lMMontgomery } from "./l-m-montgomery";
 import { lamb } from "./lamb";
 import { leopardi } from "./leopardi";
+import { leopoldoAlas } from "./leopoldo-alas";
 import { lermontov } from "./lermontov";
 import { leskov } from "./leskov";
 import { locke } from "./locke";
@@ -252,6 +258,7 @@ export const GUIDES: Guide[] = [
   aeschylus,
   aleksisKivi,
   alexanderPope,
+  alexandreDumasPere,
   alfredTennyson,
   algernonBlackwood,
   ambroseBierce,
@@ -283,6 +290,7 @@ export const GUIDES: Guide[] = [
   bunin,
   burke,
   caesar,
+  camoes,
   carlyle,
   carroll,
   cather,
@@ -305,6 +313,7 @@ export const GUIDES: Guide[] = [
   dostoevsky,
   douglass,
   doyle,
+  drosteHulshoff,
   duBois,
   eNesbit,
   edmundSpenser,
@@ -325,6 +334,7 @@ export const GUIDES: Guide[] = [
   francisBeaumont,
   frankNorris,
   freud,
+  gautier,
   georgeEliot,
   georgeEtherege,
   georgeHerbert,
@@ -332,6 +342,7 @@ export const GUIDES: Guide[] = [
   gerardManleyHopkins,
   gibbon,
   goethe,
+  gogol,
   hammett,
   hamsun,
   hardy,
@@ -379,6 +390,7 @@ export const GUIDES: Guide[] = [
   lMMontgomery,
   lamb,
   leopardi,
+  leopoldoAlas,
   lermontov,
   leskov,
   locke,
