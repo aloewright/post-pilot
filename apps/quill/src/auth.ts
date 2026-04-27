@@ -71,6 +71,14 @@ export function createAuth(env: AuthEnv, baseURL: string) {
     emailAndPassword: {
       enabled: true,
     },
+    user: {
+      deleteUser: {
+        // Lets a signed-in user delete their own account from the profile
+        // page. Better Auth still requires a fresh session (or password)
+        // before the delete actually goes through.
+        enabled: true,
+      },
+    },
     socialProviders,
     advanced: {
       defaultCookieAttributes: {

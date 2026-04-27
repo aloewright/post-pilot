@@ -84,6 +84,7 @@ import { georgeEliot } from "./george-eliot";
 import { georgeEtherege } from "./george-etherege";
 import { georgeHerbert } from "./george-herbert";
 import { georgeMacdonald } from "./george-macdonald";
+import { georgeOrwell } from "./george-orwell";
 import { gerardManleyHopkins } from "./gerard-manley-hopkins";
 import { gibbon } from "./gibbon";
 import { goethe } from "./goethe";
@@ -110,6 +111,7 @@ import { huysmans } from "./huysmans";
 import { ibsen } from "./ibsen";
 import { jackLondon } from "./jack-london";
 import { jacobsen } from "./jacobsen";
+import { jamesBaldwin } from "./james-baldwin";
 import { jamesFenimoreCooper } from "./james-fenimore-cooper";
 import { jeromeKJerome } from "./jerome-k-jerome";
 import { joelChandlerHarris } from "./joel-chandler-harris";
@@ -339,6 +341,7 @@ export const GUIDES: Guide[] = [
   georgeEtherege,
   georgeHerbert,
   georgeMacdonald,
+  georgeOrwell,
   gerardManleyHopkins,
   gibbon,
   goethe,
@@ -365,6 +368,7 @@ export const GUIDES: Guide[] = [
   ibsen,
   jackLondon,
   jacobsen,
+  jamesBaldwin,
   jamesFenimoreCooper,
   jeromeKJerome,
   joelChandlerHarris,

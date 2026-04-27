@@ -3,23 +3,22 @@ import { AnimatePresence, motion } from "framer-motion";
 import type { ReactNode } from "react";
 
 const transition = {
-  duration: 0.45,
+  duration: 0.18,
   ease: [0.16, 1, 0.3, 1] as const,
 };
 
 /**
- * Wraps the routed content in an AnimatePresence so swaps fade and lift
- * gently rather than snapping in. Keyed on the path so React knows when
- * to start a new transition.
+ * Quick cross-fade on route change. Old content swaps out instantly;
+ * new content fades in over ~180ms. Avoids the visible "exit then enter"
+ * sequence mode="wait" produces, which reads as a double reload.
  */
 export function RouteTransition({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence initial={false}>
       <motion.div
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1 }}
+        initial={{ opacity: 0 }}
         key={pathname}
         transition={transition}
       >
