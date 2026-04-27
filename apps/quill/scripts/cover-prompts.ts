@@ -936,7 +936,7 @@ export const COVER_PROMPTS: CoverPrompt[] = [
   {
     slug: "keller",
     prompt: TEMPLATE(
-      "a row of five small Swiss village rooftops along a lake, one large central green Heinrich's painter's easel by a window, a single tiny red geranium blooming on the sill"
+      "a row of five small Swiss village rooftops along a lake, one large central wooden painter's easel by a window with a blank canvas mounted on it, a single tiny red geranium blooming on the sill"
     ),
   },
   {
