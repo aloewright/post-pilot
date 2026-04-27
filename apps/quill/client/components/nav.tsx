@@ -43,15 +43,6 @@ export function Nav() {
               style: { color: "var(--strand-color-ink-primary)" },
             }}
             className="hover:text-[color:var(--strand-color-ink-primary)]"
-            to="/browse"
-          >
-            Browse
-          </Link>
-          <Link
-            activeProps={{
-              style: { color: "var(--strand-color-ink-primary)" },
-            }}
-            className="hover:text-[color:var(--strand-color-ink-primary)]"
             to="/bookmarks"
           >
             Bookmarks
@@ -89,7 +80,7 @@ export function Nav() {
               borderColor: "var(--strand-color-ink-primary)",
               color: "var(--strand-color-ink-primary)",
             }}
-            to={user ? "/library" : "/sign-up"}
+            to={user ? "/browse" : "/sign-up"}
           >
             {user ? "Browse guides" : "Get started"}
           </Link>
