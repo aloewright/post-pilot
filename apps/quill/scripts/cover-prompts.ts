@@ -1557,4 +1557,54 @@ export const COVER_PROMPTS: CoverPrompt[] = [
       "a row of five small Vindication pamphlets stacked on a writing desk, one large central wooden lectern with an open treatise on the rights of woman, a single tiny red wax seal on the page"
     ),
   },
+
+  // -- 2026-04-26: African-American canon + McCarthy --------------------
+  {
+    slug: "toni-morrison",
+    prompt: TEMPLATE(
+      "a row of five small braided lengths of hair laid in a line on a worn table, one large central hand-comb passing across the middle braid, a single tiny red ribbon resting beside the comb"
+    ),
+  },
+  {
+    slug: "james-baldwin",
+    prompt: TEMPLATE(
+      "a row of five small empty wooden church pews seen from behind, one large central lectern standing before them with an open book on it, a single tiny red bookmark trailing from the book"
+    ),
+  },
+  {
+    slug: "cormac-mccarthy",
+    prompt: TEMPLATE(
+      "a row of five small horse-and-rider silhouettes receding across a desolate plain, one large solitary rider in the foreground holding the reins of a tall horse, a single tiny red drop on the dust beside the horse"
+    ),
+  },
+  {
+    slug: "maya-angelou",
+    prompt: TEMPLATE(
+      "a row of five small empty birdcages standing in a line, one large central birdcage with its door open and a single bird perched at the threshold mid-song, a single tiny red feather resting at the cage's base"
+    ),
+  },
+  {
+    slug: "zora-neale-hurston",
+    prompt: TEMPLATE(
+      "a row of five small identical pear blossoms along a slender branch, one large central pear-tree branch in fuller bloom rising above the others, a single tiny red bee hovering at the central blossom"
+    ),
+  },
+  {
+    slug: "ralph-ellison",
+    prompt: TEMPLATE(
+      "a row of five small identical bare light bulbs hanging by their cords, one large central bulb glowing above a single empty wooden chair, a single tiny red filament visible inside the central bulb"
+    ),
+  },
+  {
+    slug: "alice-walker",
+    prompt: TEMPLATE(
+      "a row of five small folded letters lined up on a worn wooden table, one large central hand writing on an unfolded letter mid-sentence, a single tiny red wax seal beside the inkwell"
+    ),
+  },
+  {
+    slug: "langston-hughes",
+    prompt: TEMPLATE(
+      "a row of five small identical piano keys laid in a line, one large central saxophone bell rising above them with a single curl of breath escaping the mouthpiece, a single tiny red musical note hovering at the bell"
+    ),
+  },
 ];

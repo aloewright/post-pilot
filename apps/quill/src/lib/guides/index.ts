@@ -6,6 +6,7 @@ import { alexanderPope } from "./alexander-pope";
 import { alexandreDumasPere } from "./alexandre-dumas-pere";
 import { alfredTennyson } from "./alfred-tennyson";
 import { algernonBlackwood } from "./algernon-blackwood";
+import { aliceWalker } from "./alice-walker";
 import { ambroseBierce } from "./ambrose-bierce";
 import { andersen } from "./andersen";
 import { anderson } from "./anderson";
@@ -141,6 +142,7 @@ import { knausgaard } from "./knausgaard";
 import { kropotkin } from "./kropotkin";
 import { lMMontgomery } from "./l-m-montgomery";
 import { lamb } from "./lamb";
+import { langstonHughes } from "./langston-hughes";
 import { leopardi } from "./leopardi";
 import { leopoldoAlas } from "./leopoldo-alas";
 import { lermontov } from "./lermontov";
@@ -163,6 +165,7 @@ import { maryEWilkinsFreeman } from "./mary-e-wilkins-freeman";
 import { matthewArnold } from "./matthew-arnold";
 import { matthewLewis } from "./matthew-lewis";
 import { maupassant } from "./maupassant";
+import { mayaAngelou } from "./maya-angelou";
 import { melville } from "./melville";
 import { mickiewicz } from "./mickiewicz";
 import { mill } from "./mill";
@@ -192,6 +195,7 @@ import { poe } from "./poe";
 import { pound } from "./pound";
 import { proust } from "./proust";
 import { pushkin } from "./pushkin";
+import { ralphEllison } from "./ralph-ellison";
 import { raymondCarver } from "./raymond-carver";
 import { richardBrinsleySheridan } from "./richard-brinsley-sheridan";
 import { riderHaggard } from "./rider-haggard";
@@ -263,6 +267,7 @@ import { williamWycherley } from "./william-wycherley";
 import { wollstonecraft } from "./wollstonecraft";
 import { woolf } from "./woolf";
 import { zola } from "./zola";
+import { zoraNealeHurston } from "./zora-neale-hurston";
 
 export const GUIDES: Guide[] = [
   adamSmith,
@@ -272,6 +277,7 @@ export const GUIDES: Guide[] = [
   alexandreDumasPere,
   alfredTennyson,
   algernonBlackwood,
+  aliceWalker,
   ambroseBierce,
   andersen,
   anderson,
@@ -407,6 +413,7 @@ export const GUIDES: Guide[] = [
   kropotkin,
   lMMontgomery,
   lamb,
+  langstonHughes,
   leopardi,
   leopoldoAlas,
   lermontov,
@@ -429,6 +436,7 @@ export const GUIDES: Guide[] = [
   matthewArnold,
   matthewLewis,
   maupassant,
+  mayaAngelou,
   melville,
   mickiewicz,
   mill,
@@ -458,6 +466,7 @@ export const GUIDES: Guide[] = [
   pound,
   proust,
   pushkin,
+  ralphEllison,
   raymondCarver,
   richardBrinsleySheridan,
   riderHaggard,
@@ -529,6 +538,7 @@ export const GUIDES: Guide[] = [
   wollstonecraft,
   woolf,
   zola,
+  zoraNealeHurston,
 ];
 
 export function getGuide(slug: string): Guide | undefined {
