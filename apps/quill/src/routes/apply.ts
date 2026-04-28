@@ -8,6 +8,7 @@ import { debit, refund, stylizeCost } from "../lib/credits";
 import { applyPresetToSystemPrompt } from "../lib/export";
 import { getGuide } from "../lib/guides";
 import { requireIdentity } from "../lib/identify";
+import { judgeOutput } from "../lib/judge";
 import { ingestUsageEvent } from "../lib/polar";
 import { getPreset } from "../lib/presets";
 import { analyzeText, scoreDeterministic } from "../lib/rubric";
@@ -103,6 +104,10 @@ applyRouter.post("/", async (c) => {
 
   const snapshot = analyzeText(output);
   const score = scoreDeterministic(snapshot, guide.eval_rubric);
+  // Judge runs after the completion has already returned. It adds ~3-5s of
+  // latency and is best-effort — an error here is metadata, not a route
+  // failure: the user's apply already succeeded and was billed.
+  const judge = await judgeOutput(c.env, guide, preset, body.input, output);
 
   return c.json({
     guide: guide.slug,
@@ -112,7 +117,7 @@ applyRouter.post("/", async (c) => {
     snapshot,
     deterministic_score: score.score,
     deterministic_details: score.details,
-    judge: { status: "deferred", message: "Judge runs land in M5." },
+    judge,
     creditsCharged: cost,
     balance: debited.newBalance,
     requestId: c.get("requestId"),
