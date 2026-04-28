@@ -3,25 +3,6 @@
 import { DetectionResult, SentenceDetectionResult } from './types';
 import { calculateReadability } from './readability';
 
-// Local shape stubs — original imported these from ./style-model (corpus
-// calibration), which is intentionally not ported. The corpus calibration
-// functions below remain typecheckable but are dead-code paths in our build
-// (no external callers reach calibrateWithCorpus from the quill app).
-interface CorpusStyleModel {
-  burstinessProfile: { mean: number };
-  vocabularyDiversityRange: { mean: number };
-  transitionWordFrequency: Record<string, number>;
-}
-interface CalibratedThresholds {
-  humanScoreMin: number;
-  humanScoreMax: number;
-  humanScoreMedian: number;
-  targetScore: number;
-  burstinessFloor: number;
-  vocabularyFloor: number;
-  transitionCeiling: number;
-}
-
 // ==================== PATTERN DATABASES ====================
 
 const AI_PHRASES = [
@@ -314,7 +295,7 @@ function analyzeSentence(sentence: string): SentenceDetectionResult {
   score = Math.max(0, Math.min(100, score));
 
   let classification: 'human' | 'maybe' | 'ai';
-  const sFloor = calibratedThresholds?.humanScoreMin ?? 55;
+  const sFloor = 55;
   const sMid = Math.max(20, sFloor - 20);
   if (score >= sFloor) classification = 'human';
   else if (score >= sMid) classification = 'maybe';
@@ -324,46 +305,6 @@ function analyzeSentence(sentence: string): SentenceDetectionResult {
 }
 
 // ==================== MAIN DETECTION FUNCTION ====================
-
-/** Corpus-calibrated thresholds (set via calibrateWithCorpus) */
-let calibratedThresholds: CalibratedThresholds | null = null;
-
-/**
- * Calibrate the detector against corpus statistics.
- * Adjusts weights and thresholds based on real human writing patterns.
- */
-export function calibrateWithCorpus(styleModel: CorpusStyleModel): CalibratedThresholds {
-  const burstinessFloor = Math.round(styleModel.burstinessProfile.mean * 50);
-  const vocabularyFloor = Math.round(styleModel.vocabularyDiversityRange.mean * 85);
-  const totalTransitions = Object.values(styleModel.transitionWordFrequency)
-    .reduce((sum, v) => sum + v, 0);
-  const transitionCeiling = Math.round(totalTransitions * 200);
-
-  calibratedThresholds = {
-    humanScoreMin: 55,
-    humanScoreMax: 95,
-    humanScoreMedian: 70,
-    targetScore: 75,
-    burstinessFloor,
-    vocabularyFloor,
-    transitionCeiling,
-  };
-  return calibratedThresholds;
-}
-
-/**
- * Get the realistic score range for human writing based on corpus analysis.
- */
-export function getHumanScoreRange(): { min: number; max: number; median: number } {
-  if (calibratedThresholds) {
-    return {
-      min: calibratedThresholds.humanScoreMin,
-      max: calibratedThresholds.humanScoreMax,
-      median: calibratedThresholds.humanScoreMedian,
-    };
-  }
-  return { min: 50, max: 90, median: 70 };
-}
 
 export function detectAI(text: string): DetectionResult {
   const sentences = splitIntoSentences(text);
@@ -415,7 +356,7 @@ export function detectAI(text: string): DetectionResult {
   );
 
   let overallVerdict: 'human' | 'ai' | 'mixed';
-  const humanFloor = calibratedThresholds?.humanScoreMin ?? 55;
+  const humanFloor = 55;
   const mixedFloor = Math.max(20, humanFloor - 20);
   if (overallScore >= humanFloor) overallVerdict = 'human';
   else if (overallScore >= mixedFloor) overallVerdict = 'mixed';
