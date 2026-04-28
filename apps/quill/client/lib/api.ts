@@ -142,6 +142,7 @@ export type ApiKeyItem = {
   prefix: string;
   createdAt: string | number;
   lastUsedAt: string | number | null;
+  expiresAt?: string | null;
 };
 
 export type ApiKeyCreated = {
@@ -149,6 +150,7 @@ export type ApiKeyCreated = {
   name: string;
   prefix: string;
   plaintext: string;
+  expiresAt?: string | null;
 };
 
 export const api = {
@@ -235,10 +237,10 @@ export const api = {
 
   listKeys: () => request<{ items: ApiKeyItem[] }>("/v1/keys"),
 
-  createKey: (name: string) =>
+  createKey: (name: string, expiresIn?: number) =>
     request<ApiKeyCreated>("/v1/keys", {
       method: "POST",
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({ name, ...(expiresIn ? { expiresIn } : {}) }),
     }),
 
   deleteKey: (id: string) =>

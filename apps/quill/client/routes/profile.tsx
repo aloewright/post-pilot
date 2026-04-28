@@ -339,12 +339,15 @@ function ApiKeysPanel() {
     queryFn: () => api.listKeys(),
   });
   const [name, setName] = useState("");
+  const [expiresIn, setExpiresIn] = useState<string>("");
   const [created, setCreated] = useState<ApiKeyCreated | null>(null);
   const create = useMutation({
-    mutationFn: (n: string) => api.createKey(n),
+    mutationFn: (args: { name: string; expiresIn?: number }) =>
+      api.createKey(args.name, args.expiresIn),
     onSuccess: (r) => {
       setCreated(r);
       setName("");
+      setExpiresIn("");
       queryClient.invalidateQueries({ queryKey: queryKeys.apiKeys() });
     },
   });
@@ -370,16 +373,20 @@ function ApiKeysPanel() {
       </p>
 
       <form
-        className="mt-4 flex gap-2"
+        className="mt-4 flex flex-wrap gap-2"
         onSubmit={(e) => {
           e.preventDefault();
           if (name.trim()) {
-            create.mutate(name.trim());
+            const seconds = expiresIn ? Number(expiresIn) : undefined;
+            create.mutate({
+              name: name.trim(),
+              expiresIn: seconds && seconds > 0 ? seconds : undefined,
+            });
           }
         }}
       >
         <input
-          className="flex-1 rounded-md border px-3 py-2 text-sm"
+          className="min-w-[12rem] flex-1 rounded-md border px-3 py-2 text-sm"
           maxLength={80}
           onChange={(e) => setName(e.target.value)}
           placeholder="Key name (e.g. local-dev, staging-bot)"
@@ -390,6 +397,22 @@ function ApiKeysPanel() {
           }}
           value={name}
         />
+        <select
+          aria-label="Expires in"
+          className="rounded-md border px-3 py-2 text-sm"
+          onChange={(e) => setExpiresIn(e.target.value)}
+          style={{
+            background: "var(--strand-color-surface-raised)",
+            borderColor: "var(--strand-color-rule)",
+            color: "var(--strand-color-ink-primary)",
+          }}
+          value={expiresIn}
+        >
+          <option value="">Never expires</option>
+          <option value={String(30 * 86400)}>Expires in 30 days</option>
+          <option value={String(90 * 86400)}>Expires in 90 days</option>
+          <option value={String(365 * 86400)}>Expires in 1 year</option>
+        </select>
         <button
           className="rounded-md border px-4 py-2 text-sm font-medium disabled:opacity-50"
           disabled={!name.trim() || create.isPending}
@@ -434,7 +457,9 @@ function ApiKeysPanel() {
       {keys.data?.items.length ? (
         <ul className="mt-5 flex flex-col divide-y"
           style={{ borderColor: "var(--strand-color-rule)" }}>
-          {keys.data.items.map((k) => (
+          {keys.data.items.map((k) => {
+            const expiry = expiryStatus(k.expiresAt);
+            return (
             <li
               className="grid grid-cols-[1fr_auto_auto] items-center gap-3 py-3 text-sm"
               key={k.id}
@@ -451,14 +476,22 @@ function ApiKeysPanel() {
                   {k.prefix}…
                 </code>
               </div>
-              <span
-                className="text-xs tabular-nums"
-                style={{ color: "var(--strand-color-ink-faint)" }}
-              >
-                {k.lastUsedAt
-                  ? `last used ${formatTime(k.lastUsedAt)}`
-                  : "never used"}
-              </span>
+              <div className="flex flex-col items-end gap-0.5 text-xs tabular-nums">
+                <span style={{ color: "var(--strand-color-ink-faint)" }}>
+                  {k.lastUsedAt
+                    ? `Last used ${humanRelative(String(k.lastUsedAt))}`
+                    : "Never used"}
+                </span>
+                <span
+                  style={{
+                    color: expiry.expired
+                      ? "var(--strand-color-accent-lede)"
+                      : "var(--strand-color-ink-faint)",
+                  }}
+                >
+                  {expiry.label}
+                </span>
+              </div>
               <button
                 className="text-xs underline disabled:opacity-50"
                 disabled={remove.isPending}
@@ -473,7 +506,8 @@ function ApiKeysPanel() {
                 Revoke
               </button>
             </li>
-          ))}
+            );
+          })}
         </ul>
       ) : (
         <p
@@ -516,6 +550,50 @@ function Stat({
       </span>
     </div>
   );
+}
+
+function humanRelative(iso: string | number): string {
+  const ts = typeof iso === "number" ? iso : Date.parse(iso);
+  if (!Number.isFinite(ts)) {
+    return "—";
+  }
+  const ms = ts - Date.now();
+  const abs = Math.abs(ms);
+  const day = 86_400_000;
+  const week = 7 * day;
+  const month = 30 * day;
+  const year = 365 * day;
+  let val: string;
+  if (abs < day) {
+    val = `${Math.max(1, Math.round(abs / 3_600_000))}h`;
+  } else if (abs < week) {
+    val = `${Math.round(abs / day)}d`;
+  } else if (abs < month) {
+    val = `${Math.round(abs / week)}w`;
+  } else if (abs < year) {
+    val = `${Math.round(abs / month)}mo`;
+  } else {
+    val = `${Math.round(abs / year)}y`;
+  }
+  return ms > 0 ? `in ${val}` : `${val} ago`;
+}
+
+function expiryStatus(iso: string | null | undefined): {
+  label: string;
+  expired: boolean;
+} {
+  if (!iso) {
+    return { label: "No expiry", expired: false };
+  }
+  const ts = Date.parse(iso);
+  if (!Number.isFinite(ts)) {
+    return { label: "No expiry", expired: false };
+  }
+  const ms = ts - Date.now();
+  if (ms <= 0) {
+    return { label: `Expired ${humanRelative(iso)}`, expired: true };
+  }
+  return { label: `Expires ${humanRelative(iso)}`, expired: false };
 }
 
 function formatTime(t: string | number): string {

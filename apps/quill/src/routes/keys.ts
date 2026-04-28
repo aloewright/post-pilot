@@ -9,6 +9,7 @@ export const keysRouter = new Hono<AppEnv>();
 
 const createSchema = z.object({
   name: z.string().min(1).max(80),
+  expiresIn: z.number().positive().optional(),
 });
 
 // Best-effort coercion for the plugin's mixed Date | string | null fields.
@@ -41,6 +42,7 @@ keysRouter.post("/", async (c) => {
     body: {
       name: body.name,
       userId: id.userId,
+      ...(body.expiresIn ? { expiresIn: body.expiresIn } : {}),
     },
   });
 
@@ -52,6 +54,7 @@ keysRouter.post("/", async (c) => {
     // listing and the create response surface the same value.
     prefix: result.start ?? result.prefix ?? "",
     plaintext: result.key,
+    expiresAt: toIso((result as { expiresAt?: unknown }).expiresAt),
   });
 });
 
@@ -81,6 +84,7 @@ keysRouter.get("/", async (c) => {
       prefix: k.start ?? k.prefix ?? "",
       createdAt: toIso(k.createdAt),
       lastUsedAt: toIso(k.lastRequest),
+      expiresAt: toIso((k as { expiresAt?: unknown }).expiresAt),
     })),
   });
 });
