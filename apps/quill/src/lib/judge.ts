@@ -114,7 +114,7 @@ export async function judgeOutput(
         },
         { gateway: { id: gatewayId } },
       ),
-      8_000,
+      15_000,
     )) as { choices?: Array<{ message?: { content?: string } }> };
     raw = result.choices?.[0]?.message?.content ?? "";
   } catch (e) {
@@ -129,18 +129,39 @@ export async function judgeOutput(
     return { status: "error", reason: "gateway_error" };
   }
 
+  const trimmed = raw.trim();
+  if (!trimmed) {
+    console.warn(
+      JSON.stringify({ msg: "judge_failed", reason: "empty_response" }),
+    );
+    return { status: "error", reason: "empty_response" };
+  }
+
   let parsed: unknown;
   try {
-    parsed = JSON.parse(stripFences(raw));
-  } catch (e) {
-    console.warn(
-      JSON.stringify({
-        msg: "judge_failed",
-        reason: "parse_failure",
-        error: (e as Error).message?.slice(0, 200),
-      }),
-    );
-    return { status: "error", reason: "parse_failure" };
+    parsed = JSON.parse(stripFences(trimmed));
+  } catch {
+    // Fallback: extract the first balanced-looking JSON object from the response.
+    // Models occasionally wrap the JSON in prose despite the system prompt.
+    const match = trimmed.match(/\{[\s\S]*\}/);
+    if (!match) {
+      console.warn(
+        JSON.stringify({ msg: "judge_failed", reason: "parse_failure" }),
+      );
+      return { status: "error", reason: "parse_failure" };
+    }
+    try {
+      parsed = JSON.parse(match[0]);
+    } catch (e) {
+      console.warn(
+        JSON.stringify({
+          msg: "judge_failed",
+          reason: "parse_failure",
+          error: (e as Error).message?.slice(0, 200),
+        }),
+      );
+      return { status: "error", reason: "parse_failure" };
+    }
   }
 
   if (!parsed || typeof parsed !== "object") {
@@ -166,11 +187,14 @@ export async function judgeOutput(
     }
   }
 
-  const perCriterion = criteria.map((c) => ({
-    id: c.id,
-    score: scoreMap.has(c.id) ? clamp01(scoreMap.get(c.id) as number) : 0.5,
-    weight: c.weight,
-  }));
+  const perCriterion = criteria.map((c) => {
+    const w = Math.max(0, Number.isFinite(c.weight) ? c.weight : 0);
+    return {
+      id: c.id,
+      score: scoreMap.has(c.id) ? clamp01(scoreMap.get(c.id) as number) : 0.5,
+      weight: w,
+    };
+  });
 
   const totalWeight = perCriterion.reduce((s, c) => s + c.weight, 0);
   const fidelity =
