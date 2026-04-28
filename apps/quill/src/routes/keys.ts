@@ -59,6 +59,9 @@ keysRouter.post("/", async (c) => {
 // the plugin only persists the hash + a short visible prefix.
 keysRouter.get("/", async (c) => {
   const id = await requireIdentity(c);
+  if (id.via !== "session") {
+    throw new HTTPException(403, { message: "Session required to list keys." });
+  }
   const auth = createAuth(c.env, new URL(c.req.url).origin);
   const result = await auth.api.listApiKeys({
     headers: c.req.raw.headers,
@@ -100,8 +103,11 @@ keysRouter.delete("/:id", async (c) => {
       headers: c.req.raw.headers,
     });
   } catch (e) {
-    const msg = (e as Error).message ?? "";
-    if (/not.?found/i.test(msg)) {
+    // better-auth APIError surfaces status as a string (e.g. "NOT_FOUND") and
+    // statusCode as a number — match either to be resilient to future changes.
+    const status = (e as { status?: unknown })?.status;
+    const code = (e as { statusCode?: unknown })?.statusCode;
+    if (status === "NOT_FOUND" || code === 404) {
       throw new HTTPException(404, { message: "Key not found." });
     }
     throw e;
