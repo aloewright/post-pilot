@@ -136,14 +136,40 @@ function sha256(s: string): string {
   return createHash("sha256").update(s).digest("hex");
 }
 
-async function fetchGuides(base: string): Promise<string[]> {
-  const res = await fetch(`${base}/v1/guides`);
-  if (!res.ok) {
-    throw new Error(`GET /v1/guides failed: ${res.status}`);
+async function fetchGuides(
+  base: string,
+  slugs?: string[],
+): Promise<string[]> {
+  const all: Array<{ slug: string }> = [];
+  let offset = 0;
+  while (true) {
+    const url = `${base}/v1/guides?limit=500&offset=${offset}`;
+    const res = await fetch(url);
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      throw new Error(`GET /v1/guides failed: ${res.status} ${text.slice(0, 160)}`);
+    }
+    const body = (await res.json()) as {
+      items?: Array<{ slug: string }>;
+      nextOffset: number | null;
+    };
+    const items = body.items ?? [];
+    all.push(...items);
+    if (body.nextOffset === null || body.nextOffset === undefined) break;
+    offset = body.nextOffset;
   }
-  const body = (await res.json()) as { items?: Array<{ slug: string }> };
-  const items = body.items ?? [];
-  return items.map((g) => g.slug);
+  if (slugs && slugs.length > 0) {
+    const set = new Set(slugs);
+    const matched = all.filter((g) => set.has(g.slug));
+    if (matched.length === 0) {
+      console.error(
+        `No guides matched the requested slugs: ${slugs.join(", ")}`,
+      );
+      process.exit(1);
+    }
+    return matched.map((g) => g.slug);
+  }
+  return all.map((g) => g.slug);
 }
 
 async function applyOne(
@@ -256,12 +282,9 @@ async function main() {
     throw new Error(`Corpus at ${corpusPath} has no prompts.`);
   }
 
-  let guides = args.guides;
-  if (!guides || guides.length === 0) {
-    console.log(`Fetching guide list from ${args.base}/v1/guides ...`);
-    guides = await fetchGuides(args.base);
-    console.log(`Found ${guides.length} guides.`);
-  }
+  console.log(`Fetching guide list from ${args.base}/v1/guides ...`);
+  const guides = await fetchGuides(args.base, args.guides);
+  console.log(`Found ${guides.length} guides.`);
 
   const buffer: IngestRow[] = [];
   const BATCH_SIZE = 50;

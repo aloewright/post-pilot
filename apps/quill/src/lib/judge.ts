@@ -51,15 +51,9 @@ function clamp01(n: number): number {
 export async function judgeOutput(
   env: AppEnv["Bindings"],
   guide: Guide,
-  preset: { slug: string; name?: string } | null,
   input: string,
   output: string,
 ): Promise<JudgeResult> {
-  // Forward-compat: preset is accepted for future prompt enrichment but
-  // doesn't affect criterion scoring today (deterministic rubric handles
-  // preset effects via system-prompt modifiers).
-  void preset;
-
   const criteria = guide.eval_rubric.judge_criteria;
   if (!criteria || criteria.length === 0) {
     return { status: "skipped", reason: "no_criteria" };

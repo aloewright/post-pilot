@@ -330,6 +330,9 @@ export const humanizeUsage = sqliteTable(
   })
 );
 
+// TODO: drop after M5+1; superseded by evalHarnessRuns. Kept for now to
+// avoid a destructive migration; the table holds no live data and is not
+// referenced anywhere in src/.
 export const evalRuns = sqliteTable("eval_runs", {
   id: text("id").primaryKey(),
   guideId: text("guide_id")

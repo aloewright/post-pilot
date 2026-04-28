@@ -107,7 +107,7 @@ applyRouter.post("/", async (c) => {
   // Judge runs after the completion has already returned. It adds ~3-5s of
   // latency and is best-effort — an error here is metadata, not a route
   // failure: the user's apply already succeeded and was billed.
-  const judge = await judgeOutput(c.env, guide, preset, body.input, output);
+  const judge = await judgeOutput(c.env, guide, body.input, output);
 
   return c.json({
     guide: guide.slug,

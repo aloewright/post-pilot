@@ -61,20 +61,12 @@ adminRouter.get("/eval/runs", async (c) => {
   const db = drizzle(c.env.DB, { schema });
   const guide = c.req.query("guide");
 
-  const baseQuery = db
+  const rows = await db
     .select()
     .from(evalHarnessRuns)
+    .where(guide ? eq(evalHarnessRuns.guideSlug, guide) : undefined)
     .orderBy(desc(evalHarnessRuns.runAt))
     .limit(200);
-
-  const rows = guide
-    ? await db
-        .select()
-        .from(evalHarnessRuns)
-        .where(eq(evalHarnessRuns.guideSlug, guide))
-        .orderBy(desc(evalHarnessRuns.runAt))
-        .limit(200)
-    : await baseQuery;
 
   return c.json({
     items: rows.map((r) => ({
@@ -108,5 +100,13 @@ adminRouter.get("/eval/summary", async (c) => {
     `
   )) as unknown as Array<Record<string, unknown>>;
 
-  return c.json({ items: rows, count: rows.length });
+  const items = rows.map((r) => ({
+    guideSlug: r.guide_slug as string,
+    latestRunAt: r.latest_run_at as number,
+    avgDetScore: r.avg_det_score as number | null,
+    avgJudgeFidelity: r.avg_judge_fidelity as number | null,
+    runCount: r.run_count as number,
+  }));
+
+  return c.json({ items, count: items.length });
 });
