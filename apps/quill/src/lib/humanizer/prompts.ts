@@ -5,7 +5,7 @@ import type { RewriteLevel, StylePreset, TonePreset } from './types';
 
 // ==================== TONE CONFIGURATIONS ====================
 
-export const TONE_CONFIGS: Record<TonePreset, {
+const TONE_CONFIGS: Record<TonePreset, {
   name: string; personalityTraits: string[]; vocabularyPreferences: string[];
   writingPatterns: string[];
 }> = {
@@ -180,7 +180,7 @@ const STYLE_OVERLAYS: Record<StylePreset, string> = {
 
 // ==================== HUMAN WRITING SAMPLE HANDLING ====================
 
-export function buildSamplePrompt(writingSample: string): string {
+function buildSamplePrompt(writingSample: string): string {
   if (!writingSample || writingSample.trim().length < 20) return '';
   return `
 
@@ -251,20 +251,7 @@ Return ONLY the rewritten text.`;
 
 // ==================== RE-HUMANIZATION PROMPT ====================
 
-export function getRehumanizePrompt(
-  flaggedSentences: string[],
-  level: RewriteLevel,
-  style: StylePreset,
-  tone: TonePreset = 'conversational',
-  customTone?: string
-): string {
-  // Reference parameters intentionally so they can be plugged into future
-  // tone-aware re-humanization without breaking the public signature.
-  void level;
-  void style;
-  void tone;
-  void customTone;
-
+export function getRehumanizePrompt(flaggedSentences: string[]): string {
   return `These sentences were flagged as AI-generated. Rewrite each one to sound completely human.
 
 RULES FOR EACH SENTENCE:
@@ -460,7 +447,7 @@ const CHINESE_LEVEL_INSTRUCTIONS: Record<RewriteLevel, string> = {
 
 // ==================== CHINESE PROMPT GENERATOR ====================
 
-export function getChineseSystemPrompt(
+function getChineseSystemPrompt(
   level: RewriteLevel,
   style: StylePreset,
   tone: TonePreset = 'conversational',
@@ -468,8 +455,6 @@ export function getChineseSystemPrompt(
   writingSample?: string,
   isTraditional: boolean = false
 ): string {
-  void tone;
-
   const modeSection = style === 'academic'
     ? CHINESE_ACADEMIC_MODE
     : CHINESE_GENERAL_MODE;
@@ -508,9 +493,13 @@ ${CHINESE_LEVEL_INSTRUCTIONS[level]}
 }
 
 // Temperature and top_p settings per level
-export const LEVEL_PARAMS: Record<RewriteLevel, { temperature: number; topP: number }> = {
+const LEVEL_PARAMS: Record<RewriteLevel, { temperature: number; topP: number }> = {
   light: { temperature: 0.8, topP: 0.92 },
   medium: { temperature: 0.9, topP: 0.95 },
   aggressive: { temperature: 1.0, topP: 0.97 },
   ninja: { temperature: 1.1, topP: 0.99 },
 };
+
+export function getLevelParams(level: RewriteLevel): { temperature: number; topP: number } {
+  return LEVEL_PARAMS[level];
+}

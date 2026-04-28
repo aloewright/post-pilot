@@ -7,7 +7,7 @@ import type {
   HumanizationResult,
   SentenceResult,
 } from './types';
-import { getSystemPrompt, getRehumanizePrompt } from './prompts';
+import { getSystemPrompt, getRehumanizePrompt, getLevelParams } from './prompts';
 import { generateText, type GenerateEnv } from './providers';
 import { detectAI } from './detector';
 import { postprocess } from './postprocess';
@@ -114,8 +114,10 @@ async function humanizeChunk(
       ? `IMPORTANT: The text is in a language other than English. Rewrite it in the SAME language. Do not translate.\n\nText to humanize:\n\n${text}`
       : `Text to humanize:\n\n${text}`;
 
+  const params = getLevelParams(options.level);
   return generateText(env, systemPrompt, fullPrompt, {
-    temperature: 0.85,
+    temperature: params.temperature,
+    topP: params.topP,
     maxTokens: 8000,
   });
 }
@@ -125,15 +127,11 @@ async function rehumanizeFlaggedSentences(
   flaggedSentences: string[],
   options: HumanizationOptions
 ): Promise<string[]> {
-  const rehumanizePrompt = getRehumanizePrompt(
-    flaggedSentences,
-    options.level,
-    options.style,
-    options.tone,
-    options.customTone
-  );
+  const rehumanizePrompt = getRehumanizePrompt(flaggedSentences);
+  const params = getLevelParams(options.level);
   const result = await generateText(env, rehumanizePrompt, '', {
-    temperature: 0.9,
+    temperature: params.temperature,
+    topP: params.topP,
     maxTokens: 8000,
   });
   return result
@@ -163,13 +161,12 @@ export async function humanizeText(
   const chunks = chunkText(text, 2500);
 
   // Pass 1: Full humanization across chunks
-  let humanizedText = '';
-  for (let i = 0; i < chunks.length; i++) {
-    const chunk = chunks[i] ?? '';
-    if (chunk.length === 0) continue;
-    const humanizedChunk = await humanizeChunk(env, chunk, options);
-    humanizedText += (i > 0 ? '\n\n' : '') + humanizedChunk;
+  const parts: string[] = [];
+  for (const chunk of chunks) {
+    if (!chunk) continue;
+    parts.push(await humanizeChunk(env, chunk, options));
   }
+  const humanizedText = parts.join('\n\n');
 
   let currentText = humanizedText;
   let passes = 1;
@@ -209,7 +206,12 @@ export async function humanizeText(
         });
         currentText = newSentences.join(' ');
         passes = pass;
-      } catch {
+      } catch (e) {
+        console.error(JSON.stringify({
+          msg: 'rehumanize_pass_failed',
+          pass,
+          error: (e as Error).message?.slice(0, 400),
+        }));
         break;
       }
     }

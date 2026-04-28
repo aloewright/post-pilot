@@ -10,18 +10,18 @@ export async function generateText(
   env: GenerateEnv,
   systemPrompt: string,
   userPrompt: string,
-  opts?: { temperature?: number; maxTokens?: number }
+  opts?: { temperature?: number; topP?: number; maxTokens?: number }
 ): Promise<string> {
   const gatewayId = env.AI_GATEWAY_ID;
   if (!(env.AI && gatewayId)) {
-    // Local-dev fallback: echo the user prompt back unchanged.
-    return userPrompt;
+    throw new Error('AI Gateway not configured (AI binding or AI_GATEWAY_ID missing)');
   }
   const result = (await env.AI.run(
     "dynamic/text_gen" as Parameters<Ai["run"]>[0],
     {
       max_tokens: opts?.maxTokens ?? 8000,
       temperature: opts?.temperature ?? 0.85,
+      top_p: opts?.topP ?? 0.95,
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
