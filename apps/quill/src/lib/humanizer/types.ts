@@ -33,6 +33,12 @@ export interface HumanizationOptions {
   language: string;
   /** Academic domain for corpus-calibrated style matching */
   domain?: string;
+  /**
+   * Frequency-ranked phrases that prior Copyleaks scans flagged. Injected
+   * into the system prompt as an explicit avoid-list so the rewrite pass
+   * doesn't repeat the same AI tells. Optional — best-effort only.
+   */
+  additionalAvoidPhrases?: string[];
 }
 
 export interface SentenceResult {

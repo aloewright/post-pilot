@@ -104,7 +104,8 @@ async function humanizeChunk(
     options.tone,
     options.customTone,
     undefined,
-    options.language
+    options.language,
+    options.additionalAvoidPhrases
   );
 
   const fullPrompt =

@@ -219,11 +219,20 @@ export function getSystemPrompt(
   tone: TonePreset = 'conversational',
   customTone?: string,
   writingSample?: string,
-  language?: string
+  language?: string,
+  additionalAvoidPhrases?: string[]
 ): string {
   // Use Chinese-specific prompts for Chinese languages
   if (language === 'zh-CN' || language === 'zh-TW') {
-    return getChineseSystemPrompt(level, style, tone, customTone, writingSample, language === 'zh-TW');
+    return getChineseSystemPrompt(
+      level,
+      style,
+      tone,
+      customTone,
+      writingSample,
+      language === 'zh-TW',
+      additionalAvoidPhrases
+    );
   }
 
   const toneConfig = TONE_CONFIGS[tone];
@@ -236,6 +245,16 @@ Personality: ${toneConfig.personalityTraits.join(', ')}`
 
   const sampleSection = writingSample ? buildSamplePrompt(writingSample) : '';
 
+  // Inject phrases learned from prior detector runs. The list is frequency-
+  // ranked (most-flagged first), so even truncated to 50 it carries the most
+  // useful signal for the model to avoid.
+  const learnedAvoidSection =
+    additionalAvoidPhrases && additionalAvoidPhrases.length > 0
+      ? `\n\nADDITIONAL PHRASES TO NEVER USE (learned from prior AI-detector hits):\n${additionalAvoidPhrases
+          .map((p) => `- ${p}`)
+          .join('\n')}\n`
+      : '';
+
   return `${PERSONAS[level]}
 
 ${ANTI_DETECTION_CORE}
@@ -245,7 +264,7 @@ ${toneSection}
 ${sampleSection}
 
 ${LEVEL_INSTRUCTIONS[level]}
-
+${learnedAvoidSection}
 Return ONLY the rewritten text.`;
 }
 
@@ -453,7 +472,8 @@ function getChineseSystemPrompt(
   tone: TonePreset = 'conversational',
   customTone?: string,
   writingSample?: string,
-  isTraditional: boolean = false
+  isTraditional: boolean = false,
+  additionalAvoidPhrases?: string[]
 ): string {
   const modeSection = style === 'academic'
     ? CHINESE_ACADEMIC_MODE
@@ -469,6 +489,15 @@ function getChineseSystemPrompt(
     ? `\n${TRADITIONAL_CHINESE_NOTES}`
     : '';
 
+  // Frequency-ranked phrases the detector flagged before — feed them in as
+  // an explicit avoid-list so the next pass doesn't repeat the same misses.
+  const learnedAvoidSection =
+    additionalAvoidPhrases && additionalAvoidPhrases.length > 0
+      ? `\n\n额外禁用短语（ADDITIONAL PHRASES TO NEVER USE — learned from prior detections）：\n${additionalAvoidPhrases
+          .map((p) => `- ${p}`)
+          .join('\n')}\n`
+      : '';
+
   return `你是一个中文写作改写助手。你的任务是将AI生成的中文文本改写为自然的人类写作风格。
 你了解知网AIGC检测系统、万方、维普等中文AI检测工具的工作原理，并知道如何规避它们。
 
@@ -482,7 +511,7 @@ ${traditionalSection}
 ${sampleSection}
 
 ${CHINESE_LEVEL_INSTRUCTIONS[level]}
-
+${learnedAvoidSection}
 意义保持规则（MEANING PRESERVATION RULES）：
 1. 原文中的所有事实、数据、人名、日期和观点都必须保留
 2. 不要添加原文中没有的新信息
