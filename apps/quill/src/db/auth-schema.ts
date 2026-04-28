@@ -59,3 +59,35 @@ export const verifications = sqliteTable("verifications", {
   createdAt: integer("createdAt", { mode: "timestamp_ms" }),
   updatedAt: integer("updatedAt", { mode: "timestamp_ms" }),
 });
+
+// better-auth apiKey plugin table. Model name is `apikey`; with `usePlural`
+// in the drizzle adapter the table is `apikeys`. Columns mirror the plugin's
+// schema (see @better-auth/api-key/dist/types.d.mts) — all rate-limit,
+// permissions, expiration and metadata columns are included so the optional
+// features can be enabled per-call without further migrations.
+export const apikeys = sqliteTable("apikeys", {
+  id: text("id").primaryKey(),
+  configId: text("configId").notNull(),
+  name: text("name"),
+  start: text("start"),
+  prefix: text("prefix"),
+  key: text("key").notNull(),
+  referenceId: text("referenceId").notNull(),
+  refillInterval: integer("refillInterval"),
+  refillAmount: integer("refillAmount"),
+  lastRefillAt: integer("lastRefillAt", { mode: "timestamp_ms" }),
+  enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
+  rateLimitEnabled: integer("rateLimitEnabled", { mode: "boolean" })
+    .notNull()
+    .default(true),
+  rateLimitTimeWindow: integer("rateLimitTimeWindow"),
+  rateLimitMax: integer("rateLimitMax"),
+  requestCount: integer("requestCount").notNull().default(0),
+  remaining: integer("remaining"),
+  lastRequest: integer("lastRequest", { mode: "timestamp_ms" }),
+  expiresAt: integer("expiresAt", { mode: "timestamp_ms" }),
+  createdAt: integer("createdAt", { mode: "timestamp_ms" }).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp_ms" }).notNull(),
+  permissions: text("permissions"),
+  metadata: text("metadata"),
+});

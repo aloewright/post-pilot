@@ -18,6 +18,7 @@
     "kumo:doc": "kumo doc"
   },
   "dependencies": {
+    "@better-auth/api-key": "1.6.9",
     "@better-auth/core": "^1.6.9",
     "@chenglou/pretext": "^0.0.6",
     "@cloudflare/kumo": "^1.19.0",
