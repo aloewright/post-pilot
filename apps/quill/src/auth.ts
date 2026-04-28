@@ -1,3 +1,4 @@
+import { apiKey } from "@better-auth/api-key";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
@@ -80,6 +81,33 @@ export function createAuth(env: AuthEnv, baseURL: string) {
       },
     },
     socialProviders,
+    plugins: [
+      // Official better-auth apiKey plugin. Replaces the hand-rolled
+      // src/lib/api-keys.ts. Configured here with all optional features
+      // enabled at the schema level so we can opt into them per-call later
+      // without further migrations.
+      apiKey({
+        // User-facing keys all start with `pp_live_`. Matches the format
+        // documented in the legacy api-keys.ts.
+        defaultPrefix: "pp_live_",
+        // Allow the `metadata` column to be set/read so we can stash
+        // tier/scope hints without another column.
+        enableMetadata: true,
+        // Keys never expire by default. The columns still exist so a
+        // create-call can pass `expiresIn` opt-in.
+        keyExpiration: {
+          defaultExpiresIn: null,
+        },
+        // We don't enforce rate limits in v1 — but make sure the columns
+        // are populated with sensible defaults so we can flip this on
+        // per-key later. `enabled: false` = no enforcement now.
+        rateLimit: {
+          enabled: false,
+        },
+        // Permissions/scopes columns exist; no defaults enforced in v1.
+        permissions: {},
+      }),
+    ],
     advanced: {
       defaultCookieAttributes: {
         httpOnly: true,

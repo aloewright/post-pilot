@@ -1,10 +1,7 @@
-import { drizzle } from "drizzle-orm/d1";
 import type { Context } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { createAuth } from "../auth";
-import * as schema from "../db/schema";
 import type { AppEnv } from "../index";
-import { resolveApiKey } from "./api-keys";
 
 export type Identity = {
   userId: string;
@@ -20,18 +17,33 @@ export type Identity = {
 export async function identify(
   c: Context<AppEnv>
 ): Promise<Identity | null> {
+  const auth = createAuth(c.env, new URL(c.req.url).origin);
   const authz = c.req.header("authorization");
   if (authz?.toLowerCase().startsWith("bearer ")) {
     const token = authz.slice(7).trim();
-    if (token.startsWith("pp_live_")) {
-      const db = drizzle(c.env.DB, { schema });
-      const resolved = await resolveApiKey(db, token);
-      if (resolved) {
-        return { userId: resolved.userId, via: "api_key", keyId: resolved.keyId };
+    if (token) {
+      try {
+        const result = await auth.api.verifyApiKey({
+          body: { key: token },
+        });
+        if (result?.valid && result.key?.referenceId) {
+          return {
+            userId: result.key.referenceId,
+            via: "api_key",
+            keyId: result.key.id,
+          };
+        }
+      } catch (e) {
+        console.warn(
+          JSON.stringify({
+            msg: "verify_api_key_failed",
+            error: (e as Error).message?.slice(0, 200),
+          })
+        );
       }
+      return null;
     }
   }
-  const auth = createAuth(c.env, new URL(c.req.url).origin);
   const session = await auth.api.getSession({ headers: c.req.raw.headers });
   if (session?.user) {
     return {
