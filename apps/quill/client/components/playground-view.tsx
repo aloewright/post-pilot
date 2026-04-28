@@ -194,7 +194,7 @@ export function PlaygroundView({
     stage.kind === "stylizing" ||
     stage.kind === "submitting-humanize" ||
     stage.kind === "polling-humanize";
-  const buttonLabel = (() => {
+  const stageLabel = (() => {
     if (stage.kind === "stylizing") {
       return "Stylizing…";
     }
@@ -204,8 +204,10 @@ export function PlaygroundView({
     if (stage.kind === "polling-humanize") {
       return "Humanizing…";
     }
-    return humanizeOn ? "Stylize + humanize" : "Run";
+    return null;
   })();
+  const buttonLabel =
+    stageLabel ?? (humanizeOn ? "Stylize + humanize" : "Run");
 
   const stylizeCost = input.length * (me?.costs.STYLIZE_PER_CHAR ?? 1);
   const humanizeCost = input.length * (me?.costs.HUMANIZE_PER_CHAR ?? 5);
@@ -466,6 +468,29 @@ export function PlaygroundView({
             humanizedOutput ? "Output (humanized)" : "Output"
           }
         >
+          <AnimatePresence>
+            {stageLabel && visibleOutput ? (
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                aria-busy="true"
+                aria-live="polite"
+                className="mb-2 inline-flex items-center gap-2 rounded-full border px-2.5 py-1 text-[0.65rem] font-semibold tracking-widest uppercase"
+                exit={{ opacity: 0, y: -4 }}
+                initial={{ opacity: 0, y: -4 }}
+                key="running-pill"
+                role="status"
+                style={{
+                  borderColor: "var(--strand-color-rule)",
+                  color: "var(--strand-color-ink-muted)",
+                  background:
+                    "color-mix(in oklch, var(--strand-color-surface-canvas) 90%, transparent)",
+                }}
+              >
+                <span>{stageLabel}</span>
+                <PulseDots />
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
           <AnimatePresence mode="wait">
             {stage.kind === "error" ? (
               <p
@@ -476,7 +501,7 @@ export function PlaygroundView({
                 {stage.message}
               </p>
             ) : showLoader && !visibleOutput ? (
-              <Loader key="loader" />
+              <Loader key="loader" label={stageLabel} />
             ) : visibleOutput ? (
               <motion.pre
                 animate={{ opacity: 1 }}
@@ -746,7 +771,28 @@ function Control({
   );
 }
 
-function Loader() {
+function PulseDots() {
+  return (
+    <div className="flex items-center gap-1.5">
+      {[0, 1, 2].map((i) => (
+        <motion.span
+          animate={{ opacity: [0.25, 1, 0.25] }}
+          className="block h-1.5 w-1.5 rounded-full"
+          key={i}
+          style={{ background: "var(--strand-color-accent-lede)" }}
+          transition={{
+            duration: 1.1,
+            ease: "easeInOut",
+            repeat: Number.POSITIVE_INFINITY,
+            delay: i * 0.18,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Loader({ label }: { label?: string | null }) {
   return (
     <motion.div
       animate={{ opacity: 1 }}
@@ -761,24 +807,9 @@ function Loader() {
         className="text-[0.68rem] font-semibold tracking-widest uppercase"
         style={{ color: "var(--strand-color-ink-muted)" }}
       >
-        Generating…
+        {label ?? "Generating…"}
       </span>
-      <div className="flex items-center gap-1.5">
-        {[0, 1, 2].map((i) => (
-          <motion.span
-            animate={{ opacity: [0.25, 1, 0.25] }}
-            className="block h-1.5 w-1.5 rounded-full"
-            key={i}
-            style={{ background: "var(--strand-color-accent-lede)" }}
-            transition={{
-              duration: 1.1,
-              ease: "easeInOut",
-              repeat: Number.POSITIVE_INFINITY,
-              delay: i * 0.18,
-            }}
-          />
-        ))}
-      </div>
+      <PulseDots />
     </motion.div>
   );
 }
