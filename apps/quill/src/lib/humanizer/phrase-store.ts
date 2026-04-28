@@ -21,6 +21,20 @@ async function sha256Hex(s: string): Promise<string> {
     .join("");
 }
 
+// Skip phrases that smell like PII or contain prompt-injection tells. We err
+// on the side of dropping more — this is a learned blocklist, it's fine if
+// a few benign phrases slip past it.
+function looksUnsafe(s: string): boolean {
+  if (/\b[\w.+-]+@[\w-]+\.[\w.-]+\b/.test(s)) return true;          // email
+  if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(s)) return true;     // US phone
+  if (/https?:\/\//.test(s)) return true;                           // URL
+  // Prompt-injection tells
+  if (/ignore (previous|prior|all) (instructions?|prompts?)/i.test(s)) return true;
+  if (/disregard (previous|prior|all)/i.test(s)) return true;
+  if (/system prompt/i.test(s)) return true;
+  return false;
+}
+
 // Persist segments whose AI score is at or above `threshold`. Each phrase is
 // hashed (sha256 of the normalized form, prefixed with the schema version)
 // so we don't store collisions twice and can re-key later. Existing rows
@@ -36,7 +50,10 @@ export async function persistFlaggedSegments(
   for (const seg of segments) {
     if (seg.aiScore < threshold) continue;
     const phrase = seg.text.trim();
-    if (phrase.length < 8) continue; // skip noise
+    // Tighter bounds than before: 12 chars min drops more noise, 200 max
+    // prevents storing entire paragraphs as a single "phrase".
+    if (phrase.length < 12 || phrase.length > 200) continue;
+    if (looksUnsafe(phrase)) continue;
 
     const normalized = normalizePhrase(phrase);
     const phraseHash = `${PHRASE_HASH_VERSION}:${await sha256Hex(normalized)}`;

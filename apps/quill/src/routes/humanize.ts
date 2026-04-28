@@ -5,7 +5,7 @@ import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import { humanizeJobs } from "../db/schema";
 import * as schema from "../db/schema";
-import { getCachedToken, scanForReport } from "../lib/copyleaks";
+import { extractSegments, getCachedToken, scanForReport } from "../lib/copyleaks";
 import {
   debit,
   HUMANIZE_PER_INPUT_CHAR_CAP,
@@ -167,6 +167,16 @@ humanizeRouter.post("/", async (c) => {
     );
   }
 
+  // Three-state discriminator so the client can tell "Copyleaks isn't
+  // configured" apart from "Copyleaks ran and returned zeros." Persisted
+  // on the row so GET requests can read it back without inferring.
+  const copyleaksStatus: "ok" | "skipped" | "error" =
+    !c.env.COPYLEAKS_EMAIL || !c.env.COPYLEAKS_API_KEY
+      ? "skipped"
+      : copyleaksReport
+        ? "ok"
+        : "error";
+
   await db
     .update(humanizeJobs)
     .set({
@@ -180,6 +190,7 @@ humanizeRouter.post("/", async (c) => {
         ? Math.round(copyleaksReport.aiScore * 10000)
         : null,
       copyleaksReportJson: copyleaksReport ? copyleaksReport.raw : null,
+      copyleaksStatus,
     })
     .where(eq(humanizeJobs.id, jobId));
 
@@ -196,15 +207,6 @@ humanizeRouter.post("/", async (c) => {
       )
     );
   }
-
-  // Three-state discriminator so the client can tell "Copyleaks isn't
-  // configured" apart from "Copyleaks ran and returned zeros."
-  const copyleaksStatus: "ok" | "skipped" | "error" =
-    !c.env.COPYLEAKS_EMAIL || !c.env.COPYLEAKS_API_KEY
-      ? "skipped"
-      : copyleaksReport
-        ? "ok"
-        : "error";
 
   return c.json({
     jobId,
@@ -281,10 +283,9 @@ function serializeJob(j: typeof humanizeJobs.$inferSelect) {
     // Stored as basis points; client wants a 0-100 percentage.
     copyleaksScore:
       j.copyleaksScoreBp != null ? Math.round(j.copyleaksScoreBp / 100) : null,
-    // We can't distinguish skipped vs error from the row alone (no column
-    // for it yet), so a null report is treated as "skipped". A future
-    // schema column could narrow this if it becomes important.
-    copyleaksStatus: (j.copyleaksReportJson != null ? "ok" : "skipped") as
+    // Persisted at write time. Legacy rows (column null) fall back to
+    // "skipped" — they predate the column, so we can't know the true state.
+    copyleaksStatus: (j.copyleaksStatus ?? "skipped") as
       | "ok"
       | "skipped"
       | "error",
@@ -292,16 +293,20 @@ function serializeJob(j: typeof humanizeJobs.$inferSelect) {
   };
 }
 
-// Best-effort flagged-segment extraction from the stored Copyleaks report.
-// v1: returns [] — the live POST already includes the segment list, and the
-// GET refresh shows the stored output without the per-segment overlay. We
-// can populate this later by inlining the same shape parsing copyleaks.ts
-// uses, but it's not load-bearing for the current UI.
+// Re-parse the stored Copyleaks raw response to surface the per-segment
+// overlay on GET. Mirrors the >= 0.5 threshold used in the POST handler so
+// the client sees the same set on both endpoints.
 function parseFlaggedFromReport(
-  _raw: string | null
+  raw: string | null
 ): Array<{ text: string; aiScore: number }> {
-  // TODO(post-T6): re-parse raw via extractSegments shape from copyleaks.ts
-  // so GET /v1/humanize/:id includes the per-segment overlay. v1 returns []
-  // because the live POST already returns segments to the client.
-  return [];
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    const segs = extractSegments(parsed);
+    return segs
+      .filter((s) => s.aiScore >= 0.5)
+      .map((s) => ({ text: s.text, aiScore: Math.round(s.aiScore * 100) }));
+  } catch {
+    return [];
+  }
 }

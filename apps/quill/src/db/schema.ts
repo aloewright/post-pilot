@@ -267,6 +267,10 @@ export const humanizeJobs = sqliteTable(
     // Raw JSON of Copyleaks's segment-level breakdown — kept verbatim so we
     // can re-render the report UI without another API round trip.
     copyleaksReportJson: text("copyleaks_report_json"),
+    // Three-state discriminator: "ok" | "skipped" | "error" | null (legacy).
+    // Lets the GET handler distinguish "Copyleaks not configured" from
+    // "Copyleaks ran and failed" without inferring from a null report.
+    copyleaksStatus: text("copyleaks_status"),
     createdAt: integer("created_at", { mode: "timestamp" })
       .notNull()
       .default(sql`(unixepoch())`),

@@ -117,7 +117,7 @@ function extractAiScore(parsed: unknown): number {
 // Each path tries a different observed Copyleaks shape; first hit wins.
 // Empty array means we couldn't recognize any segment list — caller should
 // treat that as "no per-segment data" rather than an error.
-function extractSegments(
+export function extractSegments(
   parsed: unknown
 ): Array<{ text: string; aiScore: number }> {
   if (!parsed || typeof parsed !== "object") return [];
@@ -160,7 +160,7 @@ function mapSegments(
   return out;
 }
 
-function clamp01(n: number): number {
+export function clamp01(n: number): number {
   if (!Number.isFinite(n)) return 0;
   if (n < 0) return 0;
   if (n > 1) return 1;

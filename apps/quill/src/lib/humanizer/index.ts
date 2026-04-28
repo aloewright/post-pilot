@@ -150,6 +150,10 @@ export async function humanizeText(
 ): Promise<HumanizationResult> {
   const inputWordCount = countWords(text);
   const targetScore = options.targetScore ?? 80;
+  // Wall-clock budget so the multi-pass loop bails before the Worker's 30s
+  // CPU limit cuts us off mid-write. 5s headroom for postprocess + Copyleaks.
+  const startMs = Date.now();
+  const WALL_CLOCK_BUDGET_MS = 25_000;
 
   // light/medium = 1 pass, aggressive = 2 passes, ninja = 3 passes
   const maxPasses =
@@ -175,6 +179,14 @@ export async function humanizeText(
   // Multi-pass: re-humanize flagged sentences until target score is reached
   if (maxPasses > 1) {
     for (let pass = 2; pass <= maxPasses; pass++) {
+      if (Date.now() - startMs > WALL_CLOCK_BUDGET_MS) {
+        console.warn(JSON.stringify({
+          msg: 'humanize_budget_exhausted',
+          elapsedMs: Date.now() - startMs,
+          completedPasses: passes,
+        }));
+        break;
+      }
       const detection = detectAI(currentText);
       if (detection.score >= targetScore) break;
 
@@ -193,15 +205,25 @@ export async function humanizeText(
           options
         );
         const originalSentences = splitIntoSentences(currentText);
-        let sentenceIndex = 0;
+        // Build a queue of replacements per unique original. We pop one per
+        // match so duplicate sentences in the input each get a fresh
+        // replacement (or fall back to the original if we run out). This
+        // pairs flagged[i] ↔ rehumanized[i] exactly even with duplicates.
+        const replacementsByOriginal = new Map<string, string[]>();
+        flagged.forEach((orig, i) => {
+          const r = rehumanized[i];
+          if (!r) return;
+          const list = replacementsByOriginal.get(orig);
+          if (list) {
+            list.push(r);
+          } else {
+            replacementsByOriginal.set(orig, [r]);
+          }
+        });
         const newSentences = originalSentences.map((orig) => {
-          if (
-            flagged.includes(orig) &&
-            sentenceIndex < rehumanized.length
-          ) {
-            const replacement = rehumanized[sentenceIndex] ?? orig;
-            sentenceIndex++;
-            return replacement;
+          const queue = replacementsByOriginal.get(orig);
+          if (queue && queue.length > 0) {
+            return queue.shift()!;
           }
           return orig;
         });

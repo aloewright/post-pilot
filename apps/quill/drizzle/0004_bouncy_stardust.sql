@@ -1,0 +1,1 @@
+ALTER TABLE `humanize_jobs` ADD `copyleaks_status` text;
