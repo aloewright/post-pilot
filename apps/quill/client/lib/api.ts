@@ -79,6 +79,13 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 
 export type HumanizeJobStatus = "queued" | "processing" | "done" | "failed";
 
+export type HumanizeJobReport = {
+  localScore: number | null;
+  copyleaksStatus: "ok" | "skipped" | "error";
+  copyleaksScore: number | null;
+  flaggedSegments: Array<{ text: string; aiScore: number }>;
+};
+
 export type HumanizeJob = {
   id: string;
   status: HumanizeJobStatus;
@@ -88,14 +95,14 @@ export type HumanizeJob = {
   error: string | null;
   createdAt: string;
   completedAt: string | null;
-};
+} & Partial<HumanizeJobReport>;
 
 export type HumanizeSubmitResponse = {
   jobId: string;
   status: HumanizeJobStatus;
   creditsCharged: number;
   balance: number;
-};
+} & HumanizeJobReport;
 
 export type CreditCosts = {
   STYLIZE_PER_CHAR: number;
@@ -188,10 +195,10 @@ export const api = {
       body: JSON.stringify(body),
     }),
 
-  humanizeSubmit: (input: string) =>
+  humanizeSubmit: (input: string, extraPass = false) =>
     request<HumanizeSubmitResponse>("/v1/humanize", {
       method: "POST",
-      body: JSON.stringify({ input }),
+      body: JSON.stringify({ input, extraPass }),
     }),
 
   humanizeGet: (jobId: string) =>

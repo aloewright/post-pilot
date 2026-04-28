@@ -4,7 +4,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { USE_CASE_PRESETS } from "../../src/lib/presets";
 import { analyzeText, scoreDeterministic } from "../../src/lib/rubric";
 import type { Guide, UseCase } from "../../src/lib/types";
-import { api, type HumanizeJob, queryKeys } from "../lib/api";
+import {
+  api,
+  type HumanizeJob,
+  type HumanizeJobReport,
+  queryKeys,
+} from "../lib/api";
 import { useSession } from "../lib/auth-client";
 import { Button, Standfirst } from "./editorial";
 import { RubricSnapshot } from "./rubric-snapshot";
@@ -50,9 +55,12 @@ export function PlaygroundView({
     "My package hasn't arrived and it's been two weeks."
   );
   const [humanizeOn, setHumanizeOn] = useState(false);
+  const [humanizeExtraPass, setHumanizeExtraPass] = useState(false);
   const [stage, setStage] = useState<RunStage>({ kind: "idle" });
   const [styledOutput, setStyledOutput] = useState("");
   const [humanizedOutput, setHumanizedOutput] = useState<string | null>(null);
+  const [humanizeReport, setHumanizeReport] =
+    useState<HumanizeJobReport | null>(null);
   const [visibleOutput, setVisibleOutput] = useState("");
   const [showLoader, setShowLoader] = useState(false);
   const streamRef = useRef<number | null>(null);
@@ -111,6 +119,12 @@ export function PlaygroundView({
     const j = humanizeJob.data;
     if (j?.status === "done" && j.output) {
       setHumanizedOutput(j.output);
+      setHumanizeReport({
+        localScore: j.localScore ?? null,
+        copyleaksStatus: j.copyleaksStatus ?? "skipped",
+        copyleaksScore: j.copyleaksScore ?? null,
+        flaggedSegments: j.flaggedSegments ?? [],
+      });
       setStage({ kind: "done" });
       queryClient.invalidateQueries({ queryKey: queryKeys.me() });
     } else if (j?.status === "failed") {
@@ -129,6 +143,7 @@ export function PlaygroundView({
     setStage({ kind: "stylizing" });
     setStyledOutput("");
     setHumanizedOutput(null);
+    setHumanizeReport(null);
 
     let stylized: string;
     try {
@@ -154,7 +169,16 @@ export function PlaygroundView({
 
     setStage({ kind: "submitting-humanize" });
     try {
-      const r = await api.humanizeSubmit(stylized);
+      const r = await api.humanizeSubmit(stylized, humanizeExtraPass);
+      // The POST response already carries the full report — capture it now so
+      // the UI can render the Detection Report immediately, even if the GET
+      // poll resolves before the data arrives.
+      setHumanizeReport({
+        localScore: r.localScore ?? null,
+        copyleaksStatus: r.copyleaksStatus ?? "skipped",
+        copyleaksScore: r.copyleaksScore ?? null,
+        flaggedSegments: r.flaggedSegments ?? [],
+      });
       setStage({ kind: "polling-humanize", jobId: r.jobId });
       queryClient.invalidateQueries({ queryKey: queryKeys.me() });
     } catch (e) {
@@ -188,6 +212,12 @@ export function PlaygroundView({
   const totalCost = stylizeCost + (humanizeOn ? humanizeCost : 0);
   const balance = me?.balance ?? 0;
   const insufficient = me?.authenticated && totalCost > balance;
+
+  // Clear the detection report whenever the user edits the input — a stale
+  // report doesn't describe the current text.
+  useEffect(() => {
+    setHumanizeReport(null);
+  }, [input]);
 
   // 500ms debounce so fast responses don't flash a spinner.
   useEffect(() => {
@@ -324,12 +354,33 @@ export function PlaygroundView({
           />
           <div className="mt-3 flex flex-col gap-3">
             <div className="flex items-center justify-between gap-3">
-              <HumanizeToggle
-                authenticated={Boolean(me?.authenticated)}
-                disabled={isRunning}
-                on={humanizeOn}
-                onToggle={() => setHumanizeOn((v) => !v)}
-              />
+              <div className="flex flex-col gap-1.5">
+                <HumanizeToggle
+                  authenticated={Boolean(me?.authenticated)}
+                  disabled={isRunning}
+                  on={humanizeOn}
+                  onToggle={() => setHumanizeOn((v) => !v)}
+                />
+                {humanizeOn ? (
+                  <label
+                    className="flex items-center gap-2 pl-5 text-[0.7rem]"
+                    style={{ color: "var(--strand-color-ink-muted)" }}
+                  >
+                    <input
+                      checked={humanizeExtraPass}
+                      disabled={isRunning}
+                      onChange={(e) =>
+                        setHumanizeExtraPass(e.target.checked)
+                      }
+                      style={{
+                        accentColor: "var(--strand-color-accent-lede)",
+                      }}
+                      type="checkbox"
+                    />
+                    Extra pass (slower, more thorough)
+                  </label>
+                ) : null}
+              </div>
               <span
                 className="pp-byline"
                 style={{
@@ -356,6 +407,7 @@ export function PlaygroundView({
                     setInput("");
                     setStyledOutput("");
                     setHumanizedOutput(null);
+                    setHumanizeReport(null);
                     setStage({ kind: "idle" });
                   }}
                   size="sm"
@@ -471,6 +523,109 @@ export function PlaygroundView({
             rubric={guide.eval_rubric}
             snapshot={snapshot}
           />
+        </div>
+      ) : null}
+
+      {humanizeReport ? (
+        <div
+          className="mt-6 rounded-md border p-4"
+          style={{
+            borderColor: "var(--strand-color-rule)",
+            background: "var(--strand-color-surface-raised)",
+          }}
+        >
+          <h3
+            className="mb-3 text-[0.68rem] font-semibold tracking-widest uppercase"
+            style={{ color: "var(--strand-color-accent-kicker)" }}
+          >
+            Detection Report
+          </h3>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            {humanizeReport.localScore !== null ? (
+              <div>
+                <div
+                  className="text-[0.62rem] tracking-widest uppercase"
+                  style={{ color: "var(--strand-color-ink-muted)" }}
+                >
+                  Local human-likely
+                </div>
+                <div
+                  className="text-2xl tabular-nums"
+                  style={{ color: "var(--strand-color-ink-primary)" }}
+                >
+                  {humanizeReport.localScore}/100
+                </div>
+              </div>
+            ) : null}
+            <div>
+              <div
+                className="text-[0.62rem] tracking-widest uppercase"
+                style={{ color: "var(--strand-color-ink-muted)" }}
+              >
+                Copyleaks AI probability
+              </div>
+              {humanizeReport.copyleaksStatus === "ok" &&
+              humanizeReport.copyleaksScore !== null ? (
+                <div
+                  className="text-2xl tabular-nums"
+                  style={{
+                    color:
+                      humanizeReport.copyleaksScore < 30
+                        ? "var(--strand-color-ink-primary)"
+                        : humanizeReport.copyleaksScore < 60
+                          ? "var(--strand-color-accent-kicker)"
+                          : "var(--strand-color-accent-lede)",
+                  }}
+                >
+                  {humanizeReport.copyleaksScore}%
+                </div>
+              ) : (
+                <div
+                  className="text-sm"
+                  style={{ color: "var(--strand-color-ink-muted)" }}
+                >
+                  {humanizeReport.copyleaksStatus === "skipped"
+                    ? "Not configured"
+                    : "Scan failed"}
+                </div>
+              )}
+            </div>
+          </div>
+          {humanizeReport.flaggedSegments.length > 0 ? (
+            <div className="mt-4">
+              <div
+                className="mb-2 text-[0.62rem] tracking-widest uppercase"
+                style={{ color: "var(--strand-color-ink-muted)" }}
+              >
+                Flagged sentences ({humanizeReport.flaggedSegments.length})
+              </div>
+              <ul className="space-y-2 text-sm">
+                {humanizeReport.flaggedSegments.map((s, i) => (
+                  <li
+                    className="rounded p-2"
+                    key={`${i}-${s.text.slice(0, 24)}`}
+                    style={{
+                      background: "var(--strand-color-surface-canvas)",
+                      borderLeft:
+                        "3px solid var(--strand-color-accent-lede)",
+                    }}
+                  >
+                    <span
+                      className="mr-2 text-xs tabular-nums"
+                      style={{ color: "var(--strand-color-ink-muted)" }}
+                    >
+                      {s.aiScore}%
+                    </span>
+                    <span
+                      style={{ color: "var(--strand-color-ink-primary)" }}
+                    >
+                      {s.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
       ) : null}
 
