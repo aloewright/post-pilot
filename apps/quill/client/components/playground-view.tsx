@@ -213,12 +213,6 @@ export function PlaygroundView({
   const balance = me?.balance ?? 0;
   const insufficient = me?.authenticated && totalCost > balance;
 
-  // Clear the detection report whenever the user edits the input — a stale
-  // report doesn't describe the current text.
-  useEffect(() => {
-    setHumanizeReport(null);
-  }, [input]);
-
   // 500ms debounce so fast responses don't flash a spinner.
   useEffect(() => {
     if (!isRunning) {
