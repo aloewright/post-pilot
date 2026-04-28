@@ -1,14 +1,12 @@
-// Copyleaks Humanize API wrapper.
+// Copyleaks AI-detection wrapper.
 //
-// Three calls in the flow:
-//   1) login(email, key)   → access_token (cache in KV; ~24h validity)
-//   2) submit(token, text) → { scanId }
-//   3) result(token, scanId) → { status, output? }
+// Two calls in the active flow:
+//   1) login(email, key)        → access_token (cache in KV; ~24h validity)
+//   2) scanForReport(token, t)  → { aiScore, segments, raw }
 //
-// Endpoint paths reflect Copyleaks's published Humanize API as of writing —
-// verify against docs.copyleaks.com if a call returns 404. The auth login URL
-// (id.copyleaks.com) is stable; the api.copyleaks.com base is shared across
-// AI Detector / Humanize / Plagiarism products.
+// The login URL (id.copyleaks.com) is stable; the api.copyleaks.com base is
+// shared across AI Detector / Humanize / Plagiarism products. If a call
+// returns 404, verify against docs.copyleaks.com — endpoint paths drift.
 
 const ID_BASE = "https://id.copyleaks.com";
 const API_BASE = "https://api.copyleaks.com";
@@ -18,14 +16,15 @@ export type CopyleaksConfig = {
   apiKey: string;
 };
 
-export type SubmitResult =
-  | { ok: true; scanId: string; syncOutput?: string }
-  | { ok: false; error: string };
-
-export type PollResult =
-  | { status: "processing" }
-  | { status: "done"; output: string }
-  | { status: "failed"; error: string };
+export type ScanReport = {
+  // Aggregate AI probability, 0..1 (Copyleaks's overall score for the doc).
+  aiScore: number;
+  // Per-segment breakdown (sentences or larger spans, Copyleaks decides).
+  segments: Array<{ text: string; aiScore: number }>;
+  // The raw response body, for storage/debug. Useful while we're still
+  // pinning down the response shape across writer-detector revisions.
+  raw: string;
+};
 
 export async function login(cfg: CopyleaksConfig): Promise<string> {
   const r = await fetch(`${ID_BASE}/v3/account/login/api`, {
@@ -44,10 +43,14 @@ export async function login(cfg: CopyleaksConfig): Promise<string> {
   return data.access_token;
 }
 
-export async function submit(
+// Single-shot AI-detection scan. Returns the aggregate score plus a flat
+// list of segment scores. The writer-detector API has been moving — the
+// parser below tries the most likely shapes in order, and we always log
+// the raw body (truncated) so we can adjust if a tenant returns a new shape.
+export async function scanForReport(
   token: string,
   text: string
-): Promise<SubmitResult> {
+): Promise<ScanReport> {
   const scanId = crypto.randomUUID();
   const r = await fetch(`${API_BASE}/v2/writer-detector/${scanId}/check`, {
     method: "POST",
@@ -58,63 +61,109 @@ export async function submit(
     body: JSON.stringify({ text, sandbox: false }),
   });
   const rawBody = await r.text();
-  if (!r.ok) {
-    return {
-      ok: false,
-      error: `copyleaks submit ${r.status}: ${rawBody.slice(0, 200)}`,
-    };
-  }
-  // Log actual response structure once so we can see the real shape.
+
+  // Always log — we don't know the canonical response shape yet, and the
+  // first prod call is what tells us. Truncated so we don't blow up logs.
   console.log(
-    JSON.stringify({ msg: "copyleaks_check_response", scanId, body: rawBody.slice(0, 500) })
+    JSON.stringify({
+      msg: "copyleaks_scan_response",
+      scanId,
+      status: r.status,
+      body: rawBody.slice(0, 800),
+    })
   );
-  // The check endpoint may return the result synchronously (status 200) or
-  // queue it asynchronously. Try to extract output immediately.
-  try {
-    const parsed = JSON.parse(rawBody) as {
-      output?: { humanized?: string; text?: string };
-      status?: string;
-    };
-    const output = parsed.output?.humanized ?? parsed.output?.text;
-    if (output) {
-      return { ok: true, scanId, syncOutput: output };
-    }
-  } catch {
-    // not JSON or no output — fall through to async poll
+
+  if (!r.ok) {
+    throw new Error(
+      `copyleaks scan ${r.status}: ${rawBody.slice(0, 200)}`
+    );
   }
-  return { ok: true, scanId };
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(rawBody);
+  } catch {
+    parsed = {};
+  }
+
+  const aiScore = extractAiScore(parsed);
+  const segments = extractSegments(parsed);
+
+  return { aiScore, segments, raw: rawBody };
 }
 
-export async function result(
-  token: string,
-  scanId: string
-): Promise<PollResult> {
-  const r = await fetch(`${API_BASE}/v2/writer-detector/${scanId}/result`, {
-    headers: { authorization: `Bearer ${token}` },
-  });
-  if (r.status === 404 || r.status === 202) {
-    // 404 here = scan exists but result not ready yet (Copyleaks's
-    // convention for in-progress async jobs).
-    return { status: "processing" };
+// Try aggregate-score fields in order of likelihood. Each is normalized to
+// 0..1 so callers don't have to care which shape produced it. Returns 0 if
+// nothing matches — better to under-report than throw.
+function extractAiScore(parsed: unknown): number {
+  if (!parsed || typeof parsed !== "object") return 0;
+  const p = parsed as Record<string, unknown>;
+
+  const results = p.results as Record<string, unknown> | undefined;
+  const resultsScore = results?.score as Record<string, unknown> | undefined;
+  const aggregated = resultsScore?.aggregatedScore;
+  if (typeof aggregated === "number") return clamp01(aggregated);
+
+  const summary = p.summary as Record<string, unknown> | undefined;
+  if (typeof summary?.score === "number") return clamp01(summary.score);
+
+  if (typeof p.aiScore === "number") return clamp01(p.aiScore);
+  if (typeof p.score === "number") return clamp01(p.score);
+
+  return 0;
+}
+
+// Each path tries a different observed Copyleaks shape; first hit wins.
+// Empty array means we couldn't recognize any segment list — caller should
+// treat that as "no per-segment data" rather than an error.
+function extractSegments(
+  parsed: unknown
+): Array<{ text: string; aiScore: number }> {
+  if (!parsed || typeof parsed !== "object") return [];
+  const p = parsed as Record<string, unknown>;
+
+  const results = p.results as Record<string, unknown> | undefined;
+  const directSegs = results?.segments;
+  if (Array.isArray(directSegs)) return mapSegments(directSegs);
+
+  const scannedDoc = results?.scannedDocument as
+    | Record<string, unknown>
+    | undefined;
+  if (Array.isArray(scannedDoc?.segments)) {
+    return mapSegments(scannedDoc.segments);
   }
-  if (!r.ok) {
-    return {
-      status: "failed",
-      error: `copyleaks result ${r.status}: ${(await r.text()).slice(0, 200)}`,
-    };
+
+  if (Array.isArray(p.segments)) return mapSegments(p.segments);
+
+  return [];
+}
+
+function mapSegments(
+  raw: unknown[]
+): Array<{ text: string; aiScore: number }> {
+  const out: Array<{ text: string; aiScore: number }> = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
+    const seg = item as Record<string, unknown>;
+    const text = typeof seg.text === "string" ? seg.text : "";
+    if (!text) continue;
+    // Accept either `aiScore` or `score`; some tenants emit one or the other.
+    const rawScore =
+      typeof seg.aiScore === "number"
+        ? seg.aiScore
+        : typeof seg.score === "number"
+          ? seg.score
+          : 0;
+    out.push({ text, aiScore: clamp01(rawScore) });
   }
-  const data = (await r.json()) as {
-    output?: { humanized?: string; text?: string };
-    error?: string;
-  };
-  const output = data.output?.humanized ?? data.output?.text;
-  if (!output) {
-    return {
-      status: "failed",
-      error: data.error ?? "copyleaks result: empty output",
-    };
-  }
-  return { status: "done", output };
+  return out;
+}
+
+function clamp01(n: number): number {
+  if (!Number.isFinite(n)) return 0;
+  if (n < 0) return 0;
+  if (n > 1) return 1;
+  return n;
 }
 
 // Token cache. Copyleaks tokens last ~24h; cache in KV so we don't hit the
