@@ -22,6 +22,20 @@
       "when": 1777311900814,
       "tag": "0002_cloudy_jackpot",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1777335669589,
+      "tag": "0003_clean_lockheed",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1777337177738,
+      "tag": "0004_bouncy_stardust",
+      "breakpoints": true
     }
   ]
 }

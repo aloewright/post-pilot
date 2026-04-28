@@ -258,6 +258,19 @@ export const humanizeJobs = sqliteTable(
     inputChars: integer("input_chars").notNull(),
     output: text("output"),
     error: text("error"),
+    // 0-100 score from our local heuristic AI detector. Nullable because
+    // jobs created before the scan completes (and legacy rows) won't have it.
+    localScore: integer("local_score"),
+    // Copyleaks's 0-1 confidence stored as basis points (× 10000) so we keep
+    // integer math everywhere. Nullable for the same reason.
+    copyleaksScoreBp: integer("copyleaks_score_bp"),
+    // Raw JSON of Copyleaks's segment-level breakdown — kept verbatim so we
+    // can re-render the report UI without another API round trip.
+    copyleaksReportJson: text("copyleaks_report_json"),
+    // Three-state discriminator: "ok" | "skipped" | "error" | null (legacy).
+    // Lets the GET handler distinguish "Copyleaks not configured" from
+    // "Copyleaks ran and failed" without inferring from a null report.
+    copyleaksStatus: text("copyleaks_status"),
     createdAt: integer("created_at", { mode: "timestamp" })
       .notNull()
       .default(sql`(unixepoch())`),
@@ -269,6 +282,28 @@ export const humanizeJobs = sqliteTable(
       t.createdAt
     ),
     scanIdx: index("humanize_jobs_scan_idx").on(t.scanId),
+  })
+);
+
+// Persistent learned-phrase store. The humanizer engine fingerprints common
+// AI-tell phrases as it sees them and bumps `seenCount` so the next pass can
+// pick out frequency-ranked offenders. Hash is sha256 of the normalized
+// phrase so we don't store collisions twice.
+export const aiPhrases = sqliteTable(
+  "ai_phrases",
+  {
+    phraseHash: text("phrase_hash").primaryKey(),
+    phrase: text("phrase").notNull(),
+    seenCount: integer("seen_count").notNull().default(1),
+    firstSeen: integer("first_seen", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+    lastSeen: integer("last_seen", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+  },
+  (t) => ({
+    seenCountIdx: index("ai_phrases_seen_count_idx").on(t.seenCount),
   })
 );
 
