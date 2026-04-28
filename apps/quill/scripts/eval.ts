@@ -19,6 +19,10 @@
  *
  * /v1/admin/eval/ingest requires the ADMIN_API_KEY worker secret, sent as
  * `x-admin-key`.
+ *
+ * WARNING: Each apply call debits credits from the API key holder.
+ * A full run = (guides × prompts) apply calls. With ~270 guides × 7 prompts,
+ * that's ~1,890 calls × stylize cost. Use --guides to scope down for development.
  */
 
 import { createHash } from "node:crypto";
@@ -79,6 +83,9 @@ function parseArgs(argv: string[]): Args {
 function printUsage() {
   console.log(`
 Quill eval harness — drift tracking for the M5 judge.
+
+WARNING: This script burns credits on the API key holder for each /v1/apply call.
+Use --guides slug1,slug2 to limit scope while iterating.
 
 Required:
   --base <url>          Worker base URL (e.g. https://quill.workers.dev)
@@ -202,6 +209,11 @@ async function ingestBatch(
   });
   if (!res.ok) {
     const text = await res.text().catch(() => "");
+    if (res.status === 401 || res.status === 503) {
+      throw new Error(
+        `ADMIN_AUTH_FAILED: ingest returned ${res.status} ${text.slice(0, 200)}`,
+      );
+    }
     throw new Error(`ingest failed: ${res.status} ${text.slice(0, 200)}`);
   }
 }
@@ -255,6 +267,29 @@ async function main() {
   const BATCH_SIZE = 50;
   let totalOk = 0;
   let totalErr = 0;
+  let appliedOk = 0;
+  let ingestedOk = 0;
+  let ingestFailed = 0;
+
+  const flushBuffer = async (): Promise<void> => {
+    if (buffer.length === 0) return;
+    const batch = buffer.splice(0);
+    try {
+      await ingestBatch(args.base!, args.adminKey!, batch);
+      ingestedOk += batch.length;
+    } catch (e) {
+      const msg = (e as Error).message;
+      if (msg.startsWith("ADMIN_AUTH_FAILED:")) {
+        console.error(
+          `\nAdmin auth failed (401/503). Stopping run to avoid burning /v1/apply credits.`,
+        );
+        console.error(`  ${msg}`);
+        process.exit(1);
+      }
+      ingestFailed += batch.length;
+      console.warn(`  ! ingest error: ${msg}`);
+    }
+  };
 
   for (const guide of guides) {
     const tasks = corpus.prompts.map((p) => ({ guide, prompt: p }));
@@ -278,6 +313,7 @@ async function main() {
       }
       okCount++;
       totalOk++;
+      appliedOk++;
       buffer.push(r.row);
       if (r.row.detScore !== null) {
         detSum += r.row.detScore;
@@ -288,11 +324,7 @@ async function main() {
         judgeN++;
       }
       if (buffer.length >= BATCH_SIZE) {
-        try {
-          await ingestBatch(args.base, args.adminKey, buffer.splice(0));
-        } catch (e) {
-          console.warn(`  ! ingest error: ${(e as Error).message}`);
-        }
+        await flushBuffer();
       }
     }
 
@@ -304,17 +336,17 @@ async function main() {
   }
 
   // Flush remainder.
-  if (buffer.length > 0) {
-    try {
-      await ingestBatch(args.base, args.adminKey, buffer.splice(0));
-    } catch (e) {
-      console.warn(`! final ingest error: ${(e as Error).message}`);
-    }
-  }
+  await flushBuffer();
 
   console.log(
-    `\nDone. ${totalOk} rows ingested across ${guides.length} guides; ${totalErr} errors.`,
+    `\nDone. ${appliedOk} apply OK, ${ingestedOk} ingested, ${ingestFailed} ingest-failed across ${guides.length} guides.`,
   );
+  if (totalErr > 0) {
+    console.log(`  (${totalErr} apply errors)`);
+  }
+  if (ingestFailed > 0) {
+    process.exit(2);
+  }
 }
 
 main().catch((e) => {
