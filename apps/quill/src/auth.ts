@@ -82,13 +82,11 @@ export function createAuth(env: AuthEnv, baseURL: string) {
     },
     socialProviders,
     plugins: [
-      // Official better-auth apiKey plugin. Replaces the hand-rolled
-      // src/lib/api-keys.ts. Configured here with all optional features
-      // enabled at the schema level so we can opt into them per-call later
-      // without further migrations.
+      // Official better-auth apiKey plugin. Configured here with all
+      // optional features enabled at the schema level so we can opt into
+      // them per-call later without further migrations.
       apiKey({
-        // User-facing keys all start with `pp_live_`. Matches the format
-        // documented in the legacy api-keys.ts.
+        // User-facing keys all start with `pp_live_`.
         defaultPrefix: "pp_live_",
         // Allow the `metadata` column to be set/read so we can stash
         // tier/scope hints without another column.

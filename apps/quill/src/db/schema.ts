@@ -195,6 +195,10 @@ export const collectionItems = sqliteTable(
   })
 );
 
+// TODO: drop after one release cycle. Superseded by better-auth's `apikeys`
+// table (see src/db/auth-schema.ts). Kept for now to avoid a destructive
+// migration. The table holds zero live data after T2 cutover; nothing in
+// src/ reads or writes it.
 export const apiKeys = sqliteTable(
   "api_keys",
   {
