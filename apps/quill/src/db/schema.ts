@@ -3,6 +3,7 @@ import {
   index,
   integer,
   primaryKey,
+  real,
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
@@ -341,3 +342,29 @@ export const evalRuns = sqliteTable("eval_runs", {
     .notNull()
     .default(sql`(unixepoch())`),
 });
+
+export const evalHarnessRuns = sqliteTable(
+  "eval_harness_runs",
+  {
+    id: text("id").primaryKey(),
+    runAt: integer("run_at", { mode: "timestamp" })
+      .notNull()
+      .default(sql`(unixepoch())`),
+    guideSlug: text("guide_slug").notNull(),
+    presetSlug: text("preset_slug"),
+    model: text("model").notNull(),
+    inputHash: text("input_hash").notNull(),
+    detScore: real("det_score"),
+    judgeFidelity: real("judge_fidelity"),
+    judgeStatus: text("judge_status"),
+    outputSnapshotJson: text("output_snapshot_json"),
+    notesJson: text("notes_json"),
+  },
+  (t) => ({
+    guideRunAtIdx: index("eval_harness_runs_guide_run_at_idx").on(
+      t.guideSlug,
+      t.runAt
+    ),
+    runAtIdx: index("eval_harness_runs_run_at_idx").on(t.runAt),
+  })
+);
