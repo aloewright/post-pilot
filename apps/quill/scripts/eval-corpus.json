@@ -1,0 +1,12 @@
+{
+  "version": "1",
+  "prompts": [
+    "Write a one-paragraph response to a friend who asks how your week is going.",
+    "Describe the way light falls in your favorite room around dusk.",
+    "Explain why you make a particular kind of coffee in the morning.",
+    "Tell me, in three sentences, why most software gets harder to maintain over time.",
+    "Compose a short note to someone you owe an apology.",
+    "Describe what it feels like to walk into a library that you know well.",
+    "Recount a small kindness someone showed you that you still remember."
+  ]
+}

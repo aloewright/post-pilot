@@ -34,6 +34,16 @@ export type GuideListResponse = {
 
 export type GuideSort = "author" | "era" | "recent" | "fidelity";
 
+export type JudgeResultClient =
+  | {
+      status: "ok";
+      fidelity: number;
+      perCriterion: Array<{ id: string; score: number; weight: number }>;
+      notes: string[];
+    }
+  | { status: "skipped"; reason: string }
+  | { status: "error"; reason: string };
+
 export type ApplyResponse = {
   guide: string;
   preset: string | null;
@@ -49,7 +59,7 @@ export type ApplyResponse = {
     pass: boolean;
     weight: number;
   }>;
-  judge: { status: string; message: string };
+  judge: JudgeResultClient;
   requestId: string;
 };
 

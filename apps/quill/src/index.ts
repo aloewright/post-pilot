@@ -4,6 +4,7 @@ import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { contextMiddleware } from "./middleware/context";
 import { errorHandler } from "./middleware/error";
+import { adminRouter } from "./routes/admin";
 import { applyRouter } from "./routes/apply";
 import { authRouter } from "./routes/auth";
 import { billingRouter } from "./routes/billing";
@@ -45,6 +46,7 @@ export type AppBindings = {
   QUILL_POLAR_CREDITS_PRODUCT_ID?: string;
   QUILL_POLAR_CREDITS_PACK_SIZE?: string;
   POST_PILOT_POLAR_SECRET?: string;
+  ADMIN_API_KEY?: string;
   DB: D1Database;
   KV: KVNamespace;
   R2: R2Bucket;
@@ -87,6 +89,7 @@ app.route("/v1/sessions", sessionsRouter);
 app.route("/v1/billing", billingRouter);
 app.route("/v1/keys", keysRouter);
 app.route("/v1/me", meRouter);
+app.route("/v1/admin", adminRouter);
 app.route("/auth", authRouter);
 app.route("/api/auth", authRouter);
 
