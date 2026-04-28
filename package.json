@@ -15,7 +15,9 @@
     "db:pull": "drizzle-kit pull",
     "db:check": "drizzle-kit check",
     "db:up": "drizzle-kit up",
-    "test": "export PLAYWRIGHT=True && pnpm exec playwright test"
+    "test": "export PLAYWRIGHT=True && pnpm exec playwright test",
+    "cf-deploy": "pnpm --filter postpilot cf-deploy",
+    "cf-build": "pnpm --filter postpilot build"
   },
   "dependencies": {
     "@ai-sdk/provider": "^3.0.3",
