@@ -197,12 +197,22 @@ humanizeRouter.post("/", async (c) => {
     );
   }
 
+  // Three-state discriminator so the client can tell "Copyleaks isn't
+  // configured" apart from "Copyleaks ran and returned zeros."
+  const copyleaksStatus: "ok" | "skipped" | "error" =
+    !c.env.COPYLEAKS_EMAIL || !c.env.COPYLEAKS_API_KEY
+      ? "skipped"
+      : copyleaksReport
+        ? "ok"
+        : "error";
+
   return c.json({
     jobId,
     status: "done",
     creditsCharged: cost,
     balance: debited.newBalance,
     localScore: Math.round(result.finalScore),
+    copyleaksStatus,
     copyleaksScore: copyleaksReport
       ? Math.round(copyleaksReport.aiScore * 100)
       : null,
@@ -271,6 +281,13 @@ function serializeJob(j: typeof humanizeJobs.$inferSelect) {
     // Stored as basis points; client wants a 0-100 percentage.
     copyleaksScore:
       j.copyleaksScoreBp != null ? Math.round(j.copyleaksScoreBp / 100) : null,
+    // We can't distinguish skipped vs error from the row alone (no column
+    // for it yet), so a null report is treated as "skipped". A future
+    // schema column could narrow this if it becomes important.
+    copyleaksStatus: (j.copyleaksReportJson != null ? "ok" : "skipped") as
+      | "ok"
+      | "skipped"
+      | "error",
     flaggedSegments: parseFlaggedFromReport(j.copyleaksReportJson),
   };
 }
@@ -283,5 +300,8 @@ function serializeJob(j: typeof humanizeJobs.$inferSelect) {
 function parseFlaggedFromReport(
   _raw: string | null
 ): Array<{ text: string; aiScore: number }> {
+  // TODO(post-T6): re-parse raw via extractSegments shape from copyleaks.ts
+  // so GET /v1/humanize/:id includes the per-segment overlay. v1 returns []
+  // because the live POST already returns segments to the client.
   return [];
 }

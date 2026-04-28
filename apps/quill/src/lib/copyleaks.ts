@@ -59,6 +59,7 @@ export async function scanForReport(
       "content-type": "application/json",
     },
     body: JSON.stringify({ text, sandbox: false }),
+    signal: AbortSignal.timeout(8_000),
   });
   const rawBody = await r.text();
 
