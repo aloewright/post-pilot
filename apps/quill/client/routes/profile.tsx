@@ -2,7 +2,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Kicker, Lede, Standfirst } from "../components/editorial";
-import { api, type ApiKeyCreated, queryKeys } from "../lib/api";
+import {
+  ALL_SCOPES,
+  api,
+  type ApiKeyCreated,
+  DEFAULT_SCOPES,
+  queryKeys,
+  READ_ONLY_SCOPES,
+  type ScopeId,
+} from "../lib/api";
 import { authClient, signOut, useSession } from "../lib/auth-client";
 
 export const Route = createFileRoute("/profile")({
@@ -340,17 +348,48 @@ function ApiKeysPanel() {
   });
   const [name, setName] = useState("");
   const [expiresIn, setExpiresIn] = useState<string>("");
+  const [scopes, setScopes] = useState<ScopeId[]>([...DEFAULT_SCOPES]);
+  const [rateLimitEnabled, setRateLimitEnabled] = useState(false);
+  const [rateLimitWindowMs, setRateLimitWindowMs] = useState(60_000);
+  const [rateLimitMax, setRateLimitMax] = useState(100);
   const [created, setCreated] = useState<ApiKeyCreated | null>(null);
   const create = useMutation({
-    mutationFn: (args: { name: string; expiresIn?: number }) =>
-      api.createKey(args.name, args.expiresIn),
+    mutationFn: (args: {
+      name: string;
+      expiresIn?: number;
+      scopes: ScopeId[];
+      rateLimit?: { windowMs: number; max: number };
+    }) =>
+      api.createKey(args.name, {
+        expiresIn: args.expiresIn,
+        scopes: args.scopes,
+        rateLimit: args.rateLimit,
+      }),
     onSuccess: (r) => {
       setCreated(r);
       setName("");
       setExpiresIn("");
+      setScopes([...DEFAULT_SCOPES]);
+      setRateLimitEnabled(false);
+      setRateLimitWindowMs(60_000);
+      setRateLimitMax(100);
       queryClient.invalidateQueries({ queryKey: queryKeys.apiKeys() });
     },
   });
+  const toggleScope = (s: ScopeId) => {
+    setScopes((prev) =>
+      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
+    );
+  };
+  const scopesByResource = ALL_SCOPES.reduce<Record<string, ScopeId[]>>(
+    (acc, s) => {
+      const [resource] = s.split(":") as [string];
+      acc[resource] = acc[resource] ?? [];
+      acc[resource].push(s);
+      return acc;
+    },
+    {}
+  );
   const remove = useMutation({
     mutationFn: (id: string) => api.deleteKey(id),
     onSuccess: () => {
@@ -373,57 +412,215 @@ function ApiKeysPanel() {
       </p>
 
       <form
-        className="mt-4 flex flex-wrap gap-2"
+        className="mt-4 flex flex-col gap-3"
         onSubmit={(e) => {
           e.preventDefault();
-          if (name.trim()) {
-            const seconds = expiresIn ? Number(expiresIn) : undefined;
-            create.mutate({
-              name: name.trim(),
-              expiresIn: seconds && seconds > 0 ? seconds : undefined,
-            });
+          if (!name.trim()) return;
+          if (rateLimitEnabled) {
+            if (
+              !Number.isInteger(rateLimitWindowMs) ||
+              rateLimitWindowMs <= 0 ||
+              rateLimitWindowMs > 60 * 60 * 1000
+            ) {
+              alert("Rate-limit window must be a positive integer ≤ 3,600,000 ms.");
+              return;
+            }
+            if (
+              !Number.isInteger(rateLimitMax) ||
+              rateLimitMax <= 0 ||
+              rateLimitMax > 10000
+            ) {
+              alert("Rate-limit max must be a positive integer ≤ 10,000.");
+              return;
+            }
           }
+          const seconds = expiresIn ? Number(expiresIn) : undefined;
+          create.mutate({
+            name: name.trim(),
+            expiresIn: seconds && seconds > 0 ? seconds : undefined,
+            scopes,
+            rateLimit: rateLimitEnabled
+              ? { windowMs: rateLimitWindowMs, max: rateLimitMax }
+              : undefined,
+          });
         }}
       >
-        <input
-          className="min-w-[12rem] flex-1 rounded-md border px-3 py-2 text-sm"
-          maxLength={80}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Key name (e.g. local-dev, staging-bot)"
-          style={{
-            background: "var(--strand-color-surface-raised)",
-            borderColor: "var(--strand-color-rule)",
-            color: "var(--strand-color-ink-primary)",
-          }}
-          value={name}
-        />
-        <select
-          aria-label="Expires in"
-          className="rounded-md border px-3 py-2 text-sm"
-          onChange={(e) => setExpiresIn(e.target.value)}
-          style={{
-            background: "var(--strand-color-surface-raised)",
-            borderColor: "var(--strand-color-rule)",
-            color: "var(--strand-color-ink-primary)",
-          }}
-          value={expiresIn}
+        <div className="flex flex-wrap gap-2">
+          <input
+            className="min-w-[12rem] flex-1 rounded-md border px-3 py-2 text-sm"
+            maxLength={80}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Key name (e.g. local-dev, staging-bot)"
+            style={{
+              background: "var(--strand-color-surface-raised)",
+              borderColor: "var(--strand-color-rule)",
+              color: "var(--strand-color-ink-primary)",
+            }}
+            value={name}
+          />
+          <select
+            aria-label="Expires in"
+            className="rounded-md border px-3 py-2 text-sm"
+            onChange={(e) => setExpiresIn(e.target.value)}
+            style={{
+              background: "var(--strand-color-surface-raised)",
+              borderColor: "var(--strand-color-rule)",
+              color: "var(--strand-color-ink-primary)",
+            }}
+            value={expiresIn}
+          >
+            <option value="">Never expires</option>
+            <option value={String(30 * 86400)}>Expires in 30 days</option>
+            <option value={String(90 * 86400)}>Expires in 90 days</option>
+            <option value={String(365 * 86400)}>Expires in 1 year</option>
+          </select>
+        </div>
+
+        <fieldset
+          className="rounded-md border px-3 py-3"
+          style={{ borderColor: "var(--strand-color-rule)" }}
         >
-          <option value="">Never expires</option>
-          <option value={String(30 * 86400)}>Expires in 30 days</option>
-          <option value={String(90 * 86400)}>Expires in 90 days</option>
-          <option value={String(365 * 86400)}>Expires in 1 year</option>
-        </select>
-        <button
-          className="rounded-md border px-4 py-2 text-sm font-medium disabled:opacity-50"
-          disabled={!name.trim() || create.isPending}
-          style={{
-            borderColor: "var(--strand-color-ink-primary)",
-            color: "var(--strand-color-ink-primary)",
-          }}
-          type="submit"
+          <legend
+            className="px-1 text-[0.62rem] font-semibold tracking-widest uppercase"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
+            Permissions
+          </legend>
+          <div className="flex flex-col gap-2">
+            {Object.entries(scopesByResource).map(([resource, list]) => (
+              <div className="flex flex-wrap items-center gap-3" key={resource}>
+                <span
+                  className="min-w-[5rem] text-xs font-medium"
+                  style={{ color: "var(--strand-color-ink-primary)" }}
+                >
+                  {resource}
+                </span>
+                {list.map((s) => {
+                  const [, action] = s.split(":");
+                  return (
+                    <label
+                      className="flex items-center gap-1.5 text-xs"
+                      key={s}
+                      style={{ color: "var(--strand-color-ink-muted)" }}
+                    >
+                      <input
+                        checked={scopes.includes(s)}
+                        onChange={() => toggleScope(s)}
+                        type="checkbox"
+                      />
+                      {action}
+                    </label>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+          <div className="mt-2 flex gap-2">
+            <button
+              className="rounded-md border px-2 py-1 text-[0.7rem]"
+              onClick={() => setScopes([...READ_ONLY_SCOPES])}
+              style={{
+                borderColor: "var(--strand-color-rule)",
+                color: "var(--strand-color-ink-muted)",
+              }}
+              type="button"
+            >
+              Read-only preset
+            </button>
+            <button
+              className="rounded-md border px-2 py-1 text-[0.7rem]"
+              onClick={() => setScopes([...DEFAULT_SCOPES])}
+              style={{
+                borderColor: "var(--strand-color-rule)",
+                color: "var(--strand-color-ink-muted)",
+              }}
+              type="button"
+            >
+              Default
+            </button>
+          </div>
+        </fieldset>
+
+        <fieldset
+          className="rounded-md border px-3 py-3"
+          style={{ borderColor: "var(--strand-color-rule)" }}
         >
-          {create.isPending ? "Creating…" : "New key"}
-        </button>
+          <legend
+            className="px-1 text-[0.62rem] font-semibold tracking-widest uppercase"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
+            Rate limit (optional)
+          </legend>
+          <label
+            className="flex items-center gap-2 text-xs"
+            style={{ color: "var(--strand-color-ink-primary)" }}
+          >
+            <input
+              checked={rateLimitEnabled}
+              onChange={(e) => setRateLimitEnabled(e.target.checked)}
+              type="checkbox"
+            />
+            Enable rate limit
+          </label>
+          {rateLimitEnabled ? (
+            <div className="mt-2 flex flex-wrap gap-3">
+              <label
+                className="flex flex-col gap-1 text-[0.7rem]"
+                style={{ color: "var(--strand-color-ink-muted)" }}
+              >
+                Window (ms)
+                <input
+                  className="w-32 rounded-md border px-2 py-1 text-xs"
+                  min={1}
+                  onChange={(e) =>
+                    setRateLimitWindowMs(Number(e.target.value) || 0)
+                  }
+                  style={{
+                    background: "var(--strand-color-surface-raised)",
+                    borderColor: "var(--strand-color-rule)",
+                    color: "var(--strand-color-ink-primary)",
+                  }}
+                  type="number"
+                  value={rateLimitWindowMs}
+                />
+              </label>
+              <label
+                className="flex flex-col gap-1 text-[0.7rem]"
+                style={{ color: "var(--strand-color-ink-muted)" }}
+              >
+                Max requests / window
+                <input
+                  className="w-32 rounded-md border px-2 py-1 text-xs"
+                  min={1}
+                  onChange={(e) =>
+                    setRateLimitMax(Number(e.target.value) || 0)
+                  }
+                  style={{
+                    background: "var(--strand-color-surface-raised)",
+                    borderColor: "var(--strand-color-rule)",
+                    color: "var(--strand-color-ink-primary)",
+                  }}
+                  type="number"
+                  value={rateLimitMax}
+                />
+              </label>
+            </div>
+          ) : null}
+        </fieldset>
+
+        <div>
+          <button
+            className="rounded-md border px-4 py-2 text-sm font-medium disabled:opacity-50"
+            disabled={!name.trim() || create.isPending}
+            style={{
+              borderColor: "var(--strand-color-ink-primary)",
+              color: "var(--strand-color-ink-primary)",
+            }}
+            type="submit"
+          >
+            {create.isPending ? "Creating…" : "New key"}
+          </button>
+        </div>
       </form>
 
       {created ? (
@@ -475,6 +672,24 @@ function ApiKeysPanel() {
                 >
                   {k.prefix}…
                 </code>
+                <span
+                  className="text-[0.65rem]"
+                  style={{ color: "var(--strand-color-ink-faint)" }}
+                >
+                  Scopes:{" "}
+                  {k.scopes && k.scopes.length > 0
+                    ? k.scopes.join(", ")
+                    : "(none)"}
+                </span>
+                {k.rateLimit ? (
+                  <span
+                    className="text-[0.65rem]"
+                    style={{ color: "var(--strand-color-ink-faint)" }}
+                  >
+                    Rate limit: {k.rateLimit.max} /{" "}
+                    {formatWindow(k.rateLimit.windowMs)}
+                  </span>
+                ) : null}
               </div>
               <div className="flex flex-col items-end gap-0.5 text-xs tabular-nums">
                 <span style={{ color: "var(--strand-color-ink-faint)" }}>
@@ -550,6 +765,12 @@ function Stat({
       </span>
     </div>
   );
+}
+
+function formatWindow(ms: number): string {
+  if (ms < 60_000) return `${Math.round(ms / 1000)}s`;
+  if (ms < 3_600_000) return `${Math.round(ms / 60_000)}m`;
+  return `${Math.round(ms / 3_600_000)}h`;
 }
 
 function humanRelative(iso: string | number): string {
