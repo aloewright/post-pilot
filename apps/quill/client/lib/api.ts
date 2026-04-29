@@ -1,4 +1,12 @@
+import type { ScopeId } from "../../src/lib/scopes";
 import type { Guide, UseCasePreset } from "../../src/lib/types";
+
+export type { ScopeId } from "../../src/lib/scopes";
+export {
+  ALL_SCOPES,
+  DEFAULT_SCOPES,
+  READ_ONLY_SCOPES,
+} from "../../src/lib/scopes";
 
 // All API calls hit the Worker on the same origin. The Vite plugin proxies
 // /v1/* to the Worker in dev; in prod it's the same Worker serving /v1 +
@@ -136,6 +144,8 @@ export type UsageItem = {
   createdAt: string | number;
 };
 
+export type ApiKeyRateLimit = { windowMs: number; max: number };
+
 export type ApiKeyItem = {
   id: string;
   name: string;
@@ -143,6 +153,8 @@ export type ApiKeyItem = {
   createdAt: string | number;
   lastUsedAt: string | number | null;
   expiresAt?: string | null;
+  scopes?: ScopeId[];
+  rateLimit?: ApiKeyRateLimit | null;
 };
 
 export type ApiKeyCreated = {
@@ -151,6 +163,8 @@ export type ApiKeyCreated = {
   prefix: string;
   plaintext: string;
   expiresAt?: string | null;
+  scopes?: ScopeId[];
+  rateLimit?: ApiKeyRateLimit | null;
 };
 
 export const api = {
@@ -237,10 +251,26 @@ export const api = {
 
   listKeys: () => request<{ items: ApiKeyItem[] }>("/v1/keys"),
 
-  createKey: (name: string, expiresIn?: number) =>
+  createKey: (
+    name: string,
+    options?: {
+      expiresIn?: number;
+      scopes?: ScopeId[];
+      rateLimit?: ApiKeyRateLimit;
+    }
+  ) =>
     request<ApiKeyCreated>("/v1/keys", {
       method: "POST",
-      body: JSON.stringify({ name, ...(expiresIn ? { expiresIn } : {}) }),
+      body: JSON.stringify({
+        name,
+        ...(options?.expiresIn ? { expiresIn: options.expiresIn } : {}),
+        ...(options?.scopes && options.scopes.length > 0
+          ? { scopes: options.scopes }
+          : {}),
+        ...(options?.rateLimit
+          ? { rateLimit: { enabled: true, ...options.rateLimit } }
+          : {}),
+      }),
     }),
 
   deleteKey: (id: string) =>

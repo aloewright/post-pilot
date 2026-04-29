@@ -4,12 +4,29 @@ import { z } from "zod";
 import { createAuth } from "../auth";
 import type { AppEnv } from "../index";
 import { requireIdentity } from "../lib/identify";
+import {
+  ALL_SCOPES,
+  DEFAULT_SCOPES,
+  fromPluginPermissions,
+  isScopeId,
+  toPluginPermissions,
+  type ScopeId,
+} from "../lib/scopes";
 
 export const keysRouter = new Hono<AppEnv>();
 
 const createSchema = z.object({
   name: z.string().min(1).max(80),
   expiresIn: z.number().int().positive().max(10 * 365 * 86400).optional(),
+  scopes: z.array(z.string()).optional(),
+  rateLimit: z
+    .object({
+      enabled: z.boolean(),
+      // Window in ms. Cap at 1 hour to prevent absurd values.
+      windowMs: z.number().int().positive().max(60 * 60 * 1000),
+      max: z.number().int().positive().max(10000),
+    })
+    .optional(),
 });
 
 // Best-effort coercion for the plugin's mixed Date | string | null fields.
@@ -36,6 +53,23 @@ keysRouter.post("/", async (c) => {
   }
   const body = createSchema.parse(await c.req.json());
 
+  // Validate scopes — if provided, every entry must be a known ScopeId.
+  const requestedScopes = body.scopes ?? null;
+  if (requestedScopes) {
+    for (const s of requestedScopes) {
+      if (!isScopeId(s)) {
+        throw new HTTPException(400, {
+          message: `Unknown scope: ${s}. Allowed: ${ALL_SCOPES.join(", ")}`,
+        });
+      }
+    }
+  }
+  const finalScopes: readonly ScopeId[] =
+    requestedScopes && requestedScopes.length > 0
+      ? (requestedScopes as ScopeId[])
+      : DEFAULT_SCOPES;
+  const permissions = toPluginPermissions(finalScopes);
+
   const auth = createAuth(c.env, new URL(c.req.url).origin);
   // Server-side call: omit `headers` so the plugin trusts the userId we
   // pass directly (it would otherwise require its own session cookie).
@@ -43,7 +77,15 @@ keysRouter.post("/", async (c) => {
     body: {
       name: body.name,
       userId: id.userId,
+      permissions,
       ...(body.expiresIn ? { expiresIn: body.expiresIn } : {}),
+      ...(body.rateLimit?.enabled
+        ? {
+            rateLimitEnabled: true,
+            rateLimitTimeWindow: body.rateLimit.windowMs,
+            rateLimitMax: body.rateLimit.max,
+          }
+        : {}),
     },
   });
 
@@ -56,6 +98,10 @@ keysRouter.post("/", async (c) => {
     prefix: result.start ?? result.prefix ?? "",
     plaintext: result.key,
     expiresAt: toIso((result as { expiresAt?: unknown }).expiresAt),
+    scopes: finalScopes,
+    rateLimit: body.rateLimit?.enabled
+      ? { windowMs: body.rateLimit.windowMs, max: body.rateLimit.max }
+      : null,
   });
 });
 
@@ -86,6 +132,17 @@ keysRouter.get("/", async (c) => {
       createdAt: toIso(k.createdAt),
       lastUsedAt: toIso(k.lastRequest),
       expiresAt: toIso((k as { expiresAt?: unknown }).expiresAt),
+      scopes: fromPluginPermissions(
+        (k as { permissions?: unknown }).permissions
+      ),
+      rateLimit: (k as { rateLimitEnabled?: boolean }).rateLimitEnabled
+        ? {
+            windowMs:
+              (k as { rateLimitTimeWindow?: number }).rateLimitTimeWindow ??
+              null,
+            max: (k as { rateLimitMax?: number }).rateLimitMax ?? null,
+          }
+        : null,
     })),
   });
 });
