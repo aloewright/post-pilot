@@ -1,7 +1,7 @@
 import { eq, sql } from "drizzle-orm";
 import type { DrizzleD1Database } from "drizzle-orm/d1";
+import type * as schema from "../../db/schema";
 import { aiPhrases } from "../../db/schema";
-import * as schema from "../../db/schema";
 
 type Db = DrizzleD1Database<typeof schema>;
 
@@ -25,13 +25,25 @@ async function sha256Hex(s: string): Promise<string> {
 // on the side of dropping more — this is a learned blocklist, it's fine if
 // a few benign phrases slip past it.
 function looksUnsafe(s: string): boolean {
-  if (/\b[\w.+-]+@[\w-]+\.[\w.-]+\b/.test(s)) return true;          // email
-  if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(s)) return true;     // US phone
-  if (/https?:\/\//.test(s)) return true;                           // URL
+  if (/\b[\w.+-]+@[\w-]+\.[\w.-]+\b/.test(s)) {
+    return true; // email
+  }
+  if (/\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/.test(s)) {
+    return true; // US phone
+  }
+  if (/https?:\/\//.test(s)) {
+    return true; // URL
+  }
   // Prompt-injection tells
-  if (/ignore (previous|prior|all) (instructions?|prompts?)/i.test(s)) return true;
-  if (/disregard (previous|prior|all)/i.test(s)) return true;
-  if (/system prompt/i.test(s)) return true;
+  if (/ignore (previous|prior|all) (instructions?|prompts?)/i.test(s)) {
+    return true;
+  }
+  if (/disregard (previous|prior|all)/i.test(s)) {
+    return true;
+  }
+  if (/system prompt/i.test(s)) {
+    return true;
+  }
   return false;
 }
 
@@ -48,12 +60,18 @@ export async function persistFlaggedSegments(
   let updated = 0;
 
   for (const seg of segments) {
-    if (seg.aiScore < threshold) continue;
+    if (seg.aiScore < threshold) {
+      continue;
+    }
     const phrase = seg.text.trim();
     // Tighter bounds than before: 12 chars min drops more noise, 200 max
     // prevents storing entire paragraphs as a single "phrase".
-    if (phrase.length < 12 || phrase.length > 200) continue;
-    if (looksUnsafe(phrase)) continue;
+    if (phrase.length < 12 || phrase.length > 200) {
+      continue;
+    }
+    if (looksUnsafe(phrase)) {
+      continue;
+    }
 
     const normalized = normalizePhrase(phrase);
     const phraseHash = `${PHRASE_HASH_VERSION}:${await sha256Hex(normalized)}`;
@@ -90,10 +108,7 @@ export async function persistFlaggedSegments(
 
 // Frequency-ranked top phrases — the next humanize pass uses these to seed
 // the "avoid these" injection. DESC sort means most-seen first.
-export async function getTopPhrases(
-  db: Db,
-  limit = 50
-): Promise<string[]> {
+export async function getTopPhrases(db: Db, limit = 50): Promise<string[]> {
   const rows = await db
     .select({ phrase: aiPhrases.phrase })
     .from(aiPhrases)

@@ -22,7 +22,9 @@ async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
       }),
     ]);
   } finally {
-    if (timer) clearTimeout(timer);
+    if (timer) {
+      clearTimeout(timer);
+    }
   }
 }
 
@@ -30,11 +32,18 @@ export async function generateText(
   env: GenerateEnv,
   systemPrompt: string,
   userPrompt: string,
-  opts?: { temperature?: number; topP?: number; maxTokens?: number; timeoutMs?: number }
+  opts?: {
+    temperature?: number;
+    topP?: number;
+    maxTokens?: number;
+    timeoutMs?: number;
+  }
 ): Promise<string> {
   const gatewayId = env.AI_GATEWAY_ID;
   if (!(env.AI && gatewayId)) {
-    throw new Error('AI Gateway not configured (AI binding or AI_GATEWAY_ID missing)');
+    throw new Error(
+      "AI Gateway not configured (AI binding or AI_GATEWAY_ID missing)"
+    );
   }
   const result = (await withTimeout(
     env.AI.run(
@@ -53,6 +62,8 @@ export async function generateText(
     opts?.timeoutMs ?? 20_000
   )) as { choices?: Array<{ message?: { content?: string } }> };
   const output = result.choices?.[0]?.message?.content?.trim() ?? "";
-  if (!output) throw new Error("AI Gateway returned empty response");
+  if (!output) {
+    throw new Error("AI Gateway returned empty response");
+  }
   return output;
 }

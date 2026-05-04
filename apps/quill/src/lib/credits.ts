@@ -86,7 +86,12 @@ export async function getOrInitBalance(
 
 export type DebitResult =
   | { ok: true; newBalance: number; ledgerId: string }
-  | { ok: false; reason: "insufficient_credits"; balance: number; cost: number };
+  | {
+      ok: false;
+      reason: "insufficient_credits";
+      balance: number;
+      cost: number;
+    };
 
 // Atomic debit: writes the ledger row first, then conditionally decrements
 // the balance only if it still has at least `cost` credits. The
@@ -122,10 +127,7 @@ export async function debit(
       updatedAt: sql`(unixepoch())`,
     })
     .where(
-      and(
-        eq(creditBalance.userId, userId),
-        gte(creditBalance.balance, cost)
-      )
+      and(eq(creditBalance.userId, userId), gte(creditBalance.balance, cost))
     )
     .returning({ balance: creditBalance.balance });
 
@@ -201,9 +203,7 @@ export async function credit(
   const existing = await db
     .select({ id: creditLedger.id })
     .from(creditLedger)
-    .where(
-      and(eq(creditLedger.userId, userId), eq(creditLedger.refId, refId))
-    )
+    .where(and(eq(creditLedger.userId, userId), eq(creditLedger.refId, refId)))
     .limit(1);
   if (existing[0]) {
     return;

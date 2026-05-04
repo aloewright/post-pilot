@@ -158,7 +158,7 @@ async function runCompletion(args: {
           { role: "user", content: args.input },
         ],
       },
-      opts,
+      opts
     )) as { choices?: Array<{ message?: { content?: string } }> };
     return result.choices?.[0]?.message?.content ?? "";
   } catch (e) {
@@ -168,7 +168,7 @@ async function runCompletion(args: {
         gatewayId,
         model: args.model,
         error: (e as Error).message?.slice(0, 400),
-      }),
+      })
     );
     throw new HTTPException(502, { message: "AI Gateway error" });
   }

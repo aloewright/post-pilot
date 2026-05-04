@@ -4,8 +4,8 @@ import { useState } from "react";
 import { Kicker, Lede, Standfirst } from "../components/editorial";
 import {
   ALL_SCOPES,
-  api,
   type ApiKeyCreated,
+  api,
   DEFAULT_SCOPES,
   queryKeys,
   READ_ONLY_SCOPES,
@@ -95,18 +95,20 @@ function ProfilePage() {
       <CreditsPanel />
       <ApiKeysPanel />
 
-      <h2 className="mt-12 mb-4 text-[0.68rem] font-semibold tracking-widest uppercase"
-        style={{ color: "var(--strand-color-ink-muted)" }}>
+      <h2
+        className="mt-12 mb-4 text-[0.68rem] font-semibold tracking-widest uppercase"
+        style={{ color: "var(--strand-color-ink-muted)" }}
+      >
         Account
       </h2>
       <dl className="flex flex-col gap-4 text-sm">
         <Row label="Email" value={user.email} />
         <Row label="Name" value={user.name ?? "—"} />
+        <Row label="Email verified" value={user.emailVerified ? "Yes" : "No"} />
         <Row
-          label="Email verified"
-          value={user.emailVerified ? "Yes" : "No"}
+          label="User ID"
+          value={<code className="pp-mono">{user.id}</code>}
         />
-        <Row label="User ID" value={<code className="pp-mono">{user.id}</code>} />
       </dl>
 
       <button
@@ -134,8 +136,8 @@ function ProfilePage() {
           className="mt-3 max-w-[60ch] text-sm"
           style={{ color: "var(--strand-color-ink-muted)" }}
         >
-          Permanently removes your account, sessions, and bookmarks. This
-          cannot be undone.
+          Permanently removes your account, sessions, and bookmarks. This cannot
+          be undone.
         </p>
 
         {deleteState === "idle" || deleteState === "error" ? (
@@ -212,7 +214,10 @@ function ProfilePage() {
 }
 
 function CreditsPanel() {
-  const meQuery = useQuery({ queryKey: queryKeys.me(), queryFn: () => api.me() });
+  const meQuery = useQuery({
+    queryKey: queryKeys.me(),
+    queryFn: () => api.me(),
+  });
   const usageQuery = useQuery({
     queryKey: queryKeys.usage(),
     queryFn: () => api.usage(),
@@ -240,7 +245,11 @@ function CreditsPanel() {
     >
       <Kicker>Credits</Kicker>
       <div className="mt-3 flex flex-wrap items-baseline gap-x-8 gap-y-3">
-        <Stat label="Balance" value={`${(me?.balance ?? 0).toLocaleString()}c`} highlight />
+        <Stat
+          highlight
+          label="Balance"
+          value={`${(me?.balance ?? 0).toLocaleString()}c`}
+        />
         <Stat
           label="Lifetime used"
           value={`${(me?.lifetimeUsed ?? 0).toLocaleString()}c`}
@@ -295,12 +304,16 @@ function CreditsPanel() {
 
       {items.length > 0 ? (
         <div className="mt-6">
-          <h3 className="mb-2 text-[0.68rem] font-semibold tracking-widest uppercase"
-            style={{ color: "var(--strand-color-ink-muted)" }}>
+          <h3
+            className="mb-2 text-[0.68rem] font-semibold tracking-widest uppercase"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
             Recent activity
           </h3>
-          <ul className="flex flex-col divide-y"
-            style={{ borderColor: "var(--strand-color-rule)" }}>
+          <ul
+            className="flex flex-col divide-y"
+            style={{ borderColor: "var(--strand-color-rule)" }}
+          >
             {items.slice(0, 12).map((it) => (
               <li
                 className="grid grid-cols-[7rem_1fr_auto] items-center gap-3 py-2 text-xs"
@@ -407,28 +420,32 @@ function ApiKeysPanel() {
         className="mt-3 text-xs"
         style={{ color: "var(--strand-color-ink-muted)" }}
       >
-        Pass as <code className="pp-mono">Authorization: Bearer pp_live_…</code>.
-        Calls debit the same credit balance as the playground.
+        Pass as <code className="pp-mono">Authorization: Bearer pp_live_…</code>
+        . Calls debit the same credit balance as the playground.
       </p>
 
       <form
         className="mt-4 flex flex-col gap-3"
         onSubmit={(e) => {
           e.preventDefault();
-          if (!name.trim()) return;
+          if (!name.trim()) {
+            return;
+          }
           if (rateLimitEnabled) {
             if (
               !Number.isInteger(rateLimitWindowMs) ||
               rateLimitWindowMs <= 0 ||
               rateLimitWindowMs > 60 * 60 * 1000
             ) {
-              alert("Rate-limit window must be a positive integer ≤ 3,600,000 ms.");
+              alert(
+                "Rate-limit window must be a positive integer ≤ 3,600,000 ms."
+              );
               return;
             }
             if (
               !Number.isInteger(rateLimitMax) ||
               rateLimitMax <= 0 ||
-              rateLimitMax > 10000
+              rateLimitMax > 10_000
             ) {
               alert("Rate-limit max must be a positive integer ≤ 10,000.");
               return;
@@ -470,9 +487,9 @@ function ApiKeysPanel() {
             value={expiresIn}
           >
             <option value="">Never expires</option>
-            <option value={String(30 * 86400)}>Expires in 30 days</option>
-            <option value={String(90 * 86400)}>Expires in 90 days</option>
-            <option value={String(365 * 86400)}>Expires in 1 year</option>
+            <option value={String(30 * 86_400)}>Expires in 30 days</option>
+            <option value={String(90 * 86_400)}>Expires in 90 days</option>
+            <option value={String(365 * 86_400)}>Expires in 1 year</option>
           </select>
         </div>
 
@@ -592,9 +609,7 @@ function ApiKeysPanel() {
                 <input
                   className="w-32 rounded-md border px-2 py-1 text-xs"
                   min={1}
-                  onChange={(e) =>
-                    setRateLimitMax(Number(e.target.value) || 0)
-                  }
+                  onChange={(e) => setRateLimitMax(Number(e.target.value) || 0)}
                   style={{
                     background: "var(--strand-color-surface-raised)",
                     borderColor: "var(--strand-color-rule)",
@@ -652,75 +667,77 @@ function ApiKeysPanel() {
       ) : null}
 
       {keys.data?.items.length ? (
-        <ul className="mt-5 flex flex-col divide-y"
-          style={{ borderColor: "var(--strand-color-rule)" }}>
+        <ul
+          className="mt-5 flex flex-col divide-y"
+          style={{ borderColor: "var(--strand-color-rule)" }}
+        >
           {keys.data.items.map((k) => {
             const expiry = expiryStatus(k.expiresAt);
             return (
-            <li
-              className="grid grid-cols-[1fr_auto_auto] items-center gap-3 py-3 text-sm"
-              key={k.id}
-              style={{ borderColor: "var(--strand-color-rule)" }}
-            >
-              <div className="flex flex-col">
-                <span style={{ color: "var(--strand-color-ink-primary)" }}>
-                  {k.name}
-                </span>
-                <code
-                  className="pp-mono text-xs"
-                  style={{ color: "var(--strand-color-ink-muted)" }}
-                >
-                  {k.prefix}…
-                </code>
-                <span
-                  className="text-[0.65rem]"
-                  style={{ color: "var(--strand-color-ink-faint)" }}
-                >
-                  Scopes:{" "}
-                  {k.scopes && k.scopes.length > 0
-                    ? k.scopes.join(", ")
-                    : "(none)"}
-                </span>
-                {k.rateLimit ? (
+              <li
+                className="grid grid-cols-[1fr_auto_auto] items-center gap-3 py-3 text-sm"
+                key={k.id}
+                style={{ borderColor: "var(--strand-color-rule)" }}
+              >
+                <div className="flex flex-col">
+                  <span style={{ color: "var(--strand-color-ink-primary)" }}>
+                    {k.name}
+                  </span>
+                  <code
+                    className="pp-mono text-xs"
+                    style={{ color: "var(--strand-color-ink-muted)" }}
+                  >
+                    {k.prefix}…
+                  </code>
                   <span
                     className="text-[0.65rem]"
                     style={{ color: "var(--strand-color-ink-faint)" }}
                   >
-                    Rate limit: {k.rateLimit.max} /{" "}
-                    {formatWindow(k.rateLimit.windowMs)}
+                    Scopes:{" "}
+                    {k.scopes && k.scopes.length > 0
+                      ? k.scopes.join(", ")
+                      : "(none)"}
                   </span>
-                ) : null}
-              </div>
-              <div className="flex flex-col items-end gap-0.5 text-xs tabular-nums">
-                <span style={{ color: "var(--strand-color-ink-faint)" }}>
-                  {k.lastUsedAt
-                    ? `Last used ${humanRelative(String(k.lastUsedAt))}`
-                    : "Never used"}
-                </span>
-                <span
-                  style={{
-                    color: expiry.expired
-                      ? "var(--strand-color-accent-lede)"
-                      : "var(--strand-color-ink-faint)",
+                  {k.rateLimit ? (
+                    <span
+                      className="text-[0.65rem]"
+                      style={{ color: "var(--strand-color-ink-faint)" }}
+                    >
+                      Rate limit: {k.rateLimit.max} /{" "}
+                      {formatWindow(k.rateLimit.windowMs)}
+                    </span>
+                  ) : null}
+                </div>
+                <div className="flex flex-col items-end gap-0.5 text-xs tabular-nums">
+                  <span style={{ color: "var(--strand-color-ink-faint)" }}>
+                    {k.lastUsedAt
+                      ? `Last used ${humanRelative(String(k.lastUsedAt))}`
+                      : "Never used"}
+                  </span>
+                  <span
+                    style={{
+                      color: expiry.expired
+                        ? "var(--strand-color-accent-lede)"
+                        : "var(--strand-color-ink-faint)",
+                    }}
+                  >
+                    {expiry.label}
+                  </span>
+                </div>
+                <button
+                  className="text-xs underline disabled:opacity-50"
+                  disabled={remove.isPending}
+                  onClick={() => {
+                    if (confirm(`Revoke key "${k.name}"?`)) {
+                      remove.mutate(k.id);
+                    }
                   }}
+                  style={{ color: "#dc2626" }}
+                  type="button"
                 >
-                  {expiry.label}
-                </span>
-              </div>
-              <button
-                className="text-xs underline disabled:opacity-50"
-                disabled={remove.isPending}
-                onClick={() => {
-                  if (confirm(`Revoke key "${k.name}"?`)) {
-                    remove.mutate(k.id);
-                  }
-                }}
-                style={{ color: "#dc2626" }}
-                type="button"
-              >
-                Revoke
-              </button>
-            </li>
+                  Revoke
+                </button>
+              </li>
             );
           })}
         </ul>
@@ -768,8 +785,12 @@ function Stat({
 }
 
 function formatWindow(ms: number): string {
-  if (ms < 60_000) return `${Math.round(ms / 1000)}s`;
-  if (ms < 3_600_000) return `${Math.round(ms / 60_000)}m`;
+  if (ms < 60_000) {
+    return `${Math.round(ms / 1000)}s`;
+  }
+  if (ms < 3_600_000) {
+    return `${Math.round(ms / 60_000)}m`;
+  }
   return `${Math.round(ms / 3_600_000)}h`;
 }
 
@@ -818,12 +839,7 @@ function expiryStatus(iso: string | null | undefined): {
 }
 
 function formatTime(t: string | number): string {
-  const ts =
-    typeof t === "number"
-      ? t < 1e12
-        ? t * 1000
-        : t
-      : Date.parse(t);
+  const ts = typeof t === "number" ? (t < 1e12 ? t * 1000 : t) : Date.parse(t);
   if (!Number.isFinite(ts)) {
     return "—";
   }
@@ -837,10 +853,14 @@ function formatTime(t: string | number): string {
 
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="grid grid-cols-[10rem_1fr] gap-4 border-b py-3"
-      style={{ borderColor: "var(--strand-color-rule)" }}>
-      <dt className="uppercase tracking-wider text-xs"
-        style={{ color: "var(--strand-color-ink-muted)" }}>
+    <div
+      className="grid grid-cols-[10rem_1fr] gap-4 border-b py-3"
+      style={{ borderColor: "var(--strand-color-rule)" }}
+    >
+      <dt
+        className="uppercase tracking-wider text-xs"
+        style={{ color: "var(--strand-color-ink-muted)" }}
+      >
         {label}
       </dt>
       <dd style={{ color: "var(--strand-color-ink-primary)" }}>{value}</dd>

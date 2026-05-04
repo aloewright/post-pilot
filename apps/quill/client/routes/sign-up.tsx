@@ -42,8 +42,10 @@ function SignUpPage() {
 
       <form className="flex flex-col gap-4" onSubmit={onSubmit}>
         <label className="flex flex-col gap-1">
-          <span className="text-xs uppercase tracking-wider"
-            style={{ color: "var(--strand-color-ink-muted)" }}>
+          <span
+            className="text-xs uppercase tracking-wider"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
             Name
           </span>
           <input
@@ -57,8 +59,10 @@ function SignUpPage() {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-xs uppercase tracking-wider"
-            style={{ color: "var(--strand-color-ink-muted)" }}>
+          <span
+            className="text-xs uppercase tracking-wider"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
             Email
           </span>
           <input
@@ -72,8 +76,10 @@ function SignUpPage() {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-xs uppercase tracking-wider"
-            style={{ color: "var(--strand-color-ink-muted)" }}>
+          <span
+            className="text-xs uppercase tracking-wider"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
             Password
           </span>
           <input
@@ -85,14 +91,19 @@ function SignUpPage() {
             type="password"
             value={password}
           />
-          <span className="text-xs"
-            style={{ color: "var(--strand-color-ink-muted)" }}>
+          <span
+            className="text-xs"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
             Minimum 12 characters.
           </span>
         </label>
 
         {error ? (
-          <p className="text-sm" style={{ color: "var(--strand-color-warning)" }}>
+          <p
+            className="text-sm"
+            style={{ color: "var(--strand-color-warning)" }}
+          >
             {error}
           </p>
         ) : null}
@@ -111,7 +122,10 @@ function SignUpPage() {
         </button>
       </form>
 
-      <p className="mt-8 text-sm" style={{ color: "var(--strand-color-ink-muted)" }}>
+      <p
+        className="mt-8 text-sm"
+        style={{ color: "var(--strand-color-ink-muted)" }}
+      >
         Already have an account?{" "}
         <Link className="underline" to="/sign-in">
           Sign in

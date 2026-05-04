@@ -3,9 +3,14 @@ import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
-import { humanizeJobs } from "../db/schema";
 import * as schema from "../db/schema";
-import { extractSegments, getCachedToken, scanForReport } from "../lib/copyleaks";
+import { humanizeJobs } from "../db/schema";
+import type { AppEnv } from "../index";
+import {
+  extractSegments,
+  getCachedToken,
+  scanForReport,
+} from "../lib/copyleaks";
 import {
   debit,
   HUMANIZE_PER_INPUT_CHAR_CAP,
@@ -14,15 +19,20 @@ import {
   refund,
 } from "../lib/credits";
 import { humanizeText } from "../lib/humanizer";
-import { getTopPhrases, persistFlaggedSegments } from "../lib/humanizer/phrase-store";
+import {
+  getTopPhrases,
+  persistFlaggedSegments,
+} from "../lib/humanizer/phrase-store";
 import { requireIdentity } from "../lib/identify";
 import { ingestUsageEvent } from "../lib/polar";
-import type { AppEnv } from "../index";
 
 export const humanizeRouter = new Hono<AppEnv>();
 
 const submitSchema = z.object({
-  input: z.string().min(1).max(HUMANIZE_PER_INPUT_CHAR_CAP + 100),
+  input: z
+    .string()
+    .min(1)
+    .max(HUMANIZE_PER_INPUT_CHAR_CAP + 100),
   // When true, route to the multi-pass `ninja` engine; otherwise `aggressive`.
   // The 1-2 character extra costs nothing here because credits are charged on
   // input length, but ninja runs an additional re-humanize pass on flagged
@@ -127,13 +137,11 @@ humanizeRouter.post("/", async (c) => {
   // Best-effort Copyleaks scan for the user-facing report. If creds are
   // missing or the call fails, we still return the engine's output and the
   // local heuristic score — Copyleaks just isn't available for this job.
-  let copyleaksReport:
-    | {
-        aiScore: number;
-        segments: Array<{ text: string; aiScore: number }>;
-        raw: string;
-      }
-    | null = null;
+  let copyleaksReport: {
+    aiScore: number;
+    segments: Array<{ text: string; aiScore: number }>;
+    raw: string;
+  } | null = null;
   if (c.env.COPYLEAKS_EMAIL && c.env.COPYLEAKS_API_KEY) {
     try {
       const token = await getCachedToken(c.env.KV, {
@@ -187,7 +195,7 @@ humanizeRouter.post("/", async (c) => {
       localScore: Math.round(result.finalScore),
       // Copyleaks's 0-1 confidence stored as basis points (× 10000).
       copyleaksScoreBp: copyleaksReport
-        ? Math.round(copyleaksReport.aiScore * 10000)
+        ? Math.round(copyleaksReport.aiScore * 10_000)
         : null,
       copyleaksReportJson: copyleaksReport ? copyleaksReport.raw : null,
       copyleaksStatus,
@@ -282,7 +290,7 @@ function serializeJob(j: typeof humanizeJobs.$inferSelect) {
     localScore: j.localScore,
     // Stored as basis points; client wants a 0-100 percentage.
     copyleaksScore:
-      j.copyleaksScoreBp != null ? Math.round(j.copyleaksScoreBp / 100) : null,
+      j.copyleaksScoreBp == null ? null : Math.round(j.copyleaksScoreBp / 100),
     // Persisted at write time. Legacy rows (column null) fall back to
     // "skipped" — they predate the column, so we can't know the true state.
     copyleaksStatus: (j.copyleaksStatus ?? "skipped") as
@@ -299,7 +307,9 @@ function serializeJob(j: typeof humanizeJobs.$inferSelect) {
 function parseFlaggedFromReport(
   raw: string | null
 ): Array<{ text: string; aiScore: number }> {
-  if (!raw) return [];
+  if (!raw) {
+    return [];
+  }
   try {
     const parsed = JSON.parse(raw);
     const segs = extractSegments(parsed);

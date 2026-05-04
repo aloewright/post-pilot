@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { USE_CASE_LABELS, USE_CASES, VOICE_LABELS } from "../../src/lib/utils";
 import { AuthorIllustration } from "../components/author-illustration";
-import { COVERED } from "../lib/covers";
 import {
   Chip,
   Column,
@@ -15,6 +14,7 @@ import {
 import { FidelityPanel } from "../components/fidelity-panel";
 import { GuideActions } from "../components/guide-actions";
 import { api, queryKeys } from "../lib/api";
+import { COVERED } from "../lib/covers";
 
 export const Route = createFileRoute("/guides/$slug")({
   component: GuidePage,

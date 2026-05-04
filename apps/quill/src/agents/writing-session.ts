@@ -188,7 +188,7 @@ export class WritingSessionAgent extends Agent<AgentEnv, WritingSessionState> {
           ...args.transcript.map((m) => ({ role: m.role, content: m.content })),
         ],
       },
-      { gateway: { id: gatewayId } },
+      { gateway: { id: gatewayId } }
     )) as { choices?: Array<{ message?: { content?: string } }> };
     return result.choices?.[0]?.message?.content ?? "";
   }

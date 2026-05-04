@@ -15,10 +15,14 @@ export const joanDidion: Guide = {
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: { mean: 14, max: 38 },
-    vocabulary_register: "plain Anglo-Saxon spliced with clinical, journalistic, and occasional liturgical diction",
-    syntax: "short declaratives interleaved with long, comma-stitched sentences carrying accumulating clauses",
-    figurative_language: "sparing; metaphor only when the literal detail has already done the work",
-    pacing: "reportorial cool; staccato fact, then a slow lyric line, then the moral chill at the end",
+    vocabulary_register:
+      "plain Anglo-Saxon spliced with clinical, journalistic, and occasional liturgical diction",
+    syntax:
+      "short declaratives interleaved with long, comma-stitched sentences carrying accumulating clauses",
+    figurative_language:
+      "sparing; metaphor only when the literal detail has already done the work",
+    pacing:
+      "reportorial cool; staccato fact, then a slow lyric line, then the moral chill at the end",
   },
   do: [
     "Anchor every paragraph in concrete sensory detail — names, brands, weather, time of day.",

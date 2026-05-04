@@ -2,17 +2,29 @@
 
 // ==================== HUMANIZATION TYPES ====================
 
-export type RewriteLevel = 'light' | 'medium' | 'aggressive' | 'ninja';
-export type StylePreset = 'humanize' | 'academic' | 'casual' | 'professional' | 'creative' | 'technical';
+export type RewriteLevel = "light" | "medium" | "aggressive" | "ninja";
+export type StylePreset =
+  | "humanize"
+  | "academic"
+  | "casual"
+  | "professional"
+  | "creative"
+  | "technical";
 
 export type TonePreset =
-  | 'academic-formal' | 'academic-casual'
-  | 'journalistic' | 'creative-writing'
-  | 'conversational' | 'professional'
-  | 'technical' | 'persuasive'
-  | 'storytelling' | 'humorous'
-  | 'emotional' | 'analytical'
-  | 'custom';
+  | "academic-formal"
+  | "academic-casual"
+  | "journalistic"
+  | "creative-writing"
+  | "conversational"
+  | "professional"
+  | "technical"
+  | "persuasive"
+  | "storytelling"
+  | "humorous"
+  | "emotional"
+  | "analytical"
+  | "custom";
 
 export interface ToneConfig {
   id: TonePreset;
@@ -61,7 +73,7 @@ export interface HumanizationResult {
   confidenceReport?: {
     humanLikenessScore: number;
     confidence: number;
-    calibrationBand: 'high' | 'medium' | 'low';
+    calibrationBand: "high" | "medium" | "low";
   };
   runtimeModelScore?: {
     modelSource: string;
@@ -84,7 +96,7 @@ export interface HumanizationResult {
 export interface DetectionResult {
   score: number;
   sentences: SentenceDetectionResult[];
-  overallVerdict: 'human' | 'ai' | 'mixed';
+  overallVerdict: "human" | "ai" | "mixed";
   analysis: {
     perplexity: number;
     burstiness: number;
@@ -104,7 +116,7 @@ export interface DetectionResult {
 export interface SentenceDetectionResult {
   text: string;
   score: number;
-  classification: 'human' | 'maybe' | 'ai';
+  classification: "human" | "maybe" | "ai";
   issues: string[];
 }
 

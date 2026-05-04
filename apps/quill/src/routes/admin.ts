@@ -1,5 +1,5 @@
-import { drizzle } from "drizzle-orm/d1";
 import { desc, eq, sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
@@ -71,8 +71,7 @@ adminRouter.get("/eval/runs", async (c) => {
   return c.json({
     items: rows.map((r) => ({
       id: r.id,
-      runAt:
-        r.runAt instanceof Date ? r.runAt.toISOString() : r.runAt,
+      runAt: r.runAt instanceof Date ? r.runAt.toISOString() : r.runAt,
       guideSlug: r.guideSlug,
       presetSlug: r.presetSlug,
       model: r.model,
@@ -98,7 +97,7 @@ adminRouter.get("/eval/summary", async (c) => {
       GROUP BY guide_slug
       ORDER BY latest_run_at DESC
     `
-  )) as unknown as Array<Record<string, unknown>>;
+  )) as unknown as Record<string, unknown>[];
 
   const items = rows.map((r) => ({
     guideSlug: r.guide_slug as string,

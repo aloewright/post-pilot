@@ -48,7 +48,8 @@ export const VIBE_TAGS: Record<VibeSlug, VibeTag> = {
   },
   wry: {
     label: "Wry",
-    description: "Voices that smile. Irony in the seams; understatement is the joke.",
+    description:
+      "Voices that smile. Irony in the seams; understatement is the joke.",
   },
   "hard-boiled": {
     label: "Hard-boiled",

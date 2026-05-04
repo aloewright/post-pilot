@@ -206,8 +206,7 @@ export function PlaygroundView({
     }
     return null;
   })();
-  const buttonLabel =
-    stageLabel ?? (humanizeOn ? "Stylize + humanize" : "Run");
+  const buttonLabel = stageLabel ?? (humanizeOn ? "Stylize + humanize" : "Run");
 
   const stylizeCost = input.length * (me?.costs.STYLIZE_PER_CHAR ?? 1);
   const humanizeCost = input.length * (me?.costs.HUMANIZE_PER_CHAR ?? 5);
@@ -287,8 +286,8 @@ export function PlaygroundView({
           <BalancePill
             authenticated={Boolean(me?.authenticated)}
             balance={balance}
-            onBuy={() => checkoutMutation.mutate()}
             buying={checkoutMutation.isPending}
+            onBuy={() => checkoutMutation.mutate()}
           />
         </div>
       </div>
@@ -365,9 +364,7 @@ export function PlaygroundView({
                     <input
                       checked={humanizeExtraPass}
                       disabled={isRunning}
-                      onChange={(e) =>
-                        setHumanizeExtraPass(e.target.checked)
-                      }
+                      onChange={(e) => setHumanizeExtraPass(e.target.checked)}
                       style={{
                         accentColor: "var(--strand-color-accent-lede)",
                       }}
@@ -448,7 +445,7 @@ export function PlaygroundView({
                 </button>
               </div>
             ) : null}
-            {!session?.user ? (
+            {session?.user ? null : (
               <div
                 className="rounded-md border px-3 py-2 text-xs"
                 style={{
@@ -456,18 +453,14 @@ export function PlaygroundView({
                   color: "var(--strand-color-ink-muted)",
                 }}
               >
-                Sign in to run the playground — new accounts get welcome
-                credits to try it out.
+                Sign in to run the playground — new accounts get welcome credits
+                to try it out.
               </div>
-            ) : null}
+            )}
           </div>
         </Panel>
 
-        <Panel
-          label={
-            humanizedOutput ? "Output (humanized)" : "Output"
-          }
-        >
+        <Panel label={humanizedOutput ? "Output (humanized)" : "Output"}>
           <AnimatePresence>
             {stageLabel && visibleOutput ? (
               <motion.div
@@ -560,7 +553,7 @@ export function PlaygroundView({
             Detection Report
           </h3>
           <div className="grid grid-cols-2 gap-4 text-sm">
-            {humanizeReport.localScore !== null ? (
+            {humanizeReport.localScore === null ? null : (
               <div>
                 <div
                   className="text-[0.62rem] tracking-widest uppercase"
@@ -575,7 +568,7 @@ export function PlaygroundView({
                   {humanizeReport.localScore}/100
                 </div>
               </div>
-            ) : null}
+            )}
             <div>
               <div
                 className="text-[0.62rem] tracking-widest uppercase"
@@ -625,8 +618,7 @@ export function PlaygroundView({
                     key={`${i}-${s.text.slice(0, 24)}`}
                     style={{
                       background: "var(--strand-color-surface-canvas)",
-                      borderLeft:
-                        "3px solid var(--strand-color-accent-lede)",
+                      borderLeft: "3px solid var(--strand-color-accent-lede)",
                     }}
                   >
                     <span
@@ -635,9 +627,7 @@ export function PlaygroundView({
                     >
                       {s.aiScore}%
                     </span>
-                    <span
-                      style={{ color: "var(--strand-color-ink-primary)" }}
-                    >
+                    <span style={{ color: "var(--strand-color-ink-primary)" }}>
                       {s.text}
                     </span>
                   </li>
@@ -738,14 +728,14 @@ function HumanizeToggle({
       <span className="font-semibold tracking-wider uppercase">
         Humanize output
       </span>
-      {!authenticated ? (
+      {authenticated ? null : (
         <span
           className="text-[0.62rem] tracking-widest uppercase"
           style={{ color: "var(--strand-color-ink-faint)" }}
         >
           (sign in)
         </span>
-      ) : null}
+      )}
     </label>
   );
 }

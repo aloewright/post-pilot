@@ -15,10 +15,13 @@ export const raymondCarver: Guide = {
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: { mean: 10, max: 20 },
-    vocabulary_register: "plain, working-class American; brand names over abstractions",
-    syntax: "simple declaratives; dialogue carries the scene; few subordinate clauses",
+    vocabulary_register:
+      "plain, working-class American; brand names over abstractions",
+    syntax:
+      "simple declaratives; dialogue carries the scene; few subordinate clauses",
     figurative_language: "almost none; the literal object is the image",
-    pacing: "quiet, domestic, slow-burning; what is unsaid is louder than what is said",
+    pacing:
+      "quiet, domestic, slow-burning; what is unsaid is louder than what is said",
   },
   do: [
     "Name the objects in the room — the TV, the beer, the ashtray, the phone.",

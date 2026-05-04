@@ -227,11 +227,9 @@ export const api = {
       body: JSON.stringify({ input, extraPass }),
     }),
 
-  humanizeGet: (jobId: string) =>
-    request<HumanizeJob>(`/v1/humanize/${jobId}`),
+  humanizeGet: (jobId: string) => request<HumanizeJob>(`/v1/humanize/${jobId}`),
 
-  humanizeList: () =>
-    request<{ items: HumanizeJob[] }>("/v1/humanize"),
+  humanizeList: () => request<{ items: HumanizeJob[] }>("/v1/humanize"),
 
   me: () => request<MeResponse>("/v1/me"),
 
