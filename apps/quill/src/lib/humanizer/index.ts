@@ -2,15 +2,19 @@
 // Public entry point: exports the orchestrator that composes prompts +
 // AI Gateway calls + heuristic detection + deterministic post-processing.
 
+import { detectAI } from "./detector";
+import { postprocess } from "./postprocess";
+import {
+  getLevelParams,
+  getRehumanizePrompt,
+  getSystemPrompt,
+} from "./prompts";
+import { type GenerateEnv, generateText } from "./providers";
 import type {
   HumanizationOptions,
   HumanizationResult,
   SentenceResult,
-} from './types';
-import { getSystemPrompt, getRehumanizePrompt, getLevelParams } from './prompts';
-import { generateText, type GenerateEnv } from './providers';
-import { detectAI } from './detector';
-import { postprocess } from './postprocess';
+} from "./types";
 
 // ==================== LOCAL TEXT UTILITIES ====================
 // (These replace the upstream `storage.ts` helpers — no localStorage / no
@@ -24,27 +28,27 @@ function countWords(s: string): number {
 }
 
 const SENTENCE_ABBREVIATIONS = [
-  'Mr.',
-  'Mrs.',
-  'Dr.',
-  'Prof.',
-  'Inc.',
-  'Ltd.',
-  'etc.',
-  'e.g.',
-  'i.e.',
-  'vs.',
-  'al.',
+  "Mr.",
+  "Mrs.",
+  "Dr.",
+  "Prof.",
+  "Inc.",
+  "Ltd.",
+  "etc.",
+  "e.g.",
+  "i.e.",
+  "vs.",
+  "al.",
 ];
 
 function splitIntoSentences(text: string): string[] {
   const sentences: string[] = [];
-  let current = '';
+  let current = "";
   let i = 0;
   while (i < text.length) {
-    const ch = text[i] ?? '';
+    const ch = text[i] ?? "";
     current += ch;
-    if (ch === '.' || ch === '!' || ch === '?') {
+    if (ch === "." || ch === "!" || ch === "?") {
       const beforeMatch = text.slice(Math.max(0, i - 5), i + 1);
       const isAbbrev = SENTENCE_ABBREVIATIONS.some((abbr) =>
         beforeMatch.endsWith(abbr)
@@ -56,14 +60,18 @@ function splitIntoSentences(text: string): string[] {
           i++;
         }
         const trimmed = current.trim();
-        if (trimmed.length > 0) sentences.push(trimmed);
-        current = '';
+        if (trimmed.length > 0) {
+          sentences.push(trimmed);
+        }
+        current = "";
       }
     }
     i++;
   }
   const trimmed = current.trim();
-  if (trimmed.length > 0) sentences.push(trimmed);
+  if (trimmed.length > 0) {
+    sentences.push(trimmed);
+  }
   return sentences;
 }
 
@@ -74,7 +82,7 @@ function chunkText(text: string, maxWords: number): string[] {
     return trimmed.length > 0 ? [trimmed] : [];
   }
   const chunks: string[] = [];
-  let current = '';
+  let current = "";
   let currentWords = 0;
   for (const sentence of sentences) {
     const sentenceWords = countWords(sentence);
@@ -87,7 +95,9 @@ function chunkText(text: string, maxWords: number): string[] {
       currentWords += sentenceWords;
     }
   }
-  if (current.trim().length > 0) chunks.push(current.trim());
+  if (current.trim().length > 0) {
+    chunks.push(current.trim());
+  }
   return chunks;
 }
 
@@ -109,11 +119,11 @@ async function humanizeChunk(
   );
 
   const fullPrompt =
-    options.language === 'zh-CN' || options.language === 'zh-TW'
+    options.language === "zh-CN" || options.language === "zh-TW"
       ? `待改写的文本：\n\n${text}`
-      : options.language !== 'en'
-      ? `IMPORTANT: The text is in a language other than English. Rewrite it in the SAME language. Do not translate.\n\nText to humanize:\n\n${text}`
-      : `Text to humanize:\n\n${text}`;
+      : options.language === "en"
+        ? `Text to humanize:\n\n${text}`
+        : `IMPORTANT: The text is in a language other than English. Rewrite it in the SAME language. Do not translate.\n\nText to humanize:\n\n${text}`;
 
   const params = getLevelParams(options.level);
   return generateText(env, systemPrompt, fullPrompt, {
@@ -130,14 +140,14 @@ async function rehumanizeFlaggedSentences(
 ): Promise<string[]> {
   const rehumanizePrompt = getRehumanizePrompt(flaggedSentences);
   const params = getLevelParams(options.level);
-  const result = await generateText(env, rehumanizePrompt, '', {
+  const result = await generateText(env, rehumanizePrompt, "", {
     temperature: params.temperature,
     topP: params.topP,
     maxTokens: 8000,
   });
   return result
-    .split('\n')
-    .map((line) => line.replace(/^\d+[.)]\s*/, '').trim())
+    .split("\n")
+    .map((line) => line.replace(/^\d+[.)]\s*/, "").trim())
     .filter((line) => line.length > 10);
 }
 
@@ -157,21 +167,19 @@ export async function humanizeText(
 
   // light/medium = 1 pass, aggressive = 2 passes, ninja = 3 passes
   const maxPasses =
-    options.level === 'ninja'
-      ? 3
-      : options.level === 'aggressive'
-      ? 2
-      : 1;
+    options.level === "ninja" ? 3 : options.level === "aggressive" ? 2 : 1;
 
   const chunks = chunkText(text, 2500);
 
   // Pass 1: Full humanization across chunks
   const parts: string[] = [];
   for (const chunk of chunks) {
-    if (!chunk) continue;
+    if (!chunk) {
+      continue;
+    }
     parts.push(await humanizeChunk(env, chunk, options));
   }
-  const humanizedText = parts.join('\n\n');
+  const humanizedText = parts.join("\n\n");
 
   let currentText = humanizedText;
   let passes = 1;
@@ -180,23 +188,29 @@ export async function humanizeText(
   if (maxPasses > 1) {
     for (let pass = 2; pass <= maxPasses; pass++) {
       if (Date.now() - startMs > WALL_CLOCK_BUDGET_MS) {
-        console.warn(JSON.stringify({
-          msg: 'humanize_budget_exhausted',
-          elapsedMs: Date.now() - startMs,
-          completedPasses: passes,
-        }));
+        console.warn(
+          JSON.stringify({
+            msg: "humanize_budget_exhausted",
+            elapsedMs: Date.now() - startMs,
+            completedPasses: passes,
+          })
+        );
         break;
       }
       const detection = detectAI(currentText);
-      if (detection.score >= targetScore) break;
+      if (detection.score >= targetScore) {
+        break;
+      }
 
       const flagged = detection.sentences
         .filter(
-          (s) => s.classification === 'ai' || s.classification === 'maybe'
+          (s) => s.classification === "ai" || s.classification === "maybe"
         )
         .map((s) => s.text);
 
-      if (flagged.length === 0) break;
+      if (flagged.length === 0) {
+        break;
+      }
 
       try {
         const rehumanized = await rehumanizeFlaggedSentences(
@@ -212,7 +226,9 @@ export async function humanizeText(
         const replacementsByOriginal = new Map<string, string[]>();
         flagged.forEach((orig, i) => {
           const r = rehumanized[i];
-          if (!r) return;
+          if (!r) {
+            return;
+          }
           const list = replacementsByOriginal.get(orig);
           if (list) {
             list.push(r);
@@ -227,14 +243,16 @@ export async function humanizeText(
           }
           return orig;
         });
-        currentText = newSentences.join(' ');
+        currentText = newSentences.join(" ");
         passes = pass;
       } catch (e) {
-        console.error(JSON.stringify({
-          msg: 'rehumanize_pass_failed',
-          pass,
-          error: (e as Error).message?.slice(0, 400),
-        }));
+        console.error(
+          JSON.stringify({
+            msg: "rehumanize_pass_failed",
+            pass,
+            error: (e as Error).message?.slice(0, 400),
+          })
+        );
         break;
       }
     }
@@ -252,8 +270,8 @@ export async function humanizeText(
   const sentenceResults: SentenceResult[] = [];
   for (let i = 0; i < maxLen; i++) {
     sentenceResults.push({
-      original: originalSentences[i] ?? '',
-      humanized: humanizedSentences[i] ?? '',
+      original: originalSentences[i] ?? "",
+      humanized: humanizedSentences[i] ?? "",
       alternatives: [],
       index: i,
       detectionScore: finalDetection.sentences[i]?.score,
@@ -263,7 +281,7 @@ export async function humanizeText(
   return {
     sentences: sentenceResults,
     fullText: finalText,
-    modelName: 'dynamic/text_gen',
+    modelName: "dynamic/text_gen",
     wordCount: { input: inputWordCount, output: outputWordCount },
     timestamp: Date.now(),
     passes,
@@ -272,4 +290,4 @@ export async function humanizeText(
   };
 }
 
-export type { GenerateEnv } from './providers';
+export type { GenerateEnv } from "./providers";

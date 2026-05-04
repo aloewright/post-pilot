@@ -2,7 +2,6 @@ import { apiKey } from "@better-auth/api-key";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { drizzle } from "drizzle-orm/d1";
-// biome-ignore lint/performance/noNamespaceImport: drizzleAdapter expects schema as a single object
 import * as authSchema from "./db/auth-schema";
 
 // better-auth instance factory. Called per-request because the D1 binding

@@ -2,11 +2,7 @@ import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import * as schema from "../db/schema";
 import type { AppEnv } from "../index";
-import {
-  CREDIT_COSTS,
-  getOrInitBalance,
-  recentLedger,
-} from "../lib/credits";
+import { CREDIT_COSTS, getOrInitBalance, recentLedger } from "../lib/credits";
 import { identify } from "../lib/identify";
 
 export const meRouter = new Hono<AppEnv>();

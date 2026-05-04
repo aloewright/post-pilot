@@ -59,7 +59,7 @@ export async function scanForReport(
       "content-type": "application/json",
     },
     body: JSON.stringify({ text, sandbox: false }),
-    signal: AbortSignal.timeout(8_000),
+    signal: AbortSignal.timeout(8000),
   });
   const rawBody = await r.text();
 
@@ -75,9 +75,7 @@ export async function scanForReport(
   );
 
   if (!r.ok) {
-    throw new Error(
-      `copyleaks scan ${r.status}: ${rawBody.slice(0, 200)}`
-    );
+    throw new Error(`copyleaks scan ${r.status}: ${rawBody.slice(0, 200)}`);
   }
 
   let parsed: unknown;
@@ -97,19 +95,29 @@ export async function scanForReport(
 // 0..1 so callers don't have to care which shape produced it. Returns 0 if
 // nothing matches — better to under-report than throw.
 function extractAiScore(parsed: unknown): number {
-  if (!parsed || typeof parsed !== "object") return 0;
+  if (!parsed || typeof parsed !== "object") {
+    return 0;
+  }
   const p = parsed as Record<string, unknown>;
 
   const results = p.results as Record<string, unknown> | undefined;
   const resultsScore = results?.score as Record<string, unknown> | undefined;
   const aggregated = resultsScore?.aggregatedScore;
-  if (typeof aggregated === "number") return clamp01(aggregated);
+  if (typeof aggregated === "number") {
+    return clamp01(aggregated);
+  }
 
   const summary = p.summary as Record<string, unknown> | undefined;
-  if (typeof summary?.score === "number") return clamp01(summary.score);
+  if (typeof summary?.score === "number") {
+    return clamp01(summary.score);
+  }
 
-  if (typeof p.aiScore === "number") return clamp01(p.aiScore);
-  if (typeof p.score === "number") return clamp01(p.score);
+  if (typeof p.aiScore === "number") {
+    return clamp01(p.aiScore);
+  }
+  if (typeof p.score === "number") {
+    return clamp01(p.score);
+  }
 
   return 0;
 }
@@ -120,12 +128,16 @@ function extractAiScore(parsed: unknown): number {
 export function extractSegments(
   parsed: unknown
 ): Array<{ text: string; aiScore: number }> {
-  if (!parsed || typeof parsed !== "object") return [];
+  if (!parsed || typeof parsed !== "object") {
+    return [];
+  }
   const p = parsed as Record<string, unknown>;
 
   const results = p.results as Record<string, unknown> | undefined;
   const directSegs = results?.segments;
-  if (Array.isArray(directSegs)) return mapSegments(directSegs);
+  if (Array.isArray(directSegs)) {
+    return mapSegments(directSegs);
+  }
 
   const scannedDoc = results?.scannedDocument as
     | Record<string, unknown>
@@ -134,20 +146,24 @@ export function extractSegments(
     return mapSegments(scannedDoc.segments);
   }
 
-  if (Array.isArray(p.segments)) return mapSegments(p.segments);
+  if (Array.isArray(p.segments)) {
+    return mapSegments(p.segments);
+  }
 
   return [];
 }
 
-function mapSegments(
-  raw: unknown[]
-): Array<{ text: string; aiScore: number }> {
+function mapSegments(raw: unknown[]): Array<{ text: string; aiScore: number }> {
   const out: Array<{ text: string; aiScore: number }> = [];
   for (const item of raw) {
-    if (!item || typeof item !== "object") continue;
+    if (!item || typeof item !== "object") {
+      continue;
+    }
     const seg = item as Record<string, unknown>;
     const text = typeof seg.text === "string" ? seg.text : "";
-    if (!text) continue;
+    if (!text) {
+      continue;
+    }
     // Accept either `aiScore` or `score`; some tenants emit one or the other.
     const rawScore =
       typeof seg.aiScore === "number"
@@ -161,9 +177,15 @@ function mapSegments(
 }
 
 export function clamp01(n: number): number {
-  if (!Number.isFinite(n)) return 0;
-  if (n < 0) return 0;
-  if (n > 1) return 1;
+  if (!Number.isFinite(n)) {
+    return 0;
+  }
+  if (n < 0) {
+    return 0;
+  }
+  if (n > 1) {
+    return 1;
+  }
   return n;
 }
 

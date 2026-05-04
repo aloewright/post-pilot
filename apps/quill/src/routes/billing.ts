@@ -1,10 +1,10 @@
-import { eq, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
-import { userPreferences } from "../db/schema";
 import * as schema from "../db/schema";
+import { userPreferences } from "../db/schema";
 import type { AppEnv } from "../index";
 import { credit } from "../lib/credits";
 import { requireIdentity } from "../lib/identify";
@@ -31,7 +31,10 @@ function requirePolar(env: AppEnv["Bindings"]) {
   return {
     accessToken: env.QUILL_POLAR_ACCESS_TOKEN,
     productId: env.QUILL_POLAR_CREDITS_PRODUCT_ID,
-    packSize: Number.parseInt(env.QUILL_POLAR_CREDITS_PACK_SIZE ?? "100000", 10),
+    packSize: Number.parseInt(
+      env.QUILL_POLAR_CREDITS_PACK_SIZE ?? "100000",
+      10
+    ),
   };
 }
 

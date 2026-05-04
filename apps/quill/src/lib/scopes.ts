@@ -50,7 +50,7 @@ export function toPluginPermissions(
     map[resource] = set;
   }
   const out: Partial<Record<Resource, Action[]>> = {};
-  for (const [k, v] of Object.entries(map) as Array<[Resource, Set<Action>]>) {
+  for (const [k, v] of Object.entries(map) as [Resource, Set<Action>][]) {
     out[k] = Array.from(v);
   }
   return out as Record<Resource, Action[]>;
@@ -68,13 +68,19 @@ export function fromPluginPermissions(raw: unknown): ScopeId[] {
       return [];
     }
   }
-  if (!value || typeof value !== "object") return [];
+  if (!value || typeof value !== "object") {
+    return [];
+  }
   const out: ScopeId[] = [];
   for (const [resource, actions] of Object.entries(value)) {
-    if (!Array.isArray(actions)) continue;
+    if (!Array.isArray(actions)) {
+      continue;
+    }
     for (const action of actions) {
       const id = `${resource}:${action}` as ScopeId;
-      if (isScopeId(id)) out.push(id);
+      if (isScopeId(id)) {
+        out.push(id);
+      }
     }
   }
   return out;

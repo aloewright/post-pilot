@@ -64,14 +64,7 @@ export const creditLedger = sqliteTable(
       .references(() => users.id, { onDelete: "cascade" }),
     delta: integer("delta").notNull(),
     reason: text("reason", {
-      enum: [
-        "welcome",
-        "topup",
-        "apply",
-        "humanize",
-        "refund",
-        "adjust",
-      ],
+      enum: ["welcome", "topup", "apply", "humanize", "refund", "adjust"],
     }).notNull(),
     refId: text("ref_id"),
     metadata: text("metadata", { mode: "json" }).$type<

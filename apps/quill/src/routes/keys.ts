@@ -9,22 +9,31 @@ import {
   DEFAULT_SCOPES,
   fromPluginPermissions,
   isScopeId,
-  toPluginPermissions,
   type ScopeId,
+  toPluginPermissions,
 } from "../lib/scopes";
 
 export const keysRouter = new Hono<AppEnv>();
 
 const createSchema = z.object({
   name: z.string().min(1).max(80),
-  expiresIn: z.number().int().positive().max(10 * 365 * 86400).optional(),
+  expiresIn: z
+    .number()
+    .int()
+    .positive()
+    .max(10 * 365 * 86_400)
+    .optional(),
   scopes: z.array(z.string()).optional(),
   rateLimit: z
     .object({
       enabled: z.boolean(),
       // Window in ms. Cap at 1 hour to prevent absurd values.
-      windowMs: z.number().int().positive().max(60 * 60 * 1000),
-      max: z.number().int().positive().max(10000),
+      windowMs: z
+        .number()
+        .int()
+        .positive()
+        .max(60 * 60 * 1000),
+      max: z.number().int().positive().max(10_000),
     })
     .optional(),
 });
@@ -33,10 +42,18 @@ const createSchema = z.object({
 // Better-auth returns Dates from the SQLite adapter; the JSON wire format
 // the existing client expects is ISO-8601 strings (or null).
 function toIso(v: unknown): string | null {
-  if (v == null) return null;
-  if (v instanceof Date) return v.toISOString();
-  if (typeof v === "number") return new Date(v).toISOString();
-  if (typeof v === "string") return v;
+  if (v == null) {
+    return null;
+  }
+  if (v instanceof Date) {
+    return v.toISOString();
+  }
+  if (typeof v === "number") {
+    return new Date(v).toISOString();
+  }
+  if (typeof v === "string") {
+    return v;
+  }
   return null;
 }
 

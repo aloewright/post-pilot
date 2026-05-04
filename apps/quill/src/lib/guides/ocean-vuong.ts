@@ -85,8 +85,7 @@ export const oceanVuong: Guide = {
       },
       {
         id: "direct_address",
-        prompt:
-          "Does the prose address a 'you' with the intimacy of a letter?",
+        prompt: "Does the prose address a 'you' with the intimacy of a letter?",
         weight: 0.2,
       },
       {

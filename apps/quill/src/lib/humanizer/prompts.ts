@@ -1,88 +1,235 @@
 // StealthHumanizer v3 - Anti-Detection Prompt Engine
 // Rewritten to actually defeat AI detectors by disrupting statistical fingerprints
 
-import type { RewriteLevel, StylePreset, TonePreset } from './types';
+import type { RewriteLevel, StylePreset, TonePreset } from "./types";
 
 // ==================== TONE CONFIGURATIONS ====================
 
-const TONE_CONFIGS: Record<TonePreset, {
-  name: string; personalityTraits: string[]; vocabularyPreferences: string[];
-  writingPatterns: string[];
-}> = {
-  'academic-formal': {
-    name: 'Academic Formal',
-    personalityTraits: ['rigorous', 'evidence-based', 'precise', 'measured'],
-    vocabularyPreferences: ['demonstrates', 'suggests', 'indicates', 'argues', 'contends', 'posits'],
-    writingPatterns: ['thesis-evidence structure', 'hedging language', 'citation-style references', 'counterarguments'],
+const TONE_CONFIGS: Record<
+  TonePreset,
+  {
+    name: string;
+    personalityTraits: string[];
+    vocabularyPreferences: string[];
+    writingPatterns: string[];
+  }
+> = {
+  "academic-formal": {
+    name: "Academic Formal",
+    personalityTraits: ["rigorous", "evidence-based", "precise", "measured"],
+    vocabularyPreferences: [
+      "demonstrates",
+      "suggests",
+      "indicates",
+      "argues",
+      "contends",
+      "posits",
+    ],
+    writingPatterns: [
+      "thesis-evidence structure",
+      "hedging language",
+      "citation-style references",
+      "counterarguments",
+    ],
   },
-  'academic-casual': {
-    name: 'Academic Casual',
-    personalityTraits: ['thoughtful', 'accessible', 'curious', 'balanced'],
-    vocabularyPreferences: ['think about', 'look at', 'interesting', 'makes sense', 'worth noting', 'raises the question'],
-    writingPatterns: ['conversational academic tone', 'occasional first person', 'relatable examples', 'questions to reader'],
+  "academic-casual": {
+    name: "Academic Casual",
+    personalityTraits: ["thoughtful", "accessible", "curious", "balanced"],
+    vocabularyPreferences: [
+      "think about",
+      "look at",
+      "interesting",
+      "makes sense",
+      "worth noting",
+      "raises the question",
+    ],
+    writingPatterns: [
+      "conversational academic tone",
+      "occasional first person",
+      "relatable examples",
+      "questions to reader",
+    ],
   },
-  'journalistic': {
-    name: 'Journalistic',
-    personalityTraits: ['direct', 'informative', 'engaging', 'fact-driven'],
-    vocabularyPreferences: ['according to', 'reports show', 'experts say', 'data reveals', 'investigation found'],
-    writingPatterns: ['inverted pyramid', 'short punchy paragraphs', 'direct quotes', 'attributed claims'],
+  journalistic: {
+    name: "Journalistic",
+    personalityTraits: ["direct", "informative", "engaging", "fact-driven"],
+    vocabularyPreferences: [
+      "according to",
+      "reports show",
+      "experts say",
+      "data reveals",
+      "investigation found",
+    ],
+    writingPatterns: [
+      "inverted pyramid",
+      "short punchy paragraphs",
+      "direct quotes",
+      "attributed claims",
+    ],
   },
-  'creative-writing': {
-    name: 'Creative Writing',
-    personalityTraits: ['imaginative', 'expressive', 'evocative', 'unique voice'],
-    vocabularyPreferences: ['vivid adjectives', 'sensory details', 'metaphors', 'figurative language'],
-    writingPatterns: ['show don\'t tell', 'varied sentence rhythm', 'imagery-rich', 'emotional depth'],
+  "creative-writing": {
+    name: "Creative Writing",
+    personalityTraits: [
+      "imaginative",
+      "expressive",
+      "evocative",
+      "unique voice",
+    ],
+    vocabularyPreferences: [
+      "vivid adjectives",
+      "sensory details",
+      "metaphors",
+      "figurative language",
+    ],
+    writingPatterns: [
+      "show don't tell",
+      "varied sentence rhythm",
+      "imagery-rich",
+      "emotional depth",
+    ],
   },
-  'conversational': {
-    name: 'Conversational',
-    personalityTraits: ['friendly', 'relaxed', 'authentic', 'approachable'],
-    vocabularyPreferences: ['honestly', 'basically', 'kind of', 'pretty much', 'you know', 'I mean', 'stuff like that'],
-    writingPatterns: ['contractions everywhere', 'rhetorical questions', 'short sentences mixed with longer ones', 'personal asides'],
+  conversational: {
+    name: "Conversational",
+    personalityTraits: ["friendly", "relaxed", "authentic", "approachable"],
+    vocabularyPreferences: [
+      "honestly",
+      "basically",
+      "kind of",
+      "pretty much",
+      "you know",
+      "I mean",
+      "stuff like that",
+    ],
+    writingPatterns: [
+      "contractions everywhere",
+      "rhetorical questions",
+      "short sentences mixed with longer ones",
+      "personal asides",
+    ],
   },
-  'professional': {
-    name: 'Professional',
-    personalityTraits: ['competent', 'clear', 'polished', 'authoritative'],
-    vocabularyPreferences: ['implement', 'develop', 'achieve', 'ensure', 'leverage', 'streamline'],
-    writingPatterns: ['clear structure', 'action-oriented', 'concise paragraphs', 'bullet points when appropriate'],
+  professional: {
+    name: "Professional",
+    personalityTraits: ["competent", "clear", "polished", "authoritative"],
+    vocabularyPreferences: [
+      "implement",
+      "develop",
+      "achieve",
+      "ensure",
+      "leverage",
+      "streamline",
+    ],
+    writingPatterns: [
+      "clear structure",
+      "action-oriented",
+      "concise paragraphs",
+      "bullet points when appropriate",
+    ],
   },
-  'technical': {
-    name: 'Technical',
-    personalityTraits: ['precise', 'methodical', 'clear', 'expert'],
-    vocabularyPreferences: ['specification', 'implementation', 'architecture', 'optimize', 'configure', 'parameters'],
-    writingPatterns: ['step-by-step explanations', 'clear definitions', 'examples', 'consistency in terminology'],
+  technical: {
+    name: "Technical",
+    personalityTraits: ["precise", "methodical", "clear", "expert"],
+    vocabularyPreferences: [
+      "specification",
+      "implementation",
+      "architecture",
+      "optimize",
+      "configure",
+      "parameters",
+    ],
+    writingPatterns: [
+      "step-by-step explanations",
+      "clear definitions",
+      "examples",
+      "consistency in terminology",
+    ],
   },
-  'persuasive': {
-    name: 'Persuasive',
-    personalityTraits: ['confident', 'compelling', 'strategic', 'passionate'],
-    vocabularyPreferences: ['clearly', 'undoubtedly', 'research proves', 'evidence shows', 'it\'s obvious that'],
-    writingPatterns: ['strong claims with evidence', 'addressing counterarguments', 'emotional appeals', 'call to action'],
+  persuasive: {
+    name: "Persuasive",
+    personalityTraits: ["confident", "compelling", "strategic", "passionate"],
+    vocabularyPreferences: [
+      "clearly",
+      "undoubtedly",
+      "research proves",
+      "evidence shows",
+      "it's obvious that",
+    ],
+    writingPatterns: [
+      "strong claims with evidence",
+      "addressing counterarguments",
+      "emotional appeals",
+      "call to action",
+    ],
   },
-  'storytelling': {
-    name: 'Storytelling',
-    personalityTraits: ['narrative', 'engaging', 'personal', 'dramatic'],
-    vocabularyPreferences: ['imagine this', 'here\'s the thing', 'what happened was', 'picture this'],
-    writingPatterns: ['anecdotes', 'scene-setting', 'character perspective', 'narrative arc'],
+  storytelling: {
+    name: "Storytelling",
+    personalityTraits: ["narrative", "engaging", "personal", "dramatic"],
+    vocabularyPreferences: [
+      "imagine this",
+      "here's the thing",
+      "what happened was",
+      "picture this",
+    ],
+    writingPatterns: [
+      "anecdotes",
+      "scene-setting",
+      "character perspective",
+      "narrative arc",
+    ],
   },
-  'humorous': {
-    name: 'Humorous',
-    personalityTraits: ['witty', 'irreverent', 'clever', 'light-hearted'],
-    vocabularyPreferences: ['here\'s the kicker', 'plot twist', 'funnily enough', 'ironically', 'surprise surprise'],
-    writingPatterns: ['irony and sarcasm', 'unexpected comparisons', 'self-deprecation', 'punchlines'],
+  humorous: {
+    name: "Humorous",
+    personalityTraits: ["witty", "irreverent", "clever", "light-hearted"],
+    vocabularyPreferences: [
+      "here's the kicker",
+      "plot twist",
+      "funnily enough",
+      "ironically",
+      "surprise surprise",
+    ],
+    writingPatterns: [
+      "irony and sarcasm",
+      "unexpected comparisons",
+      "self-deprecation",
+      "punchlines",
+    ],
   },
-  'emotional': {
-    name: 'Emotional',
-    personalityTraits: ['empathetic', 'passionate', 'vulnerable', 'expressive'],
-    vocabularyPreferences: ['honestly', 'truly', 'deeply', 'personally', 'heartbreakingly', 'beautifully'],
-    writingPatterns: ['emotional appeals', 'personal anecdotes', 'vivid imagery', 'sensory language'],
+  emotional: {
+    name: "Emotional",
+    personalityTraits: ["empathetic", "passionate", "vulnerable", "expressive"],
+    vocabularyPreferences: [
+      "honestly",
+      "truly",
+      "deeply",
+      "personally",
+      "heartbreakingly",
+      "beautifully",
+    ],
+    writingPatterns: [
+      "emotional appeals",
+      "personal anecdotes",
+      "vivid imagery",
+      "sensory language",
+    ],
   },
-  'analytical': {
-    name: 'Analytical',
-    personalityTraits: ['logical', 'systematic', 'thorough', 'objective'],
-    vocabularyPreferences: ['analysis reveals', 'data indicates', 'trend suggests', 'correlation', 'significance'],
-    writingPatterns: ['structured argumentation', 'evidence chains', 'systematic breakdown', 'comparative analysis'],
+  analytical: {
+    name: "Analytical",
+    personalityTraits: ["logical", "systematic", "thorough", "objective"],
+    vocabularyPreferences: [
+      "analysis reveals",
+      "data indicates",
+      "trend suggests",
+      "correlation",
+      "significance",
+    ],
+    writingPatterns: [
+      "structured argumentation",
+      "evidence chains",
+      "systematic breakdown",
+      "comparative analysis",
+    ],
   },
-  'custom': {
-    name: 'Custom Tone',
+  custom: {
+    name: "Custom Tone",
     personalityTraits: [],
     vocabularyPreferences: [],
     writingPatterns: [],
@@ -174,14 +321,17 @@ const STYLE_OVERLAYS: Record<StylePreset, string> = {
   academic: `Style: Academic but real. Like a student paper, not a journal article. Use "I" sometimes. Cite casually: "Smith (2023) makes a good point about this." Don't over-explain.`,
   casual: `Style: Super casual. Like texting a friend who asked about this. Contractions everywhere. "Honestly," "basically," "kind of." Sentence fragments are fine.`,
   professional: `Style: Professional but real person. Direct, specific, no buzzwords. Short paragraphs. "We found" not "It was discovered."`,
-  creative: `Style: Vivid and engaging. Sensory details, fresh comparisons. Unexpected word choices. The writing should feel alive.`,
+  creative:
+    "Style: Vivid and engaging. Sensory details, fresh comparisons. Unexpected word choices. The writing should feel alive.",
   technical: `Style: Technical but human. Precise terms, concrete examples. "You'll see" not "It can be observed." Step-by-step.`,
 };
 
 // ==================== HUMAN WRITING SAMPLE HANDLING ====================
 
 function buildSamplePrompt(writingSample: string): string {
-  if (!writingSample || writingSample.trim().length < 20) return '';
+  if (!writingSample || writingSample.trim().length < 20) {
+    return "";
+  }
   return `
 
 === USER'S WRITING SAMPLE ===
@@ -216,34 +366,35 @@ const PERSONAS: Record<RewriteLevel, string> = {
 export function getSystemPrompt(
   level: RewriteLevel,
   style: StylePreset,
-  tone: TonePreset = 'conversational',
+  tone: TonePreset = "conversational",
   customTone?: string,
   writingSample?: string,
   language?: string,
   additionalAvoidPhrases?: string[]
 ): string {
   // Use Chinese-specific prompts for Chinese languages
-  if (language === 'zh-CN' || language === 'zh-TW') {
+  if (language === "zh-CN" || language === "zh-TW") {
     return getChineseSystemPrompt(
       level,
       style,
       tone,
       customTone,
       writingSample,
-      language === 'zh-TW',
+      language === "zh-TW",
       additionalAvoidPhrases
     );
   }
 
   const toneConfig = TONE_CONFIGS[tone];
-  const toneSection = tone === 'custom' && customTone
-    ? `CUSTOM TONE: ${customTone}`
-    : tone !== 'custom'
-    ? `TONE: ${toneConfig.name}
-Personality: ${toneConfig.personalityTraits.join(', ')}`
-    : '';
+  const toneSection =
+    tone === "custom" && customTone
+      ? `CUSTOM TONE: ${customTone}`
+      : tone === "custom"
+        ? ""
+        : `TONE: ${toneConfig.name}
+Personality: ${toneConfig.personalityTraits.join(", ")}`;
 
-  const sampleSection = writingSample ? buildSamplePrompt(writingSample) : '';
+  const sampleSection = writingSample ? buildSamplePrompt(writingSample) : "";
 
   // Inject phrases learned from prior detector runs. The list is frequency-
   // ranked (most-flagged first), so even truncated to 50 it carries the most
@@ -252,8 +403,8 @@ Personality: ${toneConfig.personalityTraits.join(', ')}`
     additionalAvoidPhrases && additionalAvoidPhrases.length > 0
       ? `\n\nADDITIONAL PHRASES TO NEVER USE (learned from prior AI-detector hits):\n${additionalAvoidPhrases
           .map((p) => `- ${p}`)
-          .join('\n')}\n`
-      : '';
+          .join("\n")}\n`
+      : "";
 
   return `${PERSONAS[level]}
 
@@ -285,7 +436,7 @@ RULES FOR EACH SENTENCE:
 - Never start with "The" followed by a noun
 
 SENTENCES TO REWRITE:
-${flaggedSentences.map((s, i) => `${i + 1}. ${s}`).join('\n')}
+${flaggedSentences.map((s, i) => `${i + 1}. ${s}`).join("\n")}
 
 Return ONLY the rewritten sentences, numbered, with no other text.`;
 }
@@ -469,25 +620,25 @@ const CHINESE_LEVEL_INSTRUCTIONS: Record<RewriteLevel, string> = {
 function getChineseSystemPrompt(
   level: RewriteLevel,
   style: StylePreset,
-  tone: TonePreset = 'conversational',
+  tone: TonePreset = "conversational",
   customTone?: string,
   writingSample?: string,
-  isTraditional: boolean = false,
+  isTraditional = false,
   additionalAvoidPhrases?: string[]
 ): string {
-  const modeSection = style === 'academic'
-    ? CHINESE_ACADEMIC_MODE
-    : CHINESE_GENERAL_MODE;
+  const modeSection =
+    style === "academic" ? CHINESE_ACADEMIC_MODE : CHINESE_GENERAL_MODE;
 
-  const toneSection = tone === 'custom' && customTone
-    ? `自定义语调（CUSTOM TONE）: ${customTone}`
-    : '';
+  const toneSection =
+    tone === "custom" && customTone
+      ? `自定义语调（CUSTOM TONE）: ${customTone}`
+      : "";
 
-  const sampleSection = writingSample ? buildSamplePrompt(writingSample) : '';
+  const sampleSection = writingSample ? buildSamplePrompt(writingSample) : "";
 
   const traditionalSection = isTraditional
     ? `\n${TRADITIONAL_CHINESE_NOTES}`
-    : '';
+    : "";
 
   // Frequency-ranked phrases the detector flagged before — feed them in as
   // an explicit avoid-list so the next pass doesn't repeat the same misses.
@@ -495,16 +646,16 @@ function getChineseSystemPrompt(
     additionalAvoidPhrases && additionalAvoidPhrases.length > 0
       ? `\n\n额外禁用短语（ADDITIONAL PHRASES TO NEVER USE — learned from prior detections）：\n${additionalAvoidPhrases
           .map((p) => `- ${p}`)
-          .join('\n')}\n`
-      : '';
+          .join("\n")}\n`
+      : "";
 
   return `你是一个中文写作改写助手。你的任务是将AI生成的中文文本改写为自然的人类写作风格。
 你了解知网AIGC检测系统、万方、维普等中文AI检测工具的工作原理，并知道如何规避它们。
 
 ${CHINESE_ANTI_DETECTION_CORE}
-${level !== 'light' ? CHINESE_BURSTINESS_ENGINE : ''}
-${level !== 'light' ? CHINESE_STRUCTURAL_DISRUPTION : ''}
-${level !== 'light' ? CHINESE_IDIOM_INSERTION : ''}
+${level === "light" ? "" : CHINESE_BURSTINESS_ENGINE}
+${level === "light" ? "" : CHINESE_STRUCTURAL_DISRUPTION}
+${level === "light" ? "" : CHINESE_IDIOM_INSERTION}
 ${modeSection}
 ${toneSection}
 ${traditionalSection}
@@ -518,17 +669,23 @@ ${learnedAvoidSection}
 3. 不要删除关键信息
 4. 输出长度应在原文的±20%范围内
 
-只返回改写后的文本，不要任何解释、注释或前言。${isTraditional ? '\n使用繁体中文输出。' : ''}`;
+只返回改写后的文本，不要任何解释、注释或前言。${isTraditional ? "\n使用繁体中文输出。" : ""}`;
 }
 
 // Temperature and top_p settings per level
-const LEVEL_PARAMS: Record<RewriteLevel, { temperature: number; topP: number }> = {
+const LEVEL_PARAMS: Record<
+  RewriteLevel,
+  { temperature: number; topP: number }
+> = {
   light: { temperature: 0.8, topP: 0.92 },
   medium: { temperature: 0.9, topP: 0.95 },
   aggressive: { temperature: 1.0, topP: 0.97 },
   ninja: { temperature: 1.1, topP: 0.99 },
 };
 
-export function getLevelParams(level: RewriteLevel): { temperature: number; topP: number } {
+export function getLevelParams(level: RewriteLevel): {
+  temperature: number;
+  topP: number;
+} {
   return LEVEL_PARAMS[level];
 }

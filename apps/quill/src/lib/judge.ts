@@ -22,12 +22,14 @@ async function withTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
       new Promise<T>((_, reject) => {
         timer = setTimeout(
           () => reject(new Error(`judge call timed out after ${ms}ms`)),
-          ms,
+          ms
         );
       }),
     ]);
   } finally {
-    if (timer) clearTimeout(timer);
+    if (timer) {
+      clearTimeout(timer);
+    }
   }
 }
 
@@ -36,15 +38,23 @@ function stripFences(s: string): string {
   if (out.startsWith("```")) {
     // remove leading fence (```json or ```), and trailing fence
     out = out.replace(/^```[a-zA-Z]*\s*\n?/, "");
-    if (out.endsWith("```")) out = out.slice(0, -3);
+    if (out.endsWith("```")) {
+      out = out.slice(0, -3);
+    }
   }
   return out.trim();
 }
 
 function clamp01(n: number): number {
-  if (!Number.isFinite(n)) return 0.5;
-  if (n < 0) return 0;
-  if (n > 1) return 1;
+  if (!Number.isFinite(n)) {
+    return 0.5;
+  }
+  if (n < 0) {
+    return 0;
+  }
+  if (n > 1) {
+    return 1;
+  }
   return n;
 }
 
@@ -52,7 +62,7 @@ export async function judgeOutput(
   env: AppEnv["Bindings"],
   guide: Guide,
   input: string,
-  output: string,
+  output: string
 ): Promise<JudgeResult> {
   const criteria = guide.eval_rubric.judge_criteria;
   if (!criteria || criteria.length === 0) {
@@ -64,9 +74,7 @@ export async function judgeOutput(
     return { status: "skipped", reason: "gateway_unavailable" };
   }
 
-  const criteriaList = criteria
-    .map((c) => `- ${c.id}: ${c.prompt}`)
-    .join("\n");
+  const criteriaList = criteria.map((c) => `- ${c.id}: ${c.prompt}`).join("\n");
 
   const systemPrompt = [
     `You are a literary judge evaluating whether a piece of text faithfully imitates the voice of ${guide.author} (${guide.kicker}).`,
@@ -106,9 +114,9 @@ export async function judgeOutput(
             { role: "user", content: userPrompt },
           ],
         },
-        { gateway: { id: gatewayId } },
+        { gateway: { id: gatewayId } }
       ),
-      15_000,
+      15_000
     )) as { choices?: Array<{ message?: { content?: string } }> };
     raw = result.choices?.[0]?.message?.content ?? "";
   } catch (e) {
@@ -118,7 +126,7 @@ export async function judgeOutput(
         msg: "judge_failed",
         reason: "gateway_error",
         error: errorMsg?.slice(0, 200),
-      }),
+      })
     );
     return { status: "error", reason: "gateway_error" };
   }
@@ -126,7 +134,7 @@ export async function judgeOutput(
   const trimmed = raw.trim();
   if (!trimmed) {
     console.warn(
-      JSON.stringify({ msg: "judge_failed", reason: "empty_response" }),
+      JSON.stringify({ msg: "judge_failed", reason: "empty_response" })
     );
     return { status: "error", reason: "empty_response" };
   }
@@ -140,7 +148,7 @@ export async function judgeOutput(
     const match = trimmed.match(/\{[\s\S]*\}/);
     if (!match) {
       console.warn(
-        JSON.stringify({ msg: "judge_failed", reason: "parse_failure" }),
+        JSON.stringify({ msg: "judge_failed", reason: "parse_failure" })
       );
       return { status: "error", reason: "parse_failure" };
     }
@@ -152,7 +160,7 @@ export async function judgeOutput(
           msg: "judge_failed",
           reason: "parse_failure",
           error: (e as Error).message?.slice(0, 200),
-        }),
+        })
       );
       return { status: "error", reason: "parse_failure" };
     }
@@ -160,7 +168,7 @@ export async function judgeOutput(
 
   if (!parsed || typeof parsed !== "object") {
     console.warn(
-      JSON.stringify({ msg: "judge_failed", reason: "shape_failure" }),
+      JSON.stringify({ msg: "judge_failed", reason: "shape_failure" })
     );
     return { status: "error", reason: "parse_failure" };
   }
@@ -196,7 +204,7 @@ export async function judgeOutput(
       ? Math.round(
           (perCriterion.reduce((s, c) => s + c.score * c.weight, 0) /
             totalWeight) *
-            100,
+            100
         )
       : 0;
 
@@ -214,7 +222,7 @@ export async function judgeOutput(
       msg: "judge_ok",
       fidelity,
       criteria: criteria.length,
-    }),
+    })
   );
 
   return { status: "ok", fidelity, perCriterion, notes };

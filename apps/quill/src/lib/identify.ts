@@ -14,9 +14,7 @@ export type Identity = {
 // (so machine-to-machine traffic doesn't depend on cookies), falls back
 // to the better-auth session cookie. Returns null if neither is present
 // or valid — caller decides whether that's a 401 or anonymous.
-export async function identify(
-  c: Context<AppEnv>
-): Promise<Identity | null> {
+export async function identify(c: Context<AppEnv>): Promise<Identity | null> {
   const auth = createAuth(c.env, new URL(c.req.url).origin);
   const authz = c.req.header("authorization");
   if (authz?.toLowerCase().startsWith("bearer ")) {

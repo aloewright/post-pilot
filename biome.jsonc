@@ -18,6 +18,7 @@
       "!lib/utils.ts",
       "!hooks/use-mobile.ts",
       "!apps/quill/scripts",
+      "!apps/quill/wrangler.jsonc",
       "!apps/quill/worker-configuration.d.ts",
       "!apps/quill/client/routeTree.gen.ts"
     ]
@@ -62,6 +63,34 @@
     {
       "includes": ["apps/quill/client/routes/**"],
       "linter": { "rules": { "style": { "useFilenamingConvention": "off" } } }
+    },
+    {
+      "includes": ["apps/quill/**"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noForEach": "off"
+          },
+          "performance": {
+            "noImgElement": "off",
+            "noNamespaceImport": "off"
+          },
+          "style": {
+            "noNonNullAssertion": "off",
+            "noParameterAssign": "off",
+            "useCollapsedIf": "off",
+            "useDefaultSwitchClause": "off"
+          },
+          "suspicious": {
+            "noAlert": "off",
+            "noArrayIndexKey": "off",
+            "noAssignInExpressions": "off",
+            "noEvolvingTypes": "off",
+            "noImplicitAnyLet": "off",
+            "useIterableCallbackReturn": "off"
+          }
+        }
+      }
     }
   ]
 }

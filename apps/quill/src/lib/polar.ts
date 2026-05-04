@@ -175,11 +175,7 @@ export async function verifyWebhook(
     ["sign"]
   );
   const toSign = new TextEncoder().encode(`${id}.${ts}.${rawBody}`);
-  const sigBuf = await crypto.subtle.sign(
-    "HMAC",
-    key,
-    toSign as BufferSource
-  );
+  const sigBuf = await crypto.subtle.sign("HMAC", key, toSign as BufferSource);
   const expected = btoa(String.fromCharCode(...new Uint8Array(sigBuf)));
 
   // Header carries one or more `v1,<sig>` pairs (space-separated). Match

@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import type { GuideListItem } from "../lib/api";
 import { COVERED } from "../lib/covers";
 import { AuthorIllustration } from "./author-illustration";
-import { Kicker } from "./editorial";
 
 export function AuthorStrip({
   guides,
@@ -93,9 +92,7 @@ export function AuthorStrip({
                 {/* Caption: fixed height, two lines max. Constant across
                     cards so author names with different word counts don't
                     push the image area to different heights. */}
-                <div
-                  className="flex h-[88px] items-end px-4 pt-3 pb-4"
-                >
+                <div className="flex h-[88px] items-end px-4 pt-3 pb-4">
                   <span
                     className="pp-lede text-xl"
                     style={{ lineHeight: 1.05 }}

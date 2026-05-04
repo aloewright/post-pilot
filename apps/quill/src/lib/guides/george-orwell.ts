@@ -15,9 +15,11 @@ export const georgeOrwell: Guide = {
   copyright_posture: "voice-inspired",
   voice_spec: {
     sentence_length: { mean: 18, max: 35 },
-    vocabulary_register: "plain Anglo-Saxon; everyday words over latinate; no jargon",
+    vocabulary_register:
+      "plain Anglo-Saxon; everyday words over latinate; no jargon",
     syntax: "active voice; clauses serve the argument, never decorate it",
-    figurative_language: "fresh, concrete images only; never reach for a dying metaphor",
+    figurative_language:
+      "fresh, concrete images only; never reach for a dying metaphor",
     pacing: "measured, witness-like; an even tone broken by a dry aside",
   },
   do: [
@@ -37,8 +39,7 @@ export const georgeOrwell: Guide = {
       label: "Political clarity",
       content:
         "In our time, political speech and writing are largely the defence of the indefensible. Things like the continuance of British rule in India, the Russian purges and deportations, the dropping of the atom bombs on Japan, can indeed be defended, but only by arguments which are too brutal for most people to face, and which do not square with the professed aims of political parties.",
-      source:
-        "George Orwell, 'Politics and the English Language' (1946)",
+      source: "George Orwell, 'Politics and the English Language' (1946)",
       is_generated: false,
     },
     {

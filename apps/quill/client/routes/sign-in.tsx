@@ -52,8 +52,10 @@ function SignInPage() {
 
       <form className="flex flex-col gap-4" onSubmit={onSubmit}>
         <label className="flex flex-col gap-1">
-          <span className="text-xs uppercase tracking-wider"
-            style={{ color: "var(--strand-color-ink-muted)" }}>
+          <span
+            className="text-xs uppercase tracking-wider"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
             Email
           </span>
           <input
@@ -67,8 +69,10 @@ function SignInPage() {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-xs uppercase tracking-wider"
-            style={{ color: "var(--strand-color-ink-muted)" }}>
+          <span
+            className="text-xs uppercase tracking-wider"
+            style={{ color: "var(--strand-color-ink-muted)" }}
+          >
             Password
           </span>
           <input
@@ -82,7 +86,10 @@ function SignInPage() {
         </label>
 
         {error ? (
-          <p className="text-sm" style={{ color: "var(--strand-color-warning)" }}>
+          <p
+            className="text-sm"
+            style={{ color: "var(--strand-color-warning)" }}
+          >
             {error}
           </p>
         ) : null}
@@ -101,11 +108,19 @@ function SignInPage() {
         </button>
       </form>
 
-      <div className="my-6 flex items-center gap-3 text-xs uppercase tracking-wider"
-        style={{ color: "var(--strand-color-ink-muted)" }}>
-        <span className="h-px flex-1" style={{ background: "var(--strand-color-rule)" }} />
+      <div
+        className="my-6 flex items-center gap-3 text-xs uppercase tracking-wider"
+        style={{ color: "var(--strand-color-ink-muted)" }}
+      >
+        <span
+          className="h-px flex-1"
+          style={{ background: "var(--strand-color-rule)" }}
+        />
         or
-        <span className="h-px flex-1" style={{ background: "var(--strand-color-rule)" }} />
+        <span
+          className="h-px flex-1"
+          style={{ background: "var(--strand-color-rule)" }}
+        />
       </div>
 
       <button
@@ -120,7 +135,10 @@ function SignInPage() {
         Continue with GitHub
       </button>
 
-      <p className="mt-8 text-sm" style={{ color: "var(--strand-color-ink-muted)" }}>
+      <p
+        className="mt-8 text-sm"
+        style={{ color: "var(--strand-color-ink-muted)" }}
+      >
         New here?{" "}
         <Link className="underline" to="/sign-up">
           Create an account

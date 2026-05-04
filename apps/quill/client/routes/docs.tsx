@@ -84,19 +84,19 @@ function DocsPage() {
         </Lede>
         <Standfirst className="max-w-[52ch]">
           Post Pilot ships every guide as a system prompt, a structured JSON
-          spec, and a deterministic eval rubric. Below is what you need to
-          know to wire one in.
+          spec, and a deterministic eval rubric. Below is what you need to know
+          to wire one in.
         </Standfirst>
       </div>
 
       <Column>
         <h2 className="pp-lede mt-0 text-3xl">Quickstart</h2>
         <p>
-          Fetch any guide by slug, take its <code>system_prompt</code>, and
-          hand it to your LLM call. All model calls in your application
-          should route through Cloudflare AI Gateway dynamic routes — never
-          direct provider SDKs — so you get caching, observability,
-          fallbacks, and BYOK virtual keys for free.
+          Fetch any guide by slug, take its <code>system_prompt</code>, and hand
+          it to your LLM call. All model calls in your application should route
+          through Cloudflare AI Gateway dynamic routes — never direct provider
+          SDKs — so you get caching, observability, fallbacks, and BYOK virtual
+          keys for free.
         </p>
         <CodeBlock>{QUICKSTART}</CodeBlock>
 
@@ -104,12 +104,12 @@ function DocsPage() {
         <p>Every guide is a JSON object with these fields:</p>
         <ul>
           <li>
-            <code>system_prompt</code> — the prose system prompt. Drop into
-            any chat call.
+            <code>system_prompt</code> — the prose system prompt. Drop into any
+            chat call.
           </li>
           <li>
-            <code>voice_spec</code> — structured constraints (sentence
-            length, vocabulary register, syntax notes, pacing).
+            <code>voice_spec</code> — structured constraints (sentence length,
+            vocabulary register, syntax notes, pacing).
           </li>
           <li>
             <code>do</code> / <code>dont</code> — short imperative lists
@@ -121,8 +121,8 @@ function DocsPage() {
           </li>
           <li>
             <code>eval_rubric</code> — deterministic metrics (e.g.{" "}
-            <code>avg_sentence_length &lt;= 14</code>) and judge criteria
-            for measuring fidelity.
+            <code>avg_sentence_length &lt;= 14</code>) and judge criteria for
+            measuring fidelity.
           </li>
         </ul>
 
@@ -136,8 +136,8 @@ function DocsPage() {
             <code>useCase</code>, <code>voice</code>, <code>q</code>.
           </li>
           <li>
-            <code>GET /v1/guides/:slug[?format=json|yaml|prompt]</code> —
-            single guide in the format you want.
+            <code>GET /v1/guides/:slug[?format=json|yaml|prompt]</code> — single
+            guide in the format you want.
           </li>
           <li>
             <code>GET /v1/guides/:slug/exemplars</code> — examples only.
@@ -149,47 +149,49 @@ function DocsPage() {
             <code>GET /v1/presets</code> — use-case presets.
           </li>
           <li>
-            <code>POST /v1/apply</code> — render guide+preset against input
-            and return text + a deterministic snapshot of the rubric.
+            <code>POST /v1/apply</code> — render guide+preset against input and
+            return text + a deterministic snapshot of the rubric.
           </li>
         </ul>
         <CodeBlock>{CURL}</CodeBlock>
 
         <h2 className="pp-lede mt-12 text-3xl">The apply endpoint</h2>
         <p>
-          <code>/v1/apply</code> takes a guide, an optional preset, and an
-          input string. It calls AI Gateway internally with the composed
-          system prompt, then runs the deterministic rubric over the output.
+          <code>/v1/apply</code> takes a guide, an optional preset, and an input
+          string. It calls AI Gateway internally with the composed system
+          prompt, then runs the deterministic rubric over the output.
         </p>
         <CodeBlock>{APPLY}</CodeBlock>
 
         <h2 className="pp-lede mt-12 text-3xl">Eval rubric</h2>
-        <p>Each guide ships an <code>eval_rubric</code> with two parts:</p>
+        <p>
+          Each guide ships an <code>eval_rubric</code> with two parts:
+        </p>
         <ul>
           <li>
-            <strong>Deterministic metrics</strong> — measurable properties
-            (avg sentence length, adverbs per 200 words, abstract count)
-            with an op (<code>&lt;=</code>, <code>&gt;=</code>,{" "}
-            <code>==</code>), a target value, and a weight.
+            <strong>Deterministic metrics</strong> — measurable properties (avg
+            sentence length, adverbs per 200 words, abstract count) with an op (
+            <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>), a target
+            value, and a weight.
           </li>
           <li>
-            <strong>Judge criteria</strong> — short prompts a model can
-            grade against (e.g. "does the passage avoid latinate
-            vocabulary?"). Each weighted to add up to 1.0.
+            <strong>Judge criteria</strong> — short prompts a model can grade
+            against (e.g. "does the passage avoid latinate vocabulary?"). Each
+            weighted to add up to 1.0.
           </li>
         </ul>
 
         <Pull attribution="Post Pilot, the docs">
-          A guide is a description of a voice that a model can read and
-          measure itself against. The point isn't to imitate one writer;
-          the point is to have an opinion about prose.
+          A guide is a description of a voice that a model can read and measure
+          itself against. The point isn't to imitate one writer; the point is to
+          have an opinion about prose.
         </Pull>
 
         <h2 className="pp-lede mt-12 text-3xl">More languages</h2>
         <p>
-          Python and Go samples coming. The shape is the same: fetch the
-          guide, hand the <code>system_prompt</code> field to your gateway
-          call, parse the response.
+          Python and Go samples coming. The shape is the same: fetch the guide,
+          hand the <code>system_prompt</code> field to your gateway call, parse
+          the response.
         </p>
 
         <Rule />

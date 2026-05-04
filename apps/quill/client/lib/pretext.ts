@@ -8,7 +8,7 @@
 // the same text + font + options is cheap. We add a slug-scoped cache on
 // top so React render loops don't re-prepare the same string.
 
-import { layout, prepare, type PreparedText } from "@chenglou/pretext";
+import { layout, type PreparedText, prepare } from "@chenglou/pretext";
 
 const cache = new Map<string, PreparedText>();
 
