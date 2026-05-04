@@ -1,71 +1,103 @@
-<a href="https://chat.vercel.ai/">
-  <img alt="Chatbot" src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Chatbot</h1>
-</a>
+# Post Pilot
 
-<p align="center">
-    Chatbot (formerly AI Chatbot) is a free, open-source template built with Next.js and the AI SDK that helps you quickly build powerful chatbot applications.
-</p>
+A curated library of author-voice specifications for AI agents — served from a single Cloudflare Worker.
 
-<p align="center">
-  <a href="https://chatbot.dev"><strong>Read Docs</strong></a> ·
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#model-providers"><strong>Model Providers</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="#running-locally"><strong>Running locally</strong></a>
-</p>
-<br/>
+The Worker exposes a read-only REST API at `/v1/*` and a React SPA catalog. Each guide is a structured voice profile (persona, lexicon, syntax, rubric, exemplars) that can be rendered against an input via `POST /v1/apply`, with model calls routed through Cloudflare AI Gateway.
 
-## Features
+The runnable app lives in `apps/quill/`. This is a pnpm workspace.
 
-- [Next.js](https://nextjs.org) App Router
-  - Advanced routing for seamless navigation and performance
-  - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
-- [AI SDK](https://ai-sdk.dev/docs/introduction)
-  - Unified API for generating text, structured objects, and tool calls with LLMs
-  - Hooks for building dynamic chat and generative user interfaces
-  - Supports OpenAI, Anthropic, Google, xAI, and other model providers via AI Gateway
-- [shadcn/ui](https://ui.shadcn.com)
-  - Styling with [Tailwind CSS](https://tailwindcss.com)
-  - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
-- Data Persistence
-  - [Neon Serverless Postgres](https://vercel.com/marketplace/neon) for saving chat history and user data
-  - [Vercel Blob](https://vercel.com/storage/blob) for efficient file storage
-- [Auth.js](https://authjs.dev)
-  - Simple and secure authentication
+## Stack
 
-## Model Providers
+- **Runtime** — Cloudflare Workers (Wrangler v4, `wrangler.jsonc`)
+- **Backend** — Hono with REST API at `/v1/*`, Zod validation at the boundary
+- **Frontend** — React 19 + Vite, served as static assets from the same Worker
+- **Routing** — TanStack Router (file-based, code-split)
+- **Data** — TanStack Query, Drizzle ORM targeting D1
+- **UI** — Strand design tokens (Tailwind v4) + bespoke editorial primitives, with `@cloudflare/kumo` wired in for incremental migration
+- **Auth** — Better Auth (scaffolded; full wiring deferred)
+- **Secrets** — Doppler in development, mirrored to Wrangler secrets in production via `apps/quill/scripts/bootstrap.sh`
 
-This template uses the [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) to access multiple AI models through a unified interface. Models are configured in `lib/ai/models.ts` with per-model provider routing. Included models: Mistral, Moonshot, DeepSeek, OpenAI, and xAI.
-
-### AI Gateway Authentication
-
-**For Vercel deployments**: Authentication is handled automatically via OIDC tokens.
-
-**For non-Vercel deployments**: You need to provide an AI Gateway API key by setting the `AI_GATEWAY_API_KEY` environment variable in your `.env.local` file.
-
-With the [AI SDK](https://ai-sdk.dev/docs/introduction), you can also switch to direct LLM providers like [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://ai-sdk.dev/providers/ai-sdk-providers) with just a few lines of code.
-
-## Deploy Your Own
-
-You can deploy your own version of Chatbot to Vercel with one click:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/templates/next.js/chatbot)
-
-## Running locally
-
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
-
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
-
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
+## Quickstart
 
 ```bash
 pnpm install
-pnpm db:migrate # Setup database or apply latest database changes
-pnpm dev
+pnpm --filter postpilot dev
 ```
 
-Your app template should now be running on [localhost:3000](http://localhost:3000).
+Vite serves the SPA on http://localhost:5173 and the Worker handles `/v1/*` on the same port.
+
+## API
+
+- `GET /v1/health` — runtime + env
+- `GET /v1/guides[?era=...&useCase=...&voice=...&q=...]` — list with filters
+- `GET /v1/guides/:slug[?format=json|yaml|prompt]` — single guide
+- `GET /v1/guides/:slug/exemplars`
+- `GET /v1/guides/:slug/rubric`
+- `GET /v1/presets` — use-case presets
+- `POST /v1/apply` — render a guide+preset against an input. Returns generated text plus a deterministic rubric snapshot. Routes through AI Gateway when `AI_GATEWAY_BASE_URL` + `AI_GATEWAY_TOKEN` are set; otherwise returns a deterministic stub.
+
+## Provisioning
+
+You'll need:
+
+- A Cloudflare account with API token (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`)
+- A Doppler project with a service token (`DOPPLER_TOKEN`)
+- `wrangler`, `doppler`, `jq`, `node` on your PATH
+
+Then:
+
+```bash
+cd apps/quill
+doppler setup            # link to your Doppler project once
+./scripts/bootstrap.sh   # creates D1 + KV + R2, patches wrangler.jsonc,
+                         # generates BETTER_AUTH_SECRET, applies migrations
+```
+
+The script is idempotent.
+
+## Deploy
+
+```bash
+cd apps/quill
+pnpm cf-typegen   # regenerate worker-configuration.d.ts
+pnpm cf-deploy    # vite build && wrangler deploy
+```
+
+Use `pnpm cf-deploy`, not `pnpm deploy` — the latter is a pnpm built-in for workspace deploys.
+
+## Project layout
+
+```
+apps/quill/
+  src/
+    index.ts              Hono Worker entry
+    routes/               Hono route modules (guides, presets, apply, health)
+    middleware/           per-request context + error handling
+    db/schema.ts          Drizzle schema (D1)
+    lib/
+      guides/             seed guide JSON-as-TS files
+      types.ts presets.ts rubric.ts export.ts utils.ts
+  client/
+    main.tsx              entry
+    index.css             Tailwind v4 + Strand tokens + Kumo @source
+    routes/               TanStack Router file-based routes
+    components/           editorial primitives + page components
+    lib/api.ts            TanStack Query client + typed fetchers
+    routeTree.gen.ts      generated by router plugin (committed)
+  scripts/
+    bootstrap.sh          provisions D1/KV/R2 + secrets via Doppler
+    patch-wrangler.mjs    fills resource ids into wrangler.jsonc
+  drizzle/                migrations (generated)
+  wrangler.jsonc          Worker config
+  vite.config.ts          Vite + Cloudflare + TanStack Router + Tailwind
+```
+
+## Status
+
+Catalog, library, detail view, read-only API, and playground stub are shipped. The following are scaffolded but not wired:
+
+- **Auth** — Better Auth via `better-auth-cloudflare` (Drizzle schema is ready)
+- **AI Gateway** — `POST /v1/apply` calls the gateway only when `AI_GATEWAY_BASE_URL` + `AI_GATEWAY_TOKEN` are set; otherwise returns a stub
+- **Eval harness** — judge scoring is the deterministic snapshot only
+- **Composer / forks / collections / API keys** — UI not built yet
+- **Kumo migration** — Kumo dep is wired with Tailwind `@source`; bespoke editorial primitives still in use. Run `npx @cloudflare/kumo doc Button` and swap incrementally.
