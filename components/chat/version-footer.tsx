@@ -49,6 +49,7 @@ export const VersionFooter = ({
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1">
           <button
+            aria-label="Previous version"
             className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
             disabled={isFirst}
             onClick={() => handleVersionChange("prev")}
@@ -60,6 +61,7 @@ export const VersionFooter = ({
             {currentVersionIndex + 1} of {documents.length}
           </span>
           <button
+            aria-label="Next version"
             className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
             disabled={isLast}
             onClick={() => handleVersionChange("next")}
@@ -70,6 +72,7 @@ export const VersionFooter = ({
         </div>
 
         <button
+          aria-label={mode === "diff" ? "Hide changes" : "Show changes"}
           className={cn(
             "flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
             mode === "diff" && "bg-muted text-foreground"
