@@ -66,7 +66,14 @@
       "tag": "v1",
       "new_sqlite_classes": ["WritingSessionAgent"]
     }
-  ]
+  ],
+
+  // Workers Builds CI: install workspace deps then compile TypeScript + React
+  // via Vite before wrangler uploads the Worker. Without this, the CI tries
+  // to deploy raw src/index.ts and fails instantly.
+  "build": {
+    "command": "pnpm install --frozen-lockfile && pnpm run build"
+  }
 
   // Wrangler v4 surface: declare which secrets the worker expects.
   // "secrets": {
