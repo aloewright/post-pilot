@@ -135,7 +135,7 @@ export async function judgeOutput(
     )) as Response;
     if (!res.ok) {
       const body = await res.text();
-      throw new Error(`gateway ${res.status}: ${body.slice(0, 250)}`);
+      throw new Error(`gateway ${res.status}: ${body.slice(0, 600)}`);
     }
     const result = (await res.json()) as {
       choices?: Array<{ message?: { content?: string } }>;
