@@ -70,7 +70,9 @@ export async function judgeOutput(
   }
 
   const gatewayId = env.AI_GATEWAY_ID;
-  if (!(env.AI && gatewayId)) {
+  const gatewayBase = env.AI_GATEWAY_BASE_URL;
+  const gatewayToken = env.AI_GATEWAY_TOKEN;
+  if (!(gatewayId && gatewayBase && gatewayToken)) {
     return { status: "skipped", reason: "gateway_unavailable" };
   }
 
@@ -101,19 +103,22 @@ export async function judgeOutput(
     output,
   ].join("\n");
 
+  // Dynamic routes (dynamic/research_gen) only resolve through the gateway's
+  // OpenAI-compat REST surface. env.AI.run("dynamic/foo") and
+  // env.AI.gateway().run({provider:"compat",...}) both fail to walk the
+  // configured fallback chain — the only reliable invocation is a direct
+  // fetch against /compat/chat/completions.
+  const compatUrl = `${gatewayBase.replace(/\/$/, "")}/compat/chat/completions`;
   let raw: string;
   try {
-    // Dynamic routes (e.g. dynamic/research_gen) only resolve through the
-    // OpenAI-compat surface — env.AI.run("dynamic/foo", ...) would treat
-    // the slug as a literal Workers AI model name and 404. The gateway()
-    // binding API forwards to /compat/chat/completions internally so the
-    // route's fallback chain runs as configured in the dashboard.
-    const result = (await withTimeout(
-      env.AI.gateway(gatewayId).run({
-        provider: "compat",
-        endpoint: "chat/completions",
-        headers: {},
-        query: {
+    const res = (await withTimeout(
+      fetch(compatUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "cf-aig-authorization": `Bearer ${gatewayToken}`,
+        },
+        body: JSON.stringify({
           model: "dynamic/research_gen",
           max_tokens: 800,
           temperature: 0.2,
@@ -121,10 +126,16 @@ export async function judgeOutput(
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt },
           ],
-        },
+        }),
       }),
       15_000
-    )) as { choices?: Array<{ message?: { content?: string } }> };
+    )) as Response;
+    if (!res.ok) {
+      throw new Error(`gateway returned ${res.status}`);
+    }
+    const result = (await res.json()) as {
+      choices?: Array<{ message?: { content?: string } }>;
+    };
     raw = result.choices?.[0]?.message?.content ?? "";
   } catch (e) {
     const errorMsg = (e as Error).message;
