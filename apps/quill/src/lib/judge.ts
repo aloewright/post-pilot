@@ -108,7 +108,10 @@ export async function judgeOutput(
   // env.AI.gateway().run({provider:"compat",...}) both fail to walk the
   // configured fallback chain — the only reliable invocation is a direct
   // fetch against /compat/chat/completions.
-  const compatUrl = `${gatewayBase.replace(/\/$/, "")}/compat/chat/completions`;
+  // AI_GATEWAY_BASE_URL already includes "/compat" suffix per ops convention.
+  const stripped = gatewayBase.replace(/\/$/, "");
+  const compatRoot = stripped.endsWith("/compat") ? stripped : `${stripped}/compat`;
+  const compatUrl = `${compatRoot}/chat/completions`;
   let raw: string;
   try {
     const res = (await withTimeout(
