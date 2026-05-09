@@ -103,10 +103,18 @@ export async function judgeOutput(
 
   let raw: string;
   try {
+    // Dynamic routes (e.g. dynamic/research_gen) only resolve through the
+    // OpenAI-compat surface — env.AI.run("dynamic/foo", ...) would treat
+    // the slug as a literal Workers AI model name and 404. The gateway()
+    // binding API forwards to /compat/chat/completions internally so the
+    // route's fallback chain runs as configured in the dashboard.
     const result = (await withTimeout(
-      env.AI.run(
-        "dynamic/research_gen" as Parameters<Ai["run"]>[0],
-        {
+      env.AI.gateway(gatewayId).run({
+        provider: "compat",
+        endpoint: "chat/completions",
+        headers: {},
+        query: {
+          model: "dynamic/research_gen",
           max_tokens: 800,
           temperature: 0.2,
           messages: [
@@ -114,8 +122,7 @@ export async function judgeOutput(
             { role: "user", content: userPrompt },
           ],
         },
-        { gateway: { id: gatewayId } }
-      ),
+      }),
       15_000
     )) as { choices?: Array<{ message?: { content?: string } }> };
     raw = result.choices?.[0]?.message?.content ?? "";
