@@ -147,9 +147,13 @@ export async function judgeOutput(
         msg: "judge_failed",
         reason: "gateway_error",
         error: errorMsg?.slice(0, 200),
+        url: compatUrl,
       })
     );
-    return { status: "error", reason: "gateway_error" };
+    return {
+      status: "error",
+      reason: `gateway_error: ${errorMsg?.slice(0, 100) ?? "unknown"}`,
+    };
   }
 
   const trimmed = raw.trim();
