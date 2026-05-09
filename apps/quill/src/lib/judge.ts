@@ -70,9 +70,7 @@ export async function judgeOutput(
   }
 
   const gatewayId = env.AI_GATEWAY_ID;
-  const gatewayBase = env.AI_GATEWAY_BASE_URL;
-  const gatewayToken = env.AI_GATEWAY_TOKEN;
-  if (!(gatewayId && gatewayBase && gatewayToken)) {
+  if (!(env.AI && gatewayId)) {
     return { status: "skipped", reason: "gateway_unavailable" };
   }
 
@@ -103,43 +101,32 @@ export async function judgeOutput(
     output,
   ].join("\n");
 
-  // Dynamic routes (dynamic/research_gen) only resolve through the gateway's
-  // OpenAI-compat REST surface. env.AI.run("dynamic/foo") and
-  // env.AI.gateway().run({provider:"compat",...}) both fail to walk the
-  // configured fallback chain — the only reliable invocation is a direct
-  // fetch against /compat/chat/completions.
-  // AI_GATEWAY_BASE_URL already includes "/compat" suffix per ops convention.
-  const stripped = gatewayBase.replace(/\/$/, "");
-  const compatRoot = stripped.endsWith("/compat") ? stripped : `${stripped}/compat`;
-  const compatUrl = `${compatRoot}/chat/completions`;
+  // Why a direct Workers AI model id rather than dynamic/research_gen:
+  //   1. env.AI.run("dynamic/foo", ...) treats the slug as a literal model id and 404s.
+  //   2. env.AI.gateway(id).run({provider:"compat", ...}) was observed to skip nodes in
+  //      the configured fallback chain on this account.
+  //   3. fetch() to gateway.ai.cloudflare.com/.../compat/chat/completions from inside a
+  //      Worker returns Cloudflare API code 2019 — the request is rejected before the
+  //      gateway sees it.
+  // The dynamic/research_gen route IS configured (see gateway "x") and works via direct
+  // curl; switch this back once the binding/fetch path is fixed upstream.
   let raw: string;
   try {
-    const res = (await withTimeout(
-      fetch(compatUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "cf-aig-authorization": `Bearer ${gatewayToken}`,
-        },
-        body: JSON.stringify({
-          model: "dynamic/research_gen",
+    const result = (await withTimeout(
+      env.AI.run(
+        "@cf/openai/gpt-oss-120b" as Parameters<Ai["run"]>[0],
+        {
           max_tokens: 800,
           temperature: 0.2,
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: userPrompt },
           ],
-        }),
-      }),
+        },
+        { gateway: { id: gatewayId } }
+      ),
       15_000
-    )) as Response;
-    if (!res.ok) {
-      const body = await res.text();
-      throw new Error(`gateway ${res.status}: ${body.slice(0, 600)}`);
-    }
-    const result = (await res.json()) as {
-      choices?: Array<{ message?: { content?: string } }>;
-    };
+    )) as { choices?: Array<{ message?: { content?: string } }> };
     raw = result.choices?.[0]?.message?.content ?? "";
   } catch (e) {
     const errorMsg = (e as Error).message;
@@ -148,13 +135,9 @@ export async function judgeOutput(
         msg: "judge_failed",
         reason: "gateway_error",
         error: errorMsg?.slice(0, 200),
-        url: compatUrl,
       })
     );
-    return {
-      status: "error",
-      reason: `gateway_error: ${errorMsg?.slice(0, 100) ?? "unknown"}`,
-    };
+    return { status: "error", reason: "gateway_error" };
   }
 
   const trimmed = raw.trim();
