@@ -119,6 +119,13 @@
       "playwright": "^1.55.1",
       "postcss": "^8.5.10",
       "uuid": "^14.0.0"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "bufferutil",
+      "core-js-pure",
+      "esbuild",
+      "sharp",
+      "workerd"
+    ]
   }
 }
