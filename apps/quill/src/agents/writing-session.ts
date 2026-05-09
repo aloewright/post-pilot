@@ -6,9 +6,9 @@ import { analyzeText, scoreDeterministic } from "../lib/rubric";
 
 // Extend the wrangler-generated Env with secrets (which aren't declared in
 // wrangler.jsonc and so don't appear in the generated interface). Using
-// Cloudflare.Env as the base keeps literal-typed bindings (DO namespace,
+// CloudflareBindings as the base keeps literal-typed bindings (DO namespace,
 // POSTPILOT_ENV: "dev") while letting the agent read AI Gateway secrets.
-type AgentEnv = Cloudflare.Env & {
+type AgentEnv = CloudflareBindings & {
   AI_GATEWAY_ID?: string;
   DEFAULT_MODEL?: string;
 };
