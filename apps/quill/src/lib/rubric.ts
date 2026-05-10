@@ -136,13 +136,24 @@ export function analyzeText(text: string): DeterministicSnapshot {
   const abstractPerPara =
     paragraphs.length === 0 ? 0 : abstractHits / paragraphs.length;
 
-  const monoWords = words.filter((w) => countSyllables(w) <= 1).length;
+  // Optimization: Calculate mono-syllabic words and total syllables in a single pass.
+  // `countSyllables` uses regex, so running it once per word instead of twice
+  // (once for filter, once for reduce) halves the computation time during text analysis.
+  let monoWords = 0;
+  let totalSyllables = 0;
+  for (const word of words) {
+    const syl = countSyllables(word);
+    if (syl <= 1) {
+      monoWords++;
+    }
+    totalSyllables += syl;
+  }
+
   const monoRatio = wordCount === 0 ? 0 : monoWords / wordCount;
 
   const unique = new Set(words).size;
   const ttr = wordCount === 0 ? 0 : unique / wordCount;
 
-  const totalSyllables = words.reduce((acc, w) => acc + countSyllables(w), 0);
   const fk =
     sentences.length === 0 || wordCount === 0
       ? 0
