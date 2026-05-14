@@ -25,7 +25,16 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
     initialVibe ? [initialVibe] : []
   );
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [sort, setSort] = useState<GuideSort>("author");
+
+  // ⚡ Bolt: Debounce the search query to prevent unnecessary API requests on every keystroke
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [query]);
 
   // Vibes split into two groups (see src/lib/vibes.ts):
   //   - Canonical (terse/lyrical/ornate/wry): filter via guide.voice_axes
@@ -54,7 +63,7 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
       eras,
       useCases,
       voice: queryVoiceAxes,
-      query,
+      query: debouncedQuery,
       sort,
     }),
     queryFn: ({ pageParam }) =>
@@ -62,7 +71,7 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
         eras,
         useCases,
         voiceAxes: queryVoiceAxes,
-        query: query || undefined,
+        query: debouncedQuery || undefined,
         sort,
         limit: PAGE_SIZE,
         offset: pageParam,
