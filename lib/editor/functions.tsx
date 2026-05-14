@@ -1,5 +1,6 @@
 "use client";
 
+import DOMPurify from "dompurify";
 import { defaultMarkdownSerializer } from "prosemirror-markdown";
 import { DOMParser, type Node } from "prosemirror-model";
 import { Decoration, DecorationSet, type EditorView } from "prosemirror-view";
@@ -16,7 +17,8 @@ export const buildDocumentFromContent = (content: string) => {
     <MessageResponse>{content}</MessageResponse>
   );
   const tempContainer = document.createElement("div");
-  tempContainer.innerHTML = stringFromMarkdown;
+  // Security: Sanitize HTML content to prevent XSS attacks before setting innerHTML
+  tempContainer.innerHTML = DOMPurify.sanitize(stringFromMarkdown);
   return parser.parse(tempContainer);
 };
 
