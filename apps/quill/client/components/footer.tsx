@@ -16,7 +16,10 @@ export function Footer() {
             Style guides for AI agents, curated.
           </span>
         </div>
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-xs">
+        <nav
+          aria-label="Footer"
+          className="flex flex-wrap items-center gap-x-5 gap-y-3 text-xs"
+        >
           <Link to="/library">Library</Link>
           <Link to="/playground">Playground</Link>
           <Link to="/docs">Docs</Link>
@@ -26,7 +29,7 @@ export function Footer() {
           </span>
           <Link to="/terms">Terms</Link>
           <Link to="/privacy">Privacy</Link>
-        </div>
+        </nav>
       </div>
     </footer>
   );
