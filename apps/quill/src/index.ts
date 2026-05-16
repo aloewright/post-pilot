@@ -80,6 +80,7 @@ app.use(
 app.onError(errorHandler);
 
 app.route("/v1/health", healthRouter);
+app.route("/health", healthRouter);
 app.route("/v1/guides", guidesRouter);
 app.route("/v1/presets", presetsRouter);
 app.route("/v1/apply", applyRouter);
