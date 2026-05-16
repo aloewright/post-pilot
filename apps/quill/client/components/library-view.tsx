@@ -14,6 +14,17 @@ import { GuideCard } from "./guide-card";
 
 const PAGE_SIZE = 30;
 
+function useDebounce<T>(value: T, delay?: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay || 300);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 function toggle<T>(arr: T[], value: T): T[] {
   return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
 }
@@ -25,6 +36,7 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
     initialVibe ? [initialVibe] : []
   );
   const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 300);
   const [sort, setSort] = useState<GuideSort>("author");
 
   // Vibes split into two groups (see src/lib/vibes.ts):
@@ -54,7 +66,7 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
       eras,
       useCases,
       voice: queryVoiceAxes,
-      query,
+      query: debouncedQuery,
       sort,
     }),
     queryFn: ({ pageParam }) =>
@@ -62,7 +74,7 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
         eras,
         useCases,
         voiceAxes: queryVoiceAxes,
-        query: query || undefined,
+        query: debouncedQuery || undefined,
         sort,
         limit: PAGE_SIZE,
         offset: pageParam,
