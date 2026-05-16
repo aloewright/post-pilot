@@ -188,33 +188,6 @@ export const collectionItems = sqliteTable(
   })
 );
 
-// TODO: drop after one release cycle. Superseded by better-auth's `apikeys`
-// table (see src/db/auth-schema.ts). Kept for now to avoid a destructive
-// migration. The table holds zero live data after T2 cutover; nothing in
-// src/ reads or writes it.
-export const apiKeys = sqliteTable(
-  "api_keys",
-  {
-    id: text("id").primaryKey(),
-    userId: text("user_id")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    name: text("name").notNull(),
-    // First 12 chars of the plaintext key, stored for masked display in the
-    // UI ("pp_live_a4f2…"). The full key is never persisted; lookup happens
-    // by SHA-256 hash.
-    prefix: text("prefix").notNull().default(""),
-    keyHash: text("key_hash").notNull().unique(),
-    createdAt: integer("created_at", { mode: "timestamp" })
-      .notNull()
-      .default(sql`(unixepoch())`),
-    lastUsedAt: integer("last_used_at", { mode: "timestamp" }),
-  },
-  (t) => ({
-    userIdx: index("api_keys_user_idx").on(t.userId),
-  })
-);
-
 export const playgroundRuns = sqliteTable("playground_runs", {
   id: text("id").primaryKey(),
   userId: text("user_id").references(() => users.id, {
@@ -326,22 +299,6 @@ export const humanizeUsage = sqliteTable(
     pk: primaryKey({ columns: [t.userId, t.monthKey] }),
   })
 );
-
-// TODO: drop after M5+1; superseded by evalHarnessRuns. Kept for now to
-// avoid a destructive migration; the table holds no live data and is not
-// referenced anywhere in src/.
-export const evalRuns = sqliteTable("eval_runs", {
-  id: text("id").primaryKey(),
-  guideId: text("guide_id")
-    .notNull()
-    .references(() => guides.id, { onDelete: "cascade" }),
-  model: text("model").notNull(),
-  rubricVersion: text("rubric_version").notNull(),
-  scoreJson: text("score_json", { mode: "json" }).notNull(),
-  createdAt: integer("created_at", { mode: "timestamp" })
-    .notNull()
-    .default(sql`(unixepoch())`),
-});
 
 export const evalHarnessRuns = sqliteTable(
   "eval_harness_runs",
