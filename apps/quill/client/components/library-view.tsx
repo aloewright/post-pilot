@@ -137,7 +137,7 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
         />
         {eras.length + useCases.length + vibes.length > 0 ? (
           <button
-            className="self-start text-xs underline"
+            className="self-start text-xs underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onClick={() => {
               setEras([]);
               setUseCases([]);
@@ -158,7 +158,8 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
         >
           <div className="flex items-center gap-3">
             <input
-              className="w-full rounded-md border px-3 py-2 text-sm focus:outline-none md:w-64"
+              aria-label="Search authors or voices"
+              className="w-full rounded-md border px-3 py-2 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)] md:w-64"
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search authors or voices"
               style={{
@@ -178,7 +179,7 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
           <label className="flex items-center gap-2 text-sm">
             <span className="pp-byline">Sort</span>
             <select
-              className="rounded-md border bg-transparent px-2 py-1.5 text-sm"
+              className="rounded-md border bg-transparent px-2 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
               onChange={(e) => setSort(e.target.value as GuideSort)}
               style={{
                 borderColor: "var(--strand-color-rule)",
