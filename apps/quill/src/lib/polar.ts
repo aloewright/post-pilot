@@ -2,6 +2,8 @@
 // create, customer-session create, webhook verify) so the official SDK is
 // overkill for a Worker; raw fetch keeps the bundle small.
 
+import { timingSafeEqual } from "hono/utils/buffer";
+
 const POLAR_API = "https://api.polar.sh";
 
 type PolarConfig = {
@@ -183,20 +185,9 @@ export async function verifyWebhook(
   const candidates = sigHeader.split(" ");
   for (const c of candidates) {
     const [version, sig] = c.split(",");
-    if (version === "v1" && sig && constantTimeEqual(sig, expected)) {
+    if (version === "v1" && sig && (await timingSafeEqual(sig, expected))) {
       return true;
     }
   }
   return false;
-}
-
-function constantTimeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) {
-    return false;
-  }
-  let mismatch = 0;
-  for (let i = 0; i < a.length; i++) {
-    mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  }
-  return mismatch === 0;
 }
