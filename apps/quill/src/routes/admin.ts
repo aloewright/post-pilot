@@ -2,6 +2,7 @@ import { desc, eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
+import { timingSafeEqual } from "hono/utils/buffer";
 import { z } from "zod";
 import * as schema from "../db/schema";
 import { evalHarnessRuns } from "../db/schema";
@@ -18,7 +19,7 @@ adminRouter.use("*", async (c, next) => {
     throw new HTTPException(503, { message: "Admin API not configured." });
   }
   const provided = c.req.header("x-admin-key");
-  if (!provided || provided !== expected) {
+  if (!provided || !(await timingSafeEqual(expected, provided))) {
     throw new HTTPException(401, { message: "Invalid admin key." });
   }
   await next();
