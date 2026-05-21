@@ -295,6 +295,7 @@ export function PlaygroundView({
       <div className="mb-6 grid gap-3 md:grid-cols-3">
         <Control label="Guide">
           <select
+            aria-label="Guide"
             className="pp-select"
             onChange={(e) => setGuideSlug(e.target.value)}
             value={guideSlug}
@@ -309,6 +310,7 @@ export function PlaygroundView({
 
         <Control label="Preset">
           <select
+            aria-label="Preset"
             className="pp-select"
             onChange={(e) => setPresetSlug(e.target.value as UseCase | "")}
             value={presetSlug}
@@ -326,7 +328,8 @@ export function PlaygroundView({
 
         <Control label={`Temperature · ${temperature.toFixed(1)}`}>
           <input
-            className="w-full"
+            aria-label="Temperature"
+            className="w-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             max="1"
             min="0"
             onChange={(e) => setTemperature(Number.parseFloat(e.target.value))}
@@ -341,7 +344,8 @@ export function PlaygroundView({
       <div className="grid gap-5 md:grid-cols-2">
         <Panel label="Input">
           <textarea
-            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus:outline-none"
+            aria-label="Input"
+            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste a customer message, a prompt, a paragraph to rewrite…"
             style={{ color: "var(--strand-color-ink-primary)" }}
@@ -362,7 +366,9 @@ export function PlaygroundView({
                     style={{ color: "var(--strand-color-ink-muted)" }}
                   >
                     <input
+                      aria-label="Extra pass for flow"
                       checked={humanizeExtraPass}
+                      className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
                       disabled={isRunning}
                       onChange={(e) => setHumanizeExtraPass(e.target.checked)}
                       style={{
@@ -648,6 +654,10 @@ export function PlaygroundView({
           padding: 0.5rem 0.75rem;
           font-size: 0.875rem;
         }
+        .pp-select:focus-visible {
+          outline: 2px solid var(--strand-color-accent-lede);
+          outline-offset: 2px;
+        }
       `}</style>
     </section>
   );
@@ -719,7 +729,9 @@ function HumanizeToggle({
       }}
     >
       <input
+        aria-label="Toggle humanize output"
         checked={on}
+        className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
         disabled={disabled || !authenticated}
         onChange={onToggle}
         style={{ accentColor: "var(--strand-color-accent-lede)" }}

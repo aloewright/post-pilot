@@ -179,6 +179,7 @@ export function LibraryView({ initialVibe }: { initialVibe?: VibeSlug }) {
           <label className="flex items-center gap-2 text-sm">
             <span className="pp-byline">Sort</span>
             <select
+              aria-label="Sort guides"
               className="rounded-md border bg-transparent px-2 py-1.5 text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
               onChange={(e) => setSort(e.target.value as GuideSort)}
               style={{
@@ -295,8 +296,9 @@ function FilterGroup<T extends string>({
             <li key={opt}>
               <label className="flex cursor-pointer items-center gap-2 text-sm">
                 <input
+                  aria-label={`Filter by ${opt}`}
                   checked={checked}
-                  className="h-3.5 w-3.5 cursor-pointer rounded border"
+                  className="h-3.5 w-3.5 cursor-pointer rounded border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
                   onChange={() => onToggle(opt)}
                   style={{ accentColor: "var(--strand-color-accent-lede)" }}
                   type="checkbox"
