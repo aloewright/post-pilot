@@ -541,14 +541,33 @@ export const GUIDES: Guide[] = [
   zoraNealeHurston,
 ];
 
+// Memoized static resources to prevent O(N) finds and redundant array operations on every request
+let _guidesBySlug: Map<string, Guide> | undefined;
+let _sortedGuides: Guide[] | undefined;
+let _allSlugs: string[] | undefined;
+
 export function getGuide(slug: string): Guide | undefined {
-  return GUIDES.find((g) => g.slug === slug);
+  if (!_guidesBySlug) {
+    _guidesBySlug = new Map();
+    for (const g of GUIDES) {
+      _guidesBySlug.set(g.slug, g);
+    }
+  }
+  return _guidesBySlug.get(slug);
 }
 
 export function listGuides(): Guide[] {
-  return GUIDES.slice().sort((a, b) => a.author.localeCompare(b.author));
+  if (!_sortedGuides) {
+    _sortedGuides = GUIDES.slice().sort((a, b) =>
+      a.author.localeCompare(b.author)
+    );
+  }
+  return _sortedGuides.slice();
 }
 
 export function allSlugs(): string[] {
-  return GUIDES.map((g) => g.slug);
+  if (!_allSlugs) {
+    _allSlugs = GUIDES.map((g) => g.slug);
+  }
+  return _allSlugs.slice();
 }

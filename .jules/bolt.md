@@ -1,0 +1,3 @@
+## 2024-05-21 - Memoizing Guides Array and Lookups
+**Learning:** The frontend's `listGuides` endpoint was calling `Array.slice().sort(...)` over 270 items synchronously on every request because the dataset is hardcoded in TypeScript instead of queried from a database. This dataset is static across the lifetime of the Cloudflare Worker isolate.
+**Action:** Always memoize static hardcoded datasets in Cloudflare Workers using module-level variables or lazy initialization (`let _cache; function get() { return _cache ??= compute(); }`) to skip redundant operations, but explicitly return `.slice()` to avoid mutating the shared reference downstream.
