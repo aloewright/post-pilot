@@ -182,9 +182,16 @@ export async function verifyWebhook(
   // Header carries one or more `v1,<sig>` pairs (space-separated). Match
   // any v1 entry — constant-time compare for each.
   const candidates = sigHeader.split(" ");
+  const encoder = new TextEncoder();
+  const expectedBuffer = encoder.encode(expected);
+
   for (const c of candidates) {
     const [version, sig] = c.split(",");
-    if (version === "v1" && sig && (await timingSafeEqual(sig, expected))) {
+    if (
+      version === "v1" &&
+      sig &&
+      (await timingSafeEqual(encoder.encode(sig), expectedBuffer))
+    ) {
       return true;
     }
   }
