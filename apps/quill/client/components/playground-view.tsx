@@ -295,6 +295,7 @@ export function PlaygroundView({
       <div className="mb-6 grid gap-3 md:grid-cols-3">
         <Control label="Guide">
           <select
+            aria-label="Guide"
             className="pp-select"
             onChange={(e) => setGuideSlug(e.target.value)}
             value={guideSlug}
@@ -309,6 +310,7 @@ export function PlaygroundView({
 
         <Control label="Preset">
           <select
+            aria-label="Preset"
             className="pp-select"
             onChange={(e) => setPresetSlug(e.target.value as UseCase | "")}
             value={presetSlug}
@@ -326,6 +328,7 @@ export function PlaygroundView({
 
         <Control label={`Temperature · ${temperature.toFixed(1)}`}>
           <input
+            aria-label="Temperature"
             className="w-full"
             max="1"
             min="0"
