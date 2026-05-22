@@ -1,0 +1,3 @@
+## 2026-05-22 - React 18+ useDeferredValue for Heavy Sync Work
+**Learning:** This codebase uses fake streaming with small intervals (~24ms). Heavy synchronous operations like `analyzeText` parsing text via Regex and building maps, when attached to a React render lifecycle dependent on the stream interval via useMemo, will block the main UI thread resulting in stuttering text display.
+**Action:** When performing heavy synchronous non-critical updates that are driven by rapid state changes (like typing or fake streaming), apply `useDeferredValue()` to the state so the main update render takes priority and doesn't wait on the heavy sync logic.
