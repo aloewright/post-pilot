@@ -1,7 +1,6 @@
 // Minimal Polar API client. We only need a handful of endpoints (checkout
 // create, customer-session create, webhook verify) so the official SDK is
 // overkill for a Worker; raw fetch keeps the bundle small.
-import { timingSafeEqual } from "hono/utils/buffer";
 
 import { timingSafeEqual } from "hono/utils/buffer";
 
