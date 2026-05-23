@@ -128,7 +128,8 @@ export function Playground({
       <div className="mb-6 grid gap-3 md:grid-cols-4">
         <Control label="Guide">
           <select
-            className="quill-select"
+            aria-label="Guide"
+            className="quill-select focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setGuideSlug(e.target.value)}
             value={guideSlug}
           >
@@ -142,7 +143,8 @@ export function Playground({
 
         <Control label="Preset">
           <select
-            className="quill-select"
+            aria-label="Preset"
+            className="quill-select focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setPresetSlug(e.target.value as UseCase | "")}
             value={presetSlug}
           >
@@ -159,7 +161,8 @@ export function Playground({
 
         <Control label="Model">
           <select
-            className="quill-select"
+            aria-label="Model"
+            className="quill-select focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setModel(e.target.value as Model)}
             value={model}
           >
@@ -173,7 +176,8 @@ export function Playground({
 
         <Control label={`Temperature · ${temperature.toFixed(1)}`}>
           <input
-            className="w-full"
+            aria-label="Temperature"
+            className="w-full focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             max="1"
             min="0"
             onChange={(e) => setTemperature(Number.parseFloat(e.target.value))}
@@ -188,7 +192,8 @@ export function Playground({
       <div className="grid gap-5 md:grid-cols-2">
         <Panel label="Input">
           <textarea
-            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus:outline-none"
+            aria-label="Input text"
+            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste a customer message, a prompt, a paragraph to rewrite…"
             style={{ color: "var(--strand-color-ink-primary)" }}
