@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { USE_CASE_PRESETS } from "../../src/lib/presets";
 import { analyzeText, scoreDeterministic } from "../../src/lib/rubric";
 import type { Guide, UseCase } from "../../src/lib/types";
@@ -255,7 +255,11 @@ export function PlaygroundView({
     };
   }, [output]);
 
-  const snapshot = useMemo(() => analyzeText(visibleOutput), [visibleOutput]);
+  // Defer the output for the expensive rubric analysis to prevent blocking the UI
+  // during fast text streaming.
+  const deferredOutput = useDeferredValue(visibleOutput);
+
+  const snapshot = useMemo(() => analyzeText(deferredOutput), [deferredOutput]);
   const { score, details } = useMemo(
     () =>
       guide
