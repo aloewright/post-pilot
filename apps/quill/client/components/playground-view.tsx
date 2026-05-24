@@ -295,7 +295,8 @@ export function PlaygroundView({
       <div className="mb-6 grid gap-3 md:grid-cols-3">
         <Control label="Guide">
           <select
-            className="pp-select"
+            aria-label="Select guide"
+            className="pp-select focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)] focus:outline-none"
             onChange={(e) => setGuideSlug(e.target.value)}
             value={guideSlug}
           >
@@ -309,7 +310,8 @@ export function PlaygroundView({
 
         <Control label="Preset">
           <select
-            className="pp-select"
+            aria-label="Select preset"
+            className="pp-select focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)] focus:outline-none"
             onChange={(e) => setPresetSlug(e.target.value as UseCase | "")}
             value={presetSlug}
           >
@@ -326,7 +328,8 @@ export function PlaygroundView({
 
         <Control label={`Temperature · ${temperature.toFixed(1)}`}>
           <input
-            className="w-full"
+            aria-label="Temperature"
+            className="w-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)] focus:outline-none"
             max="1"
             min="0"
             onChange={(e) => setTemperature(Number.parseFloat(e.target.value))}
@@ -341,7 +344,8 @@ export function PlaygroundView({
       <div className="grid gap-5 md:grid-cols-2">
         <Panel label="Input">
           <textarea
-            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus:outline-none"
+            aria-label="Input text"
+            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)] focus:outline-none"
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste a customer message, a prompt, a paragraph to rewrite…"
             style={{ color: "var(--strand-color-ink-primary)" }}
