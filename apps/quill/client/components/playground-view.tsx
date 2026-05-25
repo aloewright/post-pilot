@@ -341,7 +341,8 @@ export function PlaygroundView({
       <div className="grid gap-5 md:grid-cols-2">
         <Panel label="Input">
           <textarea
-            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus:outline-none"
+            aria-label="Input text"
+            className="min-h-[220px] w-full resize-y rounded-md bg-transparent text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste a customer message, a prompt, a paragraph to rewrite…"
             style={{ color: "var(--strand-color-ink-primary)" }}
