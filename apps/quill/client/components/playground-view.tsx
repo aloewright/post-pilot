@@ -295,7 +295,8 @@ export function PlaygroundView({
       <div className="mb-6 grid gap-3 md:grid-cols-3">
         <Control label="Guide">
           <select
-            className="pp-select"
+            aria-label="Guide"
+            className="pp-select focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setGuideSlug(e.target.value)}
             value={guideSlug}
           >
@@ -309,7 +310,8 @@ export function PlaygroundView({
 
         <Control label="Preset">
           <select
-            className="pp-select"
+            aria-label="Preset"
+            className="pp-select focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setPresetSlug(e.target.value as UseCase | "")}
             value={presetSlug}
           >
@@ -326,6 +328,7 @@ export function PlaygroundView({
 
         <Control label={`Temperature · ${temperature.toFixed(1)}`}>
           <input
+            aria-label="Temperature"
             className="w-full"
             max="1"
             min="0"
@@ -341,7 +344,8 @@ export function PlaygroundView({
       <div className="grid gap-5 md:grid-cols-2">
         <Panel label="Input">
           <textarea
-            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus:outline-none"
+            aria-label="Input"
+            className="min-h-[220px] w-full resize-y bg-transparent text-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]"
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste a customer message, a prompt, a paragraph to rewrite…"
             style={{ color: "var(--strand-color-ink-primary)" }}
@@ -362,6 +366,7 @@ export function PlaygroundView({
                     style={{ color: "var(--strand-color-ink-muted)" }}
                   >
                     <input
+                      aria-label="Extra pass (slower)"
                       checked={humanizeExtraPass}
                       disabled={isRunning}
                       onChange={(e) => setHumanizeExtraPass(e.target.checked)}
@@ -719,6 +724,7 @@ function HumanizeToggle({
       }}
     >
       <input
+        aria-label="Humanize output"
         checked={on}
         disabled={disabled || !authenticated}
         onChange={onToggle}
