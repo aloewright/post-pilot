@@ -136,13 +136,22 @@ export function analyzeText(text: string): DeterministicSnapshot {
   const abstractPerPara =
     paragraphs.length === 0 ? 0 : abstractHits / paragraphs.length;
 
-  const monoWords = words.filter((w) => countSyllables(w) <= 1).length;
+  // ⚡ Bolt: Iterate over words once to count syllables instead of twice
+  let monoWords = 0;
+  let totalSyllables = 0;
+  for (const w of words) {
+    const syllables = countSyllables(w);
+    if (syllables <= 1) {
+      monoWords++;
+    }
+    totalSyllables += syllables;
+  }
+
   const monoRatio = wordCount === 0 ? 0 : monoWords / wordCount;
 
   const unique = new Set(words).size;
   const ttr = wordCount === 0 ? 0 : unique / wordCount;
 
-  const totalSyllables = words.reduce((acc, w) => acc + countSyllables(w), 0);
   const fk =
     sentences.length === 0 || wordCount === 0
       ? 0
@@ -209,19 +218,33 @@ export function scoreDeterministic(
   return { score: passWeight / totalWeight, details };
 }
 
+const syllableCache = new Map<string, number>();
+
+// ⚡ Bolt: Cache syllable counts to avoid expensive regex operations
+// in the hot path of the text analyzer.
 function countSyllables(word: string): number {
   if (!word) {
     return 0;
   }
-  const w = word.toLowerCase().replace(/[^a-z]/g, "");
-  if (w.length <= 3) {
-    return 1;
+  const cached = syllableCache.get(word);
+  if (cached !== undefined) {
+    return cached;
   }
-  const stripped = w
-    .replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "")
-    .replace(/^y/, "");
-  const matches = stripped.match(VOWEL_GROUP);
-  return Math.max(1, matches ? matches.length : 1);
+
+  const w = word.toLowerCase().replace(/[^a-z]/g, "");
+  let result;
+  if (w.length <= 3) {
+    result = 1;
+  } else {
+    const stripped = w
+      .replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "")
+      .replace(/^y/, "");
+    const matches = stripped.match(VOWEL_GROUP);
+    result = Math.max(1, matches ? matches.length : 1);
+  }
+
+  syllableCache.set(word, result);
+  return result;
 }
 
 function round(n: number, places: number): number {
