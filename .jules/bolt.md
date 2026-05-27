@@ -1,0 +1,3 @@
+## 2024-05-27 - UI Blocking During Text Streaming
+**Learning:** During simulated text generation loops (like `setInterval` firing every 24ms), synchronous deterministic scoring and analysis functions that depend on the rapidly updating text state can bottleneck the main thread, leading to jittery render loops or missed frames.
+**Action:** Use React's `useDeferredValue` for rapidly updating text state before passing it into complex computations (like `analyzeText` or `scoreDeterministic` in `useMemo`). This allows React to process the updates asynchronously and interruptibly, maintaining UI responsiveness during simulated text streaming.
