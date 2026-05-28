@@ -1,0 +1,3 @@
+## 2024-05-28 - Optimizing rapid state updates during fake streaming
+**Learning:** Rapid state updates, such as those used for character-by-character fake text streaming (~24ms intervals), can cause dropped animation frames or block the main UI thread when passed directly into expensive synchronous computations (e.g., deterministic rubric evaluation functions like `analyzeText`).
+**Action:** Use React's `useDeferredValue` to wrap the rapidly changing state before passing it into expensive, synchronous computations. This ensures the computations run in the background without blocking critical UI rendering.
