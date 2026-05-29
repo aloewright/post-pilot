@@ -1,3 +1,6 @@
 ## 2025-03-05 - Form controls missing focus indicators and ARIA labels
 **Learning:** Found that custom search inputs and select dropdowns were using `focus:outline-none` but missing visual focus states, impairing keyboard accessibility. Additionally, they were missing explicit ARIA labels.
 **Action:** Always ensure any interactive control using `focus:outline-none` has a corresponding `focus-visible:` ring state added (using standard `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]`), and verify inputs have `aria-label` or related `aria-labelledby`.
+## 2025-05-29 - Missing ARIA labels and focus states on interactive elements in playground
+**Learning:** Verified that missing explicit `aria-label` attributes and visually prominent focus states (by stripping with `focus:outline-none`) are a recurring issue for custom inputs and selects, especially those nested inside wrapper components like `<Control>` that do not natively handle `htmlFor`.
+**Action:** Always add explicit `aria-label` attributes to form elements where the visual label isn't directly bound, and replace `focus:outline-none` with `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)] focus:outline-none` to ensure keyboard accessibility.
