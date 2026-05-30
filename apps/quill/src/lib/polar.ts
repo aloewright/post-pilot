@@ -184,7 +184,14 @@ export async function verifyWebhook(
   const candidates = sigHeader.split(" ");
   for (const c of candidates) {
     const [version, sig] = c.split(",");
-    if (version === "v1" && sig && (await timingSafeEqual(sig, expected))) {
+    if (
+      version === "v1" &&
+      sig &&
+      (await timingSafeEqual(
+        new TextEncoder().encode(sig),
+        new TextEncoder().encode(expected)
+      ))
+    ) {
       return true;
     }
   }
