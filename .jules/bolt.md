@@ -1,0 +1,3 @@
+## 2024-05-30 - Deferring Expensive Synchronous Operations During Rapid State Updates
+**Learning:** In the frontend, rapidly updating state that feeds into expensive synchronous computations (e.g., character-by-character fake streaming at ~24ms intervals) can easily block the main thread and jank the UI. React's `useDeferredValue` is essential here to allow the UI to paint without being held up by the computation for every intermediate state.
+**Action:** When a high-frequency state update (like streaming or typing) triggers a heavy computation (like `analyzeText`), wrap the state in `useDeferredValue` before passing it to the computation to maintain a responsive UI.
