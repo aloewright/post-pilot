@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import { USE_CASE_PRESETS } from "../../src/lib/presets";
 import { analyzeText, scoreDeterministic } from "../../src/lib/rubric";
 import type { Guide, UseCase } from "../../src/lib/types";
@@ -255,7 +255,14 @@ export function PlaygroundView({
     };
   }, [output]);
 
-  const snapshot = useMemo(() => analyzeText(visibleOutput), [visibleOutput]);
+  // Defer the rapidly changing visibleOutput so the expensive text analysis
+  // doesn't block the main thread during the 24ms interval streaming.
+  const deferredVisibleOutput = useDeferredValue(visibleOutput);
+
+  const snapshot = useMemo(
+    () => analyzeText(deferredVisibleOutput),
+    [deferredVisibleOutput]
+  );
   const { score, details } = useMemo(
     () =>
       guide
