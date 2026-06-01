@@ -19,7 +19,12 @@ adminRouter.use("*", async (c, next) => {
     throw new HTTPException(503, { message: "Admin API not configured." });
   }
   const provided = c.req.header("x-admin-key");
-  if (!provided || !(await timingSafeEqual(expected, provided))) {
+  if (!provided) {
+    throw new HTTPException(401, { message: "Invalid admin key." });
+  }
+  // Convert strings to Uint8Array before comparison to prevent timing leaks
+  const enc = new TextEncoder();
+  if (!(await timingSafeEqual(enc.encode(expected), enc.encode(provided)))) {
     throw new HTTPException(401, { message: "Invalid admin key." });
   }
   await next();
