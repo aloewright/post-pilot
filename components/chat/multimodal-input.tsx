@@ -605,6 +605,7 @@ function PureAttachmentsButton({
 
   return (
     <Button
+      aria-label="Attach files"
       className={cn(
         "h-7 w-7 rounded-lg border border-border/40 p-1 transition-colors",
         hasVision
@@ -800,6 +801,7 @@ function PureStopButton({
 }) {
   return (
     <Button
+      aria-label="Stop generation"
       className="h-7 w-7 rounded-xl bg-foreground p-1 text-background transition-all duration-200 hover:opacity-85 active:scale-95 disabled:bg-muted disabled:text-muted-foreground/25 disabled:cursor-not-allowed"
       data-testid="stop-button"
       onClick={(event) => {

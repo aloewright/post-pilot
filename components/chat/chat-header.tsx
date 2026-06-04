@@ -26,6 +26,7 @@ function PureChatHeader({
   return (
     <header className="sticky top-0 flex h-14 items-center gap-2 bg-sidebar px-3">
       <Button
+        aria-label="Toggle Sidebar"
         className="md:hidden"
         onClick={toggleSidebar}
         size="icon-sm"
@@ -35,6 +36,7 @@ function PureChatHeader({
       </Button>
 
       <Link
+        aria-label="Deploy with Vercel"
         className="flex size-8 items-center justify-center rounded-lg md:hidden"
         href="https://vercel.com/templates/next.js/chatbot"
         rel="noopener noreferrer"
