@@ -14,7 +14,10 @@ export function Nav() {
           "color-mix(in oklch, var(--strand-color-surface-canvas) 88%, transparent)",
       }}
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <nav
+        aria-label="Main"
+        className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
+      >
         <Link
           className="pp-lede text-xl"
           style={{
