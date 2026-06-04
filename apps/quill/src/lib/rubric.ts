@@ -209,19 +209,41 @@ export function scoreDeterministic(
   return { score: passWeight / totalWeight, details };
 }
 
+// Bounded cache to prevent memory leaks during extended streaming sessions
+const MAX_SYLLABLE_CACHE_SIZE = 10_000;
+const syllableCache = new Map<string, number>();
+
 function countSyllables(word: string): number {
   if (!word) {
     return 0;
   }
   const w = word.toLowerCase().replace(/[^a-z]/g, "");
-  if (w.length <= 3) {
-    return 1;
+  if (syllableCache.has(w)) {
+    return syllableCache.get(w)!;
   }
-  const stripped = w
-    .replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "")
-    .replace(/^y/, "");
-  const matches = stripped.match(VOWEL_GROUP);
-  return Math.max(1, matches ? matches.length : 1);
+
+  let count = 1;
+  if (w.length > 3) {
+    const stripped = w
+      .replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, "")
+      .replace(/^y/, "");
+    const matches = stripped.match(VOWEL_GROUP);
+    count = Math.max(1, matches ? matches.length : 1);
+  }
+
+  if (syllableCache.size >= MAX_SYLLABLE_CACHE_SIZE) {
+    // Evict 10% of the cache to make room while keeping recent items
+    const keysToEvict = Array.from(syllableCache.keys()).slice(
+      0,
+      MAX_SYLLABLE_CACHE_SIZE / 10
+    );
+    for (const key of keysToEvict) {
+      syllableCache.delete(key);
+    }
+  }
+
+  syllableCache.set(w, count);
+  return count;
 }
 
 function round(n: number, places: number): number {
