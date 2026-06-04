@@ -45,6 +45,7 @@ export const SuggestionDialog = ({
               <div className="font-medium">Suggestion</div>
             </div>
             <button
+              aria-label="Close suggestion"
               className="flex size-6 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               onClick={onClose}
               type="button"
