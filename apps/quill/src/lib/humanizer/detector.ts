@@ -308,8 +308,7 @@ function calculateTransitionFrequency(text: string): number {
   return Math.min(100, (count / words.length) * 1000);
 }
 
-function calculatePassiveVoiceRatio(text: string): number {
-  const sentences = splitIntoSentences(text);
+function calculatePassiveVoiceRatio(sentences: string[]): number {
   if (sentences.length < 2) {
     return 50;
   }
@@ -329,7 +328,7 @@ function calculatePassiveVoiceRatio(text: string): number {
   return Math.min(100, (passiveCount / sentences.length) * 100);
 }
 
-function calculateAIPhraseDensity(text: string): number {
+function calculateAIPhraseDensity(text: string, numSentences: number): number {
   const lower = text.toLowerCase();
   let count = 0;
   AI_PHRASES.forEach((phrase) => {
@@ -337,10 +336,7 @@ function calculateAIPhraseDensity(text: string): number {
       count++;
     }
   });
-  return Math.min(
-    100,
-    (count / Math.max(splitIntoSentences(text).length, 1)) * 20
-  );
+  return Math.min(100, (count / Math.max(numSentences, 1)) * 20);
 }
 
 function calculateSentenceStartDiversity(sentences: string[]): number {
@@ -545,8 +541,8 @@ export function detectAI(text: string): DetectionResult {
   const vocabularyDiversity = calculateVocabularyDiversity(text);
   const sentenceLengthVariation = calculateSentenceLengthVariation(sentences);
   const transitionFrequency = calculateTransitionFrequency(text);
-  const passiveVoiceRatio = calculatePassiveVoiceRatio(text);
-  const aiPhraseDensity = calculateAIPhraseDensity(text);
+  const passiveVoiceRatio = calculatePassiveVoiceRatio(sentences);
+  const aiPhraseDensity = calculateAIPhraseDensity(text, sentences.length);
   const sentenceStartDiversity = calculateSentenceStartDiversity(sentences);
   const pronounUsage = calculatePronounUsage(text);
   const hedgingFrequency = calculateHedgingFrequency(text);
