@@ -49,7 +49,8 @@ export const VersionFooter = ({
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-1">
           <button
-            className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+            aria-label="Previous version"
+            className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-30"
             disabled={isFirst}
             onClick={() => handleVersionChange("prev")}
             type="button"
@@ -60,7 +61,8 @@ export const VersionFooter = ({
             {currentVersionIndex + 1} of {documents.length}
           </span>
           <button
-            className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-30"
+            aria-label="Next version"
+            className="flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-30"
             disabled={isLast}
             onClick={() => handleVersionChange("next")}
             type="button"
@@ -70,8 +72,9 @@ export const VersionFooter = ({
         </div>
 
         <button
+          aria-label="Show changes"
           className={cn(
-            "flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+            "flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring",
             mode === "diff" && "bg-muted text-foreground"
           )}
           onClick={() => setMode(mode === "diff" ? "edit" : "diff")}
