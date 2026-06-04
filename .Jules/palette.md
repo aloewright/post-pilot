@@ -1,5 +1,3 @@
-## 2025-05-15 - Improve Navigation Accessibility
-
-**Learning:** When multiple `<nav>` elements exist on a page (like a main navigation and a footer navigation), screen readers can have trouble distinguishing them if they are not explicitly labelled. Additionally, generic containers like `<div>` around list of links in a footer could easily be improved by wrapping them in a `<nav>` with an appropriate `aria-label`.
-
-**Action:** Always wrap significant groups of links in a `<nav>` tag and add unique `aria-label`s to them (e.g. `aria-label="Main"`, `aria-label="Footer"`) so that screen reader users can quickly jump to the correct navigation landmark.
+## 2025-03-05 - Form controls missing focus indicators and ARIA labels
+**Learning:** Found that custom search inputs and select dropdowns were using `focus:outline-none` but missing visual focus states, impairing keyboard accessibility. Additionally, they were missing explicit ARIA labels.
+**Action:** Always ensure any interactive control using `focus:outline-none` has a corresponding `focus-visible:` ring state added (using standard `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strand-color-accent-lede)]`), and verify inputs have `aria-label` or related `aria-labelledby`.
