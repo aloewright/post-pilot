@@ -1,0 +1,364 @@
+# Instincts generated from https://github.com/aloewright/post-pilot
+# Generated: 2026-05-04T16:13:23.822Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: post-pilot-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/aloewright/post-pilot
+---
+
+# Post Pilot Commit Length
+
+## Action
+
+Write moderate-length commit messages (~54 characters)
+
+## Evidence
+
+- Average commit message length: 54 chars
+- Based on 3 commits
+
+---
+id: post-pilot-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/aloewright/post-pilot
+---
+
+# Post Pilot Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: post-pilot-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/aloewright/post-pilot
+---
+
+# Post Pilot Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: post-pilot-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/aloewright/post-pilot
+---
+
+# Post Pilot Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: post-pilot-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/aloewright/post-pilot
+---
+
+# Post Pilot Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: 
+
+---
+id: post-pilot-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/aloewright/post-pilot
+---
+
+# Post Pilot Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: post-pilot-workflow-dependency-update-and-security-audit
+trigger: "when doing dependency update and security audit"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/aloewright/post-pilot
+---
+
+# Post Pilot Workflow Dependency Update And Security Audit
+
+## Action
+
+Follow the dependency-update-and-security-audit workflow:
+1. Identify dependencies with security alerts (direct and transitive).
+2. Update versions in package.json and/or add overrides (e.g., pnpm.overrides).
+3. Update pnpm-lock.yaml to reflect new dependency tree.
+4. Verify build and typecheck.
+5. Commit changes with a summary of addressed vulnerabilities.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: package.json, pnpm-lock.yaml
+
+---
+id: post-pilot-instinct-file-naming
+trigger: "When creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct File Naming
+
+## Action
+
+Name the file using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.files: camelCase
+
+---
+id: post-pilot-instinct-function-naming
+trigger: "When defining a function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Function Naming
+
+## Action
+
+Name the function using camelCase
+
+## Evidence
+
+- Pattern in namingConventions.functions: camelCase
+
+---
+id: post-pilot-instinct-class-naming
+trigger: "When defining a class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase
+
+## Evidence
+
+- Pattern in namingConventions.classes: PascalCase
+
+---
+id: post-pilot-instinct-constant-naming
+trigger: "When defining a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE
+
+## Evidence
+
+- Pattern in namingConventions.constants: SCREAMING_SNAKE_CASE
+
+---
+id: post-pilot-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in importStyle: relative
+
+---
+id: post-pilot-instinct-export-style
+trigger: "When exporting from a module"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in exportStyle: named
+
+---
+id: post-pilot-instinct-try-catch-error-handling
+trigger: "When handling errors in code"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Try Catch Error Handling
+
+## Action
+
+Use try-catch blocks for error handling
+
+## Evidence
+
+- Pattern in errorHandling.style: try-catch
+
+---
+id: post-pilot-instinct-git-chore-prefix
+trigger: "When making dependency or security-related changes"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Git Chore Prefix
+
+## Action
+
+Prefix commit messages with 'chore'
+
+## Evidence
+
+- Seen in commit: 'chore(security): bump deps and add pnpm overrides...'
+- Pattern in commits.prefixes: chore
+
+---
+id: post-pilot-instinct-git-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Git Commit Length
+
+## Action
+
+Keep commit messages concise, around 54 characters on average
+
+## Evidence
+
+- Pattern in commits.averageLength: 54
+
+---
+id: post-pilot-instinct-git-commit-summary
+trigger: "When committing dependency/security updates"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Git Commit Summary
+
+## Action
+
+Summarize addressed vulnerabilities in the commit message
+
+## Evidence
+
+- Seen in commit: 'chore(security): bump deps and add pnpm overrides to clear 21 of 28 dependabot alerts'
+- Workflow: dependency-update-and-security-audit
+
+---
+id: post-pilot-instinct-workflow-dependency-update
+trigger: "When security alerts are present or dependencies are out of date"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: aloewright/post-pilot
+---
+
+# Post Pilot Instinct Workflow Dependency Update
+
+## Action
+
+Update package.json and/or add pnpm.overrides, update pnpm-lock.yaml, verify build and typecheck, and commit changes with a summary
+
+## Evidence
+
+- Workflow: dependency-update-and-security-audit
+- Example commits and files: package.json, pnpm-lock.yaml
+
